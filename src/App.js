@@ -1,5 +1,5 @@
 import React from 'react'
-import {AppBar, Box,Toolbar, IconButton, Typography, Menu,
+import {AppBar, Box,Toolbar, IconButton, Typography, Menu, Card,
   Container,Avatar,Button, MenuItem, Slide, Tooltip, TextField
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
@@ -200,6 +200,12 @@ export default function App() {
               )}
             />
     </BasicSwitch>
+    <footer className='fixed-bottom bg-secondary text-center'>
+      <Card className='p-2'>
+      &copy; Copyright {new Date().getFullYear()}, CPXDevStudio<br/>
+      <small>All BNK48 contents are licensed by Independent Artist Management (iAM). These member images and all events poster is objective for Kaofrang BNK48 and other BNK48 members supporting only.</small>
+      </Card>
+    </footer>
  </div>
   );
 }

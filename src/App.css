@@ -66,10 +66,10 @@ iframe{
   .overlaytext{
     color: #fff
   }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1100px) {
   .text-container {
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     background-color: transparent !important;
     width: 70%;
@@ -79,8 +79,10 @@ iframe{
     display: flex;
     justify-content: center;
   }
+}
+@media only screen and (max-width: 800px) {
   .overlaytext{
-    color: #000
+    color: #ffffff
   }
 }
 .ytp-title-link{
