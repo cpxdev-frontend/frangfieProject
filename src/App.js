@@ -57,6 +57,9 @@ export default function App() {
 
   return (
     <div>
+    <div id="blockwhenland" className='d-flex justify-content-center align-items-center text-center'>
+        <h5>This screen size is not support on this device. Please rotate your device screen.</h5>
+    </div>
       <Slide direction='down' in={appbarx}>
 
       <AppBar position="fixed" sx={{top: 0, zIndex:20,borderRadius: 3}}>
