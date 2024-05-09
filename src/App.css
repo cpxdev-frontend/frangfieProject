@@ -36,3 +36,53 @@
     transform: rotate(360deg);
   }
 }
+
+#root{
+  background-color: #d8d8d8;
+}
+
+.video-container >iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+iframe{
+  width: 100vw;
+  height: calc(100vw/500);
+ }
+  .text-container {
+    position: absolute;
+    top: 20%;
+    width: 50vw;
+    left: 5%;
+    background-color: transparent !important;
+    backdrop-filter: blur(8px);
+    /* transform: translate(-50%, -50%); */
+    color: white; /* Adjust text color for better visibility */
+  }
+  .overlaytext{
+    color: #fff
+  }
+@media only screen and (max-width: 800px) {
+  .text-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: transparent !important;
+    width: 70%;
+    backdrop-filter: blur(15px);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+  .overlaytext{
+    color: #000
+  }
+}
+.ytp-title-link{
+  display: none !important;
+}
