@@ -37,8 +37,9 @@
   }
 }
 
-#root{
-  background-color: #d8d8d8;
+body{
+  font-family: 'misans';
+  background-color: #fadff6;
 }
 
 .video-container >iframe {

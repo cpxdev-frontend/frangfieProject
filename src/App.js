@@ -12,6 +12,10 @@ import {
   useLocation
 } from "react-router-dom";
 import './App.css'
+import { connect } from 'react-redux';
+import {
+  setLoad, setLang, setDarkMode, setPage
+} from './redux/action';
 
 import Home from './page/home';
 import About from './page/about';
@@ -31,7 +35,7 @@ const langList = [
   }
 ];
 
-export default function App() {
+function App({currentPage, lang, setLang}) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const location = useLocation();
@@ -40,12 +44,24 @@ export default function App() {
     AOS.init({ duration: 800 });
   }, []);
 
-  const [pages, setPage] = React.useState(pagesTh);
+  const [pages, setPage] = React.useState(lang == 'th' ? pagesTh : pagesEn);
   const [appbarx, setApp] = React.useState(false);
 
   React.useEffect(() => {
     setApp(location.pathname != '/' ? true : false)
   }, [location.pathname]);
+
+  React.useEffect(() => {
+    if (localStorage.getItem('kflang') == null) {
+      localStorage.setItem('kflang', 'th')
+    } else {
+      setPage(lang == 'th' ? pagesTh : pagesEn)
+    }
+  }, [lang]);
+
+  React.useEffect(() => {
+    document.title = currentPage + ' | KaofrangFie Site'
+  }, [currentPage]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -146,7 +162,7 @@ export default function App() {
        <Box sx={{ flexGrow: 0, mr: 1, ml:3 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={() => setAnchorElUser(true)} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/us.png" />
+                <Avatar alt="Remy Sharp" src={"https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/" + (lang == 'th' ? 'th.png' : 'us.png')} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -169,8 +185,9 @@ export default function App() {
                   <TextField
                     select
                     label="Change Language"
-                    defaultValue="en"
+                    value={lang}
                     variant="filled"
+                    onChange={(e) => setLang(e.target.value)}
                     sx={{width: 180}}
                     fullWidth={true}
                   >
@@ -212,3 +229,17 @@ export default function App() {
  </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  load: state.load,
+  dark: state.dark,
+  lang: state.lang,
+  currentPage: state.currentPage
+});
+const mapDispatchToProps = (dispatch) => ({
+  setLoad: (val) => dispatch(setLoad(val)),
+  setDark: (val) => dispatch(setDarkMode(val)),
+  setLang: (val) => dispatch(setLang(val)),
+  setPage: (val) => dispatch(setPage(val))
+});
+export default connect(mapStateToProps, mapDispatchToProps)(App);
