@@ -34,6 +34,12 @@ function CustomTabPanel(props) {
       'aria-controls': `simple-tabpanel-${index}`,
     };
   }
+  function a11yProps2(index) {
+    return {
+      id: `simple-tab2-${index}`,
+      'aria-controls': `simple-tabpanel2-${index}`,
+    };
+  }
 
 const About = ({currentPage, lang, setLang, setPage}) => {
     const [data, setData] = React.useState(null);
@@ -89,7 +95,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                         <Grid xs={12} className='mt-3 pt-3'>
                         <Box sx={{ width: '100%' }}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" variant="scrollable" allowScrollButtonsMobile>
                                     <Tab sx={{color: '#000'}} label={lang == 'th'? 'สมาชิกบีเอ็นเคโฟตี้เอต' : 'BNK48 member'} {...a11yProps(0)} />
                                     <Tab sx={{color: '#000'}} label={lang == 'th'? 'ศิลปินสังกัดอินดิเพนเด้นท์ เรคคอร์ด' : 'Independent Records Artist'} {...a11yProps(1)} />
                                 </Tabs>
@@ -114,10 +120,10 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                     <Grid xs={12}>
                             <Box sx={{ width: '100%' }}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <Tabs value={value2} onChange={handleChange2} aria-label="basic tabs example">
-                                    <Tab sx={{color: '#000'}} label={lang == 'th'? 'ไลฟ์สไตล์ของน้องข้าวฟ่าง' : "All about Kaofrang's Lifestyle"} {...a11yProps(0)} />
-                                    <Tab sx={{color: '#000'}} label={lang == 'th'? 'เกร็ดความรู้เกี่ยวกับระบบวงบีเอ็นเคโฟตี้เอต' : 'All about BNK48'} {...a11yProps(1)} />
-                                    <Tab sx={{color: '#000'}} label={lang == 'th'? 'เกร็ดความรู้เกี่ยวกับค่ายเพลงอินดิเพนเด้นท์ เรคคอร์ด' : 'All about Independent Records (iR)'} {...a11yProps(2)} />
+                                <Tabs value={value2} onChange={handleChange2} variant="scrollable" allowScrollButtonsMobile>
+                                    <Tab sx={{color: '#000'}} label={lang == 'th'? 'ไลฟ์สไตล์ของน้องข้าวฟ่าง' : "All about Kaofrang's Lifestyle"} {...a11yProps2(0)} />
+                                    <Tab sx={{color: '#000'}} label={lang == 'th'? 'เกร็ดความรู้เกี่ยวกับระบบวงบีเอ็นเคโฟตี้เอต' : 'All about BNK48'} {...a11yProps2(1)} />
+                                    <Tab sx={{color: '#000'}} label={lang == 'th'? 'เกร็ดความรู้เกี่ยวกับค่ายเพลงอินดิเพนเด้นท์ เรคคอร์ด' : 'All about Independent Records (iR)'} {...a11yProps2(2)} />
                                 </Tabs>
                                 </Box>
                                 <CustomTabPanel value={value2} index={0}>
@@ -173,7 +179,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
             ) : (
                 <Grid container spacing={5}>
                 <Grid item lg={5} xs={12}>
-                    <Skeleton variant='circular' className='bg-m' sx={{width: {md:'400px', xs: '100%'}, height: {md:'400px', xs: '100%'}}} />
+                    <Skeleton variant='circular' className='bg-m' sx={{width: '400px', height: '400px'}} />
                 </Grid>
                 <Grid item lg={7} xs={12}>
                     <Skeleton variant="text" className='bg-m' sx={{ fontSize: '4rem' }} />
