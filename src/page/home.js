@@ -9,7 +9,7 @@ import {Card, CardContent, Fade, CardHeader, Button
     setLoad, setLang, setDarkMode, setPage
   } from '../redux/action';
 
-const Home = ({currentPage, lang, setLang, setPage}) => {
+const Home = ({currentPage, lang, setLang, setPage, setMenu}) => {
     const history = useHistory();
     React.useEffect(() => {
       setPage(lang == 'th' ? 'หน้าหลัก' : 'Homepage')
@@ -27,9 +27,10 @@ const Home = ({currentPage, lang, setLang, setPage}) => {
   </div>
  </Fade>
   <Card className="text-container">
-    <CardContent className='p-1'>
-      <CardHeader sx={{marginTop: {xs: 0, sm: 10}}} title={<h3 style={{color: 'rgb(252, 91, 214)'}}>Welcome to KaofrangFie Fansite</h3>} subheader={<p className='overlaytext'>{lang == 'th' ? "เว็บไซต์ที่จะทำให้คุณรู้จัก \"น้องข้าวฟ่าง\" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน" : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Let's come to enjoy with us!"}</p>} />
-      <Button className='ml-2' onClick={() => history.push('/aboutkf')}>Get Started</Button>
+    <CardContent className='p-2'>
+      <CardHeader title={<h3 style={{color: 'rgb(252, 91, 214)'}}>Welcome to KaofrangFie Fansite</h3>} subheader={<p className='overlaytext'>{lang == 'th' ? "เว็บไซต์ที่จะทำให้คุณรู้จัก \"น้องข้าวฟ่าง\" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน" : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Let's come to enjoy with us!"}</p>} />
+      <Button className='ml-2' variant='contained' onClick={() => history.push('/aboutkf')}>Get Started</Button>
+      <Button className='ml-2' variant='outlined' onClick={() => setMenu(true)}>Go to Menu</Button>
     </CardContent>
   </Card>
         </div>

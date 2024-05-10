@@ -1,6 +1,7 @@
 import React from 'react'
 import {AppBar, Box,Toolbar, IconButton, Typography, Menu, Card,
-  Container,Avatar,Button, MenuItem, Slide, Tooltip, TextField
+  Container,Avatar,Button, MenuItem, Slide, Tooltip, TextField, Dialog,
+  DialogTitle, DialogContent, DialogActions
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
 import AOS from "aos";
@@ -106,30 +107,28 @@ function App({currentPage, lang, setLang}) {
          >
            <MenuIcon />
          </IconButton>
-         <Menu
-           id="menu-appbar"
-           anchorEl={anchorElNav}
-           anchorOrigin={{
-             vertical: 'bottom',
-             horizontal: 'left',
-           }}
-           keepMounted
-           transformOrigin={{
-             vertical: 'top',
-             horizontal: 'left',
-           }}
-           open={Boolean(anchorElNav)}
-           onClose={handleCloseNavMenu}
-           sx={{
-             display: { xs: 'block', md: 'none' },
-           }}
-         >
-           {pages.map((page, i) => (
-              <MenuItem component={Link} key={page} to={'/'+pageSec[i]} onClick={handleCloseNavMenu}>
-                <Typography textAlign="center" component='p'>{page}</Typography>
-              </MenuItem>
-           ))}
-         </Menu>
+
+
+
+         <Dialog
+              open={anchorElNav}
+              onClose={handleCloseNavMenu}
+              maxWidth='xl'
+            >
+              <DialogTitle>
+                {lang == 'th' ? 'เมนูหลัก' : 'Main Menu'}
+              </DialogTitle>
+              <DialogContent>
+              {pages.map((page, i) => (
+                  <MenuItem component={Link} key={page} to={'/'+pageSec[i]} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center" sx={{color: location.pathname == '/'+pageSec[i] ? 'rgb(252, 91, 214)' : '#000'}} component='p'>{page}</Typography>
+                  </MenuItem>
+              ))}
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseNavMenu}>{lang =='th' ? 'ปิด' : 'Close'}</Button>
+              </DialogActions>
+            </Dialog>
        </Box>
        <Avatar sx={{ display: { xs: 'flex', md: 'none' }, ml: 1, mr: 1 }} alt="kaofrangicon" src="https://pbs.twimg.com/profile_images/1775717193298354176/9GyCNMZW_400x400.jpg" />
        <Typography
@@ -152,19 +151,20 @@ function App({currentPage, lang, setLang}) {
              to={'/'+pageSec[i]}
              size='medium'
              onClick={handleCloseNavMenu}
-             sx={{ my: 2, color: '#000', display: 'block' }}
+             sx={{ my: 2, color: location.pathname == '/'+pageSec[i] ? '#fff' : '#000', display: 'block' }}
            >
              {page}
            </Button>
          ))}
        </Box>
 
-       <Box sx={{ flexGrow: 0, mr: 1, ml:3 }}>
+       <Box sx={{ position: 'fixed', right: 30 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={() => setAnchorElUser(true)} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src={"https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/" + (lang == 'th' ? 'th.png' : 'us.png')} />
               </IconButton>
             </Tooltip>
+
             <Menu
                sx={{ mt: '45px', height: 500 }}
                id="menu-appbar"
@@ -210,7 +210,7 @@ function App({currentPage, lang, setLang}) {
               exact
               path="/"
               render={() => (
-                <Home />
+                <Home setMenu={(v) => setAnchorElNav(v)} />
               )}
             />
             <Route
@@ -221,7 +221,7 @@ function App({currentPage, lang, setLang}) {
             />
     </BasicSwitch>
     <footer className='fixed-bottom bg-secondary text-center'>
-      <Card className='p-2'>
+      <Card className='p-2' style={{borderTopLeftRadius: 0, borderTopRightRadius: 0}}>
       &copy; Copyright {new Date().getFullYear()}, CPXDevStudio<br/>
       <small>All BNK48 contents are licensed by Independent Artist Management (iAM). These member images and all events poster is objective for Kaofrang BNK48 and other BNK48 members supporting only.</small>
       </Card>

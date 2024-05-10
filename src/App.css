@@ -39,7 +39,7 @@
 
 body{
   font-family: 'misans';
-  background-color: #fadff6;
+  background-color: #f7e4f4;
 }
 
 .video-container >iframe {
@@ -112,4 +112,8 @@ iframe{
   .img{
     display: block !important;
   }
+}
+
+.bg-m{
+  background-color: #f27ce2 !important;
 }
