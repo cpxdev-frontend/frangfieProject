@@ -79,7 +79,7 @@ function App({currentPage, lang, setLang}) {
     </div>
       <Slide direction='down' in={appbarx}>
 
-      <AppBar position="fixed" sx={{top: 0, zIndex:20,borderRadius: 3}}>
+      <AppBar position="fixed" sx={{top: 0, borderRadius: 3}}>
    <Container maxWidth="xl">
      <Toolbar disableGutters>
         <Avatar sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} alt="kaofrangicon" src="https://pbs.twimg.com/profile_images/1775717193298354176/9GyCNMZW_400x400.jpg" />
