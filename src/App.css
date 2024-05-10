@@ -53,6 +53,14 @@ body{
   width: 100%;
   pointer-events: none;
 }
+.video-container >img {
+  position: fixed; 
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
   .text-container {
     position: absolute;
     top: 20%;
