@@ -84,7 +84,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                     </Grid>
                     <Grid item lg={7} xs={12}>
                         <Grid xs={12}>
-                            <CardHeader className='pl-0' title={<h4>{lang == 'th'? 'ชื่อจริง' : 'Fullname'}: {lang == 'th' ? data.fullnameTh[0] : data.fullnameEn[1]} {lang == 'th' ? data.fullnameTh[1] : data.fullnameEn[1]}</h4>}
+                            <CardHeader className='pl-0' title={<h4>{lang == 'th'? 'ชื่อจริง' : 'Fullname'}: {lang == 'th' ? data.fullnameTh[0] : data.fullnameEn[0]} {lang == 'th' ? data.fullnameTh[1] : data.fullnameEn[1]}</h4>}
                             subheader={<h5>{lang == 'th'? 'ชื่อเล่น' : 'Nickname'}: {lang == 'th' ? 'ข้าวฟ่าง' : data.name}</h5>} />
                             <p>{lang == 'th'? 'ภูมิลำเนา' : 'Domicile'}: {lang == 'th' ? 'กรุงเทพมหานคร' : 'Bangkok, Thailand'}</p>
                             <p>{lang == 'th'? 'กรุ๊ปเลือด' : 'Blood Group'}: {lang == 'th' ? 'เอ' : 'A'}</p>
