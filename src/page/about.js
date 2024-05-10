@@ -72,7 +72,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
             .catch(error => console.log('error', error));
       }, [])
 
-    return ( <div style={{marginTop: 100, marginBottom: 150}}>
+    return ( <div style={{marginTop: 80, marginBottom: 150}}>
         <CardHeader title={<h3>All about Kaofrang</h3>} subheader={lang == 'th' ? 'มารู้จักตัวตนของน้องข้าวฟ่างเบื้องต้นกันเถอะ!' : "Let's know about Kaofrang Yanisa or Kaofrang BNK48 on basic step."} />
         <div className='container mt-3'>
         {
@@ -104,8 +104,8 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                                     <h4>{lang == 'th'? 'ข้อมูลด้านการเป็นสมาชิกบีเอ็นเคโฟตี้เอต' : 'All about Kaofrang as BNK48 member'}</h4>
                                     <h6>{lang == 'th'? 'ลำดับรุ่น' : 'Member Generation'}: {lang == 'th' ? 'รุ่นที่สาม' : 'Third Generation'}</h6>
                                     <h6>{lang == 'th'? 'ทีมบนสเตจเธียเตอร์' : 'Stage Team'}: {lang == 'th' ? 'เอ็นไฟว์ (NV) - รองกับตันทีม' : 'NV (N Five) - Team Vice Captain'}</h6>
-                                    <h6>{lang == 'th'? 'สิ่งที่ชอบ' : 'Favorite'}: {lang == 'th' ? 'ลาบทอด, เจ้าหญิง, ท้องฟ้า, เดินตลาด, สีชมพูม หนังสยองขวัญ' : data.favorite.join(', ')}</h6>
-                                    <h6>{lang == 'th'? 'งานอดิเรก' : 'Hobbies'}: {lang == 'th' ? 'ดูหนัง ซี่รีส์ เล่นอูคูเลเล่ กีตาร์ เล่นเกมออนไลน์' : data.hobby.join(', ')}</h6>
+                                    <h6>{lang == 'th'? 'สิ่งที่ชอบ' : 'Favorite'}: {lang == 'th' ? 'ลาบทอด, เจ้าหญิง, ท้องฟ้า, เดินตลาด, สีชมพู, หนังสยองขวัญ' : data.favorite.join(', ')}</h6>
+                                    <h6>{lang == 'th'? 'งานอดิเรก' : 'Hobbies'}: {lang == 'th' ? 'ดูหนัง, ซี่รีส์, เล่นอูคูเลเล่, กีตาร์, เล่นเกมออนไลน์' : data.hobby.join(', ')}</h6>
                                 </CustomTabPanel>
                                 <CustomTabPanel value={value} index={1}>
                                     <h4>{lang == 'th'? 'ข้อมูลด้านการเป็นศิลปินสังกัดอินดิเพนเด้นท์ เรคคอร์ด' : 'All about Kaofrang Yanisa as Artist'}</h4>
@@ -179,7 +179,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
             ) : (
                 <Grid container spacing={5}>
                 <Grid item lg={5} xs={12}>
-                    <Skeleton variant='circular' className='bg-m' sx={{width: { md:'400px', xs:'100%'}, height: { md:'400px', xs:'100%'}}} />
+                    <Skeleton variant='circular' className='bg-m' sx={{width: { md:'400px', xs: window.innerWidth * 0.9}, height: { md:'400px', xs:window.innerWidth * 0.9}}} />
                 </Grid>
                 <Grid item lg={7} xs={12}>
                     <Skeleton variant="text" className='bg-m' sx={{ fontSize: '4rem' }} />

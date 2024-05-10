@@ -57,6 +57,7 @@ function App({currentPage, lang, setLang}) {
       localStorage.setItem('kflang', 'th')
     } else {
       setPage(lang == 'th' ? pagesTh : pagesEn)
+      localStorage.setItem('kflang', lang)
     }
   }, [lang]);
 
@@ -165,24 +166,16 @@ function App({currentPage, lang, setLang}) {
               </IconButton>
             </Tooltip>
 
-            <Menu
-               sx={{ mt: '45px', height: 500 }}
-               id="menu-appbar"
-               anchorEl={anchorElUser}
-               anchorOrigin={{
-                 vertical: 'top',
-                 horizontal: 'right',
-               }}
-               keepMounted
-               transformOrigin={{
-                 vertical: 'top',
-                 horizontal: 'right',
-               }}
-               open={Boolean(anchorElUser)}
+            <Dialog
+              open={anchorElUser}
               onClose={() => setAnchorElUser(false)}
+              maxWidth='xl'
             >
-              <MenuItem>
-                  <TextField
+              <DialogTitle>
+                {lang == 'th' ? 'การตั้งค่าภาษา' : 'Language Setting'}
+              </DialogTitle>
+              <DialogContent>
+              <TextField
                     select
                     label="Change Language"
                     value={lang}
@@ -197,8 +190,11 @@ function App({currentPage, lang, setLang}) {
                       </MenuItem>
                     ))}
                   </TextField>
-                </MenuItem>
-            </Menu>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setAnchorElUser(false)}>{lang =='th' ? 'ปิด' : 'Close'}</Button>
+              </DialogActions>
+            </Dialog>
           </Box>
      </Toolbar>
    </Container>
@@ -210,7 +206,7 @@ function App({currentPage, lang, setLang}) {
               exact
               path="/"
               render={() => (
-                <Home setMenu={(v) => setAnchorElNav(v)} />
+                <Home setMenu={(v) => setAnchorElNav(v)} setLangMod={() => setAnchorElUser(true)} />
               )}
             />
             <Route
