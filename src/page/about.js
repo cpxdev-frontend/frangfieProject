@@ -130,7 +130,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                                     >
                                         <ListItem>
                                             <ListItemText
-                                                secondary={<p>{lang == 'th'? 'บีเอ็นเคโฟตี้เอตเป็น 1 ใน 12 วงน้องสาวของ AKB48 โดยอยู่ที่กรุงเทพมหานครเป็นหลัก รูปแบบวงจะมีความเป็น J-POP ผสมผสานกับความเป็น Idol Group โดยในปัจจุบันถือว่าเป็นศิลปินกลุ่มที่จำนวนสมาชิกมากที่สุดในไทย' : 'BNK48 is the one of twelve sister girl group of AKB48 which is based at Bangkok, Thailand. Band unique is mixed between J-POP and Idol group styles. They are the artist with the largest number of members in Thailand.'}</p>}
+                                                secondary={<p>{lang == 'th'? 'ข้าวฟ่างได้เข้ามาเป็นสมาชิกบีเอ็นเคโฟตี้เอต' : 'BNK48 is the one of twelve sister girl group of AKB48 which is based at Bangkok, Thailand. Band unique is mixed between J-POP and Idol group styles. They are the artist with the largest number of members in Thailand.'}</p>}
                                             />
                                         </ListItem>
                                         <ListItem>

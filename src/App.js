@@ -21,6 +21,8 @@ import {
 import Home from './page/home';
 import About from './page/about';
 
+import Event from './page/event';
+
 const pageSec = ['', 'aboutkf', 'entertainwithkf', 'events', 'feeds', 'follow', 'more'];
 const pagesEn = ['Home', 'About Kaofrang', 'Entertain', 'Events for Frang', 'Feed', 'Follow KaofrangFie', 'More things'];
 const pagesTh = ['หน้าหลัก', 'เกี่ยวกับข้าวฟ่าง', 'ผลงาน', 'กิจกรรม', 'ฟีดออนไลน์', 'ช่องทางการติดตาม', 'เพิ่มเติม'];
@@ -213,6 +215,13 @@ function App({currentPage, lang, setLang}) {
               path="/aboutkf"
               render={() => (
                 <About />
+              )}
+            />
+
+            <Route
+              path="/events"
+              render={() => (
+                <Event />
               )}
             />
     </BasicSwitch>
