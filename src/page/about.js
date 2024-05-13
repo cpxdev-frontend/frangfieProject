@@ -179,7 +179,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
             ) : (
                 <Grid container spacing={5}>
                 <Grid item lg={5} xs={12}>
-                    <Skeleton variant='circular' className='bg-m' sx={{width: '400px', height: '400px'}} />
+                    <Skeleton variant='circular' className='bg-m' sx={{width: {md:'400px', xs: window.innerWidth * 0.9}, height: {md:'400px', xs: window.innerWidth * 0.9}}} />
                 </Grid>
                 <Grid item lg={7} xs={12}>
                     <Skeleton variant="text" className='bg-m' sx={{ fontSize: '4rem' }} />
