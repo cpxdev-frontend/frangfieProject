@@ -44,16 +44,28 @@ function App({currentPage, lang, setLang}) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const location = useLocation();
 
+  const [unlock, setUnlock] = React.useState(null);
+
   React.useEffect(() => {
     AOS.init({ duration: 800 });
+    fetch("https://worldtimeapi.org/api/timezone/utc", {})
+    .then(response => response.json())
+    .then(result => {
+      if (result.unixtime >= 1731603600 || (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null && localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") == '56f006fb7a76776e1e08eac264bd491aa1a066a1')) {
+        setUnlock(true)
+      } else {
+        setUnlock(false)
+      }
+    })
+    .catch(error => console.log('error', error));
   }, []);
 
   const [pages, setPage] = React.useState(lang == 'th' ? pagesTh : pagesEn);
   const [appbarx, setApp] = React.useState(false);
 
   React.useEffect(() => {
-    setApp(location.pathname != '/' ? true : false)
-  }, [location.pathname]);
+    setApp(location.pathname != '/' && unlock ? true : false)
+  }, [location.pathname, unlock]);
 
   React.useEffect(() => {
     if (localStorage.getItem('kflang') == null) {
@@ -204,34 +216,45 @@ function App({currentPage, lang, setLang}) {
  </AppBar>
       </Slide>
 
-          <BasicSwitch>
-            <Route
-              exact
-              path="/"
-              render={() => (
-                <Home setMenu={(v) => setAnchorElNav(v)} setLangMod={() => setAnchorElUser(true)} />
-              )}
-            />
-            <Route
-              path="/aboutkf"
-              render={() => (
-                <About />
-              )}
-            />
+         {unlock ? (
+           <BasicSwitch>
+           <Route
+             exact
+             path="/"
+             render={() => (
+               <Home setMenu={(v) => setAnchorElNav(v)} setLangMod={() => setAnchorElUser(true)} />
+             )}
+           />
+           <Route
+             path="/aboutkf"
+             render={() => (
+               <About />
+             )}
+           />
 
-            <Route
-              path="/events"
-              render={() => (
-                <Event />
-              )}
-            />
-            <Route
-              path="/feeds"
-              render={() => (
-                <Feed />
-              )}
-            />
-    </BasicSwitch>
+           <Route
+             path="/events"
+             render={() => (
+               <Event />
+             )}
+           />
+           <Route
+             path="/feeds"
+             render={() => (
+               <Feed />
+             )}
+           />
+   </BasicSwitch>
+         ) : (
+          <BasicSwitch>
+          <Route
+          exact
+            render={() => (
+              <Home setMenu={(v) => setAnchorElNav(v)} setLangMod={() => setAnchorElUser(true)} />
+            )}
+          />
+  </BasicSwitch>
+         )}
     <footer className='fixed-bottom bg-secondary text-center'>
       <Card className='p-2' style={{borderTopLeftRadius: 0, borderTopRightRadius: 0}}>
       &copy; Copyright {new Date().getFullYear()}, CPXDevStudio<br/>

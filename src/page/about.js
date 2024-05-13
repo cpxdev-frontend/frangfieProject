@@ -57,11 +57,14 @@ const About = ({currentPage, lang, setLang, setPage}) => {
 
     React.useEffect(() => {
         var requestOptions = {
-            method: 'POST'
+            method: 'POST',
+            headers: {
+                "Origin": "cp-bnk48.pages.dev"
+              }
           };
 
         setPage(lang == 'th' ? 'เกี่ยวกับข้าวฟ่าง' : 'All About Kaofrang')
-        fetch("https://cpxdevservice.onrender.com/kfsite/getkaofranginfo", requestOptions)
+        fetch("https://cpxdevservice.onrender.com/bnk48/getmember?name=kaofrang", requestOptions)
             .then(response => response.json())
             .then(result => {
                 setData(result.response)
@@ -69,7 +72,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
             .catch(error => console.log('error', error));
       }, [])
 
-    return ( <div style={{marginTop: 80, marginBottom: 150}}>
+    return ( <div style={{marginTop: 100, marginBottom: 150}}>
         <CardHeader title={<h3>All about Kaofrang</h3>} subheader={lang == 'th' ? 'มารู้จักตัวตนของน้องข้าวฟ่างเบื้องต้นกันเถอะ!' : "Let's know about Kaofrang Yanisa or Kaofrang BNK48 on basic step."} />
         <div className='container mt-3'>
         {
@@ -81,7 +84,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                     </Grid>
                     <Grid item lg={7} xs={12}>
                         <Grid xs={12}>
-                            <CardHeader className='pl-0' title={<h4>{lang == 'th'? 'ชื่อจริง' : 'Fullname'}: {lang == 'th' ? data.fullnameTh[0] : data.fullnameEn[0]} {lang == 'th' ? data.fullnameTh[1] : data.fullnameEn[1]}</h4>}
+                            <CardHeader className='pl-0' title={<h4>{lang == 'th'? 'ชื่อจริง' : 'Fullname'}: {lang == 'th' ? data.fullnameTh[0] : data.fullnameEn[1]} {lang == 'th' ? data.fullnameTh[1] : data.fullnameEn[1]}</h4>}
                             subheader={<h5>{lang == 'th'? 'ชื่อเล่น' : 'Nickname'}: {lang == 'th' ? 'ข้าวฟ่าง' : data.name}</h5>} />
                             <p>{lang == 'th'? 'ภูมิลำเนา' : 'Domicile'}: {lang == 'th' ? 'กรุงเทพมหานคร' : 'Bangkok, Thailand'}</p>
                             <p>{lang == 'th'? 'กรุ๊ปเลือด' : 'Blood Group'}: {lang == 'th' ? 'เอ' : 'A'}</p>
@@ -101,8 +104,8 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                                     <h4>{lang == 'th'? 'ข้อมูลด้านการเป็นสมาชิกบีเอ็นเคโฟตี้เอต' : 'All about Kaofrang as BNK48 member'}</h4>
                                     <h6>{lang == 'th'? 'ลำดับรุ่น' : 'Member Generation'}: {lang == 'th' ? 'รุ่นที่สาม' : 'Third Generation'}</h6>
                                     <h6>{lang == 'th'? 'ทีมบนสเตจเธียเตอร์' : 'Stage Team'}: {lang == 'th' ? 'เอ็นไฟว์ (NV) - รองกับตันทีม' : 'NV (N Five) - Team Vice Captain'}</h6>
-                                    <h6>{lang == 'th'? 'สิ่งที่ชอบ' : 'Favorite'}: {lang == 'th' ? 'ลาบทอด, เจ้าหญิง, ท้องฟ้า, เดินตลาด, สีชมพู, หนังสยองขวัญ' : data.favorite.join(', ')}</h6>
-                                    <h6>{lang == 'th'? 'งานอดิเรก' : 'Hobbies'}: {lang == 'th' ? 'ดูหนัง, ซี่รีส์, เล่นอูคูเลเล่, กีตาร์, เล่นเกมออนไลน์' : data.hobby.join(', ')}</h6>
+                                    <h6>{lang == 'th'? 'สิ่งที่ชอบ' : 'Favorite'}: {lang == 'th' ? 'ลาบทอด, เจ้าหญิง, ท้องฟ้า, เดินตลาด, สีชมพูม หนังสยองขวัญ' : data.favorite.join(', ')}</h6>
+                                    <h6>{lang == 'th'? 'งานอดิเรก' : 'Hobbies'}: {lang == 'th' ? 'ดูหนัง ซี่รีส์ เล่นอูคูเลเล่ กีตาร์ เล่นเกมออนไลน์' : data.hobby.join(', ')}</h6>
                                 </CustomTabPanel>
                                 <CustomTabPanel value={value} index={1}>
                                     <h4>{lang == 'th'? 'ข้อมูลด้านการเป็นศิลปินสังกัดอินดิเพนเด้นท์ เรคคอร์ด' : 'All about Kaofrang Yanisa as Artist'}</h4>
@@ -130,7 +133,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                                     >
                                         <ListItem>
                                             <ListItemText
-                                                secondary={<p>{lang == 'th'? 'ข้าวฟ่างได้เข้ามาเป็นสมาชิกบีเอ็นเคโฟตี้เอต' : 'BNK48 is the one of twelve sister girl group of AKB48 which is based at Bangkok, Thailand. Band unique is mixed between J-POP and Idol group styles. They are the artist with the largest number of members in Thailand.'}</p>}
+                                                secondary={<p>{lang == 'th'? 'บีเอ็นเคโฟตี้เอตเป็น 1 ใน 12 วงน้องสาวของ AKB48 โดยอยู่ที่กรุงเทพมหานครเป็นหลัก รูปแบบวงจะมีความเป็น J-POP ผสมผสานกับความเป็น Idol Group โดยในปัจจุบันถือว่าเป็นศิลปินกลุ่มที่จำนวนสมาชิกมากที่สุดในไทย' : 'BNK48 is the one of twelve sister girl group of AKB48 which is based at Bangkok, Thailand. Band unique is mixed between J-POP and Idol group styles. They are the artist with the largest number of members in Thailand.'}</p>}
                                             />
                                         </ListItem>
                                         <ListItem>
@@ -176,7 +179,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
             ) : (
                 <Grid container spacing={5}>
                 <Grid item lg={5} xs={12}>
-                    <Skeleton variant='circular' className='bg-m' sx={{width: { md:'400px', xs: window.innerWidth * 0.9}, height: { md:'400px', xs:window.innerWidth * 0.9}}} />
+                    <Skeleton variant='circular' className='bg-m' sx={{width: '400px', height: '400px'}} />
                 </Grid>
                 <Grid item lg={7} xs={12}>
                     <Skeleton variant="text" className='bg-m' sx={{ fontSize: '4rem' }} />

@@ -1,12 +1,38 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import {Card, CardContent, Fade, CardHeader, Button, Grid, Avatar, Box, Tabs, Tab, Typography,
+import {Card, CardContent, LinearProgress, CardHeader, Button, Grid, Avatar, Box, Tabs, Tab, Typography,
     List, ListItem, Chip, Skeleton
 } from '@mui/material'
 import {
   setLoad, setLang, setDarkMode, setPage
 } from '../redux/action';
 import getAge from 'get-age';
+
+function compareTimestamps(timestamp1, timestamp2) {
+  // Get the difference in milliseconds
+  const difference = timestamp2 * 1000 - timestamp1 * 1000;
+
+  // Calculate days
+  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+
+  // Get remaining milliseconds after removing days
+  const remainingMilliseconds = difference % (1000 * 60 * 60 * 24);
+
+  // Calculate hours
+  const hours = Math.floor(remainingMilliseconds / (1000 * 60 * 60));
+
+  // Get remaining milliseconds after removing hours
+  const remainingMinutes = remainingMilliseconds % (1000 * 60 * 60);
+
+  // Calculate minutes
+  const minutes = Math.floor(remainingMinutes / (1000 * 60));
+
+  return {
+    days,
+    hours,
+    minutes,
+  };
+}
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -43,11 +69,7 @@ function CustomTabPanel(props) {
 
 const Event = ({currentPage, lang, setLang, setPage}) => {
     const [data, setData] = React.useState(null);
-    const [value, setValue] = React.useState(0);
-
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
-    };
+    const [unix, setValue] = React.useState(Math.floor(new Date().getTime() / 1000));
 
     const checkeventtype = (obj) => {
         if (obj.locate == null && obj.place == "") {
@@ -62,7 +84,6 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
     }
 
     const checkeventstatus = (obj) => {
-      const unix = Math.floor(new Date().getTime() / 1000)
       if (obj.timerange[0] > 0 && obj.timerange[1] == 0) {
         if (unix >= obj.timerange[0]) {
           return lang == 'th' ? 'ปกติ' : 'Normal'
@@ -70,9 +91,43 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
           return lang == 'th' ? 'เตรียมความพร้อมในการจัดงาน' : 'Preparing to operate event'
         }
       } else {
-        return 'ทดสอบระบบ'
+        if (unix >= obj.timerange[0] && unix <= obj.timerange[1]) {
+          return lang == 'th' ? 'ปกติ' : 'Normal'
+        } else if (unix > obj.timerange[1]) {
+          return lang == 'th' ? 'สิ้นสุดแล้ว' : 'All done'
+        } else if (unix >= obj.timerange[0] - 432000 && unix < obj.timerange[0]) {
+          const d = compareTimestamps(unix, obj.timerange[0]);
+          return lang == 'th' ? 'ใกล้เริ่มต้นแล้ว' : 'Coming soon'
+        } else {
+          return lang == 'th' ? 'กำลังจะมาถึง' : 'Incoming'
+        }
       }
   }
+  const checktime = (obj) => {
+    if (!(obj.timerange[0] > 0 && obj.timerange[1] == 0) && unix >= obj.timerange[0] - 432000 && unix < obj.timerange[0]) {
+      const buffer = ((unix - (obj.timerange[0] - 432000)) / (obj.timerange[0] - (obj.timerange[0] - 432000))) * 100;
+      return {
+        prepare : buffer,
+        launch: 0
+      }
+    } else if (!(obj.timerange[0] > 0 && obj.timerange[1] == 0) && unix >= obj.timerange[0] && unix <= obj.timerange[1]) {
+      const ready = ((unix - obj.timerange[0]) / (obj.timerange[1] - obj.timerange[0])) * 100;
+      return {
+        prepare : 100,
+        launch: ready
+      }
+    } else if (unix > obj.timerange[1]) {
+      return {
+        prepare : 100,
+        launch: 100
+      }
+    }
+    return {
+      prepare : 0,
+      launch: 0
+    }
+}
+
 
     const [value2, setValue2] = React.useState(0);
 
@@ -85,6 +140,12 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
             method: 'POST'
           };
 
+          fetch("https://worldtimeapi.org/api/timezone/utc", {})
+            .then(response => response.json())
+            .then(result => {
+              setValue(result.unixtime)
+            })
+            .catch(error => console.log('error', error));
         setPage(lang == 'th' ? 'เกี่ยวกับข้าวฟ่าง' : 'All About Kaofrang')
         fetch("https://cpxdevservice.onrender.com/kfsite/listevent", requestOptions)
             .then(response => response.json())
@@ -117,9 +178,19 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
                         <Button variant='outlined' className='mt-3'>{lang == 'th' ? 'สถานที่จัดงาน' : "Event location"}</Button>
                       )
                     }
+                     {
+                      item.link != '' && (
+                        <Button variant='outlined' onClick={() => window.open(item.link.includes('http') ? item.link : 'https://cp-bnk48.pages.dev/' + item.link, '_blank')} className='mt-3'>{lang == 'th' ? 'ดูเพิ่มเติม' : "View more"}</Button>
+                      )
+                    }
                 </Grid>
             </Grid>
                 </CardContent>
+                {
+                  !(checktime(item).prepare == 0 && checktime(item).launch == 0) && (
+                    <LinearProgress sx={{width: '100%', height: window.innerHeight * 0.02}} variant="buffer" value={checktime(item).launch} valueBuffer={checktime(item).prepare} />
+                  )
+                }
               </Card>
             ))
           }
