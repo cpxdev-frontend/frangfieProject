@@ -8,7 +8,7 @@ const IFRAMEwithPost = ({item}) => {
 
     return ( <iframe src={'https://instagram.com/p/' + item.postId + '/embed'} ref={ref} width="100%"
     style={{
-        height: 700,
+        height: 500,
         overflow: "auto",
     }}></iframe> );
 }
