@@ -7,6 +7,7 @@ import {
   setLoad, setLang, setDarkMode, setPage
 } from '../redux/action';
 import getAge from 'get-age';
+import Iframe from './_iframe'
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -45,6 +46,7 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
     const [data, setData] = React.useState(null);
     const [value, setValue] = React.useState(0);
 
+    
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
@@ -82,48 +84,35 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
 
     React.useEffect(() => {
         var requestOptions = {
-            method: 'POST'
+            method: 'GET'
           };
 
         setPage(lang == 'th' ? 'เกี่ยวกับข้าวฟ่าง' : 'All About Kaofrang')
-        fetch("https://cpxdevservice.onrender.com/kfsite/listevent", requestOptions)
+        fetch("https://cpxdevservice.onrender.com/kfsite/sociallist", requestOptions)
             .then(response => response.json())
             .then(result => {
-                setData(result)
+                setData(result.response)
             })
             .catch(error => console.log('error', error));
       }, [])
 
     return ( <div style={{marginTop: 80, marginBottom: 150}}>
-        <CardHeader title={<h3>Incoming Events of Kaofrang</h3>} subheader={lang == 'th' ? 'เร็วๆนี้น้องข้าวฟ่างมีงานอะไรให้เราตามบ้าง ไปดูกัน!' : "See all Kaofrang Yanisa or Kaofrang BNK48 events here."} />
+        <CardHeader title={<h3>More update of Kaofrang</h3>} subheader={lang == 'th' ? 'น้องข้างฟ่างเป็นยังไงบ้าง ไปดูโพสต์ล่าสุดของเธอกัน (อ้างอิงจาก Instagram: kaofrang.bnk48official)' : "See all Kaofrang Yanisa or Kaofrang BNK48 update here. (From Instagram: kaofrang.bnk48official)"} />
         <div className='container mt-3'>
         {data != null ? (
-          <>
+          <Grid container spacing={2}>
           {
             data.map((item, i) => (
-              <Card key={item.newsId} className='mb-3'>
-                <CardContent>
-                  <CardHeader className='pl-0 pb-0' title={<h4>{item.title}</h4>} subheader={<Chip label={(lang == 'th' ? 'สถานะกิจกรรม: ' : "Event status: ") + checkeventstatus(item)} color="primary" />} />
-                  <hr />
-                <Grid container spacing={2}>
-                <Grid item lg={5} xs={12}>
-                  <Avatar src={item.src} variant='rounded' sx={{width: {md:'400px', xs: '100%'}, height: '100%'}} />
-                </Grid>
-                <Grid item lg={7} xs={12}>
-                    <h6 className='text-muted'>{lang == 'th' ? 'ประเภทกิจกรรม' : "Event Type"}: {checkeventtype(item)}</h6>
-                    <p className='mt-4'>{lang == 'th' ? 'รายละเอียดกิจกรรม' : "Description"}: {item.desc}</p>
-                    {
-                      !(item.locate == null && item.place == "") && (
-                        <Button variant='outlined' className='mt-3'>{lang == 'th' ? 'สถานที่จัดงาน' : "Event location"}</Button>
-                      )
-                    }
-                </Grid>
-            </Grid>
-                </CardContent>
-              </Card>
+             <Grid item lg={6} xs={12}>
+                 <Card key={item.postId} className='mb-3'>
+                    <CardContent className='col-12'>
+                    <Iframe item={item} />
+                    </CardContent>
+                </Card>
+             </Grid>
             ))
           }
-          </>
+          </Grid>
         ) : (
           <Card>
             <CardContent>

@@ -22,6 +22,7 @@ import Home from './page/home';
 import About from './page/about';
 
 import Event from './page/event';
+import Feed from './page/update';
 
 const pageSec = ['', 'aboutkf', 'entertainwithkf', 'events', 'feeds', 'follow', 'more'];
 const pagesEn = ['Home', 'About Kaofrang', 'Entertain', 'Events for Frang', 'Feed', 'Follow KaofrangFie', 'More things'];
@@ -222,6 +223,12 @@ function App({currentPage, lang, setLang}) {
               path="/events"
               render={() => (
                 <Event />
+              )}
+            />
+            <Route
+              path="/feeds"
+              render={() => (
+                <Feed />
               )}
             />
     </BasicSwitch>
