@@ -104,19 +104,19 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
       }
   }
   const checktime = (obj) => {
-    if (!(obj.timerange[0] > 0 && obj.timerange[1] == 0) && unix >= obj.timerange[0] - 432000 && unix < obj.timerange[0]) {
+    if (obj.timerange[0] > 0 && obj.timerange[1] > 0 && unix >= obj.timerange[0] - 432000 && unix < obj.timerange[0]) {
       const buffer = ((unix - (obj.timerange[0] - 432000)) / (obj.timerange[0] - (obj.timerange[0] - 432000))) * 100;
       return {
         prepare : buffer,
         launch: 0
       }
-    } else if (!(obj.timerange[0] > 0 && obj.timerange[1] == 0) && unix >= obj.timerange[0] && unix <= obj.timerange[1]) {
+    } else if (obj.timerange[0] > 0 && obj.timerange[1] > 0 && unix >= obj.timerange[0] && unix <= obj.timerange[1]) {
       const ready = ((unix - obj.timerange[0]) / (obj.timerange[1] - obj.timerange[0])) * 100;
       return {
         prepare : 100,
         launch: ready
       }
-    } else if (unix > obj.timerange[1]) {
+    } else if (obj.timerange[0] > 0 && obj.timerange[1] > 0 && unix > obj.timerange[1]) {
       return {
         prepare : 100,
         launch: 100
@@ -164,7 +164,19 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
             data.map((item, i) => (
               <Card key={item.newsId} className='mb-3'>
                 <CardContent>
-                  <CardHeader className='pl-0 pb-0' title={<h4>{item.title}</h4>} subheader={<Chip label={(lang == 'th' ? 'สถานะกิจกรรม: ' : "Event status: ") + checkeventstatus(item)} color="primary" />} />
+                  <CardHeader className='pl-0 pb-0' title={<h4>{item.title}</h4>} subheader={<Chip label={(lang == 'th' ? 'สถานะกิจกรรม: ' : "Event status: ") + checkeventstatus(item)} color="primary" />}
+                    action={
+                      item.timerange[0] > 0 && item.timerange[1] > 0 && unix >= item.timerange[0] - 432000 && unix < item.timerange[0] &&
+                       <Chip className='p-1' sx={{display: {xs: 'none', lg: 'initial'}}} label={(lang == 'th' ?
+                       'กำลังเริ่มต้นในอีก '+compareTimestamps(unix, item.timerange[0]).days + ' วัน ' + compareTimestamps(unix, item.timerange[0]).hours + ' ชั่วโมง '+ compareTimestamps(unix, item.timerange[0]).minutes + ' นาที'
+                        : "Event start in " + compareTimestamps(unix, item.timerange[0]).days + ' day(s) ' + compareTimestamps(unix, item.timerange[0]).hours + ' hr(s) '+ compareTimestamps(unix, item.timerange[0]).minutes + ' minute(s)')} color="primary" />
+                     } />
+                     {
+                   item.timerange[0] > 0 && item.timerange[1] > 0 && unix >= item.timerange[0] - 432000 && unix < item.timerange[0] &&
+                    <Chip sx={{display: {xs: 'inline-block', lg: 'none'}, marginTop: 1, padding: 0, paddingTop: '.4rem'}} label={(lang == 'th' ?
+                    'กำลังเริ่มต้นในอีก '+compareTimestamps(unix, item.timerange[0]).days + ' วัน ' + compareTimestamps(unix, item.timerange[0]).hours + ' ชั่วโมง '+ compareTimestamps(unix, item.timerange[0]).minutes + ' นาที'
+                     : "Event start in " + compareTimestamps(unix, item.timerange[0]).days + ' day(s) ' + compareTimestamps(unix, item.timerange[0]).hours + ' hr(s) '+ compareTimestamps(unix, item.timerange[0]).minutes + ' minute(s)')} color="primary" />
+                  }
                   <hr />
                 <Grid container spacing={2}>
                 <Grid item lg={5} xs={12}>

@@ -41,6 +41,32 @@ function CustomTabPanel(props) {
     };
   }
 
+  function compareTimestamps(timestamp1, timestamp2) {
+    // Get the difference in milliseconds
+    const difference = timestamp2 * 1000 - timestamp1 * 1000;
+  
+    // Calculate days
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  
+    // Get remaining milliseconds after removing days
+    const remainingMilliseconds = difference % (1000 * 60 * 60 * 24);
+  
+    // Calculate hours
+    const hours = Math.floor(remainingMilliseconds / (1000 * 60 * 60));
+  
+    // Get remaining milliseconds after removing hours
+    const remainingMinutes = remainingMilliseconds % (1000 * 60 * 60);
+  
+    // Calculate minutes
+    const minutes = Math.floor(remainingMinutes / (1000 * 60));
+  
+    return {
+      days,
+      hours,
+      minutes,
+    };
+  }
+  
 const About = ({currentPage, lang, setLang, setPage}) => {
     const [data, setData] = React.useState(null);
     const [value, setValue] = React.useState(0);
