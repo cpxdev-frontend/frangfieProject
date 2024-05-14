@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import {
   setLoad, setLang, setDarkMode, setPage
 } from './redux/action';
+import 'moment/locale/th'  // without this line it didn't work
 
 import Home from './page/home';
 import About from './page/about';

@@ -7,6 +7,7 @@ import {
   setLoad, setLang, setDarkMode, setPage
 } from '../redux/action';
 import getAge from 'get-age';
+import moment from 'moment';
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -66,7 +67,7 @@ function CustomTabPanel(props) {
       minutes,
     };
   }
-  
+
 const About = ({currentPage, lang, setLang, setPage}) => {
     const [data, setData] = React.useState(null);
     const [value, setValue] = React.useState(0);
@@ -114,7 +115,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                             subheader={<h5>{lang == 'th'? 'ชื่อเล่น' : 'Nickname'}: {lang == 'th' ? 'ข้าวฟ่าง' : data.name}</h5>} />
                             <p>{lang == 'th'? 'ภูมิลำเนา' : 'Domicile'}: {lang == 'th' ? 'กรุงเทพมหานคร' : 'Bangkok, Thailand'}</p>
                             <p>{lang == 'th'? 'กรุ๊ปเลือด' : 'Blood Group'}: {lang == 'th' ? 'เอ' : 'A'}</p>
-                            <p>{lang == 'th'? 'วันเกิด' : 'Birthday'}: {new Date(data.birthday).toDateString()}</p>
+                            <p>{lang == 'th'? 'วันเกิด' : 'Birthday'}: {moment(data.birthday).lang(lang).local().format('DD MMMM YYYY')}</p>
                             <p>{lang == 'th'? 'อายุ' : 'Age'}: {getAge(data.birthday) + (lang == 'th' ? ' ปี' : ' year(s) old')}</p>
                             <p>{lang == 'th'? 'สังกัดศิลปิน' : 'Music label'}: {lang == 'th' ? (["อินดิเพนเด้นท์ อาร์ททิสต์ เมเนจเม้นท์ - ไอแอม (บีเอ็นเคโฟตี้เอต)", "อินดิเพนเด้นท์ เรคคอร์ด - ไออาร์ (โปรเจค \"อินดี้ แคมป์\" ครั้งที่สอง)"]).join(", ") : (["Independent Artist Management - iAM (BNK48)", "Independent Records - iR (Indy Camp Season 2 Project)"]).join(", ")}</p>
                         </Grid>

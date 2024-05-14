@@ -6,7 +6,7 @@ import {Card, CardContent, LinearProgress, CardHeader, Button, Grid, Avatar, Box
 import {
   setLoad, setLang, setDarkMode, setPage
 } from '../redux/action';
-import getAge from 'get-age';
+import moment from 'moment';
 
 function compareTimestamps(timestamp1, timestamp2) {
   // Get the difference in milliseconds
@@ -146,7 +146,7 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
               setValue(result.unixtime)
             })
             .catch(error => console.log('error', error));
-        setPage(lang == 'th' ? 'เกี่ยวกับข้าวฟ่าง' : 'All About Kaofrang')
+        setPage(lang == 'th' ? 'ข้อมูลกิจกรรม' : 'Events of Kaofrang')
         fetch("https://cpxdevservice.onrender.com/kfsite/listevent", requestOptions)
             .then(response => response.json())
             .then(result => {
@@ -162,7 +162,7 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
           <>
           {
             data.map((item, i) => (
-              <Card key={item.newsId} className='mb-3'>
+              <Card key={item.newsId} className='mb-3' sx={{opacity: item.timerange[1] > 0 && unix >= item.timerange[1] ? 0.6 : 1}}>
                 <CardContent>
                   <CardHeader className='pl-0 pb-0' title={<h4>{item.title}</h4>} subheader={<Chip label={(lang == 'th' ? 'สถานะกิจกรรม: ' : "Event status: ") + checkeventstatus(item)} color="primary" />}
                     action={
@@ -184,7 +184,20 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
                 </Grid>
                 <Grid item lg={7} xs={12}>
                     <h6 className='text-muted'>{lang == 'th' ? 'ประเภทกิจกรรม' : "Event Type"}: {checkeventtype(item)}</h6>
+                    {item.timerange[0] > 0 && item.timerange[1] > 0 && moment.unix(item.timerange[0]).local().format('MMMM DD, YYYY') === moment.unix(item.timerange[1]).local().format('MMMM DD, YYYY') ? (
+                      <p>{lang == 'th' ? 'ช่วงเวลาของกิจกรรม' : "Event duration"}: {moment.unix(item.timerange[0]).lang(lang).local().format(lang == 'th' ? 'DD MMMM YYYY เวลา HH:mm' :'MMMM DD, YYYY HH:mm')}{lang == 'th' ? ' ถึง ' : " to "}{moment.unix(item.timerange[1]).lang(lang).local().format('HH:mm')}</p>
+                    ) : item.timerange[0] > 0 && item.timerange[1] > 0 && moment.unix(item.timerange[0]).local().format('MMMM DD, YYYY') !== moment.unix(item.timerange[1]).local().format('MMMM DD, YYYY') ? (
+                      <p>{lang == 'th' ? 'ช่วงเวลาของกิจกรรม' : "Event duration"}: {moment.unix(item.timerange[0]).lang(lang).local().format(lang == 'th' ? 'DD MMMM YYYY เวลา HH:mm' :'MMMM DD, YYYY HH:mm')}{lang == 'th' ? ' ถึง ' : " to "}{moment.unix(item.timerange[1]).lang(lang).local().format(lang == 'th' ? 'DD MMMM YYYY เวลา HH:mm' :'MMMM DD, YYYY HH:mm')}</p>
+                    ) : (
+                      <p>{lang == 'th' ? 'วันที่เริ่มต้นกิจกรรม' : "Event start on "}: {moment.unix(item.timerange[0]).lang(lang).local().format(lang == 'th' ? 'DD MMMM YYYY' :'MMMM DD, YYYY')}</p>
+                    )}
                     <p className='mt-4'>{lang == 'th' ? 'รายละเอียดกิจกรรม' : "Description"}: {item.desc}</p>
+                    {
+                      item.timerange[0] > 0 && item.timerange[1] > 0 && (
+                        <small>{lang == 'th' ? 'หมายเหตุ' : "Notes"}: {lang == 'th' ? 'ช่วงเวลาของกิจกรรมอ้างอิงตามโซนเวลาของอุปกรณ์' : "Event time duration are based on device timezone."}</small>
+                      )
+                    }
+                    <br />
                     {
                       !(item.locate == null && item.place == "") && (
                         <Button variant='outlined' className='mt-3'>{lang == 'th' ? 'สถานที่จัดงาน' : "Event location"}</Button>

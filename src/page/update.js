@@ -87,7 +87,7 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
             method: 'GET'
           };
 
-        setPage(lang == 'th' ? 'เกี่ยวกับข้าวฟ่าง' : 'All About Kaofrang')
+        setPage(lang == 'th' ? 'อัปเดตจากข้าวฟ่าง' : 'Social Update')
         fetch("https://cpxdevservice.onrender.com/kfsite/sociallist", requestOptions)
             .then(response => response.json())
             .then(result => {
