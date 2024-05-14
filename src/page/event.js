@@ -189,7 +189,7 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
                     ) : item.timerange[0] > 0 && item.timerange[1] > 0 && moment.unix(item.timerange[0]).local().format('MMMM DD, YYYY') !== moment.unix(item.timerange[1]).local().format('MMMM DD, YYYY') ? (
                       <p>{lang == 'th' ? 'ช่วงเวลาของกิจกรรม' : "Event duration"}: {moment.unix(item.timerange[0]).lang(lang).local().format(lang == 'th' ? 'DD MMMM YYYY เวลา HH:mm' :'MMMM DD, YYYY HH:mm')}{lang == 'th' ? ' ถึง ' : " to "}{moment.unix(item.timerange[1]).lang(lang).local().format(lang == 'th' ? 'DD MMMM YYYY เวลา HH:mm' :'MMMM DD, YYYY HH:mm')}</p>
                     ) : (
-                      <p>{lang == 'th' ? 'วันที่เริ่มต้นกิจกรรม' : "Event start on "}: {moment.unix(item.timerange[0]).lang(lang).local().format(lang == 'th' ? 'DD MMMM YYYY' :'MMMM DD, YYYY')}</p>
+                      <p>{lang == 'th' ? 'วันที่เริ่มต้นกิจกรรม ' : "Event start on "} {moment.unix(item.timerange[0]).lang(lang).local().format(lang == 'th' ? 'DD MMMM YYYY' :'MMMM DD, YYYY')}</p>
                     )}
                     <p className='mt-4'>{lang == 'th' ? 'รายละเอียดกิจกรรม' : "Description"}: {item.desc}</p>
                     {

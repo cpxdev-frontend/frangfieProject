@@ -160,17 +160,22 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                                     >
                                         <ListItem>
                                             <ListItemText
-                                                secondary={<p>{lang == 'th'? 'บีเอ็นเคโฟตี้เอตเป็น 1 ใน 12 วงน้องสาวของ AKB48 โดยอยู่ที่กรุงเทพมหานครเป็นหลัก รูปแบบวงจะมีความเป็น J-POP ผสมผสานกับความเป็น Idol Group โดยในปัจจุบันถือว่าเป็นศิลปินกลุ่มที่จำนวนสมาชิกมากที่สุดในไทย' : 'BNK48 is the one of twelve sister girl group of AKB48 which is based at Bangkok, Thailand. Band unique is mixed between J-POP and Idol group styles. They are the artist with the largest number of members in Thailand.'}</p>}
+                                                secondary={<p>{lang == 'th'? 'ข้าวฟ่างได้เข้ามาเป็นสมาชิก BNK48 ตั้งแต่วันที่ ' + moment('2020-08-09').lang(lang).format('DD MMMM YYYY') + ' (อ้างอิงจากวันที่สมาชิกรุ่นที่สามโพสต์โซเชียลเป็นครั้งแรก)' : 'Kaofrang Yanisa is come to join as BNK48 3rd Generation members since ' + moment('2020-08-09').lang(lang).format('DD MMMM YYYY') + '. (Based from the first social update of BNK48 3rd Generation.)'}</p>}
                                             />
                                         </ListItem>
                                         <ListItem>
                                             <ListItemText
-                                                secondary={<p>{lang == 'th'? 'ในเดือนพฤษภาคม 2567 วงบีเอ็นเคโฟตี้เอตมีสมาชิกทั้งหมดสี่รุ่น โดยมีรุ่นที่ 1, 3, 4 และ 5 (โดยรุ่นที่ 2 ได้จบการศึกษาหรือสิ้นสุดสัญญากับทางวงโดยทั้งหมดแล้วตั้งแต่เดือนเมษายน 2567) รวมทั้งสิ้น 40 คน' : 'As of May 2024, BNK48 are included 4 generations by 1st Generation, 3rd Generation, 4th and 5th Generation (All BNK48 2nd Generation members are graduated or contract with BNK48 is expired in April 2024.). So that BNK48 have 40 members right now.'}</p>}
+                                                secondary={<p>{lang == 'th'? 'ข้าวฟ่างมีความชื่นชอบด้านฟุตบอลและวงการด้านสกุลเงินดิจิทัล (Crypto Currency)' : 'She likes sport especially in soccer. And also update herself about Crypto Currency.'}</p>}
                                             />
                                         </ListItem>
                                         <ListItem>
                                             <ListItemText
-                                                secondary={<p>{lang == 'th'? 'บีเอ็นเคโฟตี้เอตจะมีเธียเตอร์หรือโรงละครเป็นพื้นที่สำหรับแสดงโชว์ของเมมเบอรืแต่ละคน โดยจะมีการจัดแบ่งเป็นทั้งหมด 3 ทีมได้แก่ ทีม บีทรี (BIII), เอ็นไฟว์ (NV) และทีมฝึกหัด (Trainee) โดยในแต่ละทึมจะมีรูปแบบการแสดงที่ต่างกันออกไปในแต่ละทีม และจะมีการจัดลำดับการแสดงสลับกันไปในทุกสัปดาห์ (ปัจจุบันเธียเตอร์อยู่ระหว่างการจัดหาสถานที่ชั่วคราว หลังจากหมดสัญญากับทางเดอะมอลล์ไลฟ์สโตร์ บางกะปิ)' : 'BNK48 is included their own Theater where is place to showtime exclusive performance with managed by main 3 teams such as B Three (BIII), N Five (NV) and Trainee teams. Each team will have their own unique performance format, and the performance order will rotate weekly. (์But now theater is temporary place and currently find for permenent place. After rental contract with The Mall LifeStore Bangkapi has expired)'}</p>}
+                                                secondary={<p>{lang == 'th'? 'หนึ่งในของหวานสุดโปรดที่ข้าวฟ่างสามารถทานได้โดยไม่รู้เบื่อ ก็คือ "ขนมเบื้อง"' : 'One of her favorite desserts that she can enjoy anytime she wants is "Thai Crispy Pancake"'}</p>}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText
+                                                secondary={<p>{lang == 'th'? 'ที่หอพักของบีเอ็นเคโฟตี้เอต จะมีบางเมมเบอร์ที่ต้องอยู่ร่วมกันในห้องเดียวซึ่งเรียกว่าคู่บัดดี้ โดยข้าวฟ่างมี "น้องเกรซ" เป็นคู่บัดดี้ของข้าวฟ่าง และยังเป็นสมาชิกรุ่นสามเหมือนกันอีกด้วย' : 'Some BNK48 members will have "Dorm Buddy Duo" when live at their dorm. And Kaofrang also has her buddy called "Grace Virunpat" who is also BNK48 3rd Generation members too.'}</p>}
                                             />
                                         </ListItem>
                                     </List>
@@ -182,7 +187,37 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                                     >
                                         <ListItem>
                                             <ListItemText
-                                                secondary={<p>{lang == 'th'? 'บีเอ็นเคโฟตี้เอตเป็น 1 ใน 12 วงน้องสาวของ AKB48 โดยอยู่ที่กรุงเทพมหานครเป็นหลัก รูปแบบวงจะมีความเป็น J-POP ผสมผสานกับความเป็น Idol Group โดยในปัจจุบันถือว่าเป็นศิลปินกลุ่มที่จำนวนสมาชิกมากที่สุดในไทย' : 'BNK48 is the one of twelve sister girl group of AKB48 which is based at Bangkok, Thailand. Band unique is mixed between J-POP and Idol group styles. They are the artist with the largest number of members in Thailand.'}</p>}
+                                                secondary={<p>{lang == 'th'? 'เมื่อวันที่ ' + moment.unix(1467824400).lang(lang).format('DD MMMM YYYY') + ' ต้นสังกัดของกลุ่มวงโฟตี้เอตประกาศจัดตั้งวงน้องสาวทั้งหมด 3 วงได้แก่ บีเอ็นเคโฟตี้เอต, เอ็มเอ็นแอลโฟตี้เอต และทีพีอีโฟตี้เอต (ปัจจุบันคือเอเคบีโฟตี้เอต ทีมทีพี)' : 'In ' + moment.unix(1467824400).lang(lang).format('DD MMMM YYYY') + ', 48 Group Fanchise Owner announced to preparing found sister band girl group such as BNK48, MNL48 and TPE48 (AKB48 Team TP).'}</p>}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText
+                                                secondary={<p>{lang == 'th'? 'เมื่อวันที่ ' + moment.unix(1486832400).lang(lang).format('DD MMMM YYYY') + ' ได้มีการเปิดตัวสมาชิกกลุ่มแรกของวง และประกาศให้ "เฌอปราง" เป็นกับตันวงคนแรก' : 'In ' + moment.unix(1486832400).lang(lang).format('DD MMMM YYYY') + ', BNK48 announced the first generation and "Cherprang" as the first band captain.'}</p>}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText
+                                                secondary={<p>{lang == 'th'? 'เปิดตัวซิงเกิ้ลแรก "Aittakata - อยากจะได้พบเธอ" เมื่อวันที่ ' + moment.unix(1496336400).utc().format('DD MMMM YYYY') : 'The first performance of the first single "Aittakata - อยากจะได้พบเธอ" in ' + moment.unix(1496336400).utc().format('DD MMMM YYYY')}</p>}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText
+                                                secondary={<p>{lang == 'th'? 'เปิดตัว Digital LIVE Studio (ตู้ปลา) ที่ศูนย์การค้าเอ็มควอเทียร์ในวันที่ ' + moment.unix(1496466000).utc().format('DD MMMM YYYY') : 'Grand opening of "Digital LIVE Studio" at EmQuartier in ' + moment.unix(1496466000).utc().format('DD MMMM YYYY')}</p>}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText
+                                                secondary={<p>{lang == 'th'? 'งานจับมือครั้งแรกของวงเกิดขึ้นเมื่อวันที่ ' + moment.unix(1503680400).utc().format('DD MMMM YYYY') : 'The first Handshake event in ' + moment.unix(1503680400).utc().format('DD MMMM YYYY')}</p>}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText
+                                                secondary={<p>{lang == 'th'? 'คอนเสิร์ตใหญ่ครั้งแรกของวง "Starto Concert" ภายใต้การควบคุมโดยโอม ปัณฑพล (โอม วงค็อกเทล) เมื่อเดือน ' + moment.unix(1522558800).utc().format('MMMM YYYY') : 'The first BNK48 LIVE concert "Starto Concert" produced by Ohm Panthapol (Ohm Cocktail or Ohm GeneLabs). And the announcement place of the first BNK48 album "RIVER" in ' + moment.unix(1522558800).utc().format('MMMM YYYY')}</p>}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText
+                                                secondary={<p>{lang == 'th'? 'การแสดงครั้งแรกที่เกิดขึ้นในโรงละครของวง โดยจะเป็นการแสดงสุดพิเศษที่มีให้รับชม "เฉพาะ" ในโรงละครนี้เท่านั้นและจะต้องมีการสุ่มสิทธิ์เพื่อให้ได้สิทะิ์การเข้ารับชมเนื่องด้วยที่นั่งจำนวนจำกัด รวมทั้งเป็นพื้นที่การแสดงให้วงในเครือข่ายโฟร์ตี้เอตได้มีส่วนร่วมด้วย เมื่อเดือน ' + moment.unix(1524718800).utc().format('MMMM YYYY') : 'The first stage show of BNK48 at BNK48 Theater. BNK48 Theater the their theater. So that the BNK48 members have the opportunity to fully show their singing and dancing performances. Including fans will receive exclusive access to viewing because you have to randomly have access to see because seats are limited. And are inherent in almost all circles of the 48 Group\'s culture. in ' + moment.unix(1524718800).utc().format('MMMM YYYY')}</p>}
                                             />
                                         </ListItem>
                                         <ListItem>
