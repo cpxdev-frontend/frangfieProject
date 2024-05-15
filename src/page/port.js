@@ -55,8 +55,8 @@ const Discography = ({currentPage, lang, setLang, setPage}) => {
                             return val.name;
                         }).join(', ')}
                     </Typography>
-                    <Typography variant='h6' color="text.primary" className='mt-2'>
-                    {lang == 'th' ? 'อัลบั้ม/ซิงเกิ้ล' : "Album name"}: {item.track.album.name}
+                    <Typography variant='p' color="text.primary" className='mt-2'>
+                        {lang == 'th' ? 'อัลบั้ม/ซิงเกิ้ล' : "Album name"}: {item.track.album.name}
                     </Typography>
                     <CardActionArea className='mt-5'>
                         <Button variant='outlined' className='text-success border-success' onClick={() => window.open(item.track.external_urls.spotify,'_blank')}>
