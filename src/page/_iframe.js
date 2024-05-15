@@ -10,6 +10,7 @@ const IFRAMEwithPost = ({item}) => {
     style={{
         height: 500,
         overflow: "auto",
+        border: "none"
     }}></iframe> );
 }
  
