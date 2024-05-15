@@ -80,7 +80,7 @@ body{
 @media only screen and (max-width: 900px) {
   .text-container {
     position: absolute;
-    top: 60%;
+    top: 63%;
     left: 50%;
     background-color: transparent !important;
     width: 98%;
