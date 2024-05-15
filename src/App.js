@@ -98,7 +98,7 @@ function App({currentPage, lang, setLang, setLaunch, launch}) {
     </div>
       <Slide direction='down' in={appbarx}>
 
-      <AppBar position="fixed" sx={{ borderRadius: 3}}>
+      <AppBar position="fixed" sx={{ borderBottomLeftRadius: 10, borderBottomRightRadius:10}}>
    <Container maxWidth="xl">
      <Toolbar disableGutters>
         <Avatar sx={{ display: { xs: 'none', lg: 'flex' }, mr: 1 }} alt="kaofrangicon" src="https://pbs.twimg.com/profile_images/1775717193298354176/9GyCNMZW_400x400.jpg" />
@@ -180,7 +180,7 @@ function App({currentPage, lang, setLang, setLaunch, launch}) {
        <Box sx={{ position: 'fixed', right: 30 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={() => setAnchorElUser(true)} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={"https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/" + (lang == 'th' ? 'th.png' : 'us.png')} />
+                <Avatar sx={{width: 30, height: 30}} variant='rounded' alt="lang" src={"https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/" + (lang == 'th' ? 'th.png' : 'us.png')} />
               </IconButton>
             </Tooltip>
 
