@@ -34,42 +34,9 @@ function compareTimestamps(timestamp1, timestamp2) {
   };
 }
 
-function CustomTabPanel(props) {
-    const { children, value, index, ...other } = props;
-  
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
-      </div>
-    );
-  }
-  
-  function a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-  }
-  function a11yProps2(index) {
-    return {
-      id: `simple-tab2-${index}`,
-      'aria-controls': `simple-tabpanel2-${index}`,
-    };
-  }
-
-const Event = ({currentPage, lang, setLang, setPage}) => {
+const Event = ({currentPage, lang, setLang, setPage, launch}) => {
     const [data, setData] = React.useState(null);
-    const [unix, setValue] = React.useState(Math.floor(new Date().getTime() / 1000));
+    const unix = launch;
 
     const checkeventtype = (obj) => {
         if (obj.locate == null && obj.place == "") {
@@ -139,13 +106,7 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
         var requestOptions = {
             method: 'POST'
           };
-
-          fetch("https://worldtimeapi.org/api/timezone/utc", {})
-            .then(response => response.json())
-            .then(result => {
-              setValue(result.unixtime)
-            })
-            .catch(error => console.log('error', error));
+       
         setPage(lang == 'th' ? 'ข้อมูลกิจกรรม' : 'Events of Kaofrang')
         fetch("https://cpxdevservice.onrender.com/kfsite/listevent", requestOptions)
             .then(response => response.json())
@@ -240,6 +201,7 @@ const mapStateToProps = (state) => ({
     load: state.load,
     dark: state.dark,
     lang: state.lang,
+    launch: state.launch,
     currentPage: state.currentPage
   });
   const mapDispatchToProps = (dispatch) => ({

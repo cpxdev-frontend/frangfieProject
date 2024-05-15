@@ -25,3 +25,10 @@ export function setLoad(val) {
       val: val
     };
   }
+
+  export function setLaunch(val) {
+    return {
+      type: 'SET_LAUNCH',
+      val: val
+    };
+  }

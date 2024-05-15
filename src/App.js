@@ -15,7 +15,7 @@ import {
 import './App.css'
 import { connect } from 'react-redux';
 import {
-  setLoad, setLang, setDarkMode, setPage
+  setLoad, setLang, setDarkMode, setPage, setLaunch
 } from './redux/action';
 import 'moment/locale/th'  // without this line it didn't work
 
@@ -40,7 +40,7 @@ const langList = [
   }
 ];
 
-function App({currentPage, lang, setLang}) {
+function App({currentPage, lang, setLang, setLaunch, launch}) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const location = useLocation();
@@ -52,6 +52,7 @@ function App({currentPage, lang, setLang}) {
     fetch("https://worldtimeapi.org/api/timezone/utc", {})
     .then(response => response.json())
     .then(result => {
+      setLaunch(result.unixtime)
       if (result.unixtime >= 1731603600 || (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null && localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") == '56f006fb7a76776e1e08eac264bd491aa1a066a1')) {
         setUnlock(true)
       } else {
@@ -275,12 +276,14 @@ const mapStateToProps = (state) => ({
   load: state.load,
   dark: state.dark,
   lang: state.lang,
+  launch: state.launch,
   currentPage: state.currentPage
 });
 const mapDispatchToProps = (dispatch) => ({
   setLoad: (val) => dispatch(setLoad(val)),
   setDark: (val) => dispatch(setDarkMode(val)),
   setLang: (val) => dispatch(setLang(val)),
+  setLaunch: (val) => dispatch(setLaunch(val)),
   setPage: (val) => dispatch(setPage(val))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);

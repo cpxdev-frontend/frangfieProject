@@ -99,7 +99,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
             .catch(error => console.log('error', error));
       }, [])
 
-    return ( <div style={{marginTop: 100, marginBottom: 150}}>
+    return ( <div style={{marginTop: 80, marginBottom: 150}}>
         <CardHeader title={<h3>All about Kaofrang</h3>} subheader={lang == 'th' ? 'มารู้จักตัวตนของน้องข้าวฟ่างเบื้องต้นกันเถอะ!' : "Let's know about Kaofrang Yanisa or Kaofrang BNK48 on basic step."} />
         <div className='container mt-3'>
         {
@@ -111,7 +111,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                     </Grid>
                     <Grid item lg={7} xs={12}>
                         <Grid xs={12}>
-                            <CardHeader className='pl-0' title={<h4>{lang == 'th'? 'ชื่อจริง' : 'Fullname'}: {lang == 'th' ? data.fullnameTh[0] : data.fullnameEn[1]} {lang == 'th' ? data.fullnameTh[1] : data.fullnameEn[1]}</h4>}
+                            <CardHeader className='pl-0' title={<h4>{lang == 'th'? 'ชื่อจริง' : 'Fullname'}: {lang == 'th' ? data.fullnameTh[0] : data.fullnameEn[0]} {lang == 'th' ? data.fullnameTh[1] : data.fullnameEn[1]}</h4>}
                             subheader={<h5>{lang == 'th'? 'ชื่อเล่น' : 'Nickname'}: {lang == 'th' ? 'ข้าวฟ่าง' : data.name}</h5>} />
                             <p>{lang == 'th'? 'ภูมิลำเนา' : 'Domicile'}: {lang == 'th' ? 'กรุงเทพมหานคร' : 'Bangkok, Thailand'}</p>
                             <p>{lang == 'th'? 'กรุ๊ปเลือด' : 'Blood Group'}: {lang == 'th' ? 'เอ' : 'A'}</p>

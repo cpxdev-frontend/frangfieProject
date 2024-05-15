@@ -2,6 +2,7 @@ const initialState = {
     load: false,
     lang: localStorage.getItem('kflang') != null ? localStorage.getItem('kflang') : 'th',
     dark: false,
+    launch: null,
     currentPage: 'Loading'
   };
   
@@ -15,6 +16,8 @@ const initialState = {
         return { ...state, dark: action.val };
       case 'SET_PAGE':
         return { ...state, currentPage: action.val };
+      case 'SET_LAUNCH':
+        return { ...state, launch: action.val };
       default:
         return state;
     }

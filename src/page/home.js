@@ -9,21 +9,16 @@ import {Card, CardContent, Fade, CardHeader, Button
     setLoad, setLang, setDarkMode, setPage
   } from '../redux/action';
 
-const Home = ({currentPage, lang, setLang, setPage, setMenu, setLangMod}) => {
+const Home = ({currentPage, lang, setLang, setPage, setMenu, setLangMod, launch}) => {
   const history = useHistory();
   const [data, setData] = React.useState(false);
     React.useEffect(() => {
       setPage(lang == 'th' ? 'หน้าหลัก' : 'Homepage')
-      fetch("https://worldtimeapi.org/api/timezone/utc", {})
-            .then(response => response.json())
-            .then(result => {
-              if (result.unixtime >= 1731603600 || (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null && localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") == '56f006fb7a76776e1e08eac264bd491aa1a066a1')) {
-                setData(true)
-              } else {
-                setData(false)
-              }
-            })
-            .catch(error => console.log('error', error));
+      if (launch >= 1731603600 || (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null && localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") == '56f006fb7a76776e1e08eac264bd491aa1a066a1')) {
+        setData(true)
+      } else {
+        setData(false)
+      }
     }, [])
 
     return ( 
@@ -72,6 +67,7 @@ const mapStateToProps = (state) => ({
   load: state.load,
   dark: state.dark,
   lang: state.lang,
+  launch: state.launch,
   currentPage: state.currentPage
 });
 const mapDispatchToProps = (dispatch) => ({
