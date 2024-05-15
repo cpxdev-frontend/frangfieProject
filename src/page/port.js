@@ -34,7 +34,7 @@ const Discography = ({currentPage, lang, setLang, setPage}) => {
             <CardHeader title={lang == 'th' ? 'แฟรงเพลย์' : "'Frang Play"} subheader={lang == 'th' ? 'ผลงานเพลงน้องข้าวฟ่าง (อ้างอิงจาก Spotify)' : "All Discography and Single of Kaofrang Yanisa or Kaofrang BNK48 (From Spotify)"} />
           {
             data1.map((item, i) => (
-                <Card component={Grid} className='mb-3' container key={item.track.id}>
+                <Card component={Grid} className='mb-3 ml-3 ml-lg-0' container key={item.track.id}>
                 <Grid item md={4} xs={12} sx={{display: {xs: 'block', md:'none'}}}>
                     <CardMedia
                         component="img"
