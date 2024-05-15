@@ -202,17 +202,17 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                                         </ListItem>
                                         <ListItem>
                                             <ListItemText
-                                                secondary={<p>{lang == 'th'? 'เปิดตัวซิงเกิ้ลแรก "Aittakata - อยากจะได้พบเธอ" เมื่อวันที่ ' + moment.unix(1496336400).utc().format('DD MMMM YYYY') : 'The first performance of the first single "Aittakata - อยากจะได้พบเธอ" in ' + moment.unix(1496336400).utc().format('DD MMMM YYYY')}</p>}
+                                                secondary={<p>{lang == 'th'? 'เปิดตัวซิงเกิ้ลแรก "Aittakata - อยากจะได้พบเธอ" เมื่อวันที่ ' + moment.unix(1496336400).lang(lang).local().format('DD MMMM YYYY') : 'The first performance of the first single "Aittakata - อยากจะได้พบเธอ" in ' + moment.unix(1496336400).lang(lang).local().format('DD MMMM YYYY')}</p>}
                                             />
                                         </ListItem>
                                         <ListItem>
                                             <ListItemText
-                                                secondary={<p>{lang == 'th'? 'เปิดตัว Digital LIVE Studio (ตู้ปลา) ที่ศูนย์การค้าเอ็มควอเทียร์ในวันที่ ' + moment.unix(1496466000).utc().format('DD MMMM YYYY') : 'Grand opening of "Digital LIVE Studio" at EmQuartier in ' + moment.unix(1496466000).utc().format('DD MMMM YYYY')}</p>}
+                                                secondary={<p>{lang == 'th'? 'เปิดตัว Digital LIVE Studio (ตู้ปลา) ที่ศูนย์การค้าเอ็มควอเทียร์ในวันที่ ' + moment.unix(1496466000).lang(lang).local().format('DD MMMM YYYY') : 'Grand opening of "Digital LIVE Studio" at EmQuartier in ' + moment.unix(1496466000).lang(lang).local().format('DD MMMM YYYY')}</p>}
                                             />
                                         </ListItem>
                                         <ListItem>
                                             <ListItemText
-                                                secondary={<p>{lang == 'th'? 'งานจับมือครั้งแรกของวงเกิดขึ้นเมื่อวันที่ ' + moment.unix(1503680400).utc().format('DD MMMM YYYY') : 'The first Handshake event in ' + moment.unix(1503680400).utc().format('DD MMMM YYYY')}</p>}
+                                                secondary={<p>{lang == 'th'? 'งานจับมือครั้งแรกของวงเกิดขึ้นเมื่อวันที่ ' + moment.unix(1503680400).lang(lang).local().format('DD MMMM YYYY') : 'The first Handshake event in ' + moment.unix(1503680400).lang(lang).local().format('DD MMMM YYYY')}</p>}
                                             />
                                         </ListItem>
                                         <ListItem>
