@@ -53,8 +53,8 @@ body{
   width: 100%;
   pointer-events: none;
 }
-.video-container >img {
-  background-image: url(https://pub-b590efd174044d4bb32753301d5bbd24.r2.dev/kfbg1.jpg);
+
+.img {
   background-size: cover;
   background-position: center;
   overflow: hidden;
