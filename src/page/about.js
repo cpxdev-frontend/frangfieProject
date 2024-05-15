@@ -158,9 +158,14 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                                         component="nav"
                                         sx={{ bgcolor: 'background.paper' }}
                                     >
+                                         <ListItem>
+                                            <ListItemText
+                                                secondary={<p>{lang == 'th'? 'ข้าวฟ่างได้ปรากฎตัวครั้งแรกที่โรงละครของวง เมื่อวันที่ ' + moment.unix(1599627600).local().lang(lang).format('DD MMMM YYYY') : 'Kaofrang Yanisa made her first appearance at BNK48 Theater since ' + moment.unix(1599627600).local().lang(lang).format('DD MMMM YYYY')}</p>}
+                                            />
+                                        </ListItem>
                                         <ListItem>
                                             <ListItemText
-                                                secondary={<p>{lang == 'th'? 'ข้าวฟ่างได้เข้ามาเป็นสมาชิก BNK48 ตั้งแต่วันที่ ' + moment('2020-08-09').lang(lang).format('DD MMMM YYYY') + ' (อ้างอิงจากวันที่สมาชิกรุ่นที่สามโพสต์โซเชียลเป็นครั้งแรก)' : 'Kaofrang Yanisa is come to join as BNK48 3rd Generation members since ' + moment('2020-08-09').lang(lang).format('DD MMMM YYYY') + '. (Based from the first social update of BNK48 3rd Generation.)'}</p>}
+                                                secondary={<p>{lang == 'th'? 'ข้าวฟ่างได้เปิดตัวสู่สาธารณะครั้งแรกตั้งแต่วันที่ ' + moment('2020-08-09').lang(lang).format('DD MMMM YYYY') + ' (อ้างอิงจากวันที่สมาชิกรุ่นที่สามโพสต์โซเชียลเป็นครั้งแรก)' : 'Kaofrang Yanisa is come to join as BNK48 3rd Generation on publicly since ' + moment('2020-08-09').lang(lang).format('DD MMMM YYYY') + '. (Based from the first social update of BNK48 3rd Generation.)'}</p>}
                                             />
                                         </ListItem>
                                         <ListItem>
@@ -217,7 +222,22 @@ const About = ({currentPage, lang, setLang, setPage}) => {
                                         </ListItem>
                                         <ListItem>
                                             <ListItemText
-                                                secondary={<p>{lang == 'th'? 'การแสดงครั้งแรกที่เกิดขึ้นในโรงละครของวง โดยจะเป็นการแสดงสุดพิเศษที่มีให้รับชม "เฉพาะ" ในโรงละครนี้เท่านั้นและจะต้องมีการสุ่มสิทธิ์เพื่อให้ได้สิทะิ์การเข้ารับชมเนื่องด้วยที่นั่งจำนวนจำกัด รวมทั้งเป็นพื้นที่การแสดงให้วงในเครือข่ายโฟร์ตี้เอตได้มีส่วนร่วมด้วย เมื่อเดือน ' + moment.unix(1524718800).utc().format('MMMM YYYY') : 'The first stage show of BNK48 at BNK48 Theater. BNK48 Theater the their theater. So that the BNK48 members have the opportunity to fully show their singing and dancing performances. Including fans will receive exclusive access to viewing because you have to randomly have access to see because seats are limited. And are inherent in almost all circles of the 48 Group\'s culture. in ' + moment.unix(1524718800).utc().format('MMMM YYYY')}</p>}
+                                                secondary={<p>{lang == 'th'? 'การแสดงครั้งแรกที่เกิดขึ้นในโรงละครของวงที่เดอะมอลล์บางกะปิ โดยจะเป็นการแสดงสุดพิเศษที่มีให้รับชม "เฉพาะ" ในโรงละครนี้เท่านั้นและจะต้องมีการสุ่มสิทธิ์เพื่อให้ได้สิทะิ์การเข้ารับชมเนื่องด้วยที่นั่งจำนวนจำกัด รวมทั้งเป็นพื้นที่การแสดงให้วงในเครือข่ายโฟร์ตี้เอตได้มีส่วนร่วมด้วย เมื่อเดือน ' + moment.unix(1524718800).utc().format('MMMM YYYY') : 'The first stage show of BNK48 at BNK48 Theater at The Mall Bangkapi. BNK48 Theater the their theater. So that the BNK48 members have the opportunity to fully show their singing and dancing performances. Including fans will receive exclusive access to viewing because you have to randomly have access to see because seats are limited. And are inherent in almost all circles of the 48 Group\'s culture in ' + moment.unix(1524718800).utc().format('MMMM YYYY')}</p>}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText
+                                                secondary={<p>{lang == 'th'? 'คอนเสิร์ตครั้งแรกของรุ่นแรกและรุ่นที่สอง และการเปิดตัวรุ่นที่สองอย่างเป็นทางการ เมื่อเดือน ' + moment.unix(1536987600).utc().format('DD MMMM YYYY') : 'The first BNK48 1st and 2nd Generation concert. And the officail debut of 2nd Generation. And also the first performance of the 4th Single "Kimi wa melody" in ' + moment.unix(1536987600).utc().format('DD MMMM YYYY')}</p>}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText
+                                                secondary={<p>{lang == 'th'? 'รุ่นที่สามปรากฎตัวครั้งแรกที่โรงละครของวง เมื่อวันที่ ' + moment.unix(1599627600).local().lang(lang).format('DD MMMM YYYY') : 'BNK48 3rd Generation made their first appearance at BNK48 Theater since ' + moment.unix(1599627600).local().lang(lang).format('DD MMMM YYYY')}</p>}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText
+                                                secondary={<p>{lang == 'th'? 'เปิดตัวเทคโนโลยีบล็อกเชนสำหรับกิจกรรมของวง (เป็นการร่วมทุนกับ TokenX ในเครือบริษัทเอสซีบี เอ็กซ์ จำกัด (มหาชน)) เมื่อวันที่ ' + moment.unix(1654146000).local().lang(lang).format('DD MMMM YYYY') : 'Launch blockchain technology system (Collab with TokenX (Undered by SCBX PCL.)) since ' + moment.unix(1654146000).local().lang(lang).format('DD MMMM YYYY')}</p>}
                                             />
                                         </ListItem>
                                         <ListItem>

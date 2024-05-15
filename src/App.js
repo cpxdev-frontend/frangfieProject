@@ -80,6 +80,7 @@ function App({currentPage, lang, setLang, setLaunch, launch}) {
 
   React.useEffect(() => {
     document.title = currentPage + ' | KaofrangFie Site'
+    window.scrollTo(0, 0);
   }, [currentPage]);
 
   const handleOpenNavMenu = (event) => {
