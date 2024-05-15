@@ -54,12 +54,15 @@ body{
   pointer-events: none;
 }
 .video-container >img {
-  position: fixed; 
+  background-image: url(https://pub-b590efd174044d4bb32753301d5bbd24.r2.dev/kfbg1.jpg);
+  background-size: cover;
+  background-position: center;
   overflow: hidden;
-  top: 0;
-  left: 0;
-  width: 100%;
-  pointer-events: none;
+  display: grid;
+  align-items: end;
+  transition: 0.3s;
+  min-height: 90vh;
+  height: 100vh;
 }
   .text-container {
     position: absolute;
