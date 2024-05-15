@@ -264,9 +264,9 @@ function App({currentPage, lang, setLang, setLaunch, launch}) {
   </BasicSwitch>
          )}
     <footer className='fixed-bottom bg-secondary text-center'>
-      <Card className='p-2' style={{borderTopLeftRadius: 0, borderTopRightRadius: 0, fontSize: 14}}>
+      <Card className='p-2' style={{borderTopLeftRadius: 0, borderTopRightRadius: 0, fontSize: 14, lineHeight: 1.2}}>
       &copy; Copyright {new Date().getFullYear()}, CPXDevStudio<br/>
-      <small style={{fontSize: 11, lineHeight: 0}}>All BNK48 contents are licensed by Independent Artist Management (iAM). These member images and all events poster is objective for Kaofrang BNK48 and other BNK48 members supporting only.</small>
+      <small style={{fontSize: 11}}>All BNK48 contents are licensed by Independent Artist Management (iAM). These member images and all events poster is objective for Kaofrang BNK48 and other BNK48 members supporting only.</small>
       </Card>
     </footer>
  </div>
