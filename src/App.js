@@ -21,12 +21,12 @@ import 'moment/locale/th'  // without this line it didn't work
 
 import Home from './page/home';
 import About from './page/about';
-
+import Disco from './page/port';
 import Event from './page/event';
 import Feed from './page/update';
 
-const pageSec = ['', 'aboutkf', 'entertainwithkf', 'events', 'feeds', 'follow', 'more'];
-const pagesEn = ['Home', 'About Kaofrang', 'Entertain', 'Events for Frang', 'Feed', 'Follow KaofrangFie', 'More things'];
+const pageSec = ['', 'aboutkf', 'discography', 'events', 'feeds', 'follow', 'more'];
+const pagesEn = ['Home', 'About Kaofrang', 'Discography', 'Events for Frang', 'Social Feeds', 'Follow KaofrangFie', 'More things'];
 const pagesTh = ['หน้าหลัก', 'เกี่ยวกับข้าวฟ่าง', 'ผลงาน', 'กิจกรรม', 'ฟีดออนไลน์', 'ช่องทางการติดตาม', 'เพิ่มเติม'];
 
 const langList = [
@@ -99,13 +99,13 @@ function App({currentPage, lang, setLang}) {
       <AppBar position="fixed" sx={{ borderRadius: 3}}>
    <Container maxWidth="xl">
      <Toolbar disableGutters>
-        <Avatar sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} alt="kaofrangicon" src="https://pbs.twimg.com/profile_images/1775717193298354176/9GyCNMZW_400x400.jpg" />
+        <Avatar sx={{ display: { xs: 'none', lg: 'flex' }, mr: 1 }} alt="kaofrangicon" src="https://pbs.twimg.com/profile_images/1775717193298354176/9GyCNMZW_400x400.jpg" />
        <Typography
          variant="h6"
          noWrap
          sx={{
            mr: 2,
-           display: { xs: 'none', md: 'flex' },
+           display: { xs: 'none', lg: 'flex' },
            color: 'inherit',
            textDecoration: 'none',
          }}
@@ -113,7 +113,7 @@ function App({currentPage, lang, setLang}) {
          <b>KaofrangFie</b>
        </Typography>
 
-       <Box className='justify-content-center' sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
+       <Box className='justify-content-center' sx={{ flexGrow: 0, display: { xs: 'flex', lg: 'none' } }}>
          <IconButton
            size="large"
            aria-label="account of current user"
@@ -147,20 +147,20 @@ function App({currentPage, lang, setLang}) {
               </DialogActions>
             </Dialog>
        </Box>
-       <Avatar sx={{ display: { xs: 'flex', md: 'none' }, ml: 1, mr: 1 }} alt="kaofrangicon" src="https://pbs.twimg.com/profile_images/1775717193298354176/9GyCNMZW_400x400.jpg" />
+       <Avatar sx={{ display: { xs: 'flex', lg: 'none' }, ml: 1, mr: 1 }} alt="kaofrangicon" src="https://pbs.twimg.com/profile_images/1775717193298354176/9GyCNMZW_400x400.jpg" />
        <Typography
          variant="h6"
          noWrap
          sx={{
            mr: 2,
-           display: { xs: 'flex', md: 'none' },
+           display: { xs: 'flex', lg: 'none' },
            color: 'inherit',
            textDecoration: 'none',
          }}
        >
          <b>KaofrangFie</b>
        </Typography>
-       <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+       <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' } }}>
          {pages.map((page, i) => (
            <Button
              key={page}
@@ -232,7 +232,12 @@ function App({currentPage, lang, setLang}) {
                <About />
              )}
            />
-
+          <Route
+             path="/discography"
+             render={() => (
+               <Disco />
+             )}
+           />
            <Route
              path="/events"
              render={() => (
@@ -245,7 +250,7 @@ function App({currentPage, lang, setLang}) {
                <Feed />
              )}
            />
-   </BasicSwitch>
+          </BasicSwitch>
          ) : (
           <BasicSwitch>
           <Route
