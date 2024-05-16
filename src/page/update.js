@@ -100,10 +100,10 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
         <CardHeader title={<h3>More update of Kaofrang</h3>} subheader={lang == 'th' ? 'น้องข้างฟ่างเป็นยังไงบ้าง ไปดูโพสต์ล่าสุดของเธอกัน (อ้างอิงจาก Instagram: kaofrang.bnk48official)' : "See all Kaofrang Yanisa or Kaofrang BNK48 update here. (From Instagram: kaofrang.bnk48official)"} />
         <div className='container mt-3'>
         {data != null ? (
-          <Grid container spacing={2}>
+          <Grid container className='d-flex justify-content-center' spacing={2}>
           {
             data.map((item, i) => (
-             <Grid item lg={6} xs={12}>
+             <Grid item lg={8} xs={12}>
                  <Card key={item.postId} className='mb-3'>
                     <CardContent className='col-12'>
                     <Iframe item={item} />
