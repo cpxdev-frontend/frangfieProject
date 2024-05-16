@@ -1,12 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import {Card, CardContent, LinearProgress, CardHeader, Button, Grid, Avatar, Box, Tabs, Tab, Typography,
-    List, ListItem, Chip, Skeleton
+    List, ListItem, Chip, Skeleton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
 } from '@mui/material'
 import {
   setLoad, setLang, setDarkMode, setPage
 } from '../redux/action';
+import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import moment from 'moment';
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiY3B4dGgyMDE3IiwiYSI6ImNsZHY0MzN6bTBjNzEzcXJmamJtN3BsZ3AifQ.mYNwWaYKsiLeYXngFDtaWQ';
 
 function compareTimestamps(timestamp1, timestamp2) {
   // Get the difference in milliseconds
@@ -36,7 +39,22 @@ function compareTimestamps(timestamp1, timestamp2) {
 
 const Event = ({currentPage, lang, setLang, setPage, launch}) => {
     const [data, setData] = React.useState(null);
+    const [getData, setGetData] = React.useState(null);
     const unix = launch;
+    
+    const getMap = (item) => {
+      if (item.place.includes("IAMP")) {
+        setGetData({
+          locate: item.placeobj.placeCoodinate,
+          place: item.placeobj.ref
+        })
+      } else {
+        setGetData({
+          place: item.place,
+          locate: item.locate
+        })
+      }
+    }
 
     const checkeventtype = (obj) => {
         if (obj.locate == null && obj.place == "") {
@@ -96,11 +114,9 @@ const Event = ({currentPage, lang, setLang, setPage, launch}) => {
 }
 
 
-    const [value2, setValue2] = React.useState(0);
-
-    const handleChange2 = (event, newValue) => {
-      setValue2(newValue);
-    };
+React.useEffect(() => {
+  console.log(getData)
+}, [getData])
 
     React.useEffect(() => {
         var requestOptions = {
@@ -111,6 +127,7 @@ const Event = ({currentPage, lang, setLang, setPage, launch}) => {
         fetch("https://cpxdevservice.onrender.com/kfsite/listevent", requestOptions)
             .then(response => response.json())
             .then(result => {
+              setGetData(undefined)
                 setData(result)
             })
             .catch(error => console.log('error', error));
@@ -161,7 +178,7 @@ const Event = ({currentPage, lang, setLang, setPage, launch}) => {
                     <br />
                     {
                       !(item.locate == null && item.place == "") && (
-                        <Button variant='outlined' className='mt-3'>{lang == 'th' ? 'สถานที่จัดงาน' : "Event location"}</Button>
+                        <Button onClick={() => getMap(item)} variant='outlined' className='mt-3'>{lang == 'th' ? 'สถานที่จัดงาน' : "Event location"}</Button>
                       )
                     }
                      {
@@ -194,6 +211,44 @@ const Event = ({currentPage, lang, setLang, setPage, launch}) => {
           </Card>
         )}
         </div>
+        <Dialog
+          open={getData != undefined}
+          maxWidth= 'xl'
+        >
+          <DialogTitle id="alert-dialog-title">
+          {lang == 'th' ? 'สถานที่จัดงาน' : "Event Location"}
+          </DialogTitle>
+          <DialogContent>
+            {
+              getData != undefined && getData != null ? (
+                <>
+                  <iframe
+                    width="100%"
+                    height="450"
+                    style={{border:'none'}}
+                    loading="lazy"
+                    allowfullscreen
+                    referrerpolicy="no-referrer-when-downgrade"
+                    src={"https://www.google.com/maps/embed/v1/place?key=AIzaSyAL0rpaALNBZalhJuywgqWl4sgFDvXVSz4&q=" + getData.locate[0] + ',' + getData.locate[1]}>
+                  </iframe>
+                </>
+              ) : (
+                <>
+                 <Skeleton variant="text" className='bg-m' sx={{ height: 400 }} />
+              <Skeleton variant="text" className='bg-m' sx={{ fontSize: '1rem' }} />
+                </>
+              )
+            }
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => {
+              setGetData(null)
+            }}>{lang == 'th' ? 'ปิด' : "Close"}</Button>
+            <Button onClick={() => getData != null && getData != undefined ? window.open(getData.place, '_blank') : null}>
+              {lang == 'th' ? 'ไปยังแอป Google Maps' : "View on Google Maps"}
+            </Button>
+          </DialogActions>
+        </Dialog>
     </div> );
 }
  

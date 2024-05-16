@@ -53,7 +53,17 @@ body{
   width: 100%;
   pointer-events: none;
 }
+.map-container {
+  width: '100%';
+  height: 700px;
+  }
 
+  @media only screen and (max-width: 700px) {
+    .map-container {
+      width: '100%';
+      height: 400px;
+      }
+  }
 .img {
   background-size: cover;
   background-position: center;

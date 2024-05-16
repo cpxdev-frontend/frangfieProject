@@ -18,6 +18,7 @@ import {
   setLoad, setLang, setDarkMode, setPage, setLaunch
 } from './redux/action';
 import 'moment/locale/th'  // without this line it didn't work
+import "mapbox-gl/dist/mapbox-gl.css";
 
 import Home from './page/home';
 import About from './page/about';
