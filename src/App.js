@@ -25,6 +25,7 @@ import About from './page/about';
 import Disco from './page/port';
 import Event from './page/event';
 import Feed from './page/update';
+import Follow from './page/follow';
 
 const pageSec = ['', 'aboutkf', 'discography', 'events', 'feeds', 'follow', 'more'];
 const pagesEn = ['Home', 'About Kaofrang', 'Discography', 'Events for Frang', 'Social Feeds', 'Follow KaofrangFie', 'More things'];
@@ -251,6 +252,12 @@ function App({currentPage, lang, setLang, setLaunch, launch}) {
              path="/feeds"
              render={() => (
                <Feed />
+             )}
+           />
+           <Route
+             path="/follow"
+             render={() => (
+               <Follow />
              )}
            />
           </BasicSwitch>
