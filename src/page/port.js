@@ -16,15 +16,15 @@ const Discography = ({currentPage, lang, setLang, setPage}) => {
         var requestOptions = {
             method: 'POST'
           };
-
+          setData1(null)
         setPage(lang == 'th' ? 'ผลงานเพลงและการแสดง' : 'Discography and Acting')
-        fetch("https://cpxdevservice.onrender.com/kfsite/kfspotplay", requestOptions)
+        fetch("https://cpxdevservice.onrender.com/kfsite/kfspotplay?l=" + lang, requestOptions)
             .then(response => response.json())
             .then(result => {
                 setData1(result.res.tracks.items)
             })
             .catch(error => console.log('error', error));
-      }, [])
+      }, [lang])
 
     return ( <div style={{marginTop: 80, marginBottom: 150}}>
         <CardHeader title={<h3>Discography and Acting of Kaofrang</h3>} subheader={lang == 'th' ? 'ผลงานที่ผ่านมาของน้องข้าวฟ่าง (อ้างอิงจาก Spotify และ Youtube)' : "All Discography and Acting of Kaofrang Yanisa or Kaofrang BNK48 (From Spotify and Youtube)"} />
