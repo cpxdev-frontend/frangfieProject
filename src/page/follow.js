@@ -5,7 +5,7 @@ import {Card, CardContent, LinearProgress, CardHeader, Button, Grid, Avatar, Box
 } from '@mui/material'
 
 import { faFacebook, faInstagram, faTiktok } from '@fortawesome/free-brands-svg-icons'
-import { faMobileAlt } from '@fortawesome/free-solid-svg-icons'
+import { faMobileAlt, faDesktop } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {
@@ -90,10 +90,10 @@ const Follow = ({currentPage, lang, setLang, setPage, launch}) => {
             <ListItemButton component="a" href="https://cp-bnk48.pages.dev/member/kaofrang" target='_blank'>
                 <ListItemAvatar>
                 <Avatar sx={{backgroundColor: '#CB96C2'}}>
-                    <FontAwesomeIcon icon={faMobileAlt} />
+                    <FontAwesomeIcon icon={faDesktop} />
                 </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary="BNK48 Fan Space Platform" secondary="Kaofrang BNK48" />
+                <ListItemText primary="BNK48 Fan Space Platform" secondary="Kaofrang" />
             </ListItemButton>
             </List>
         </div>
