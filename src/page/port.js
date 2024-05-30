@@ -18,7 +18,7 @@ const Discography = ({currentPage, lang, setLang, setPage}) => {
           };
           setData1(null)
         setPage(lang == 'th' ? 'ผลงานเพลงและการแสดง' : 'Discography and Acting')
-        fetch("https://cpxdevservice.onrender.com/kfsite/kfspotplay?l=" + lang, requestOptions)
+        fetch("https://cpxdev-w7d4.onrender.com/kfsite/kfspotplay?l=" + lang, requestOptions)
             .then(response => response.json())
             .then(result => {
                 setData1(result.res.tracks.items)

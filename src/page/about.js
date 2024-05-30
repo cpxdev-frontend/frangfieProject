@@ -91,7 +91,7 @@ const About = ({currentPage, lang, setLang, setPage}) => {
           };
 
         setPage(lang == 'th' ? 'เกี่ยวกับข้าวฟ่าง' : 'All About Kaofrang')
-        fetch("https://cpxdevservice.onrender.com/bnk48/getmember?name=kaofrang", requestOptions)
+        fetch("https://cpxdev-w7d4.onrender.com/bnk48/getmember?name=kaofrang", requestOptions)
             .then(response => response.json())
             .then(result => {
                 setData(result.response)
