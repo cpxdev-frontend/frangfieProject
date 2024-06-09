@@ -19,6 +19,7 @@ import {
 } from './redux/action';
 import 'moment/locale/th'  // without this line it didn't work
 import "mapbox-gl/dist/mapbox-gl.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import Home from './page/home';
 import About from './page/about';

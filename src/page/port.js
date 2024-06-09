@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import {
-  Card, CardContent, Fade, CardHeader, Button, Grid, Avatar, Box, Tabs, Tab, Typography, CardMedia,
+  Card, CardContent, Fade, CardHeader, Button, Grid, CardActions, Box, Tabs, Tab, Typography, CardMedia,
   List, ListItem, Chip, Skeleton,
   CardActionArea
 } from '@mui/material'
@@ -9,15 +9,18 @@ import {
   setLoad, setLang, setDarkMode, setPage
 } from '../redux/action';
 import moment from 'moment';
+import { Carousel as MobileCarousel } from 'react-responsive-carousel';
 
 const Discography = ({ currentPage, lang, setLang, setPage }) => {
   const [data1, setData1] = React.useState(null);
   const [data2, setData2] = React.useState(null);
+  const [ix, setIx] = React.useState(0)
 
   React.useEffect(() => {
     var requestOptions = {
       method: 'POST'
     };
+    setIx(0)
     setData1(null)
     setPage(lang == 'th' ? 'ผลงานเพลงและการแสดง' : 'Discography and Acting')
     fetch("https://cpxdev-w7d4.onrender.com/kfsite/kfspotplay?l=" + lang, requestOptions)
@@ -101,7 +104,35 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
       {data1 != null ? (
         <Grid container spacing={2}>
           <CardHeader title={lang == 'th' ? 'แฟรงเพลย์' : "'Frang Play"} subheader={lang == 'th' ? 'ผลงานเพลงน้องข้าวฟ่าง (อ้างอิงจาก Spotify)' : "All Discography and Single of Kaofrang Yanisa or Kaofrang BNK48 (From Spotify)"} />
-          {
+          <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
+          <MobileCarousel autoPlay centerMode centerSlidePercentage={30} infiniteLoop showArrows showIndicators={false} swipeable={true} showStatus={false} interval={8000} onChange={(e) => setIx(e)}>
+            {data1.length > 0 ? data1.map((item, i) => (
+                    <Card key={"home-" + item.track.id} data-tempid={item.track.id} className='m-2' sx={{backgroundColor: 'transperent'}}>
+                        <CardActionArea className='cro-container'>
+                        <CardMedia src={item.track.album.images[0].url} component="img" />
+                        {
+                            ix == i && (
+                                <Card data-aos="fade-in">
+                                    <CardHeader title={(<h4>{item.track.name}</h4>)} subheader={item.track.artists[0].name} />
+                                    <CardActions>
+                                      <Button className='bg-success text-light' size="large" onClick={() => window.open(item.track.external_urls.spotify, '_blank')}>{lang == 'th' ? 'ฟังเพลงนี้บน Spotify' : 'Listening on Spotify'}</Button>
+                                    </CardActions>
+                                </Card>
+                            )
+                        }
+                        </CardActionArea>
+                        </Card>
+                )) : (
+                  <Card className='m-2' sx={{backgroundColor: (dark ?'#fff' : 'transperent')}}>
+                        <CardActionArea className='cro-container'>
+                            <CardHeader title={(<h4>{lang == 'th' ? 'ระบบอยู่ระหว่างการอัปเดตเพลย์ลิสต์' :'We are updateing weekly playlist'}</h4>)} subheader={lang == 'th' ? 'เราจะกลับมาอีกครั้ง เร็วๆนี้' :'We will back soon'} />
+                        </CardActionArea>
+                        </Card>
+                )}
+          </MobileCarousel>
+         </Box>
+         <Box sx={{ display: { xs: 'block', lg: 'none' } }}>
+         {
             data1.map((item, i) => (
               <Card component={Grid} className='mb-3 ml-3 ml-lg-0' container key={item.track.id}>
                 <Grid item md={4} xs={12} sx={{ display: { xs: 'block', md: 'none' } }}>
@@ -145,6 +176,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
               </Card>
             ))
           }
+         </Box>
         </Grid>
       ) : (
         <Card>
