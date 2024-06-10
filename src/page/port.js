@@ -74,7 +74,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
             : "All Discography and Acting of Kaofrang Yanisa or Kaofrang BNK48 (From Spotify and Youtube)"
         }
       />
-      <div className={"container" + (width < 700 ? " ml-2" : "")}>
+      <div className="container">
         {data1 != null ? (
           <Grid container spacing={2}>
             <CardHeader
