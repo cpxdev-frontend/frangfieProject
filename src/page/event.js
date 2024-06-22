@@ -124,7 +124,7 @@ React.useEffect(() => {
           };
        
         setPage(lang == 'th' ? 'ข้อมูลกิจกรรม' : 'Events of Kaofrang')
-        fetch("https://cpxdev-w7d4.onrender.com/kfsite/listevent", requestOptions)
+        fetch("https://cpxdevweb.onrender.com/kfsite/listevent", requestOptions)
             .then(response => response.json())
             .then(result => {
               setGetData(undefined)
