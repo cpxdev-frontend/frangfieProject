@@ -28,9 +28,9 @@ import Event from './page/event';
 import Feed from './page/update';
 import Follow from './page/follow';
 
-const pageSec = ['', 'aboutkf', 'discography', 'events', 'feeds', 'follow', 'more'];
-const pagesEn = ['Home', 'About Kaofrang', 'Discography', 'Events for Frang', 'Social Feeds', 'Follow KaofrangFie', 'More things'];
-const pagesTh = ['หน้าหลัก', 'เกี่ยวกับข้าวฟ่าง', 'ผลงาน', 'กิจกรรม', 'ฟีดออนไลน์', 'ช่องทางการติดตาม', 'เพิ่มเติม'];
+const pageSec = ['', 'aboutkf', 'discography', 'events', 'feeds', 'follow'];
+const pagesEn = ['Home', 'About Kaofrang', 'Discography', 'Events for Frang', 'Social Feeds', 'Follow KaofrangFie'];
+const pagesTh = ['หน้าหลัก', 'เกี่ยวกับข้าวฟ่าง', 'ผลงาน', 'กิจกรรม', 'ฟีดออนไลน์', 'ช่องทางการติดตาม'];
 
 const langList = [
   {
