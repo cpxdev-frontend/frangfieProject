@@ -169,7 +169,7 @@ React.useEffect(() => {
                     ) : (
                       <p>{lang == 'th' ? 'วันที่เริ่มต้นกิจกรรม ' : "Event start on "} {moment.unix(item.timerange[0]).lang(lang).local().format(lang == 'th' ? 'DD MMMM YYYY' :'MMMM DD, YYYY')}</p>
                     )}
-                    <p className='mt-4'>{lang == 'th' ? 'รายละเอียดกิจกรรม' : "Description"}: {item.desc}</p>
+                    <p className='mt-4'>{lang == 'th' ? 'รายละเอียดกิจกรรม' : "Description"}: {lang == 'th' ? item.desc2 : item.desc}</p>
                     {
                       item.timerange[0] > 0 && item.timerange[1] > 0 && (
                         <small>{lang == 'th' ? 'หมายเหตุ' : "Notes"}: {lang == 'th' ? 'ช่วงเวลาของกิจกรรมอ้างอิงตามโซนเวลาของอุปกรณ์' : "Event time duration are based on device timezone."}</small>
