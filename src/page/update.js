@@ -106,7 +106,7 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
              <Grid item lg={8} xs={12}>
                  <Card key={item.postId} className='mb-3'>
                     <CardContent className='col-12'>
-                    <Iframe item={item} />
+                    <Iframe item={item} lang={lang} />
                     </CardContent>
                 </Card>
              </Grid>
