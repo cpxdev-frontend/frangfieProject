@@ -97,7 +97,11 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
       }, [])
 
     return ( <div style={{marginTop: 80, marginBottom: 150}}>
+      {data != null && data[0].postId.includes('facebook.com') ? (
+        <CardHeader title={<h3>More update of Kaofrang</h3>} subheader={lang == 'th' ? 'น้องข้างฟ่างเป็นยังไงบ้าง ไปดูโพสต์ล่าสุดของเธอกัน (อ้างอิงจาก Facebook: Facebook: Kaofrang BNK48)' : "See all Kaofrang Yanisa or Kaofrang BNK48 update here. (From Facebook: Kaofrang BNK48)"} />
+      ) : (
         <CardHeader title={<h3>More update of Kaofrang</h3>} subheader={lang == 'th' ? 'น้องข้างฟ่างเป็นยังไงบ้าง ไปดูโพสต์ล่าสุดของเธอกัน (อ้างอิงจาก Instagram: kaofrang.bnk48official)' : "See all Kaofrang Yanisa or Kaofrang BNK48 update here. (From Instagram: kaofrang.bnk48official)"} />
+      )}
         <div className='container mt-3'>
         {data != null ? (
           <Grid container className='d-flex justify-content-center' spacing={2}>

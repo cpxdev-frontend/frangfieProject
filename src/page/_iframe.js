@@ -1,10 +1,20 @@
 import React from "react";
 import { Skeleton } from "@mui/material";
-import { InstagramEmbed } from "react-social-media-embed";
+import { FacebookEmbed } from "react-social-media-embed";
 
 const IFRAMEwithPost = ({ item, lang }) => {
   const ref = React.useRef(null);
   const [load, setLoad] = React.useState(true);
+
+if (item.postId.includes('facebook.com')) {
+ return (
+    <FacebookEmbed url={item.postId} width="100%" style={{
+      height: 500,
+      overflow: "auto",
+      border: "none",
+    }} />
+ )
+}
 
   return (
     <>
