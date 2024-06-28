@@ -357,6 +357,17 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                         secondary={
                           <p>
                             {lang == "th"
+                              ? "ข้าวฟ่างเป็นคนที่มีความเป็นผู้ใหญ่ มีความรับผิดชอบ และจริงจังกับการงานมาก และเป็นคนที่รักความสนุกสนาน และใส่ใจ มีน้ำใจกับสมาชิกคนอื่นในวงอีกด้วย"
+                              : "She is mature, be responsible and seriously about her job. And also funny and think positive with other BNK48 members and people around her too."}
+                          </p>
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText
+                        secondary={
+                          <p>
+                            {lang == "th"
                               ? "ข้าวฟ่างมีความชื่นชอบด้านฟุตบอลและวงการด้านสกุลเงินดิจิทัล (Crypto Currency)"
                               : "She likes sport especially in soccer. And also update herself about Crypto Currency."}
                           </p>
@@ -381,6 +392,28 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                             {lang == "th"
                               ? 'ที่หอพักของบีเอ็นเคโฟตี้เอต จะมีบางเมมเบอร์ที่ต้องอยู่ร่วมกันในห้องเดียวซึ่งเรียกว่าคู่บัดดี้ โดยข้าวฟ่างมี "น้องเกรซ" เป็นคู่บัดดี้ของข้าวฟ่าง และยังเป็นสมาชิกรุ่นสามเหมือนกันอีกด้วย'
                               : 'Some BNK48 members will have "Dorm Buddy Duo" when live at their dorm. And Kaofrang also has her buddy called "Grace Virunpat" who is also BNK48 3rd Generation members too.'}
+                          </p>
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText
+                        secondary={
+                          <p>
+                            {lang == "th"
+                              ? "การเป็นรองกับตันทีมเอ็นไฟว์ ทำให้เธอเป็นที่รู้จักมากขึ้น"
+                              : "For becoming to Vice Caption of Team NV, that makes her more famous."}
+                          </p>
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText
+                        secondary={
+                          <p>
+                            {lang == "th"
+                              ? "ข้าวฟ่างโปรดปรานการร้องเพลงมาก และสามารถเล่นกีตาร์ได้ และเธอได้ชื่นชอบศิลปิน T-POP หลายคน เช่น วง Serious Beacon เป็นต้น"
+                              : "She loves singing and playing guitar. Ald she also favorite several T-POP artist. Such as \"Serious Beacon\""}
                           </p>
                         }
                       />
