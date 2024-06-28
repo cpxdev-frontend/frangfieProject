@@ -98,7 +98,7 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
 
     return ( <div style={{marginTop: 80, marginBottom: 150}}>
       {data != null && data[0].postId.includes('facebook.com') ? (
-        <CardHeader title={<h3>More update of Kaofrang</h3>} subheader={lang == 'th' ? 'น้องข้างฟ่างเป็นยังไงบ้าง ไปดูโพสต์ล่าสุดของเธอกัน (อ้างอิงจาก Facebook: Facebook: Kaofrang BNK48)' : "See all Kaofrang Yanisa or Kaofrang BNK48 update here. (From Facebook: Kaofrang BNK48)"} />
+        <CardHeader title={<h3>More update of Kaofrang</h3>} subheader={lang == 'th' ? 'น้องข้างฟ่างเป็นยังไงบ้าง ไปดูโพสต์ล่าสุดของเธอกัน (อ้างอิงจาก Facebook: Kaofrang BNK48)' : "See all Kaofrang Yanisa or Kaofrang BNK48 update here. (From Facebook: Kaofrang BNK48)"} />
       ) : (
         <CardHeader title={<h3>More update of Kaofrang</h3>} subheader={lang == 'th' ? 'น้องข้างฟ่างเป็นยังไงบ้าง ไปดูโพสต์ล่าสุดของเธอกัน (อ้างอิงจาก Instagram: kaofrang.bnk48official)' : "See all Kaofrang Yanisa or Kaofrang BNK48 update here. (From Instagram: kaofrang.bnk48official)"} />
       )}
@@ -129,6 +129,13 @@ const Event = ({currentPage, lang, setLang, setPage}) => {
             </CardContent>
           </Card>
         )}
+        <div className='container text-center'>
+        {data != null && data[0].postId.includes('facebook.com') ? (
+          <Button variant='contained' onClick={() => window.open('https://facebook.com/bnk48official.kaofrang', '_blank')}>{lang == 'th' ? 'ดูโพสต์อื่น (Facebook: Kaofrang BNK48)' : "View more posts (From Facebook: Kaofrang BNK48)"}</Button>
+        ) : (
+          <Button variant='contained' onClick={() => window.open('https://instagram.com/kaofrang.bnk48official', '_blank')}>{lang == 'th' ? 'ดูโพสต์อื่น (Instagram: kaofrang.bnk48official)' : "View more posts (Instagram: kaofrang.bnk48official)"}</Button>
+        )}
+        </div>
         </div>
     </div> );
 }
