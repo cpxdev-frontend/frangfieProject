@@ -119,7 +119,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
 
   if (gamemeet == 0) {
     return (
-      <div className="d-flex justify-content-center" style={{maginBottom: 120}}>
+      <div className="d-flex justify-content-center" style={{maginBottom: 150}}>
         <Card className="w-md-75 w-100" sx={{ marginTop: "15vh" }}>
           <CardContent>
             <CardHeader
@@ -191,7 +191,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
   }
   if (gamemeet == 2) {
     return (
-      <div className="d-flex justify-content-center" style={{maginBottom: 120}}>
+      <div className="d-flex justify-content-center" style={{maginBottom: 150}}>
         <Card className="w-md-75 w-100" sx={{ marginTop: "30vh" }}>
           <CardContent>
             <CardHeader
@@ -234,7 +234,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
     );
   }
   return (
-    <div className="d-flex justify-content-center" style={{maginBottom: 120}}>
+    <div className="d-flex justify-content-center" style={{maginBottom: 150}}>
       {quesList.map(
         (item, i) =>
           i === ques && (
