@@ -32,3 +32,10 @@ export function setLoad(val) {
       val: val
     };
   }
+
+  export function setInGame(val) {
+    return {
+      type: 'IN_GAME',
+      val: val
+    };
+  }

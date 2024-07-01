@@ -137,3 +137,18 @@ body{
 .bg-m{
   background-color: rgb(124, 213, 248) !important;
 }
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.nextText {
+  animation: blink 2.2s ease infinite;
+}
