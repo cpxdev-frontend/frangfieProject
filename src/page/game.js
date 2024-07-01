@@ -32,6 +32,10 @@ import {
   setInGame,
 } from "../redux/action";
 
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent);
+}
+
 const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
   const [gamemeet, setGame] = React.useState(0);
   const [quesList, setQuesList] = React.useState([]);
@@ -79,7 +83,9 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
       setStatperques(1);
       setCorrect((x) => (x = x + 1));
     } else {
-      navigator.vibrate(600);
+      if (!isIOS()) {
+        navigator.vibrate(600);
+      }
       setStatperques(2);
     }
     if (ques == quesList.length - 1) {
@@ -121,7 +127,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
     return (
       <div
         className="d-flex justify-content-center"
-        style={{ maginBottom: 250 }}>
+        style={{ marginBottom: 150 }}>
         <Card sx={{ marginTop: "15vh", width: { xs: "100%", md: "70%" } }}>
           <CardContent>
             <CardHeader
@@ -195,7 +201,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
     return (
       <div
         className="d-flex justify-content-center"
-        style={{ maginBottom: 250 }}>
+        style={{ marginBottom: 150 }}>
         <Card sx={{ marginTop: "30vh", width: { xs: "100%", md: "70%" } }}>
           <CardContent>
             <CardHeader
@@ -211,15 +217,15 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                 <Typography className="ml-3">
                   {lang == "th"
                     ? "คะแนนเฉลี่ยจากผู้เล่นทั่วโลก " +
-                      aver.average +
-                      " คะแนนจากทั้งหมด " +
-                      aver.fromAll +
-                      " คะแนน"
+                    aver.average +
+                    " คะแนนจากทั้งหมด " +
+                    aver.fromAll +
+                    " คะแนน"
                     : "Average scores from worldwide are " +
-                      aver.average +
-                      " points from all " +
-                      aver.fromAll +
-                      " points."}
+                    aver.average +
+                    " points from all " +
+                    aver.fromAll +
+                    " points."}
                 </Typography>
               </>
             ) : (
@@ -238,7 +244,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
     );
   }
   return (
-    <div className="d-flex justify-content-center" style={{ maginBottom: 250 }}>
+    <div className="d-flex justify-content-center" style={{ marginBottom: 150 }}>
       {quesList.map(
         (item, i) =>
           i === ques && (
@@ -269,8 +275,8 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                         checked && item.key === choice.choiceId
                           ? "text-success"
                           : checked && item.key !== choice.choiceId
-                          ? "text-danger"
-                          : ""
+                            ? "text-danger"
+                            : ""
                       }>
                       <ListItemText
                         primary={ix + 1 + ". " + choice.choiceName[lang]}
