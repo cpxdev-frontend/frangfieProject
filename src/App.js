@@ -28,9 +28,9 @@ import Event from './page/event';
 import Feed from './page/update';
 import Follow from './page/follow';
 
-const pageSec = ['', 'aboutkf', 'discography', 'events', 'feeds', 'follow'];
-const pagesEn = ['Home', 'About Kaofrang', 'Discography', 'Events for Frang', 'Social Feeds', 'Follow KaofrangFie'];
-const pagesTh = ['หน้าหลัก', 'เกี่ยวกับข้าวฟ่าง', 'ผลงาน', 'กิจกรรม', 'ฟีดออนไลน์', 'ช่องทางการติดตาม'];
+const pageSec = ['', 'aboutkf', 'discography', 'events', 'feeds', 'quizgame', 'follow'];
+const pagesEn = ['Home', 'About Kaofrang', 'Discography', 'Events for Frang', 'Social Feeds', 'Quiz', 'Follow KaofrangFie'];
+const pagesTh = ['หน้าหลัก', 'เกี่ยวกับข้าวฟ่าง', 'ผลงาน', 'กิจกรรม', 'ฟีดออนไลน์', 'มินิเกมส์', 'ช่องทางการติดตาม'];
 
 const langList = [
   {
@@ -143,7 +143,7 @@ function App({currentPage, lang, setLang, setLaunch, launch}) {
               <DialogContent>
               {pages.map((page, i) => (
                   <MenuItem component={Link} key={page} to={'/'+pageSec[i]} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center" sx={{color: location.pathname == '/'+pageSec[i] ? 'rgb(252, 91, 214)' : '#000'}} component='p'>{page}</Typography>
+                    <Typography textAlign="center" sx={{color: location.pathname == '/'+pageSec[i] ? '#0097fc' : '#000'}} component='p'>{page}</Typography>
                   </MenuItem>
               ))}
               </DialogContent>

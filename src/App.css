@@ -39,7 +39,7 @@
 
 body{
   font-family: 'misans';
-  background-color: #f7e4f4;
+  background-color: #d6f0fa;
 }
 .video-container {
   overflow-y: hidden;
@@ -135,5 +135,5 @@ body{
 }
 
 .bg-m{
-  background-color: #f27ce2 !important;
+  background-color: rgb(124, 213, 248) !important;
 }

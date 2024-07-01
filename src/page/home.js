@@ -35,7 +35,7 @@ const Home = ({currentPage, lang, setLang, setPage, setMenu, setLangMod, launch}
  {data ? (
    <Card className="text-container">
    <CardContent className='p-2'>
-     <CardHeader title={<h3 style={{color: 'rgb(252, 91, 214)'}}>Welcome to KaofrangFie Fansite</h3>} subheader={<p className='overlaytext'>{lang == 'th' ? "เว็บไซต์ที่จะทำให้คุณรู้จัก \"น้องข้าวฟ่าง\" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน" : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Let's come to enjoy with us!"}</p>} />
+     <CardHeader title={<h3 style={{color: '#3ac4fc'}}>Welcome to KaofrangFie Fansite</h3>} subheader={<p className='overlaytext'>{lang == 'th' ? "เว็บไซต์ที่จะทำให้คุณรู้จัก \"น้องข้าวฟ่าง\" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน" : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Let's come to enjoy with us!"}</p>} />
      <Button className='ml-2' variant='contained' onClick={() => history.push('/aboutkf')}>Get Started</Button>
      <Button className='ml-2' variant='outlined' onClick={() => setMenu(true)}>Go to Menu</Button>
      <br />
@@ -45,7 +45,7 @@ const Home = ({currentPage, lang, setLang, setPage, setMenu, setLangMod, launch}
  ) : (
   <Card className="text-container">
   <CardContent className='p-2'>
-    <CardHeader title={<h3 style={{color: 'rgb(252, 91, 214)'}}>Welcome to KaofrangFie Fansite</h3>} subheader={<p className='overlaytext'>{lang == 'th' ? "เว็บไซต์ที่จะทำให้คุณรู้จัก \"น้องข้าวฟ่าง\" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน" : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Let's come to enjoy with us!"}</p>} />
+    <CardHeader title={<h3 style={{color: '#3ac4fc'}}>Welcome to KaofrangFie Fansite</h3>} subheader={<p className='overlaytext'>{lang == 'th' ? "เว็บไซต์ที่จะทำให้คุณรู้จัก \"น้องข้าวฟ่าง\" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน" : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Let's come to enjoy with us!"}</p>} />
       <h5 className='text-center text-light'>{lang == 'th' ? "พบกันได้ ในวันที่ 15 พฤศจิกายน 2567 เป็นต้นไป" : "Let's meet this website soon in November 15, 2024"}</h5>
       <br />
      <Button className='ml-2 mt-1' onClick={() => setLangMod(true)}>Choose Language</Button>
