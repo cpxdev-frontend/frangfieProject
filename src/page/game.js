@@ -265,17 +265,15 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                   {item.choices.map((choice, ix) => (
                     <ListItemButton
                       sx={{
-                        backgroundColor:
-                          choice.choiceId === selected ? "#3ac4fc" : "",
                         borderRadius: "10px",
                       }}
                       onClick={() => SelectGame(item.key, choice.choiceId)}
                       key={item.quizId + choice.choiceId}
                       className={
                         checked && item.key === choice.choiceId
-                          ? "text-success"
+                          ? "text-success" + (choice.choiceId == selected ? ' bgSelectedquiz' : '')
                           : checked && item.key !== choice.choiceId
-                            ? "text-danger"
+                            ? "text-danger" + (choice.choiceId == selected ? ' bgSelectedquiz' : '')
                             : ""
                       }>
                       <ListItemText
