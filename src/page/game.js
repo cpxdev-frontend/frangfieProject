@@ -119,8 +119,8 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
 
   if (gamemeet == 0) {
     return (
-      <div className="d-flex justify-content-center">
-        <Card className="w-75" sx={{ marginTop: "15vh" }}>
+      <div className="d-flex justify-content-center" style={{maginBottom: 60}}>
+        <Card className="w-md-75 w-100" sx={{ marginTop: "15vh" }}>
           <CardContent>
             <CardHeader
               title="Quiz Game"
@@ -191,8 +191,8 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
   }
   if (gamemeet == 2) {
     return (
-      <div className="d-flex justify-content-center">
-        <Card className="w-75" sx={{ marginTop: "30vh" }}>
+      <div className="d-flex justify-content-center" style={{maginBottom: 60}}>
+        <Card className="w-md-75 w-100" sx={{ marginTop: "30vh" }}>
           <CardContent>
             <CardHeader
               title="Result"
@@ -234,11 +234,11 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
     );
   }
   return (
-    <div className="d-flex justify-content-center">
+    <div className="d-flex justify-content-center" style={{maginBottom: 60}}>
       {quesList.map(
         (item, i) =>
           i === ques && (
-            <Card key={item.quizId} className="w-75" sx={{ marginTop: "5vh" }}>
+            <Card key={item.quizId} className="w-md-75 w-100" sx={{ marginTop: "5vh" }}>
               <CardContent>
                 <CardHeader
                   title={item.question[lang]}
