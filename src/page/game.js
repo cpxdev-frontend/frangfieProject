@@ -119,7 +119,9 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
 
   if (gamemeet == 0) {
     return (
-      <div className="d-flex justify-content-center" style={{maginBottom: 150}}>
+      <div
+        className="d-flex justify-content-center"
+        style={{ maginBottom: 150 }}>
         <Card className="w-md-75 w-100" sx={{ marginTop: "15vh" }}>
           <CardContent>
             <CardHeader
@@ -191,7 +193,9 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
   }
   if (gamemeet == 2) {
     return (
-      <div className="d-flex justify-content-center" style={{maginBottom: 150}}>
+      <div
+        className="d-flex justify-content-center"
+        style={{ maginBottom: 150 }}>
         <Card className="w-md-75 w-100" sx={{ marginTop: "30vh" }}>
           <CardContent>
             <CardHeader
@@ -234,11 +238,14 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
     );
   }
   return (
-    <div className="d-flex justify-content-center" style={{maginBottom: 150}}>
+    <div className="d-flex justify-content-center" style={{ maginBottom: 150 }}>
       {quesList.map(
         (item, i) =>
           i === ques && (
-            <Card key={item.quizId} className="w-md-75 w-100" sx={{ marginTop: "5vh" }}>
+            <Card
+              key={item.quizId}
+              className="w-md-75 w-100"
+              sx={{ marginTop: "5vh" }}>
               <CardContent>
                 <CardHeader
                   title={item.question[lang]}
@@ -254,7 +261,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                     <ListItemButton
                       sx={{
                         backgroundColor:
-                          choice.choiceId === selected ? "#99e3f7" : "",
+                          choice.choiceId === selected ? "#3ac4fc" : "",
                         borderRadius: "10px",
                       }}
                       onClick={() => SelectGame(item.key, choice.choiceId)}
