@@ -155,3 +155,13 @@ body{
 .bgSelectedquiz{
   background-color: #a1e0f9 !important;
 }
+
+.shake {
+  animation: shake 0.7s cubic-bezier(.215, .81, .365, .89) both;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+  20%, 40%, 60%, 80% { transform: translateX(8px); }
+}

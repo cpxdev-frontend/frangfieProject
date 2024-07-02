@@ -20,6 +20,8 @@ import {
   CardActionArea,
   ListItemText,
 } from "@mui/material";
+import 'sweetalert2/dist/sweetalert2.min.css'
+import Swal from 'sweetalert2'
 import { InfoOutlined } from "@mui/icons-material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -35,6 +37,8 @@ import {
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent);
 }
+
+let timerInterval;
 
 const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
   const [gamemeet, setGame] = React.useState(0);
@@ -65,10 +69,32 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
     fetch("https://cpxdevweb.onrender.com/kfsite/kffetchquiz", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setQuesList(JSON.parse(result.data));
-        console.log(JSON.parse(result.data));
-        setGame(1);
-        setLoad(false);
+        Swal.fire({
+          title: "Game will be started",
+          html: lang == 'th' ? "เกมส์กำลังจะเริ่มในอีก <b></b> วินาที":"Please wait in <b></b> seconds.",
+          timer: 6000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+            const timer = Swal.getPopup().querySelector("b");
+            timer.textContent = `5`;
+            timerInterval = setInterval(() => {
+              timer.textContent = `${Math.floor(Swal.getTimerLeft() / 1000)}`;
+            }, 1000);
+          },
+          allowOutsideClick: () => !Swal.isLoading(),
+          willClose: () => {
+            clearInterval(timerInterval);
+          }
+        }).then((r) => {
+          /* Read more about handling dismissals below */
+          if (r.dismiss === Swal.DismissReason.timer) {
+            setQuesList(JSON.parse(result.data));
+            console.log(JSON.parse(result.data));
+            setGame(1);
+            setLoad(false);
+          }
+        });
       })
       .catch((error) => console.log("error", error));
   };
@@ -127,8 +153,8 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
     return (
       <div
         className="d-flex justify-content-center"
-        style={{ marginBottom: 150 }}>
-        <Card sx={{ marginTop: "15vh", width: { xs: "100%", md: "70%" } }}>
+        style={{ marginBottom: 100 }}>
+        <Card sx={{ marginTop: "15vh", width: { xs: "90%", md: "70%" } }}>
           <CardContent>
             <CardHeader
               title="Quiz Game"
@@ -201,8 +227,8 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
     return (
       <div
         className="d-flex justify-content-center"
-        style={{ marginBottom: 150 }}>
-        <Card sx={{ marginTop: "30vh", width: { xs: "100%", md: "70%" } }}>
+        style={{ marginBottom: 100 }}>
+        <Card sx={{ marginTop: "30vh", width: { xs: "90%", md: "70%" } }}>
           <CardContent>
             <CardHeader
               title="Result"
@@ -217,15 +243,15 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                 <Typography className="ml-3">
                   {lang == "th"
                     ? "คะแนนเฉลี่ยจากผู้เล่นทั่วโลก " +
-                    aver.average +
-                    " คะแนนจากทั้งหมด " +
-                    aver.fromAll +
-                    " คะแนน"
+                      aver.average +
+                      " คะแนนจากทั้งหมด " +
+                      aver.fromAll +
+                      " คะแนน"
                     : "Average scores from worldwide are " +
-                    aver.average +
-                    " points from all " +
-                    aver.fromAll +
-                    " points."}
+                      aver.average +
+                      " points from all " +
+                      aver.fromAll +
+                      " points."}
                 </Typography>
               </>
             ) : (
@@ -244,13 +270,15 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
     );
   }
   return (
-    <div className="d-flex justify-content-center" style={{ marginBottom: 150 }}>
+    <div
+      className="d-flex justify-content-center"
+      style={{ marginBottom: 100 }}>
       {quesList.map(
         (item, i) =>
           i === ques && (
             <Card
               key={item.quizId}
-              sx={{ marginTop: "5vh", width: { xs: "100%", md: "70%" } }}>
+              sx={{ marginTop: "5vh", width: { xs: "90%", md: "70%" } }}>
               <CardContent>
                 <CardHeader
                   title={item.question[lang]}
@@ -271,10 +299,16 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                       key={item.quizId + choice.choiceId}
                       className={
                         checked && item.key === choice.choiceId
-                          ? "text-success" + (choice.choiceId == selected ? ' bgSelectedquiz' : '')
+                          ? "text-success" +
+                            (choice.choiceId == selected
+                              ? " bgSelectedquiz"
+                              : " shake")
                           : checked && item.key !== choice.choiceId
-                            ? "text-danger" + (choice.choiceId == selected ? ' bgSelectedquiz' : '')
-                            : ""
+                          ? "text-danger" +
+                            (choice.choiceId == selected
+                              ? " bgSelectedquiz"
+                              : "")
+                          : ""
                       }>
                       <ListItemText
                         primary={ix + 1 + ". " + choice.choiceName[lang]}
