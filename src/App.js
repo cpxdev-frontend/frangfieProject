@@ -8,6 +8,7 @@ import {
   Menu,
   Card,
   Container,
+  Divider,
   Avatar,
   Button,
   MenuItem,
@@ -18,6 +19,9 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  FormControlLabel,
+  Switch,
+  Fab
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AOS from "aos";
@@ -91,9 +95,18 @@ const langList = [
 function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [leftmode, setLeftMode] = React.useState(localStorage.getItem('left') != null);
   const location = useLocation();
 
   const [unlock, setUnlock] = React.useState(null);
+
+  React.useEffect(() => {
+    if (leftmode) {
+      localStorage.setItem('left', '')
+    } else {
+      localStorage.removeItem('left')
+    }
+  }, [leftmode])
 
   React.useEffect(() => {
     AOS.init({ duration: 800 });
@@ -105,7 +118,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
           result.unixtime >= 1731603600 ||
           (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
             localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-              "56f006fb7a76776e1e08eac264bd491aa1a066a1")
+            "56f006fb7a76776e1e08eac264bd491aa1a066a1")
         ) {
           setUnlock(true);
         } else {
@@ -154,7 +167,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
           device screen.
         </h5>
       </div>
-      <Slide direction="down" in={appbarx}>
+      <Slide direction="down" in={appbarx} sx={{ display: { xs: 'none', md: 'initial' } }}>
         <AppBar
           position="fixed"
           sx={{ borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}>
@@ -217,6 +230,25 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
                         </Typography>
                       </MenuItem>
                     ))}
+                    <Box sx={{ display: { xs: 'initial', md: 'none' } }}>
+                      <Divider className="border border-secondary mb-3 mt-2" />
+                      <TextField
+                        select
+                        label="Change Language"
+                        value={lang}
+                        variant="filled"
+                        onChange={(e) => setLang(e.target.value)}
+                        sx={{ width: 180,display: window.location.pathname == '/' ? 'none' : 'block' }}
+                        fullWidth={true}>
+                        {langList.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+
+                      <FormControlLabel onChange={() => setLeftMode(!leftmode)} control={<Switch checked={leftmode} />} label={lang == 'th' ? 'โหมดใช้งานข้างซ้าย' : 'Left Hand mode'} />
+                    </Box>
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={handleCloseNavMenu}>
@@ -362,6 +394,17 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
           </small>
         </Card>
       </footer>
+      {
+        appbarx && (
+          <Fab color="primary" sx={leftmode ? { display: { xs: 'initial', md: 'none', bottom: 100, left: 8, position: 'fixed', zIndex: 1300 } } : { display: { xs: 'initial', md: 'none', bottom: 100, right: 8, position: 'fixed', zIndex: 1300 } }} onClick={handleOpenNavMenu}>
+            <Avatar
+              sx={{ width: 55, height: 55 }}
+              alt="kaofrangicon"
+              src="https://pbs.twimg.com/profile_images/1775717193298354176/9GyCNMZW_400x400.jpg"
+            />
+          </Fab>
+        )
+      }
     </div>
   );
 }

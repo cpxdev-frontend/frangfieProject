@@ -51,7 +51,7 @@ const Follow = ({currentPage, lang, setLang, setPage, launch}) => {
         setPage(lang == 'th' ? 'ติดตามข้าวฟ่าง' : 'Follow Kaofrang')
       }, [])
 
-    return ( <div style={{marginTop: 80, marginBottom: 150}}>
+    return ( <Box sx={{marginTop: {xs: 0, md:13}, marginBottom: 15}}>
         <CardHeader title={<h3>Follow Kaofrang</h3>} subheader={lang == 'th' ? 'ติดตามความเคลื่อนไหวของน้องข้าวฟ่างได้ตามด้านล่างนี้เลย' : "Follow Kaofrang Yanisa or Kaofrang BNK48 to see her update below."} />
         <div className='container mt-3 d-flex justify-content-center'>
         <List sx={{ width: '100%', maxWidth: 600, bgcolor: 'background.paper' }}>
@@ -97,7 +97,7 @@ const Follow = ({currentPage, lang, setLang, setPage, launch}) => {
             </ListItemButton>
             </List>
         </div>
-    </div> );
+    </Box> );
 }
  
 const mapStateToProps = (state) => ({

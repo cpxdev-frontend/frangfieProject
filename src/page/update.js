@@ -111,7 +111,7 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
   }, []);
 
   return (
-    <div style={{ marginTop: 80, marginBottom: 150 }}>
+    <Box sx={{ marginTop: {xs: 0, md:13}, marginBottom: 15 }}>
       {data != null && data[0].postId.includes("facebook.com") ? (
         <CardHeader
           title={<h3>More update of Kaofrang</h3>}
@@ -212,7 +212,7 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
           </div>
         )}
       </div>
-    </div>
+    </Box>
   );
 };
 

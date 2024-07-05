@@ -65,7 +65,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
   }, []);
 
   return (
-    <div style={{ marginTop: 80, marginBottom: 150 }}>
+    <Box sx={{ marginTop: {xs: 0, md:80}, marginBottom: 15 }}>
       <CardHeader
         title={<h3>Discography and Acting of Kaofrang</h3>}
         subheader={
@@ -318,7 +318,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
           </Card>
         )}
       </div>
-    </div>
+    </Box>
   );
 };
 

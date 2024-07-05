@@ -114,7 +114,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
   }, []);
 
   return (
-    <div style={{ marginTop: 80, marginBottom: 150 }}>
+    <Box sx={{ marginTop: {xs: 0, md:13}, marginBottom: 15 }}>
       <CardHeader
         title={<h3>All about Kaofrang</h3>}
         subheader={
@@ -782,7 +782,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
           </Grid>
         )}
       </div>
-    </div>
+    </Box>
   );
 };
 

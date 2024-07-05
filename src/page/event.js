@@ -133,7 +133,7 @@ React.useEffect(() => {
             .catch(error => console.log('error', error));
       }, [])
 
-    return ( <div style={{marginTop: 80, marginBottom: 150}}>
+    return ( <Box sx={{marginTop: {xs: 0, md:13}, marginBottom: 15}}>
         <CardHeader title={<h3>Incoming Events of Kaofrang</h3>} subheader={lang == 'th' ? 'เร็วๆนี้น้องข้าวฟ่างมีงานอะไรให้เราตามบ้าง ไปดูกัน!' : "See all Kaofrang Yanisa or Kaofrang BNK48 events here."} />
         <div className='container mt-3'>
         {data != null ? (
@@ -249,7 +249,7 @@ React.useEffect(() => {
             </Button>
           </DialogActions>
         </Dialog>
-    </div> );
+    </Box> );
 }
  
 const mapStateToProps = (state) => ({
