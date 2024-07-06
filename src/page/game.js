@@ -83,7 +83,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                   Swal.hideLoading();
                 }, 6000);
               },
-              allowOutsideClick: !Swal.isLoading()
+              allowOutsideClick: false
             }).then((r) => {
               clearInterval(timerInterval);
               setQuesList(JSON.parse(result.data));
@@ -176,7 +176,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                 Swal.hideLoading();
               }, 3000);
             },
-            allowOutsideClick: () => !Swal.isLoading()
+            allowOutsideClick: () => false
           }).then((r) => {
             clearInterval(timerInterval);
             setStatperques(0);
