@@ -80,7 +80,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
               didOpen: () => {
                 Swal.showLoading();
                 timerInterval = setTimeout(() => {
-                  clearInterval(timerInterval);
+                  Swal.hideLoading();
                 }, 6000);
               },
               allowOutsideClick: !Swal.isLoading()
