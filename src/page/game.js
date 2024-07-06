@@ -73,8 +73,8 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
           if (JSON.parse(result.data)[0].img != undefined) {
             Swal.fire({
               title: "Game will be started",
-              html: lang == 'th' ? "เกมส์กำลังจะเริ่มในอีกไม่ช้า":"Please wait in a few seconds.",
-              footer: lang == 'th' ? "คำเตือน: คำถามแรก เกี่ยวข้องกับภาพนี้":"Warning: The first question concerns this image.",
+              html: lang == 'th' ? "เกมส์กำลังจะเริ่มในอีกไม่ช้า" : "Please wait in a few seconds.",
+              footer: lang == 'th' ? "คำเตือน: คำถามแรก เกี่ยวข้องกับภาพนี้" : "Warning: The first question concerns this image.",
               imageUrl: JSON.parse(result.data)[0].img,
               timerProgressBar: true,
               didOpen: () => {
@@ -83,21 +83,18 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                   clearInterval(timerInterval);
                 }, 6000);
               },
-              allowOutsideClick: false
+              allowOutsideClick: !Swal.isLoading()
             }).then((r) => {
-              /* Read more about handling dismissals below */
-              if (r.isConfirmed) {
-                clearInterval(timerInterval);
-                setQuesList(JSON.parse(result.data));
-                console.log(JSON.parse(result.data));
-                setGame(1);
-                setLoad(false);
-              }
+              clearInterval(timerInterval);
+              setQuesList(JSON.parse(result.data));
+              console.log(JSON.parse(result.data));
+              setGame(1);
+              setLoad(false);
             });
           } else {
             Swal.fire({
               title: "Game will be started",
-              html: lang == 'th' ? "เกมส์กำลังจะเริ่มในอีก <b></b> วินาที":"Please wait in <b></b> seconds.",
+              html: lang == 'th' ? "เกมส์กำลังจะเริ่มในอีก <b></b> วินาที" : "Please wait in <b></b> seconds.",
               timer: 6000,
               timerProgressBar: true,
               didOpen: () => {
@@ -156,7 +153,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
       })
         .then((response) => response.json())
         .then((result) => {
-          setAver(result);  setTimeout(() => {
+          setAver(result); setTimeout(() => {
             setStatperques(0);
             setQuesList([]);
             setCheck(false);
@@ -170,7 +167,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
       setTimeout(() => {
         if (quesList[ques + 1].img != undefined) {
           Swal.fire({
-            footer: lang == 'th' ? "คำเตือน: คำถามต่อไป เกี่ยวข้องกับภาพนี้":"Warning: The next question concerns this image.",
+            footer: lang == 'th' ? "คำเตือน: คำถามต่อไป เกี่ยวข้องกับภาพนี้" : "Warning: The next question concerns this image.",
             imageUrl: quesList[ques + 1].img,
             timerProgressBar: true,
             didOpen: () => {
@@ -181,14 +178,11 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
             },
             allowOutsideClick: () => !Swal.isLoading()
           }).then((r) => {
-            /* Read more about handling dismissals below */
-            if (r.isConfirmed) {
-              clearInterval(timerInterval);
-              setStatperques(0);
-              setCheck(false);
-              setQues((x) => (x = x + 1));
-              setSelected(0);
-            }
+            clearInterval(timerInterval);
+            setStatperques(0);
+            setCheck(false);
+            setQues((x) => (x = x + 1));
+            setSelected(0);
           });
         } else {
           setStatperques(0);
@@ -294,15 +288,15 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                 <Typography className="ml-3">
                   {lang == "th"
                     ? "คะแนนเฉลี่ยจากผู้เล่นทั่วโลก " +
-                      aver.average +
-                      " คะแนนจากทั้งหมด " +
-                      aver.fromAll +
-                      " คะแนน"
+                    aver.average +
+                    " คะแนนจากทั้งหมด " +
+                    aver.fromAll +
+                    " คะแนน"
                     : "Average scores from worldwide are " +
-                      aver.average +
-                      " points from all " +
-                      aver.fromAll +
-                      " points."}
+                    aver.average +
+                    " points from all " +
+                    aver.fromAll +
+                    " points."}
                 </Typography>
               </>
             ) : (
@@ -351,15 +345,15 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                       className={
                         checked && item.key === choice.choiceId
                           ? "text-success" +
-                            (choice.choiceId == selected
-                              ? " bgSelectedquiz"
-                              : " shake")
+                          (choice.choiceId == selected
+                            ? " bgSelectedquiz"
+                            : " shake")
                           : checked && item.key !== choice.choiceId
-                          ? "text-danger" +
+                            ? "text-danger" +
                             (choice.choiceId == selected
                               ? " bgSelectedquiz"
                               : "")
-                          : ""
+                            : ""
                       }>
                       <ListItemText
                         primary={ix + 1 + ". " + choice.choiceName[lang]}
