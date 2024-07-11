@@ -70,8 +70,10 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
       .then((response) => response.json())
       .then((result) => {
         if (result.status) {
-          navigator.vibrate([100,900,100,900,100,900,100,900,100,900,700])
           if (JSON.parse(result.data)[0].img != undefined) {
+            if (!isIOS()) {
+              navigator.vibrate([100,900,100,900,100,900,100,900,100])
+            }
             Swal.fire({
               title: "Game will be started",
               html: lang == 'th' ? "เกมส์กำลังจะเริ่มในอีกไม่ช้า" : "Please wait in a few seconds.",
@@ -87,12 +89,18 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
               allowOutsideClick: false
             }).then((r) => {
               clearInterval(timerInterval);
+              if (!isIOS()) {
+                navigator.vibrate(800)
+              }
               setQuesList(JSON.parse(result.data));
               console.log(JSON.parse(result.data));
               setGame(1);
               setLoad(false);
             });
           } else {
+            if (!isIOS()) {
+              navigator.vibrate([100,900,100,900,100,900,100,900,100,900,800])
+            }
             Swal.fire({
               title: "Game will be started",
               html: lang == 'th' ? "เกมส์กำลังจะเริ่มในอีก <b></b> วินาที" : "Please wait in <b></b> seconds.",
@@ -167,6 +175,9 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
     } else {
       setTimeout(() => {
         if (quesList[ques + 1].img != undefined) {
+          if (!isIOS()) {
+            navigator.vibrate([100,200,100])
+          }
           Swal.fire({
             footer: lang == 'th' ? "คำเตือน: คำถามต่อไป เกี่ยวข้องกับภาพนี้" : "Warning: The next question concerns this image.",
             imageUrl: quesList[ques + 1].img,
