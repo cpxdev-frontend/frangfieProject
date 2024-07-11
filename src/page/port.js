@@ -14,20 +14,34 @@ import {
   Typography,
   CardMedia,
   List,
+  Dialog,
   ListItem,
   Chip,
+  Slide,
   Skeleton,
+  AppBar,
+  Toolbar,
+  IconButton,
   CardActionArea,
+  Divider,
+  DialogContent,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 import moment from "moment";
 import { Carousel as MobileCarousel } from "react-responsive-carousel";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const Discography = ({ currentPage, lang, setLang, setPage }) => {
   const [width, setRealwidth] = React.useState(window.innerWidth);
   const [data1, setData1] = React.useState(null);
   const [data2, setData2] = React.useState(null);
   const [ix, setIx] = React.useState(0);
+
+  const [clip, setClip] = React.useState(null);
 
   React.useEffect(() => {
     var requestOptions = {
@@ -65,7 +79,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
   }, []);
 
   return (
-    <Box sx={{ marginTop: {xs: 0, md:80}, marginBottom: 15 }}>
+    <Box sx={{ marginTop: { xs: 0, md: 80 }, marginBottom: 15 }}>
       <CardHeader
         title={<h3>Discography and Acting of Kaofrang</h3>}
         subheader={
@@ -203,20 +217,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                 key={item.snippet.resourceId.videoId}>
                 <Grid xs={12}>
                   <CardMedia
-                    sx={{
-                      display: { xs: "none", md: "block" },
-                      width: "100%",
-                      height: 400,
-                    }}
-                    component="iframe"
-                    image={
-                      "https://youtube.com/embed/" +
-                      item.snippet.resourceId.videoId
-                    }
-                    alt={item.snippet.title}
-                  />
-                  <CardMedia
-                    sx={{ display: { xs: "block", md: "none" }, width: "100%" }}
+                    sx={{ width: "100%" }}
                     component="img"
                     image={item.snippet.thumbnails.maxres.url}
                     alt={item.snippet.title}
@@ -235,32 +236,16 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                       {item.snippet.videoOwnerChannelTitle}
                     </small>
                     <hr />
-                    <Typography
-                      variant="p"
-                      color="text.primary"
-                      className="mt-2"
-                      dangerouslySetInnerHTML={{
-                        __html:
-                          (lang == "th" ? "รายละเอียด: " : "Description: ") +
-                          item.snippet.description.replace(/\n/g, "<br />"),
-                      }}></Typography>
                     <CardActionArea className="mt-5">
                       <Button
-                        sx={{ display: { xs: "block", md: "none" } }}
                         variant="outlined"
-                        className="text-success border-success"
-                        onClick={() =>
-                          window.open(
-                            "https://youtube.com/watch?v=" +
-                              item.snippet.resourceId.videoId,
-                            "_blank"
-                          )
-                        }>
-                        {lang == "th" ? "รับชมบนยูทูป" : "View on Youtube"}
+                        className="text-success border-success m-1"
+                        onClick={() => setClip(item)}>
+                        {lang == "th" ? "รับชมคลิป" : "View Content"}
                       </Button>
                       <Button
                         variant="outlined"
-                        className="text-primary border-primary mt-2"
+                        className="text-primary border-primary m-1"
                         onClick={() =>
                           window.open(
                             "https://youtube.com/channel/" +
@@ -318,6 +303,50 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
           </Card>
         )}
       </div>
+      <Dialog fullScreen open={clip != null} TransitionComponent={Transition}>
+        {clip != null && (
+          <>
+            <AppBar sx={{ position: "relative" }}>
+              <Toolbar>
+                <CardHeader sx={{ flex: 1,paddingTop: 2 }} title={<h5>{clip.snippet.title}</h5>} subheader={<small>{lang == "th" ? "อัปโหลดโดย " : "Uploaded by "}{" "}
+                {clip.snippet.videoOwnerChannelTitle}</small>} />
+                <IconButton
+                  edge="end"
+                  color="inherit"
+                  onClick={() => setClip(null)}
+                  aria-label="close">
+                  <CloseIcon />
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+            <DialogContent>
+              <CardMedia
+                sx={{
+                  width: "100%",
+                  height: 400,
+                }}
+                component="iframe"
+                image={
+                  "https://youtube.com/embed/" + clip.snippet.resourceId.videoId
+                }
+                alt={"clip-" + clip.snippet.title}
+              />
+              <Divider />
+              <Card component={CardContent} className="mt-3">
+                <Typography
+                  variant="p"
+                  color="text.primary"
+                  className="mt-2"
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      (lang == "th" ? "รายละเอียด: " : "Description: ") +
+                      clip.snippet.description.replace(/\n/g, "<br />"),
+                  }}></Typography>
+              </Card>
+            </DialogContent>
+          </>
+        )}
+      </Dialog>
     </Box>
   );
 };
