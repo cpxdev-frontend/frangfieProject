@@ -79,7 +79,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
   }, []);
 
   return (
-    <Box sx={{ marginTop: { xs: 0, md: 80 }, marginBottom: 15 }}>
+    <Box sx={{ marginTop: { xs: 0, md: 15 }, marginBottom: 15 }}>
       <CardHeader
         title={<h3>Discography and Acting of Kaofrang</h3>}
         subheader={
@@ -336,7 +336,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                 <Typography
                   variant="p"
                   color="text.primary"
-                  className="mt-2"
+                  className="mt-2 text-break"
                   dangerouslySetInnerHTML={{
                     __html:
                       (lang == "th" ? "รายละเอียด: " : "Description: ") +
