@@ -149,6 +149,9 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
       setStatperques(2);
     }
     if (ques == quesList.length - 1) {
+      if (!isIOS()) {
+        navigator.vibrate([600,100,600,100,600])
+      }
       fetch("https://cpxdevweb.onrender.com/kfsite/kfkeep", {
         method: "put",
         headers: {
@@ -197,6 +200,9 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
             setSelected(0);
           });
         } else {
+          if (!isIOS()) {
+            navigator.vibrate(100)
+          }
           setStatperques(0);
           setCheck(false);
           setQues((x) => (x = x + 1));
@@ -253,8 +259,8 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                 <ListItemText
                   primary={
                     lang == "th"
-                      ? "4. หลังเกมจบ คุณสามารถเข้ามาเล่นซ้ำได้ แต่คำถามจะถูกเปลี่ยนสลับกันไปโดยไม่ซ้ำลำดับกัน"
-                      : "4. After the game ends, you can come and play again. But the questions will be rotated in no repeating order."
+                      ? "4. สำหรับผู้ใช้งาน Android ทางผู้พัฒนาได้พัฒนาระบบคำสั่งสั่นที่ตัวอุปกรณ์เพื่อเพิ่มอรรถรสในการเล่น"
+                      : "4. We use vibration on your device for Android device to increase the enjoyment of playing the game."
                   }
                 />
               </ListItem>
@@ -262,8 +268,17 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                 <ListItemText
                   primary={
                     lang == "th"
-                      ? "5. แคปหน้าจอและะแชร์คะแนนไปที่กลุ่มเฟสบุ๊คหรือ LINE Square ของข้าวฟ่างด้วยนะ"
-                      : "5. Take your scores and share to Kaofrang Facebook group or LINE Square."
+                      ? "5. หลังเกมจบ คุณสามารถเข้ามาเล่นซ้ำได้ แต่คำถามจะถูกเปลี่ยนสลับกันไปโดยไม่ซ้ำลำดับกัน"
+                      : "5. After the game ends, you can come and play again. But the questions will be rotated in no repeating order."
+                  }
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary={
+                    lang == "th"
+                      ? "6. แคปหน้าจอและแชร์คะแนนไปที่กลุ่มเฟสบุ๊คหรือ LINE Square ของข้าวฟ่างด้วยนะ"
+                      : "6. Take your scores and share to Kaofrang Facebook group or LINE Square."
                   }
                 />
               </ListItem>
