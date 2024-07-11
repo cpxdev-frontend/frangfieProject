@@ -70,6 +70,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
       .then((response) => response.json())
       .then((result) => {
         if (result.status) {
+          navigator.vibrate([100,900,100,900,100,900,100,900,100,900,700])
           if (JSON.parse(result.data)[0].img != undefined) {
             Swal.fire({
               title: "Game will be started",
