@@ -70,64 +70,59 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
       .then((response) => response.json())
       .then((result) => {
         if (result.status) {
-          if (JSON.parse(result.data)[0].img != undefined) {
-            if (!isIOS()) {
-              navigator.vibrate([100,900,100,900,100,900,100,900,100])
-            }
-            Swal.fire({
-              title: "Game will be started",
-              html: lang == 'th' ? "เกมส์กำลังจะเริ่มในอีกไม่ช้า" : "Please wait in a few seconds.",
-              footer: lang == 'th' ? "คำเตือน: คำถามแรก เกี่ยวข้องกับภาพนี้" : "Warning: The first question concerns this image.",
-              imageUrl: JSON.parse(result.data)[0].img,
-              timerProgressBar: true,
-              didOpen: () => {
-                Swal.showLoading();
-                timerInterval = setTimeout(() => {
-                  Swal.hideLoading();
-                }, 6000);
-              },
-              allowOutsideClick: false
-            }).then((r) => {
+          if (!isIOS()) {
+            navigator.vibrate([100,900,100,900,100,900,100,900,100,900,800])
+          }
+          Swal.fire({
+            title: "Game will be started",
+            html: lang == 'th' ? "เกมส์กำลังจะเริ่มในอีก <b></b> วินาที" : "Please wait in <b></b> seconds.",
+            timer: 6000,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading();
+              const timer = Swal.getPopup().querySelector("b");
+              timer.textContent = `5`;
+              timerInterval = setInterval(() => {
+                timer.textContent = `${Math.floor(Swal.getTimerLeft() / 1000)}`;
+              }, 1000);
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+            willClose: () => {
               clearInterval(timerInterval);
-              if (!isIOS()) {
-                navigator.vibrate(800)
-              }
-              setQuesList(JSON.parse(result.data));
-              console.log(JSON.parse(result.data));
-              setGame(1);
-              setLoad(false);
-            });
-          } else {
-            if (!isIOS()) {
-              navigator.vibrate([100,900,100,900,100,900,100,900,100,900,800])
             }
-            Swal.fire({
-              title: "Game will be started",
-              html: lang == 'th' ? "เกมส์กำลังจะเริ่มในอีก <b></b> วินาที" : "Please wait in <b></b> seconds.",
-              timer: 6000,
-              timerProgressBar: true,
-              didOpen: () => {
-                Swal.showLoading();
-                const timer = Swal.getPopup().querySelector("b");
-                timer.textContent = `5`;
-                timerInterval = setInterval(() => {
-                  timer.textContent = `${Math.floor(Swal.getTimerLeft() / 1000)}`;
-                }, 1000);
-              },
-              allowOutsideClick: () => !Swal.isLoading(),
-              willClose: () => {
-                clearInterval(timerInterval);
-              }
-            }).then((r) => {
-              /* Read more about handling dismissals below */
-              if (r.dismiss === Swal.DismissReason.timer) {
+          }).then((r) => {
+            /* Read more about handling dismissals below */
+            if (r.dismiss === Swal.DismissReason.timer) {
+              if (JSON.parse(result.data)[0].img != undefined) {
+                if (!isIOS()) {
+                  navigator.vibrate([100,200,100])
+                }
+                Swal.fire({
+                  footer: lang == 'th' ? "คำเตือน: คำถามข้อแรก เกี่ยวข้องกับภาพนี้" : "Warning: The first question concerns this image.",
+                  imageUrl: quesList[0].img,
+                  timerProgressBar: true,
+                  didOpen: () => {
+                    Swal.showLoading();
+                    timerInterval = setTimeout(() => {
+                      Swal.hideLoading();
+                    }, 3000);
+                  },
+                  allowOutsideClick: () => false
+                }).then((r) => {
+                  clearInterval(timerInterval);
+                  setQuesList(JSON.parse(result.data));
+                  console.log(JSON.parse(result.data));
+                  setGame(1);
+                  setLoad(false);
+                });
+              } else {
                 setQuesList(JSON.parse(result.data));
                 console.log(JSON.parse(result.data));
                 setGame(1);
                 setLoad(false);
               }
-            });
-          }
+            }
+          });
         }
       })
       .catch((error) => console.log("error", error));
