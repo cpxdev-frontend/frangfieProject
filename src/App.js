@@ -44,6 +44,7 @@ import {
 import "moment/locale/th"; // without this line it didn't work
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 import Home from "./page/home";
 import About from "./page/about";
@@ -91,12 +92,47 @@ const langList = [
     label: "English",
   },
 ];
-
+let scrollmot = false;
 function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [leftmode, setLeftMode] = React.useState(localStorage.getItem('left') != null);
   const location = useLocation();
+  const [opacity, setOpacity] = React.useState(1); // เริ่มต้น opacity เต็ม
+  const scrollRef = React.useRef(null); // เก็บ reference ของ element ที่ scroll
+  
+  function debounce(func, wait) {
+    let timeout;
+    return function() {
+      if (window.innerWidth < 800) {
+        scrollmot = (true)
+        setOpacity(0.3); // ตั้งค่า opacity ต่ำเมื่อ scroll
+  
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          func.apply(context, args);
+        }, wait);
+      }
+    };
+  }
+  
+  const handleScroll = () => {
+    scrollmot = (false)
+    setTimeout(() => {
+      if (scrollmot == false) {
+        setOpacity(1); // แสดงปุ่มปกติหลัง 5 วินาที
+      }
+    }, 3000);
+  };
+  
+  
+  React.useEffect(() => {
+    window.addEventListener('scroll', debounce(handleScroll, 200));
+  }, []);
+
+
 
   const [unlock, setUnlock] = React.useState(null);
 
@@ -158,7 +194,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
   };
 
   return (
-    <div>
+    <div ref={scrollRef}>
       <div
         id="blockwhenland"
         className="d-flex justify-content-center align-items-center text-center">
@@ -396,12 +432,18 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
       </footer>
       {
         appbarx && (
-          <Fab color="primary" sx={leftmode ? { display: { xs: 'initial', md: 'none', bottom: 100, left: 8, position: 'fixed', zIndex: 1300 } } : { display: { xs: 'initial', md: 'none', bottom: 100, right: 8, position: 'fixed', zIndex: 1300 } }} onClick={handleOpenNavMenu}>
-            <Avatar
+          <Fab color="primary" sx={leftmode ? { display: { xs: 'initial', md: 'none', bottom: 100, left: 8, position: 'fixed', zIndex: 1300, opacity: opacity } } : { display: { xs: 'initial', md: 'none', bottom: 100, right: 8, position: 'fixed', zIndex: 1300, opacity: opacity } }} onClick={handleOpenNavMenu}>
+           {
+            anchorElNav ? (
+<Avatar
               sx={{ width: 55, height: 55 }}
               alt="kaofrangicon"
               src="https://pbs.twimg.com/profile_images/1775717193298354176/9GyCNMZW_400x400.jpg"
             />
+            ) : (
+              <MenuOpenIcon />
+            )
+           }
           </Fab>
         )
       }
