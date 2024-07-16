@@ -99,7 +99,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                 }
                 Swal.fire({
                   footer: lang == 'th' ? "คำเตือน: คำถามข้อแรก เกี่ยวข้องกับภาพนี้" : "Warning: The first question concerns this image.",
-                  imageUrl: quesList[0].img,
+                  imageUrl: JSON.parse(result.data)[0].img,
                   timerProgressBar: true,
                   didOpen: () => {
                     Swal.showLoading();
