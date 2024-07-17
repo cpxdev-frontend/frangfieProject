@@ -387,17 +387,18 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
             path="/"
             render={() => (
               <Home
+                data-aos="fade-in"
                 setMenu={(v) => setAnchorElNav(v)}
                 setLangMod={() => setAnchorElUser(true)}
               />
             )}
           />
-          <Route path="/aboutkf" render={() => <About />} />
-          <Route path="/discography" render={() => <Disco />} />
-          <Route path="/events" render={() => <Event />} />
-          <Route path="/feeds" render={() => <Feed />} />
-          <Route path="/quizgame" render={() => <Game />} />
-          <Route path="/follow" render={() => <Follow />} />
+          <Route data-aos="fade-in" path="/aboutkf" render={() => <About />} />
+          <Route data-aos="fade-in" path="/discography" render={() => <Disco />} />
+          <Route data-aos="fade-in" path="/events" render={() => <Event />} />
+          <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
+          <Route data-aos="fade-in" path="/quizgame" render={() => <Game />} />
+          <Route data-aos="fade-in" path="/follow" render={() => <Follow />} />
         </BasicSwitch>
       ) : (
         <BasicSwitch>
@@ -405,6 +406,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
             exact
             render={() => (
               <Home
+                data-aos="fade-in"
                 setMenu={(v) => setAnchorElNav(v)}
                 setLangMod={() => setAnchorElUser(true)}
               />

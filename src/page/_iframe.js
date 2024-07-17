@@ -21,6 +21,7 @@ if (item.postId.includes('facebook.com')) {
       <iframe
         onLoad={() => setLoad(false)}
         src={"https://instagram.com/p/" + item.postId + "/embed"}
+        data-aos="zoom-in-down"
         ref={ref}
         width="100%"
         style={{
@@ -30,6 +31,7 @@ if (item.postId.includes('facebook.com')) {
           border: "none",
         }}></iframe>
       <div
+         data-aos="fade-in"
         style={{
           display: load ? "flex" : "none",
           height: 500,

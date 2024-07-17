@@ -50,6 +50,8 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
   const [checked, setCheck] = React.useState(false);
   const [startLoad, setLoad] = React.useState(false);
 
+  const [readyans, setAns] = React.useState(false);
+
   const [aver, setAver] = React.useState(null);
   React.useEffect(() => {
     setPage(lang == "th" ? "มินิเกมส์" : "Quiz Game");
@@ -114,12 +116,20 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                   console.log(JSON.parse(result.data));
                   setGame(1);
                   setLoad(false);
+                  setAns(false)
+                  setTimeout(() => {
+                    setAns(true)
+                  }, 3800);
                 });
               } else {
                 setQuesList(JSON.parse(result.data));
                 console.log(JSON.parse(result.data));
                 setGame(1);
                 setLoad(false);
+                setAns(false)
+                setTimeout(() => {
+                  setAns(true)
+                }, 3800);
               }
             }
           });
@@ -129,7 +139,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
   };
 
   const SelectGame = (key, select) => {
-    if (checked) {
+    if (checked || readyans == false) {
       return;
     }
     setSelected(select);
@@ -160,7 +170,8 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
       })
         .then((response) => response.json())
         .then((result) => {
-          setAver(result); setTimeout(() => {
+          setAver(result); 
+          setTimeout(() => {
             setStatperques(0);
             setQuesList([]);
             setCheck(false);
@@ -193,6 +204,10 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
             setCheck(false);
             setQues((x) => (x = x + 1));
             setSelected(0);
+            setAns(false)
+            setTimeout(() => {
+              setAns(true)
+            }, 3800);
           });
         } else {
           if (!isIOS()) {
@@ -202,6 +217,10 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
           setCheck(false);
           setQues((x) => (x = x + 1));
           setSelected(0);
+          setAns(false)
+          setTimeout(() => {
+            setAns(true)
+          }, 3800);
         }
       }, 6000);
     }
@@ -210,6 +229,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
   if (gamemeet == 0) {
     return (
       <div
+        data-aos="fade-in"
         className="d-flex justify-content-center"
         style={{ marginBottom: 100 }}>
         <Card sx={{ marginTop: "15vh", width: { xs: "90%", md: "70%" } }}>
@@ -299,6 +319,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
           <CardContent>
             <CardHeader
               title="Result"
+              data-aos="fade-right"
               subheader={
                 lang == "th"
                   ? "คุณตอบคำถามถูกไป " + correct + " ข้อ (คะแนน)"
@@ -307,7 +328,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
             />
             {aver != null ? (
               <>
-                <Typography className="ml-3">
+                <Typography className="ml-3" data-aos="zoom-in-down">
                   {lang == "th"
                     ? "คะแนนเฉลี่ยจากผู้เล่นทั่วโลก " +
                     aver.average +
@@ -344,6 +365,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
         (item, i) =>
           i === ques && (
             <Card
+             data-aos="fade-in"
               key={item.quizId}
               sx={{ marginTop: "5vh", width: { xs: "90%", md: "70%" } }}>
               <CardContent>
@@ -362,6 +384,8 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                       sx={{
                         borderRadius: "10px",
                       }}
+                      data-aos="fade-right"
+                      data-aos-delay={ix  == 0 ? 500 : ((500 * (ix + ix))).toString()}
                       onClick={() => SelectGame(item.key, choice.choiceId)}
                       key={item.quizId + choice.choiceId}
                       className={
@@ -384,13 +408,13 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                   ))}
                 </List>
                 {stat === 1 && (
-                  <Typography className="text-info mt-5">
+                  <Typography className="text-info mt-5" data-aos="zoom-in-right">
                     <CheckCircleIcon className="mr-2" />
                     {item.correctMessage[lang].replace(/\\/g, "")}
                   </Typography>
                 )}
                 {stat === 2 && (
-                  <Typography className="text-danger mt-5">
+                  <Typography className="text-danger mt-5" data-aos="zoom-in-right">
                     <CancelIcon className="mr-2" />
                     {item.wrongMessage[lang].replace(/\\/g, "")}
                   </Typography>

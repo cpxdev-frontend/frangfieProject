@@ -17,6 +17,7 @@ import {
   ListItemText,
   Skeleton,
 } from "@mui/material";
+import AOS from 'aos'
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 import getAge from "get-age";
 import moment from "moment";
@@ -125,7 +126,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
       />
       <div className="container mt-3">
         {data != null ? (
-          <>
+          <div data-aos="fade-in">
             <Grid container spacing={5}>
               <Grid item lg={5} xs={12}>
                 <Avatar
@@ -137,7 +138,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                 />
               </Grid>
               <Grid item lg={7} xs={12}>
-                <Grid xs={12}>
+                <Grid xs={12} data-aos="zoom-in-right">
                   <CardHeader
                     className="pl-0"
                     title={
@@ -191,6 +192,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                   <Box sx={{ width: "100%" }}>
                     <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                       <Tabs
+                        data-aos="fade-in"
                         value={value}
                         onChange={handleChange}
                         aria-label="basic tabs example"
@@ -216,7 +218,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                         />
                       </Tabs>
                     </Box>
-                    <CustomTabPanel value={value} index={0}>
+                    <CustomTabPanel value={value} index={0} data-aos="zoom-in-right">
                       <h4>
                         {lang == "th"
                           ? "ข้อมูลด้านการเป็นสมาชิกบีเอ็นเคโฟตี้เอต"
@@ -275,7 +277,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
             <hr />
             <Grid xs={12}>
               <Box sx={{ width: "100%" }}>
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }} data-aos="fade-in">
                   <Tabs
                     value={value2}
                     onChange={handleChange2}
@@ -310,7 +312,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                     />
                   </Tabs>
                 </Box>
-                <CustomTabPanel value={value2} index={0}>
+                <CustomTabPanel value={value2} index={0} data-aos="zoom-in-down">
                   <List component="nav" sx={{ bgcolor: "background.paper" }}>
                     <ListItem>
                       <ListItemText
@@ -699,7 +701,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                 </CustomTabPanel>
               </Box>
             </Grid>
-          </>
+          </div>
         ) : (
           <Grid container spacing={5}>
             <Grid item lg={5} xs={12}>

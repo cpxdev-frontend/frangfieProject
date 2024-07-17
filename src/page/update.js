@@ -135,7 +135,7 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
         {data != null ? (
           <Grid container className="d-flex justify-content-center" spacing={2}>
             {data.map((item, i) => (
-              <Grid item lg={8} xs={12}>
+              <Grid item lg={8} xs={12} data-aos={i %2 == 0 ? "zoom-in-left" : "zoom-in-right"}>
                 <Card key={item.postId} className="mb-3">
                   <CardContent className="col-12">
                     <Iframe item={item} lang={lang} />

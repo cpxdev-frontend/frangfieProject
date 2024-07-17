@@ -99,7 +99,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                   : "All Discography and Single of Kaofrang Yanisa or Kaofrang BNK48 (From Spotify)"
               }
             />
-            <Box className="ml-1">
+            <Box className="ml-1" data-aos="zoom-in-down">
               <MobileCarousel
                 autoPlay
                 centerMode
@@ -211,6 +211,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
             />
             {data2.map((item, i) => (
               <Card
+                data-aos="fade-right"
                 component={Grid}
                 className="mb-3 ml-3 ml-lg-0"
                 container
@@ -321,6 +322,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
             </AppBar>
             <DialogContent>
               <CardMedia
+               data-aos="zoom-in-down"
                 sx={{
                   width: "100%",
                   height: 400,
@@ -334,6 +336,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
               <Divider />
               <Card component={CardContent} className="mt-3">
                 <Typography
+                 data-aos="fade-in"
                   variant="p"
                   color="text.primary"
                   className="mt-2 text-break"
