@@ -21,7 +21,7 @@ import {
   DialogActions,
   FormControlLabel,
   Switch,
-  Fab
+  Fab,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AOS from "aos";
@@ -44,7 +44,7 @@ import {
 import "moment/locale/th"; // without this line it didn't work
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 
 import Home from "./page/home";
 import About from "./page/about";
@@ -96,18 +96,20 @@ let scrollmot = false;
 function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [leftmode, setLeftMode] = React.useState(localStorage.getItem('left') != null);
+  const [leftmode, setLeftMode] = React.useState(
+    localStorage.getItem("left") != null
+  );
   const location = useLocation();
   const [opacity, setOpacity] = React.useState(1); // เริ่มต้น opacity เต็ม
   const scrollRef = React.useRef(null); // เก็บ reference ของ element ที่ scroll
-  
+
   function debounce(func, wait) {
     let timeout;
-    return function() {
+    return function () {
       if (window.innerWidth < 800) {
-        scrollmot = (true)
+        scrollmot = true;
         setOpacity(0.3); // ตั้งค่า opacity ต่ำเมื่อ scroll
-  
+
         const context = this;
         const args = arguments;
         clearTimeout(timeout);
@@ -117,32 +119,29 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
       }
     };
   }
-  
+
   const handleScroll = () => {
-    scrollmot = (false)
+    scrollmot = false;
     setTimeout(() => {
       if (scrollmot == false) {
         setOpacity(1); // แสดงปุ่มปกติหลัง 5 วินาที
       }
     }, 3000);
   };
-  
-  
+
   React.useEffect(() => {
-    window.addEventListener('scroll', debounce(handleScroll, 200));
+    window.addEventListener("scroll", debounce(handleScroll, 200));
   }, []);
-
-
 
   const [unlock, setUnlock] = React.useState(null);
 
   React.useEffect(() => {
     if (leftmode) {
-      localStorage.setItem('left', '')
+      localStorage.setItem("left", "");
     } else {
-      localStorage.removeItem('left')
+      localStorage.removeItem("left");
     }
-  }, [leftmode])
+  }, [leftmode]);
 
   React.useEffect(() => {
     AOS.init({ duration: 800 });
@@ -154,7 +153,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
           result.unixtime >= 1731603600 ||
           (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
             localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-            "56f006fb7a76776e1e08eac264bd491aa1a066a1")
+              "56f006fb7a76776e1e08eac264bd491aa1a066a1")
         ) {
           setUnlock(true);
         } else {
@@ -203,7 +202,10 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
           device screen.
         </h5>
       </div>
-      <Slide direction="down" in={appbarx} sx={{ display: { xs: 'none', md: 'initial' } }}>
+      <Slide
+        direction="down"
+        in={appbarx}
+        sx={{ display: { xs: "none", md: "initial" } }}>
         <AppBar
           position="fixed"
           sx={{ borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}>
@@ -258,7 +260,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
                           sx={{
                             color:
                               location.pathname == "/" + pageSec[i]
-                                ? "#0097fc"
+                                ? "#fb61ee"
                                 : "#000",
                           }}
                           component="p">
@@ -266,7 +268,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
                         </Typography>
                       </MenuItem>
                     ))}
-                    <Box sx={{ display: { xs: 'initial', md: 'none' } }}>
+                    <Box sx={{ display: { xs: "initial", md: "none" } }}>
                       <Divider className="border border-secondary mb-3 mt-2" />
                       <TextField
                         select
@@ -274,7 +276,11 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
                         value={lang}
                         variant="filled"
                         onChange={(e) => setLang(e.target.value)}
-                        sx={{ width: 180,display: window.location.pathname == '/' ? 'none' : 'block' }}
+                        sx={{
+                          width: 180,
+                          display:
+                            window.location.pathname == "/" ? "none" : "block",
+                        }}
                         fullWidth={true}>
                         {langList.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
@@ -283,7 +289,13 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
                         ))}
                       </TextField>
 
-                      <FormControlLabel onChange={() => setLeftMode(!leftmode)} control={<Switch checked={leftmode} />} label={lang == 'th' ? 'โหมดใช้งานข้างซ้าย' : 'Left Hand mode'} />
+                      <FormControlLabel
+                        onChange={() => setLeftMode(!leftmode)}
+                        control={<Switch checked={leftmode} />}
+                        label={
+                          lang == "th" ? "โหมดใช้งานข้างซ้าย" : "Left Hand mode"
+                        }
+                      />
                     </Box>
                   </DialogContent>
                   <DialogActions>
@@ -394,7 +406,11 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
             )}
           />
           <Route data-aos="fade-in" path="/aboutkf" render={() => <About />} />
-          <Route data-aos="fade-in" path="/discography" render={() => <Disco />} />
+          <Route
+            data-aos="fade-in"
+            path="/discography"
+            render={() => <Disco />}
+          />
           <Route data-aos="fade-in" path="/events" render={() => <Event />} />
           <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
           <Route data-aos="fade-in" path="/quizgame" render={() => <Game />} />
@@ -432,23 +448,46 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
           </small>
         </Card>
       </footer>
-      {
-        appbarx && (
-          <Fab color="primary" sx={leftmode ? { display: { xs: 'initial', md: 'none', bottom: 100, left: 8, position: 'fixed', zIndex: 1300, opacity: opacity } } : { display: { xs: 'initial', md: 'none', bottom: 100, right: 8, position: 'fixed', zIndex: 1300, opacity: opacity } }} onClick={handleOpenNavMenu}>
-           {
-            anchorElNav ? (
-<Avatar
+      {appbarx && (
+        <Fab
+          color="primary"
+          sx={
+            leftmode
+              ? {
+                  display: {
+                    xs: "initial",
+                    md: "none",
+                    bottom: 100,
+                    left: 8,
+                    position: "fixed",
+                    zIndex: 1300,
+                    opacity: opacity,
+                  },
+                }
+              : {
+                  display: {
+                    xs: "initial",
+                    md: "none",
+                    bottom: 100,
+                    right: 8,
+                    position: "fixed",
+                    zIndex: 1300,
+                    opacity: opacity,
+                  },
+                }
+          }
+          onClick={handleOpenNavMenu}>
+          {anchorElNav ? (
+            <Avatar
               sx={{ width: 55, height: 55 }}
               alt="kaofrangicon"
               src="https://pbs.twimg.com/profile_images/1775717193298354176/9GyCNMZW_400x400.jpg"
             />
-            ) : (
-              <MenuOpenIcon />
-            )
-           }
-          </Fab>
-        )
-      }
+          ) : (
+            <MenuOpenIcon />
+          )}
+        </Fab>
+      )}
     </div>
   );
 }
@@ -459,7 +498,7 @@ const mapStateToProps = (state) => ({
   lang: state.lang,
   launch: state.launch,
   currentPage: state.currentPage,
-  game: state.game
+  game: state.game,
 });
 const mapDispatchToProps = (dispatch) => ({
   setLoad: (val) => dispatch(setLoad(val)),
