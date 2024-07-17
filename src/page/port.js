@@ -309,7 +309,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
           <>
             <AppBar sx={{ position: "relative" }}>
               <Toolbar>
-                <CardHeader sx={{ flex: 1,paddingTop: 2 }} title={<h5>{clip.snippet.title}</h5>} subheader={<small>{lang == "th" ? "อัปโหลดโดย " : "Uploaded by "}{" "}
+                <CardHeader sx={{ flex: 1,paddingTop: 2 }} title={<h5 className="text-break">{clip.snippet.title}</h5>} subheader={<small>{lang == "th" ? "อัปโหลดโดย " : "Uploaded by "}{" "}
                 {clip.snippet.videoOwnerChannelTitle}</small>} />
                 <IconButton
                   edge="end"
