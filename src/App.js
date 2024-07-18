@@ -5,7 +5,7 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Menu,
+  Fade,
   Card,
   Container,
   Divider,
@@ -145,6 +145,10 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
 
   React.useEffect(() => {
     AOS.init({ duration: 800 });
+    if (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null) {
+      setUnlock(true);
+      return;
+    }
     fetch("https://worldtimeapi.org/api/timezone/utc", {})
       .then((response) => response.json())
       .then((result) => {
@@ -193,6 +197,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
   };
 
   return (
+    <Fade in={true} timeout={800}>
     <div ref={scrollRef}>
       <div
         id="blockwhenland"
@@ -489,6 +494,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
         </Fab>
       )}
     </div>
+    </Fade>
   );
 }
 

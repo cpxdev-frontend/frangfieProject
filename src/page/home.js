@@ -22,7 +22,7 @@ const Home = ({currentPage, lang, setLang, setPage, setMenu, setLangMod, launch}
     }, [])
 
     return ( 
-        <div data-aos="fade-in">
+        <div>
              <Fade in={true} timeout={1200}>
  <div className="video-container">
     <div className='d-block d-lg-none img' style={{filter: 'brightness(80%)', backgroundImage: 'url(https://pub-b590efd174044d4bb32753301d5bbd24.r2.dev/kfbg1.jpg)'}}></div>

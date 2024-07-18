@@ -76,12 +76,11 @@ body{
 }
   .text-container {
     position: absolute;
-    top: 20%;
+    top: 30%;
     width: 50vw;
     left: 5%;
     background-color: transparent !important;
     backdrop-filter: blur(8px);
-    /* transform: translate(-50%, -50%); */
     color: white; /* Adjust text color for better visibility */
   }
   .overlaytext{
