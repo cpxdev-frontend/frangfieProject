@@ -119,7 +119,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                   setAns(false)
                   setTimeout(() => {
                     setAns(true)
-                  }, 3800);
+                  }, window.innerHeight > 700 ? 3800: 1000);
                 });
               } else {
                 setQuesList(JSON.parse(result.data));
@@ -129,7 +129,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                 setAns(false)
                 setTimeout(() => {
                   setAns(true)
-                }, 3800);
+                }, window.innerHeight > 700 ? 3800: 1000);
               }
             }
           });
@@ -207,7 +207,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
             setAns(false)
             setTimeout(() => {
               setAns(true)
-            }, 3800);
+            }, window.innerHeight > 700 ? 3800: 1000);
           });
         } else {
           if (!isIOS()) {
@@ -220,7 +220,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
           setAns(false)
           setTimeout(() => {
             setAns(true)
-          }, 3800);
+          }, window.innerHeight > 700 ? 3800: 1000);
         }
       }, 6000);
     }
@@ -385,7 +385,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                         borderRadius: "10px",
                       }}
                       data-aos="fade-right"
-                      data-aos-delay={ix  == 0 ? 500 : ((500 * (ix + ix))).toString()}
+                      data-aos-delay={window.innerHeight > 700 ? (ix  == 0 ? 500 : ((500 * (ix + ix))).toString()) : 0}
                       onClick={() => SelectGame(item.key, choice.choiceId)}
                       key={item.quizId + choice.choiceId}
                       className={
