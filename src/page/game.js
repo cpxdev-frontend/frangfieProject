@@ -12,16 +12,16 @@ import {
   Tab,
   Typography,
   ListItemButton,
-  CardMedia,
   List,
   ListItem,
   Chip,
   Skeleton,
+  CardMedia,
   CardActionArea,
   ListItemText,
 } from "@mui/material";
-import 'sweetalert2/dist/sweetalert2.min.css'
-import Swal from 'sweetalert2'
+import "sweetalert2/dist/sweetalert2.min.css";
+import Swal from "sweetalert2";
 import { InfoOutlined } from "@mui/icons-material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -73,11 +73,16 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
       .then((result) => {
         if (result.status) {
           if (!isIOS()) {
-            navigator.vibrate([100,900,100,900,100,900,100,900,100,900,800])
+            navigator.vibrate([
+              100, 900, 100, 900, 100, 900, 100, 900, 100, 900, 800,
+            ]);
           }
           Swal.fire({
             title: "Game will be started",
-            html: lang == 'th' ? "เกมส์กำลังจะเริ่มในอีก <b></b> วินาที" : "Please wait in <b></b> seconds.",
+            html:
+              lang == "th"
+                ? "เกมส์กำลังจะเริ่มในอีก <b></b> วินาที"
+                : "Please wait in <b></b> seconds.",
             timer: 6000,
             timerProgressBar: true,
             didOpen: () => {
@@ -91,16 +96,19 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
             allowOutsideClick: () => !Swal.isLoading(),
             willClose: () => {
               clearInterval(timerInterval);
-            }
+            },
           }).then((r) => {
             /* Read more about handling dismissals below */
             if (r.dismiss === Swal.DismissReason.timer) {
               if (JSON.parse(result.data)[0].img != undefined) {
                 if (!isIOS()) {
-                  navigator.vibrate([100,200,100])
+                  navigator.vibrate([100, 200, 100]);
                 }
                 Swal.fire({
-                  footer: lang == 'th' ? "คำเตือน: คำถามข้อแรก เกี่ยวข้องกับภาพนี้" : "Warning: The first question concerns this image.",
+                  footer:
+                    lang == "th"
+                      ? "คำเตือน: คำถามข้อแรก เกี่ยวข้องกับภาพนี้"
+                      : "Warning: The first question concerns this image.",
                   imageUrl: JSON.parse(result.data)[0].img,
                   timerProgressBar: true,
                   didOpen: () => {
@@ -109,27 +117,33 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                       Swal.hideLoading();
                     }, 3000);
                   },
-                  allowOutsideClick: () => false
+                  allowOutsideClick: () => false,
                 }).then((r) => {
                   clearInterval(timerInterval);
                   setQuesList(JSON.parse(result.data));
                   console.log(JSON.parse(result.data));
                   setGame(1);
                   setLoad(false);
-                  setAns(false)
-                  setTimeout(() => {
-                    setAns(true)
-                  }, window.innerHeight > 700 ? 3800: 1000);
+                  setAns(false);
+                  setTimeout(
+                    () => {
+                      setAns(true);
+                    },
+                    (window.innerHeight > (JSON.parse(result.data)[0].img? 800 : 500) ? 3800 : 1000)
+                  );
                 });
               } else {
                 setQuesList(JSON.parse(result.data));
                 console.log(JSON.parse(result.data));
                 setGame(1);
                 setLoad(false);
-                setAns(false)
-                setTimeout(() => {
-                  setAns(true)
-                }, window.innerHeight > 700 ? 3800: 1000);
+                setAns(false);
+                setTimeout(
+                  () => {
+                    setAns(true);
+                  },
+                  (window.innerHeight > (JSON.parse(result.data)[0].img ? 800 : 500) ? 3800 : 1000)
+                );
               }
             }
           });
@@ -155,7 +169,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
     }
     if (ques == quesList.length - 1) {
       if (!isIOS()) {
-        navigator.vibrate([600,100,600,100,600])
+        navigator.vibrate([600, 100, 600, 100, 600]);
       }
       fetch("https://cpxdevweb.onrender.com/kfsite/kfkeep", {
         method: "put",
@@ -170,7 +184,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
       })
         .then((response) => response.json())
         .then((result) => {
-          setAver(result); 
+          setAver(result);
           setTimeout(() => {
             setStatperques(0);
             setQuesList([]);
@@ -185,10 +199,13 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
       setTimeout(() => {
         if (quesList[ques + 1].img != undefined) {
           if (!isIOS()) {
-            navigator.vibrate([100,200,100])
+            navigator.vibrate([100, 200, 100]);
           }
           Swal.fire({
-            footer: lang == 'th' ? "คำเตือน: คำถามต่อไป เกี่ยวข้องกับภาพนี้" : "Warning: The next question concerns this image.",
+            footer:
+              lang == "th"
+                ? "คำเตือน: คำถามต่อไป เกี่ยวข้องกับภาพนี้"
+                : "Warning: The next question concerns this image.",
             imageUrl: quesList[ques + 1].img,
             timerProgressBar: true,
             didOpen: () => {
@@ -197,30 +214,36 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                 Swal.hideLoading();
               }, 3000);
             },
-            allowOutsideClick: () => false
+            allowOutsideClick: () => false,
           }).then((r) => {
             clearInterval(timerInterval);
             setStatperques(0);
             setCheck(false);
             setQues((x) => (x = x + 1));
             setSelected(0);
-            setAns(false)
-            setTimeout(() => {
-              setAns(true)
-            }, window.innerHeight > 700 ? 3800: 1000);
+            setAns(false);
+            setTimeout(
+              () => {
+                setAns(true);
+              },
+              (window.innerHeight > (quesList[ques + 1].img ? 800 : 500) ? 3800 : 1000)
+            );
           });
         } else {
           if (!isIOS()) {
-            navigator.vibrate(100)
+            navigator.vibrate(100);
           }
           setStatperques(0);
           setCheck(false);
           setQues((x) => (x = x + 1));
           setSelected(0);
-          setAns(false)
-          setTimeout(() => {
-            setAns(true)
-          }, window.innerHeight > 700 ? 3800: 1000);
+          setAns(false);
+          setTimeout(
+            () => {
+              setAns(true);
+            },
+            (window.innerHeight > (quesList[ques + 1].img ? 800 : 500) ? 3800 : 1000)
+          );
         }
       }, 6000);
     }
@@ -331,15 +354,15 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                 <Typography className="ml-3" data-aos="zoom-in-down">
                   {lang == "th"
                     ? "คะแนนเฉลี่ยจากผู้เล่นทั่วโลก " +
-                    aver.average +
-                    " คะแนนจากทั้งหมด " +
-                    aver.fromAll +
-                    " คะแนน"
+                      aver.average +
+                      " คะแนนจากทั้งหมด " +
+                      aver.fromAll +
+                      " คะแนน"
                     : "Average scores from worldwide are " +
-                    aver.average +
-                    " points from all " +
-                    aver.fromAll +
-                    " points."}
+                      aver.average +
+                      " points from all " +
+                      aver.fromAll +
+                      " points."}
                 </Typography>
               </>
             ) : (
@@ -365,7 +388,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
         (item, i) =>
           i === ques && (
             <Card
-             data-aos="fade-in"
+              data-aos="fade-in"
               key={item.quizId}
               sx={{ marginTop: "5vh", width: { xs: "90%", md: "70%" } }}>
               <CardContent>
@@ -378,6 +401,22 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                     quesList.length
                   }
                 />
+                {item.img != undefined && (
+                  <CardMedia
+                    onClick={() => {
+                      Swal.fire({
+                        imageUrl: item.img
+                      })
+                    }}
+                    component="img"
+                    height="270"
+                    image={item.img}
+                    alt={item.question[lang]}
+                  />
+                )}
+                {item.img != undefined && (
+                  <p className="mt-1">{lang == "th" ? "คำแนะนำ: คลิกหรือแตะที่รูปภาพเพื่อดูรูปเต็ม" : "Guide: Click or tap image to view full-size"}</p>
+                )}
                 <List>
                   {item.choices.map((choice, ix) => (
                     <ListItemButton
@@ -385,21 +424,27 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                         borderRadius: "10px",
                       }}
                       data-aos="fade-right"
-                      data-aos-delay={window.innerHeight > 700 ? (ix  == 0 ? 500 : ((500 * (ix + ix))).toString()) : 0}
+                      data-aos-delay={
+                        window.innerHeight > (item.img != undefined ? 800 : 500)
+                          ? ix == 0
+                            ? 500
+                            : (500 * (ix + ix)).toString()
+                          : 0
+                      }
                       onClick={() => SelectGame(item.key, choice.choiceId)}
                       key={item.quizId + choice.choiceId}
                       className={
                         checked && item.key === choice.choiceId
                           ? "text-success" +
-                          (choice.choiceId == selected
-                            ? " bgSelectedquiz"
-                            : " shake")
+                            (choice.choiceId == selected
+                              ? " bgSelectedquiz"
+                              : " shake")
                           : checked && item.key !== choice.choiceId
-                            ? "text-danger" +
+                          ? "text-danger" +
                             (choice.choiceId == selected
                               ? " bgSelectedquiz"
                               : "")
-                            : ""
+                          : ""
                       }>
                       <ListItemText
                         primary={ix + 1 + ". " + choice.choiceName[lang]}
@@ -408,13 +453,17 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                   ))}
                 </List>
                 {stat === 1 && (
-                  <Typography className="text-info mt-5" data-aos="zoom-in-right">
+                  <Typography
+                    className="text-info mt-3"
+                    data-aos="zoom-in-right">
                     <CheckCircleIcon className="mr-2" />
                     {item.correctMessage[lang].replace(/\\/g, "")}
                   </Typography>
                 )}
                 {stat === 2 && (
-                  <Typography className="text-danger mt-5" data-aos="zoom-in-right">
+                  <Typography
+                    className="text-danger mt-3"
+                    data-aos="zoom-in-right">
                     <CancelIcon className="mr-2" />
                     {item.wrongMessage[lang].replace(/\\/g, "")}
                   </Typography>
