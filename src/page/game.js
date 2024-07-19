@@ -409,7 +409,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                       })
                     }}
                     component="img"
-                    height="270"
+                    height="200"
                     image={item.img}
                     alt={item.question[lang]}
                   />
