@@ -45,6 +45,7 @@ import "moment/locale/th"; // without this line it didn't work
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import moment from "moment";
 
 import Home from "./page/home";
 import About from "./page/about";
@@ -145,16 +146,23 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
 
   React.useEffect(() => {
     AOS.init({ duration: 800 });
+    setLaunch(moment().unix());
     if (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null) {
       setUnlock(true);
-      return;
-    }
-    fetch("https://worldtimeapi.org/api/timezone/utc", {})
+      fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
       .then((response) => response.json())
       .then((result) => {
-        setLaunch(result.unixtime);
+        setLaunch(result.unix);
+      })
+      .catch((error) => console.log("error", error));
+      return;
+    }
+    fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
+      .then((response) => response.json())
+      .then((result) => {
+        setLaunch(result.unix);
         if (
-          result.unixtime >= 1731603600 ||
+          result.unix >= 1731603600 ||
           (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
             localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
               "56f006fb7a76776e1e08eac264bd491aa1a066a1")
