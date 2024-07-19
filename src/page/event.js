@@ -61,7 +61,7 @@ const Event = ({currentPage, lang, setLang, setPage, launch}) => {
           return lang == 'th' ? 'กิจกรรมเข้าร่วมแบบออนไลน์' : 'Online event'
         } else {
           if (obj.link != '') {
-            return lang == 'th' ? 'กิจกรรมเปิด' : 'Full event (Both Online and Offline event)'
+            return lang == 'th' ? 'กิจกรรมเปิด' : 'Full event'
           } else {
             return lang == 'th' ? 'กิจกรรมเข้าร่วมแบบออฟไลน์' : 'Offline event'
           }

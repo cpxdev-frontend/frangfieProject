@@ -255,11 +255,8 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                           )
                         }>
                         {lang == "th"
-                          ? "รับชมรายการอื่นในช่อง " +
-                            item.snippet.videoOwnerChannelTitle
-                          : 'View other contents in "' +
-                            item.snippet.videoOwnerChannelTitle +
-                            '" channel'}
+                          ? "รับชมรายการอื่น"
+                          : "View other contents"}
                       </Button>
                     </CardActionArea>
                   </CardContent>
