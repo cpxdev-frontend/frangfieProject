@@ -197,6 +197,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
   }, [currentPage]);
 
   const handleOpenNavMenu = (event) => {
+    setOpacity(1);
     setAnchorElNav(event.currentTarget);
   };
 
