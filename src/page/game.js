@@ -129,7 +129,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                     () => {
                       setAns(true);
                     },
-                    (window.innerHeight > (JSON.parse(result.data)[0].img? 800 : 500) ? 3800 : 1000)
+                    (window.innerHeight > (JSON.parse(result.data)[0].img? 700 : 500) ? 3800 : 1000)
                   );
                 });
               } else {
@@ -142,7 +142,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                   () => {
                     setAns(true);
                   },
-                  (window.innerHeight > (JSON.parse(result.data)[0].img ? 800 : 500) ? 3800 : 1000)
+                  (window.innerHeight > (JSON.parse(result.data)[0].img ? 700 : 500) ? 3800 : 1000)
                 );
               }
             }
@@ -226,7 +226,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
               () => {
                 setAns(true);
               },
-              (window.innerHeight > (quesList[ques + 1].img ? 800 : 500) ? 3800 : 1000)
+              (window.innerHeight > (quesList[ques + 1].img ? 700 : 500) ? 3800 : 1000)
             );
           });
         } else {
@@ -242,7 +242,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
             () => {
               setAns(true);
             },
-            (window.innerHeight > (quesList[ques + 1].img ? 800 : 500) ? 3800 : 1000)
+            (window.innerHeight > (quesList[ques + 1].img ? 700 : 500) ? 3800 : 1000)
           );
         }
       }, 6000);
@@ -425,7 +425,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
                       }}
                       data-aos="fade-right"
                       data-aos-delay={
-                        window.innerHeight > (item.img != undefined ? 800 : 500)
+                        window.innerHeight > (item.img != undefined ? 700 : 500)
                           ? ix == 0
                             ? 500
                             : (500 * (ix + ix)).toString()
