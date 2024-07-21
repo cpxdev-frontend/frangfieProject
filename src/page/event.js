@@ -140,7 +140,7 @@ React.useEffect(() => {
           <>
           {
             data.map((item, i) => (
-              <Card key={item.newsId} className='mb-3' sx={{opacity: item.timerange[1] > 0 && unix >= item.timerange[1] ? 0.6 : 1}} data-aos="zoom-in-right">
+              <Card key={item.newsId} className='mb-3' sx={{opacity: item.timerange[1] > 0 && launch >= item.timerange[1] ? 0.6 : 1}} data-aos="zoom-in-right">
                 <CardContent>
                   <CardHeader className='pl-0 pb-0' title={<h4>{item.title}</h4>} subheader={<Chip label={(lang == 'th' ? 'สถานะกิจกรรม: ' : "Event status: ") + checkeventstatus(item)} color="primary" />}
                     action={
