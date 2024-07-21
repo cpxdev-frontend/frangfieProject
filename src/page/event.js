@@ -140,8 +140,8 @@ React.useEffect(() => {
           <>
           {
             data.map((item, i) => (
-              <Card key={item.newsId} className='mb-3' sx={{opacity: item.timerange[1] > 0 && launch >= item.timerange[1] ? 0.6 : 1}} data-aos="zoom-in-right">
-                <CardContent>
+              <Card key={item.newsId} className='mb-3' data-aos="zoom-in-right">
+                <CardContent sx={{opacity: item.timerange[1] > 0 && launch >= item.timerange[1] ? 0.4 : 1}}>
                   <CardHeader className='pl-0 pb-0' title={<h4>{item.title}</h4>} subheader={<Chip label={(lang == 'th' ? 'สถานะกิจกรรม: ' : "Event status: ") + checkeventstatus(item)} color="primary" />}
                     action={
                       item.timerange[0] > 0 && item.timerange[1] > 0 && unix >= item.timerange[0] - 432000 && unix < item.timerange[0] &&
@@ -172,25 +172,30 @@ React.useEffect(() => {
                     <p className='mt-4'>{lang == 'th' ? 'รายละเอียดกิจกรรม' : "Description"}: {lang == 'th' ? item.desc2 : item.desc}</p>
                     {
                       item.timerange[0] > 0 && item.timerange[1] > 0 && (
-                        <small>{lang == 'th' ? 'หมายเหตุ' : "Notes"}: {lang == 'th' ? 'ช่วงเวลาของกิจกรรมอ้างอิงตามโซนเวลาของอุปกรณ์' : "Event time duration are based on device timezone."}</small>
+                        <small><i>{lang == 'th' ? 'หมายเหตุ' : "Notes"}: {lang == 'th' ? 'ช่วงเวลาของกิจกรรมอ้างอิงตามโซนเวลาของอุปกรณ์' : "Event time duration are based on device timezone."}</i></small>
                       )
                     }
                     <br />
                     {
                       !(item.locate == null && item.place == "") && (
-                        <Button onClick={() => getMap(item)} variant='outlined' className='mt-3'>{lang == 'th' ? 'สถานที่จัดงาน' : "Event location"}</Button>
+                        <Button onClick={() => getMap(item)} disabled={item.timerange[1] > 0 && launch >= item.timerange[1]} variant='outlined' className='mt-3'>{lang == 'th' ? 'สถานที่จัดงาน' : "Event location"}</Button>
                       )
                     }
                      {
                       item.link != '' && (
-                        <Button variant='outlined' onClick={() => window.open(item.link.includes('http') ? item.link : 'https://cp-bnk48.pages.dev/' + item.link, '_blank')} className='mt-3'>{lang == 'th' ? 'ดูเพิ่มเติม' : "View more"}</Button>
+                        <Button variant='outlined' disabled={item.timerange[1] > 0 && launch >= item.timerange[1]} onClick={() => window.open(item.link.includes('http') ? item.link : 'https://cp-bnk48.pages.dev/' + item.link, '_blank')} className='mt-3'>{lang == 'th' ? 'ดูเพิ่มเติม' : "View more"}</Button>
+                      )
+                    }
+                    {
+                      item.timerange[1] > 0 && launch >= item.timerange[1] && (
+                        <p className='mt-3 text-info'><b>{lang == 'th' ? 'กิจกรรมนี้จะถูกลบออกจากระบบภายในเที่ยงคืนของวันถัดไป (ตามเวลาประเทศไทย)' : "This event will be remove from list in midnight of tomorrow. (Based on Asia/Bangkok timezone)"}</b></p>
                       )
                     }
                 </Grid>
             </Grid>
                 </CardContent>
                 {
-                  !(checktime(item).prepare == 0 && checktime(item).launch == 0) && (
+                  !(checktime(item).prepare == 0 && checktime(item).launch == 0) && item.timerange[1] > 0 && launch < item.timerange[1] && (
                     <LinearProgress sx={{width: '100%', height: window.innerHeight * 0.02}} variant="buffer" value={checktime(item).launch} valueBuffer={checktime(item).prepare} />
                   )
                 }
