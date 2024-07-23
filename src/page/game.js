@@ -33,14 +33,16 @@ import {
   setPage,
   setInGame,
 } from "../redux/action";
+import { useHistory } from 'react-router-dom';
 
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent);
 }
 
 let timerInterval;
+let gamein = false;
 
-const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
+const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
   const [gamemeet, setGame] = React.useState(0);
   const [quesList, setQuesList] = React.useState([]);
   const [correct, setCorrect] = React.useState(0);
@@ -50,9 +52,30 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame }) => {
   const [checked, setCheck] = React.useState(false);
   const [startLoad, setLoad] = React.useState(false);
 
+  const history = useHistory();
+
   const [readyans, setAns] = React.useState(false);
 
   const [aver, setAver] = React.useState(null);
+
+  React.useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (gamein == false) {
+        return;
+      }
+      event.preventDefault();
+      event.returnValue = '';
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    gamein = game;
+  }, [game]);
+
   React.useEffect(() => {
     setPage(lang == "th" ? "มินิเกมส์" : "Quiz Game");
   }, []);
@@ -489,6 +512,7 @@ const mapStateToProps = (state) => ({
   dark: state.dark,
   lang: state.lang,
   currentPage: state.currentPage,
+  game: state.game,
 });
 const mapDispatchToProps = (dispatch) => ({
   setLoad: (val) => dispatch(setLoad(val)),
