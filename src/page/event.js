@@ -73,7 +73,7 @@ const Event = ({currentPage, lang, setLang, setPage, launch}) => {
         if (unix >= obj.timerange[0]) {
           return lang == 'th' ? 'ปกติ' : 'Normal'
         } else {
-          return lang == 'th' ? 'เตรียมความพร้อมในการจัดงาน' : 'Preparing to operate event'
+          return lang == 'th' ? 'กำลังจะมาถึง' : 'Preparing'
         }
       } else {
         if (unix >= obj.timerange[0] && unix <= obj.timerange[1]) {
@@ -82,9 +82,9 @@ const Event = ({currentPage, lang, setLang, setPage, launch}) => {
           return lang == 'th' ? 'สิ้นสุดแล้ว' : 'All done'
         } else if (unix >= obj.timerange[0] - 432000 && unix < obj.timerange[0]) {
           const d = compareTimestamps(unix, obj.timerange[0]);
-          return lang == 'th' ? 'ใกล้เริ่มต้นแล้ว' : 'Coming soon'
+          return lang == 'th' ? 'ใกล้เริ่มต้นแล้ว' : 'Incoming'
         } else {
-          return lang == 'th' ? 'กำลังจะมาถึง' : 'Incoming'
+          return lang == 'th' ? 'กำลังจะมาถึง' : 'Coming soon'
         }
       }
   }

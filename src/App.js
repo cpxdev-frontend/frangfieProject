@@ -68,7 +68,7 @@ const pagesEn = [
   "Home",
   "About Kaofrang",
   "Discography",
-  "Events for Frang",
+  "Events of Frang",
   "Social Feeds",
   "Quiz",
   "Follow KaofrangFie",
