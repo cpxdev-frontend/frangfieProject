@@ -99,7 +99,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                   : "All Discography and Single of Kaofrang Yanisa or Kaofrang BNK48 (From Spotify)"
               }
             />
-            <Box className="ml-1" data-aos="zoom-in-down">
+            <Box className="ml-1" data-aos="zoom-in-down" sx={{ display: { sm: 'initial', xs: 'none' } }}>
               <MobileCarousel
                 autoPlay
                 centerMode
@@ -108,8 +108,8 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                     ? width < 700
                       ? 80
                       : width >= 700 && width < 1150
-                      ? 50
-                      : 30
+                        ? 50
+                        : 30
                     : 100
                 }
                 infiniteLoop
@@ -129,6 +129,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                       <CardActionArea className="cro-container">
                         <CardMedia
                           src={item.track.album.images[0].url}
+                          width={500}
                           component="img"
                         />
                         {ix == i && (
@@ -158,6 +159,46 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                     </Card>
                   ))}
               </MobileCarousel>
+            </Box>
+            <Box className="ml-1" sx={{ display: { sm: 'none', xs: 'initial' } }}>
+              {data1.length > 0 &&
+                data1.map((item, i) => (
+                  <Card
+                    data-aos="fade-right"
+                    key={"home-" + item.track.id}
+                    data-tempid={item.track.id}
+                    className="m-3"
+                    sx={{ backgroundColor: "transperent" }}>
+                    <CardActionArea className="cro-container">
+                      <CardMedia
+                        src={item.track.album.images[0].url}
+                        width={500}
+                        component="img"
+                      />
+                      <Card data-aos="fade-in">
+                        <CardHeader
+                          title={<h4>{item.track.name}</h4>}
+                          subheader={item.track.artists[0].name}
+                        />
+                        <CardActions>
+                          <Button
+                            className="bg-success text-light"
+                            size="large"
+                            onClick={() =>
+                              window.open(
+                                item.track.external_urls.spotify,
+                                "_blank"
+                              )
+                            }>
+                            {lang == "th"
+                              ? "ฟังเพลงนี้บน Spotify"
+                              : "Listening on Spotify"}
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </CardActionArea>
+                  </Card>
+                ))}
             </Box>
           </Grid>
         ) : (
@@ -250,7 +291,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                         onClick={() =>
                           window.open(
                             "https://youtube.com/channel/" +
-                              item.snippet.videoOwnerChannelId,
+                            item.snippet.videoOwnerChannelId,
                             "_blank"
                           )
                         }>
@@ -306,8 +347,8 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
           <>
             <AppBar sx={{ position: "relative" }}>
               <Toolbar>
-                <CardHeader sx={{ flex: 1,paddingTop: 2 }} title={<h5 className="text-break">{clip.snippet.title}</h5>} subheader={<small>{lang == "th" ? "อัปโหลดโดย " : "Uploaded by "}{" "}
-                {clip.snippet.videoOwnerChannelTitle}</small>} />
+                <CardHeader sx={{ flex: 1, paddingTop: 2 }} title={<h5 className="text-break">{clip.snippet.title}</h5>} subheader={<small>{lang == "th" ? "อัปโหลดโดย " : "Uploaded by "}{" "}
+                  {clip.snippet.videoOwnerChannelTitle}</small>} />
                 <IconButton
                   edge="end"
                   color="inherit"
@@ -319,7 +360,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
             </AppBar>
             <DialogContent>
               <CardMedia
-               data-aos="zoom-in-down"
+                data-aos="zoom-in-down"
                 sx={{
                   width: "100%",
                   height: 400,
@@ -333,7 +374,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
               <Divider />
               <Card component={CardContent} className="mt-3">
                 <Typography
-                 data-aos="fade-in"
+                  data-aos="fade-in"
                   variant="p"
                   color="text.primary"
                   className="mt-2 text-break"
