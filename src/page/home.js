@@ -25,7 +25,7 @@ const Home = ({currentPage, lang, setLang, setPage, setMenu, setLangMod, launch}
         <div>
              <Fade in={true} timeout={1200}>
  <div className="video-container">
-    <div className='d-block d-lg-none img' style={{filter: 'brightness(80%)', backgroundImage: 'url(https://pub-b590efd174044d4bb32753301d5bbd24.r2.dev/kfbg1.jpg)'}}></div>
+    <div className='d-block d-lg-none img' style={{filter: 'brightness(80%)', backgroundImage: 'url(https://100channel.live/wp-content/uploads/2024/07/kaofrang.jpg)'}}></div>
     <video className='d-none d-lg-block vdo overflow-hidden' muted autoPlay style={{pointerEvents: 'none', scrollbarWidth: 'none'}} playsinline>
         <source src="https://pub-b590efd174044d4bb32753301d5bbd24.r2.dev/kf1.mp4" type="video/mp4"/>
         Your browser does not support the video tag.
