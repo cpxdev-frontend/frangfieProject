@@ -17,7 +17,7 @@ import {
   ListItemText,
   Skeleton,
 } from "@mui/material";
-import AOS from 'aos'
+import AOS from "aos";
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 import getAge from "get-age";
 import moment from "moment";
@@ -82,6 +82,7 @@ function compareTimestamps(timestamp1, timestamp2) {
 
 const About = ({ currentPage, lang, setLang, setPage }) => {
   const [data, setData] = React.useState(null);
+  const [img, setImg] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -115,7 +116,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
   }, []);
 
   return (
-    <Box sx={{ marginTop: {xs: 0, md:13}, marginBottom: 15 }}>
+    <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
       <CardHeader
         title={<h3>All about Kaofrang</h3>}
         subheader={
@@ -131,11 +132,27 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
               <Grid item lg={5} xs={12}>
                 <Avatar
                   src={data.img}
+                  slotProps={{
+                    img: {
+                      onLoad: () => setImg(true),
+                    },
+                  }}
                   sx={{
+                    display: img ? "block" : "none",
                     width: { md: "400px", xs: "100%" },
                     height: { md: "400px", xs: "100%" },
                   }}
                 />
+                {!img && (
+                  <Skeleton
+                    variant="circular"
+                    className="bg-m"
+                    sx={{
+                      width: { md: "400px", xs: window.innerWidth * 0.9 },
+                      height: { md: "400px", xs: window.innerWidth * 0.9 },
+                    }}
+                  />
+                )}
               </Grid>
               <Grid item lg={7} xs={12}>
                 <Grid xs={12} data-aos="zoom-in-right">
@@ -218,7 +235,10 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                         />
                       </Tabs>
                     </Box>
-                    <CustomTabPanel value={value} index={0} data-aos="zoom-in-right">
+                    <CustomTabPanel
+                      value={value}
+                      index={0}
+                      data-aos="zoom-in-right">
                       <h4>
                         {lang == "th"
                           ? "ข้อมูลด้านการเป็นสมาชิกบีเอ็นเคโฟตี้เอต"
@@ -277,7 +297,9 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
             <hr />
             <Grid xs={12}>
               <Box sx={{ width: "100%" }}>
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }} data-aos="fade-in">
+                <Box
+                  sx={{ borderBottom: 1, borderColor: "divider" }}
+                  data-aos="fade-in">
                   <Tabs
                     value={value2}
                     onChange={handleChange2}
@@ -312,7 +334,10 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                     />
                   </Tabs>
                 </Box>
-                <CustomTabPanel value={value2} index={0} data-aos="zoom-in-down">
+                <CustomTabPanel
+                  value={value2}
+                  index={0}
+                  data-aos="zoom-in-down">
                   <List component="nav" sx={{ bgcolor: "background.paper" }}>
                     <ListItem>
                       <ListItemText
@@ -415,7 +440,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                           <p>
                             {lang == "th"
                               ? "ข้าวฟ่างโปรดปรานการร้องเพลงมาก และสามารถเล่นกีตาร์ได้ และเธอได้ชื่นชอบศิลปิน T-POP หลายคน เช่น วง Serious Beacon เป็นต้น"
-                              : "She loves singing and playing guitar. Ald she also favorite several T-POP artist. Such as \"Serious Beacon\""}
+                              : 'She loves singing and playing guitar. Ald she also favorite several T-POP artist. Such as "Serious Beacon"'}
                           </p>
                         }
                       />
