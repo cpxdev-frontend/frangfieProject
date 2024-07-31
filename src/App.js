@@ -50,6 +50,7 @@ import moment from "moment";
 import Home from "./page/home";
 import About from "./page/about";
 import Disco from "./page/port";
+import Trend from "./page/trend";
 import Event from "./page/event";
 import Game from "./page/game";
 import Feed from "./page/update";
@@ -444,6 +445,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
               render={() => <Disco />}
             />
             <Route data-aos="fade-in" path="/events" render={() => <Event />} />
+            <Route data-aos="fade-in" path="/trend" render={() => <Trend />} />
             <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
             <Route
               data-aos="fade-in"
