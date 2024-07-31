@@ -274,8 +274,11 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                         {lang == "th" ? "รายละเอียดกิจกรรม" : "Description"}:{" "}
                         {item.desc[lang]}
                       </p>
-                      <p className="mt-4">
+                      <p className="mt-4" style={{wordWrap: 'break-word'}}>
                         {lang == "th" ? "แท็กที่ใช้" : "Available Tags"}:
+                        <Box sx={{display: {xs: 'initial', md:'none'}}}>
+                          <br/>
+                        </Box>
                         {unix > item.start ? (
                           item.tags.map((txt) => (
                             <a
