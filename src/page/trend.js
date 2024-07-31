@@ -334,7 +334,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                             variant="outlined"
                             onClick={() => {
                               navigator.clipboard.writeText(
-                                "https://cpxdevweb.onrender.com/kaofrangfie/trend/" +
+                                "https://cpxstatusservice.azurewebsites.net/kaofrangfie/trend/" +
                                   item.trendId
                               );
                               alert(
@@ -351,7 +351,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                             variant="outlined"
                             onClick={() =>
                               window.open(
-                                "https://cpxdevweb.onrender.com/kaofrangfie/trend/" +
+                                "https://cpxstatusservice.azurewebsites.net/kaofrangfie/trend/" +
                                   item.trendId,
                                 "_blank"
                               )
