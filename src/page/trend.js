@@ -88,7 +88,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
     };
 
     RefreshDate();
-    setPage(lang == "th" ? "ปั่นเทรน" : "Trend for Kaofrang");
+    setPage(lang == "th" ? "ดันเทรน" : "Trend for Kaofrang");
     fetch(
       "https://cpxdevweb.onrender.com/kfsite/tagboost?data=kf",
       requestOptions
