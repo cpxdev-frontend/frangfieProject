@@ -221,8 +221,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
           id="blockwhenland"
           className="d-flex justify-content-center align-items-center text-center">
           <h5>
-            This screen size is not support on this device. Please rotate your
-            device screen.
+            {lang == 'th' ? 'เว็บไซต์ไม่รองรับขนาดหน้าจอนี้ กรุณาหมุนจอเป็นแนวตั้งหรือทางทิศที่เหมาะสม' : 'This screen size is not support on this device. Please rotate your device screen.'}
           </h5>
         </div>
         <Slide

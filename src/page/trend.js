@@ -204,7 +204,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                             />
                           </Grid>
                         )}
-                      <Grid item lg xs={12}>
+                      <Grid item lg={7} xs={12}>
                         {item.start > 0 &&
                         item.end > 0 &&
                         moment
@@ -293,7 +293,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                           {lang == "th" ? "แท็กที่ใช้" : "Available Tags"}:
                           {unix >= item.start && (
                             <Box
-                              sx={{ display: { xs: "initial", md: "none" } }}>
+                              sx={{ display: { xs: "initial", lg: "none" } }}>
                               <br />
                             </Box>
                           )}
