@@ -198,7 +198,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                               src={item.img}
                               variant="rounded"
                               sx={{
-                                width: { md: "400px", xs: "100%" },
+                                width: { lg: "400px", xs: "100%" },
                                 height: "100%",
                               }}
                             />
