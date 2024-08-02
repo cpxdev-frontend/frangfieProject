@@ -169,3 +169,7 @@ body{
   z-index: 2147483647 !important;
   width: 100vw !important;
 }
+
+.txtPost > img {
+  width: 100% !important;
+}

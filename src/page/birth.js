@@ -9,11 +9,11 @@ import {
   Grid,
   Avatar,
   Box,
-  Tabs,
+  CircularProgress,
   Tab,
   Typography,
   List,
-  IconButton,
+  Backdrop,
   Fab,
   Skeleton,
   Dialog,
@@ -37,6 +37,7 @@ import { Editor } from "react-draft-wysiwyg";
 import { EditorState, ContentState, convertToRaw } from "draft-js";
 import { stateFromHTML } from "draft-js-import-html";
 import draftToHtml from "draftjs-to-html";
+import { Base64 } from 'https://cdn.jsdelivr.net/npm/js-base64@3.7.7/base64.min.js';
 
 const Birth = ({
   currentPage,
@@ -120,6 +121,35 @@ const Birth = ({
       .catch((error) => console.log("error", error));
   }, []);
 
+  const savepost = () => {
+    var requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: btoa(unescape(encodeURIComponent(draftToHtml(convertToRaw(msg.getCurrentContent()))))),
+        user: setupuser,
+        country: selectedcountry,
+      }),
+    };
+    setLoadx(true)
+    fetch(
+      "https://cpxdevweb.onrender.com/kfsite/birthdayUpload",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setLoadx(false)
+        if (result.status) {
+          refhd({
+            method: "GET",
+          })
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+
   return (
     <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
       <CardHeader
@@ -128,50 +158,50 @@ const Birth = ({
           up && view
             ? lang == "th"
               ? "ร่วมอวยพรวันเกิดข้าวฟ่างกัน! [ระยะเวลาร่วมกิจกรรม " +
-                moment(new Date().getFullYear() + "-11-14T17:00:00Z")
-                  .local()
-                  .lang(lang)
-                  .format("DD MMMM YYYY HH:mm") +
-                " ถึง " +
-                moment(new Date().getFullYear() + "-11-16T16:59:59Z")
-                  .local()
-                  .lang(lang)
-                  .format("DD MMMM YYYY HH:mm") +
-                " อ้างอิงตามเวลาประเทศไทย]"
+              moment(new Date().getFullYear() + "-11-14T17:00:00Z")
+                .local()
+                .lang(lang)
+                .format("DD MMMM YYYY HH:mm") +
+              " ถึง " +
+              moment(new Date().getFullYear() + "-11-16T16:59:59Z")
+                .local()
+                .lang(lang)
+                .format("DD MMMM YYYY HH:mm") +
+              " อ้างอิงตามเวลาประเทศไทย]"
               : "Let's celebrate the special day of Kaofrang. [Campaign Event between " +
-                moment(new Date().getFullYear() + "-11-14T17:00:00Z")
-                  .local()
-                  .lang(lang)
-                  .format("DD MMMM YYYY HH:mm") +
-                " to " +
-                moment(new Date().getFullYear() + "-11-16T16:59:59Z")
-                  .local()
-                  .lang(lang)
-                  .format("DD MMMM YYYY HH:mm") +
-                ". Based on Asia/Bangkok timezone]"
+              moment(new Date().getFullYear() + "-11-14T17:00:00Z")
+                .local()
+                .lang(lang)
+                .format("DD MMMM YYYY HH:mm") +
+              " to " +
+              moment(new Date().getFullYear() + "-11-16T16:59:59Z")
+                .local()
+                .lang(lang)
+                .format("DD MMMM YYYY HH:mm") +
+              ". Based on Asia/Bangkok timezone]"
             : up == false && view
-            ? lang == "th"
-              ? "ดูคำอวยพรได้ถึงวันที่ " +
+              ? lang == "th"
+                ? "ดูคำอวยพรได้ถึงวันที่ " +
                 moment(new Date().getFullYear() + "-11-16T16:59:59Z")
                   .local()
                   .lang(lang)
                   .format("DD MMMM YYYY HH:mm") +
                 " (อ้างอิงตามเวลาประเทศไทย)"
-              : "See blessing message until " +
+                : "See blessing message until " +
                 moment(new Date().getFullYear() + "-11-16T16:59:59Z")
                   .local()
                   .lang(lang)
                   .format("DD MMMM YYYY HH:mm") +
                 ". (Based on Asia/Bangkok timezone)"
-            : lang == "th"
-            ? "ยังไม่พร้อมให้บริการในขณะนี้ ขออภัยในความไม่สะดวก"
-            : "Oops! We are not ready right now."
+              : lang == "th"
+                ? "ยังไม่พร้อมให้บริการในขณะนี้ ขออภัยในความไม่สะดวก"
+                : "Oops! We are not ready right now."
         }
       />
       <div className="container mt-3">
         {data != null ? (
           <>
-            {data.map((item, i) => (
+            {data.length > 0 ? data.map((item, i) => (
               <Card
                 key={item.birthDayLog}
                 className="mb-3"
@@ -186,52 +216,57 @@ const Birth = ({
                       .format("DD MMMM YYYY HH:mm") +
                     (lang == "th"
                       ? " ที่ " +
-                        country.filter(
-                          (x) => x.alpha2 == item.birthDayLocate
-                        )[0].name
+                      country.filter(
+                        (x) => x.alpha2 == item.birthDayLocate
+                      )[0].name
                       : " from " +
-                        country.filter(
-                          (x) => x.alpha2 == item.birthDayLocate
-                        )[0].enName)
+                      country.filter(
+                        (x) => x.alpha2 == item.birthDayLocate
+                      )[0].enName)
                   }
                 />
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
+                <CardContent className="w-100" sx={{wordBreak: 'break-word'}}>
+                  <Typography variant="body2" color="text.secondary" className="txtPost" dangerouslySetInnerHTML={{ __html: decodeURIComponent(escape(window.atob(item.birthDaymessage))) }}>
                   </Typography>
                 </CardContent>
               </Card>
-            ))}
+            )) : (
+              <Card>
+                <CardContent className="text-center">
+                {lang == "th"
+                  ? "ไม่พบคำอวยพรในตอนนี้ คุณสามารถร่วมอวยพรน้องเป็นคนแรกได้นะ"
+                  : "No any blessing post(s) to Kaofrang now. You can join first one."}
+                </CardContent>
+              </Card>
+            )}
             {up && localStorage.getItem("kfbirthuser") != null && (
-                <Fab
-                  color="primary"
-                  sx={
-                    leftmode
-                      ? {
-                          display: {
-                            bottom: 170,
-                            left: 8,
-                            position: "fixed",
-                            zIndex: 1300,
-                            opacity: opacity,
-                          },
-                        }
-                      : {
-                          display: {
-                            bottom: 170,
-                            right: 8,
-                            position: "fixed",
-                            zIndex: 1300,
-                            opacity: opacity,
-                          },
-                        }
-                  }
-                  onClick={() => setPost(true)}>
-                  <NoteAdd />
-                </Fab>
-              )}
+              <Fab
+                color="primary"
+                sx={
+                  leftmode
+                    ? {
+                      display: {
+                        bottom: 170,
+                        left: 8,
+                        position: "fixed",
+                        zIndex: 1300,
+                        opacity: opacity,
+                      },
+                    }
+                    : {
+                      display: {
+                        bottom: 170,
+                        right: 8,
+                        position: "fixed",
+                        zIndex: 1300,
+                        opacity: opacity,
+                      },
+                    }
+                }
+                onClick={() => setPost(true)}>
+                <NoteAdd />
+              </Fab>
+            )}
             <Dialog open={us && up} maxWidth="md">
               <DialogTitle>
                 {lang == "th"
@@ -299,10 +334,10 @@ const Birth = ({
                     value={
                       lang == "th"
                         ? "ประเทศ" +
-                          country.filter((x) => x.alpha2 == selectedcountry)[0]
-                            .name
+                        country.filter((x) => x.alpha2 == selectedcountry)[0]
+                          .name
                         : country.filter((x) => x.alpha2 == selectedcountry)[0]
-                            .enName
+                          .enName
                     }
                     variant="standard"
                     fullWidth={true}
@@ -321,20 +356,22 @@ const Birth = ({
                   <Button
                     disabled={msg.getCurrentContent().hasText() === false}
                     onClick={() => {
-                        Swal.fire({
-                            title: lang == "th" ? "คุณต้องการยืนยันการส่งคำอวยพรหรือไม่" : "Do you want to upload this post",
-                            text: lang == "th" ? "คุณจะไม่สามารถแก้ไขข้อความได้ในภายหลัง" : "You cannot edit message later.",
-                            showDenyButton: true,
-                            confirmButtonText: lang == "en" ? "Confirm" : "ยืนยัน",
-                            denyButtonText: lang == "en" ? "Cancel" : "ยกเลิก",
-                          }).then((result) => {
-                            if (result.isConfirmed) {
-                                console.log(
-                                  draftToHtml(convertToRaw(msg.getCurrentContent()))
-                                );
-                                // Call sender api
-                            }
-                          });
+                      Swal.fire({
+                        title: lang == "th" ? "คุณต้องการยืนยันการส่งคำอวยพรหรือไม่" : "Do you want to upload this post",
+                        text: lang == "th" ? "คุณจะไม่สามารถแก้ไขข้อความได้ในภายหลัง" : "You cannot edit message later.",
+                        showDenyButton: true,
+                        confirmButtonText: lang == "en" ? "Confirm" : "ยืนยัน",
+                        denyButtonText: lang == "en" ? "Cancel" : "ยกเลิก",
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          console.log(
+                            draftToHtml(convertToRaw(msg.getCurrentContent()))
+                          );
+                          setPost(false)
+                          savepost();
+                          // Call sender api
+                        }
+                      });
                     }}>
                     {lang == "th" ? "โพสต์" : "Upload"}
                   </Button>
@@ -344,6 +381,12 @@ const Birth = ({
                 </DialogActions>
               </Dialog>
             )}
+            <Backdrop
+              sx={{ color: '#fff', position: 'fixed', zIndex: 2000 }}
+              open={loadx}
+            >
+              <CircularProgress color="primary" />
+            </Backdrop>
           </>
         ) : (
           <Card>
