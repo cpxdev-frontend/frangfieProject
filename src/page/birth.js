@@ -234,8 +234,8 @@ const Birth = ({
               <Card>
                 <CardContent className="text-center">
                 {lang == "th"
-                  ? "ไม่พบคำอวยพรในตอนนี้ คุณสามารถร่วมอวยพรน้องเป็นคนแรกได้นะ"
-                  : "No any blessing post(s) to Kaofrang now. You can join first one."}
+                  ? "เรากำลังรอคำอวยพรจากคุณอยู่ คุณสามารถร่วมอวยพรน้องเป็นคนแรกได้นะ"
+                  : "You can come to join as first persons to celebrating now."}
                 </CardContent>
               </Card>
             )}
