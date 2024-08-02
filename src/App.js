@@ -55,12 +55,14 @@ import Event from "./page/event";
 import Game from "./page/game";
 import Feed from "./page/update";
 import Follow from "./page/follow";
+import Birth from './page/birth';
 import Err from "./page/error";
 
 const pageSec = [
   "",
   "aboutkf",
   "discography",
+  "birthday",
   "trend",
   "events",
   "feeds",
@@ -71,6 +73,7 @@ const pagesEn = [
   "Home",
   "About Kaofrang",
   "Discography",
+  "KF.Day Trend",
   "Trend Boost",
   "Events of Frang",
   "Social Feeds",
@@ -81,6 +84,7 @@ const pagesTh = [
   "หน้าหลัก",
   "เกี่ยวกับข้าวฟ่าง",
   "ผลงาน",
+  "กิจกรรมอวยพรวันเกิด",
   "ปั่นเทรน",
   "กิจกรรม",
   "ฟีดออนไลน์",
@@ -102,6 +106,7 @@ let scrollmot = false;
 function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [birthdaycampain, setBirthday] = React.useState(false);
   const [leftmode, setLeftMode] = React.useState(
     localStorage.getItem("left") != null
   );
@@ -152,6 +157,12 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
   React.useEffect(() => {
     AOS.init({ duration: 800 });
     setLaunch(moment().unix());
+    fetch("https://cpxdevweb.onrender.com/kfsite/birthdayStatus?ok=kf", {})
+      .then((response) => response.json())
+      .then((result) => {
+        setBirthday(result.response);
+      })
+      .catch((error) => console.log("error", error));
     if (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null) {
       setUnlock(true);
       fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
@@ -221,7 +232,9 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
           id="blockwhenland"
           className="d-flex justify-content-center align-items-center text-center">
           <h5>
-            {lang == 'th' ? 'เว็บไซต์ไม่รองรับขนาดหน้าจอนี้ กรุณาหมุนจอเป็นแนวตั้งหรือทางทิศที่เหมาะสม' : 'This screen size is not support on this device. Please rotate your device screen.'}
+            {lang == "th"
+              ? "เว็บไซต์ไม่รองรับขนาดหน้าจอนี้ กรุณาหมุนจอเป็นแนวตั้งหรือทางทิศที่เหมาะสม"
+              : "This screen size is not support on this device. Please rotate your device screen."}
           </h5>
         </div>
         <Slide
@@ -236,7 +249,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
                 <Avatar
                   sx={{ display: { xs: "none", lg: "flex" }, mr: 1 }}
                   alt="kaofrangicon"
-                  src="https://pbs.twimg.com/profile_images/1775717193298354176/9GyCNMZW_400x400.jpg"
+                  src="https://www.bnk48.com/data/Members/86/s/20240731082052gopsv1.png"
                 />
                 <Typography
                   variant="h6"
@@ -271,25 +284,46 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
                       {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                     </DialogTitle>
                     <DialogContent>
-                      {pages.map((page, i) => (
-                        <MenuItem
-                          component={Link}
-                          key={page}
-                          to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}>
-                          <Typography
-                            textAlign="center"
-                            sx={{
-                              color:
-                                location.pathname == "/" + pageSec[i]
-                                  ? "#fb61ee"
-                                  : "#000",
-                            }}
-                            component="p">
-                            {page}
-                          </Typography>
-                        </MenuItem>
-                      ))}
+                      {pages.map((page, i) =>
+                        pageSec[i] != "birthday" ? (
+                          <MenuItem
+                            component={Link}
+                            key={page}
+                            to={"/" + pageSec[i]}
+                            onClick={handleCloseNavMenu}>
+                            <Typography
+                              textAlign="center"
+                              sx={{
+                                color:
+                                  location.pathname == "/" + pageSec[i]
+                                    ? "#fb61ee"
+                                    : "#000",
+                              }}
+                              component="p">
+                              {page}
+                            </Typography>
+                          </MenuItem>
+                        ) : pageSec[i] == "birthday" &&
+                          birthdaycampain == true ? (
+                          <MenuItem
+                            component={Link}
+                            key={page}
+                            to={"/" + pageSec[i]}
+                            onClick={handleCloseNavMenu}>
+                            <Typography
+                              textAlign="center"
+                              sx={{
+                                color:
+                                  location.pathname == "/" + pageSec[i]
+                                    ? "#fb61ee"
+                                    : "#000",
+                              }}
+                              component="p">
+                              {page}
+                            </Typography>
+                          </MenuItem>
+                        ) : null
+                      )}
                       <Box sx={{ display: { xs: "initial", md: "none" } }}>
                         <Divider className="border border-secondary mb-3 mt-2" />
                         <TextField
@@ -334,7 +368,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
                 <Avatar
                   sx={{ display: { xs: "flex", lg: "none" }, ml: 1, mr: 1 }}
                   alt="kaofrangicon"
-                  src="https://pbs.twimg.com/profile_images/1775717193298354176/9GyCNMZW_400x400.jpg"
+                  src="https://www.bnk48.com/data/Members/86/s/20240731082052gopsv1.png"
                 />
                 <Typography
                   variant="h6"
@@ -348,24 +382,43 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
                   <b>KaofrangFie</b>
                 </Typography>
                 <Box sx={{ flexGrow: 1, display: { xs: "none", lg: "flex" } }}>
-                  {pages.map((page, i) => (
-                    <Button
-                      key={page}
-                      component={Link}
-                      to={"/" + pageSec[i]}
-                      size="medium"
-                      onClick={handleCloseNavMenu}
-                      sx={{
-                        my: 2,
-                        color:
-                          location.pathname == "/" + pageSec[i]
-                            ? "#fff"
-                            : "#000",
-                        display: "block",
-                      }}>
-                      {page}
-                    </Button>
-                  ))}
+                  {pages.map((page, i) =>
+                    pageSec[i] != "birthday" ? (
+                      <Button
+                        key={page}
+                        component={Link}
+                        to={"/" + pageSec[i]}
+                        size="medium"
+                        onClick={handleCloseNavMenu}
+                        sx={{
+                          my: 2,
+                          color:
+                            location.pathname == "/" + pageSec[i]
+                              ? "#fff"
+                              : "#000",
+                          display: "block",
+                        }}>
+                        {page}
+                      </Button>
+                    ) : pageSec[i] == "birthday" && birthdaycampain == true ? (
+                      <Button
+                        key={page}
+                        component={Link}
+                        to={"/" + pageSec[i]}
+                        size="medium"
+                        onClick={handleCloseNavMenu}
+                        sx={{
+                          my: 2,
+                          color:
+                            location.pathname == "/" + pageSec[i]
+                              ? "#fff"
+                              : "#000",
+                          display: "block",
+                        }}>
+                        {page}
+                      </Button>
+                    ) : null
+                  )}
                 </Box>
 
                 <Box sx={{ position: "fixed", right: 30 }}>
@@ -445,6 +498,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
             />
             <Route data-aos="fade-in" path="/events" render={() => <Event />} />
             <Route data-aos="fade-in" path="/trend" render={() => <Trend />} />
+            <Route data-aos="fade-in" path="/birthday" render={() => <Birth leftmode={leftmode} opacity={opacity} />} />
             <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
             <Route
               data-aos="fade-in"
@@ -532,7 +586,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
               <Avatar
                 sx={{ width: 55, height: 55 }}
                 alt="kaofrangicon"
-                src="https://pbs.twimg.com/profile_images/1775717193298354176/9GyCNMZW_400x400.jpg"
+                src="https://www.bnk48.com/data/Members/86/s/20240731082052gopsv1.png"
               />
             ) : (
               <MenuOpenIcon />

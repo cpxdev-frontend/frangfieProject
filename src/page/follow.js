@@ -5,7 +5,7 @@ import {Card, CardContent, LinearProgress, CardHeader, Button, Grid, Avatar, Box
 } from '@mui/material'
 
 import { faFacebook, faInstagram, faTiktok } from '@fortawesome/free-brands-svg-icons'
-import { faMobileAlt, faDesktop } from '@fortawesome/free-solid-svg-icons'
+import { faMobileAlt, faDesktop, faGlobe } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {
@@ -13,34 +13,9 @@ import {
 } from '../redux/action';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import moment from 'moment';
+import LanguageIcon from '@mui/icons-material/Language';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY3B4dGgyMDE3IiwiYSI6ImNsZHY0MzN6bTBjNzEzcXJmamJtN3BsZ3AifQ.mYNwWaYKsiLeYXngFDtaWQ';
-
-function compareTimestamps(timestamp1, timestamp2) {
-  // Get the difference in milliseconds
-  const difference = timestamp2 * 1000 - timestamp1 * 1000;
-
-  // Calculate days
-  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-
-  // Get remaining milliseconds after removing days
-  const remainingMilliseconds = difference % (1000 * 60 * 60 * 24);
-
-  // Calculate hours
-  const hours = Math.floor(remainingMilliseconds / (1000 * 60 * 60));
-
-  // Get remaining milliseconds after removing hours
-  const remainingMinutes = remainingMilliseconds % (1000 * 60 * 60);
-
-  // Calculate minutes
-  const minutes = Math.floor(remainingMinutes / (1000 * 60));
-
-  return {
-    days,
-    hours,
-    minutes,
-  };
-}
 
 const Follow = ({currentPage, lang, setLang, setPage, launch}) => {
     React.useEffect(() => {
@@ -74,6 +49,14 @@ const Follow = ({currentPage, lang, setLang, setPage, launch}) => {
                 </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary="TikTok Account" secondary="@kaofrang.bnk48official" />
+            </ListItemButton>
+            <ListItemButton component="a" href="https://www.bnk48.com/index.php?page=listMembers&memberId=86" target='_blank' data-aos="fade-right" data-aos-delay={window.innerHeight > 700 ? "1500" : '0'}>
+                <ListItemAvatar>
+                <Avatar sx={{backgroundColor: '#CB96C2'}}>
+                    <FontAwesomeIcon icon={faGlobe} />
+                </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="BNK48 Official Website" secondary="Kaofrang" />
             </ListItemButton>
             <ListItemButton component="a" href="https://app.bnk48.com/members/bnk48/kaofrang" target='_blank' data-aos="fade-right" data-aos-delay={window.innerHeight > 700 ? "1500" : '0'}>
                 <ListItemAvatar>

@@ -164,3 +164,8 @@ body{
   10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
   20%, 40%, 60%, 80% { transform: translateX(8px); }
 }
+
+.swal2-container {
+  z-index: 2147483647 !important;
+  width: 100vw !important;
+}
