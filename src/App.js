@@ -157,12 +157,6 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
   React.useEffect(() => {
     AOS.init({ duration: 800 });
     setLaunch(moment().unix());
-    fetch("https://cpxdevweb.onrender.com/kfsite/birthdayStatus?ok=kf", {})
-      .then((response) => response.json())
-      .then((result) => {
-        setBirthday(result.response);
-      })
-      .catch((error) => console.log("error", error));
     if (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null) {
       setUnlock(true);
       fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
@@ -173,6 +167,12 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
         .catch((error) => console.log("error", error));
       return;
     }
+    fetch("https://cpxdevweb.onrender.com/kfsite/birthdayStatus?ok=kf", {})
+      .then((response) => response.json())
+      .then((result) => {
+        setBirthday(result.response);
+      })
+      .catch((error) => console.log("error", error));
     fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
       .then((response) => response.json())
       .then((result) => {

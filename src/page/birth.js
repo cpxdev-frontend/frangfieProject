@@ -109,7 +109,7 @@ const Birth = ({
       method: "GET",
     };
     RefreshDate();
-    setPage(lang == "th" ? "ข้อมูลกิจกรรม" : "Events of Kaofrang");
+    setPage(lang == "th" ? "กิจกรรมวันเกิดของข้าวฟ่าง" : "Birthday Campaign of Kaofrang");
     fetch("https://cpxdevweb.onrender.com/kfsite/birthdayList", requestOptions)
       .then((response) => response.json())
       .then((result) => {

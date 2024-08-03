@@ -455,7 +455,7 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                   checktime(item).prepare == 0 && checktime(item).launch == 0
                 ) &&
                   item.timerange[1] > 0 &&
-                  launch < item.timerange[1] && (
+                  unix <= item.timerange[1] && (
                     <LinearProgress
                       sx={{ width: "100%", height: window.innerHeight * 0.02 }}
                       variant="buffer"
