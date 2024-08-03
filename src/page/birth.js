@@ -91,7 +91,7 @@ const Birth = ({
   };
 
   const refhd = (requestOptions) => {
-    if (loadx == false) {
+    if (loadx == false && view) {
       fetch(
         "https://cpxdevweb.onrender.com/kfsite/birthdayList",
         requestOptions
