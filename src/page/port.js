@@ -16,7 +16,7 @@ import {
   List,
   Dialog,
   ListItem,
-  Chip,
+  Pagination,
   Slide,
   Skeleton,
   AppBar,
@@ -30,6 +30,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 import moment from "moment";
 import { Carousel as MobileCarousel } from "react-responsive-carousel";
+import usePagination from "../pagination";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -39,9 +40,29 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
   const [width, setRealwidth] = React.useState(window.innerWidth);
   const [data1, setData1] = React.useState(null);
   const [data2, setData2] = React.useState(null);
+  const [sam1, setSam1] = React.useState([]);
+  const [sam2, setSam2] = React.useState([]);
   const [ix, setIx] = React.useState(0);
-
+  const [pageset1, setPagin1] = React.useState(1);
+  const [pageset2, setPagin2] = React.useState(1);
+  const PER_PAGE = 5;
   const [clip, setClip] = React.useState(null);
+
+  let count1 = Math.ceil(sam1.length / PER_PAGE);
+  let _DATA1 = usePagination(sam1, PER_PAGE);
+
+  const handleChange1 = (e, p) => {
+    setPagin1(p);
+    _DATA1.jump(p);
+  };
+
+  let count2 = Math.ceil(sam2.length / PER_PAGE);
+  let _DATA2 = usePagination(sam2, PER_PAGE);
+
+  const handleChange2 = (e, p) => {
+    setPagin2(p);
+    _DATA2.jump(p);
+  };
 
   React.useEffect(() => {
     var requestOptions = {
@@ -57,6 +78,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
       .then((response) => response.json())
       .then((result) => {
         setData1(result.res.tracks.items);
+        setSam1(result.res.tracks.items)
       })
       .catch((error) => console.log("error", error));
   }, [lang]);
@@ -74,6 +96,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
       .then((response) => response.json())
       .then((result) => {
         setData2(result.items);
+        setSam2(result.items)
       })
       .catch((error) => console.log("error", error));
   }, []);
@@ -161,8 +184,20 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
               </MobileCarousel>
             </Box>
             <Box className="ml-1" sx={{ display: { sm: 'none', xs: 'initial' } }}>
+              {
+                data1.length > PER_PAGE && (
+                  <div className='col-md-12 d-flex justify-content-center mb-3'>
+                    <Pagination
+                      count={count1}
+                      size="large"
+                      page={pageset1}
+                      onChange={handleChange1}
+                    />
+                  </div>
+                )
+              }
               {data1.length > 0 &&
-                data1.map((item, i) => (
+                _DATA1.currentData().map((item, i) => (
                   <Card
                     data-aos="fade-right"
                     key={"home-" + item.track.id}
@@ -199,6 +234,18 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                     </CardActionArea>
                   </Card>
                 ))}
+              {
+                data1.length > PER_PAGE && (
+                  <div className='col-md-12 d-flex justify-content-center mb-3'>
+                    <Pagination
+                      count={count1}
+                      size="large"
+                      page={pageset1}
+                      onChange={handleChange1}
+                    />
+                  </div>
+                )
+              }
             </Box>
           </Grid>
         ) : (
@@ -250,7 +297,19 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                   : "All Discography and original contents of Kaofrang Yanisa or Kaofrang BNK48 (From Youtube)"
               }
             />
-            {data2.map((item, i) => (
+             {
+                data2.length > PER_PAGE && (
+                  <div className='col-md-12 d-flex justify-content-center mb-3'>
+                    <Pagination
+                      count={count2}
+                      size="large"
+                      page={pageset2}
+                      onChange={handleChange2}
+                    />
+                  </div>
+                )
+              }
+            {_DATA2.currentData().map((item, i) => (
               <Card
                 data-aos="fade-right"
                 component={Grid}
@@ -304,6 +363,18 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                 </Grid>
               </Card>
             ))}
+             {
+                data2.length > PER_PAGE && (
+                  <div className='col-md-12 d-flex justify-content-center mb-3'>
+                    <Pagination
+                      count={count2}
+                      size="large"
+                      page={pageset2}
+                      onChange={handleChange2}
+                    />
+                  </div>
+                )
+              }
           </Grid>
         ) : (
           <Card>

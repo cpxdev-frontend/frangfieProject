@@ -12,7 +12,7 @@ import {
   Tabs,
   Tab,
   Typography,
-  List,
+  Pagination,
   IconButton,
   Chip,
   Skeleton,
@@ -31,6 +31,7 @@ import {
 } from "../redux/action";
 import moment from "moment";
 import { RefreshRounded } from "@mui/icons-material";
+import usePagination from "../pagination";
 
 function compareTimestamps(timestamp1, timestamp2) {
   // Get the difference in milliseconds
@@ -60,9 +61,21 @@ function compareTimestamps(timestamp1, timestamp2) {
 
 const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
   const [data, setData] = React.useState(null);
+  const [sam, setSam] = React.useState([]);
   const [getData, setGetData] = React.useState(null);
   const [unix, setUnix] = React.useState(launch);
   const [fet, setFetch] = React.useState(false);
+  const [pageset, setPagin] = React.useState(1);
+  const PER_PAGE = 5;
+
+  let count = Math.ceil(sam.length / PER_PAGE);
+  let _DATA = usePagination(sam, PER_PAGE);
+
+  const handleChange = (e, p) => {
+    setPagin(p);
+    _DATA.jump(p);
+  };
+
 
   const RefreshDate = () => {
     setFetch(false);
@@ -184,6 +197,7 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
       .then((result) => {
         setGetData(undefined);
         setData(result);
+        setSam(result)
       })
       .catch((error) => console.log("error", error));
   }, []);
@@ -208,7 +222,19 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
       <div className="container mt-3">
         {data != null ? (
           <>
-            {data.map((item, i) => (
+            {
+              data.length > PER_PAGE && (
+                <div className='col-md-12 d-flex justify-content-center mb-3'>
+                  <Pagination
+                    count={count}
+                    size="large"
+                    page={pageset}
+                    onChange={handleChange}
+                  />
+                </div>
+              )
+            }
+            {_DATA.currentData().map((item, i) => (
               <Card key={item.newsId} className="mb-3" data-aos="zoom-in-right">
                 <CardContent
                   sx={{
@@ -240,25 +266,25 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                           label={
                             lang == "th"
                               ? "กำลังเริ่มต้นในอีก " +
-                                compareTimestamps(unix, item.timerange[0])
-                                  .days +
-                                " วัน " +
-                                compareTimestamps(unix, item.timerange[0])
-                                  .hours +
-                                " ชั่วโมง " +
-                                compareTimestamps(unix, item.timerange[0])
-                                  .minutes +
-                                " นาที"
+                              compareTimestamps(unix, item.timerange[0])
+                                .days +
+                              " วัน " +
+                              compareTimestamps(unix, item.timerange[0])
+                                .hours +
+                              " ชั่วโมง " +
+                              compareTimestamps(unix, item.timerange[0])
+                                .minutes +
+                              " นาที"
                               : "Event start in " +
-                                compareTimestamps(unix, item.timerange[0])
-                                  .days +
-                                " day(s) " +
-                                compareTimestamps(unix, item.timerange[0])
-                                  .hours +
-                                " hr(s) " +
-                                compareTimestamps(unix, item.timerange[0])
-                                  .minutes +
-                                " minute(s)"
+                              compareTimestamps(unix, item.timerange[0])
+                                .days +
+                              " day(s) " +
+                              compareTimestamps(unix, item.timerange[0])
+                                .hours +
+                              " hr(s) " +
+                              compareTimestamps(unix, item.timerange[0])
+                                .minutes +
+                              " minute(s)"
                           }
                           color="primary"
                         />
@@ -279,21 +305,21 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                         label={
                           lang == "th"
                             ? "กำลังเริ่มต้นในอีก " +
-                              compareTimestamps(unix, item.timerange[0]).days +
-                              " วัน " +
-                              compareTimestamps(unix, item.timerange[0]).hours +
-                              " ชั่วโมง " +
-                              compareTimestamps(unix, item.timerange[0])
-                                .minutes +
-                              " นาที"
+                            compareTimestamps(unix, item.timerange[0]).days +
+                            " วัน " +
+                            compareTimestamps(unix, item.timerange[0]).hours +
+                            " ชั่วโมง " +
+                            compareTimestamps(unix, item.timerange[0])
+                              .minutes +
+                            " นาที"
                             : "Event start in " +
-                              compareTimestamps(unix, item.timerange[0]).days +
-                              " day(s) " +
-                              compareTimestamps(unix, item.timerange[0]).hours +
-                              " hr(s) " +
-                              compareTimestamps(unix, item.timerange[0])
-                                .minutes +
-                              " minute(s)"
+                            compareTimestamps(unix, item.timerange[0]).days +
+                            " day(s) " +
+                            compareTimestamps(unix, item.timerange[0]).hours +
+                            " hr(s) " +
+                            compareTimestamps(unix, item.timerange[0])
+                              .minutes +
+                            " minute(s)"
                         }
                         color="primary"
                       />
@@ -316,11 +342,11 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                         {checkeventtype(item)}
                       </h6>
                       {item.timerange[0] > 0 &&
-                      item.timerange[1] > 0 &&
-                      moment
-                        .unix(item.timerange[0])
-                        .local()
-                        .format("MMMM DD, YYYY") ===
+                        item.timerange[1] > 0 &&
+                        moment
+                          .unix(item.timerange[0])
+                          .local()
+                          .format("MMMM DD, YYYY") ===
                         moment
                           .unix(item.timerange[1])
                           .local()
@@ -352,10 +378,10 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                           .unix(item.timerange[0])
                           .local()
                           .format("MMMM DD, YYYY") !==
-                          moment
-                            .unix(item.timerange[1])
-                            .local()
-                            .format("MMMM DD, YYYY") ? (
+                        moment
+                          .unix(item.timerange[1])
+                          .local()
+                          .format("MMMM DD, YYYY") ? (
                         <p>
                           {lang == "th"
                             ? "ช่วงเวลาของกิจกรรม"
@@ -465,6 +491,18 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                   )}
               </Card>
             ))}
+            {
+              data.length > PER_PAGE && (
+                <div className='col-md-12 d-flex justify-content-center mb-3'>
+                  <Pagination
+                    count={count}
+                    size="large"
+                    page={pageset}
+                    onChange={handleChange}
+                  />
+                </div>
+              )
+            }
           </>
         ) : (
           <Card>
