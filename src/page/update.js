@@ -14,86 +14,31 @@ import {
   Typography,
   List,
   ListItem,
-  Chip,
+  Pagination,
   Skeleton,
 } from "@mui/material";
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 import getAge from "get-age";
 import Iframe from "./_iframe";
-
-function CustomTabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}>
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-function a11yProps2(index) {
-  return {
-    id: `simple-tab2-${index}`,
-    "aria-controls": `simple-tabpanel2-${index}`,
-  };
-}
+import usePagination from '../pagination'
 
 const Event = ({ currentPage, lang, setLang, setPage }) => {
   const [data, setData] = React.useState(null);
-  const [value, setValue] = React.useState(0);
+  const [sam, setSam] = React.useState([]);
+  const [pageset, setPagin] = React.useState(1);
+  const PER_PAGE = 8;
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  let count = Math.ceil(sam.length / PER_PAGE);
+  let _DATA = usePagination(sam, PER_PAGE);
 
-  const checkeventtype = (obj) => {
-    if (obj.locate == null && obj.place == "") {
-      return lang == "th" ? "กิจกรรมเข้าร่วมแบบออนไลน์" : "Online event";
-    } else {
-      if (obj.link != "") {
-        return lang == "th"
-          ? "กิจกรรมเปิด"
-          : "Full event (Both Online and Offline event)";
-      } else {
-        return lang == "th" ? "กิจกรรมเข้าร่วมแบบออฟไลน์" : "Offline event";
-      }
+  const event = React.useRef(null);
+
+  const handleChange = (e, p) => {
+    if (event.current) {
+      event.current.scrollIntoView({ behavior: 'smooth' });
     }
-  };
-
-  const checkeventstatus = (obj) => {
-    const unix = Math.floor(new Date().getTime() / 1000);
-    if (obj.timerange[0] > 0 && obj.timerange[1] == 0) {
-      if (unix >= obj.timerange[0]) {
-        return lang == "th" ? "ปกติ" : "Normal";
-      } else {
-        return lang == "th"
-          ? "เตรียมความพร้อมในการจัดงาน"
-          : "Preparing to operate event";
-      }
-    } else {
-      return "ทดสอบระบบ";
-    }
-  };
-
-  const [value2, setValue2] = React.useState(0);
-
-  const handleChange2 = (event, newValue) => {
-    setValue2(newValue);
+    setPagin(p);
+    _DATA.jump(p);
   };
 
   React.useEffect(() => {
@@ -106,12 +51,13 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
       .then((response) => response.json())
       .then((result) => {
         setData(result.response);
+        setSam(result.response);
       })
       .catch((error) => console.log("error", error));
   }, []);
 
   return (
-    <Box sx={{ marginTop: {xs: 0, md:13}, marginBottom: 15 }}>
+    <Box sx={{ marginTop: {xs: 0, md:13}, marginBottom: 15 }} ref={event}>
       {data != null && data[0].postId.includes("facebook.com") ? (
         <CardHeader
           title={<h3>More update of Kaofrang</h3>}
@@ -134,7 +80,19 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
       <div className="container mt-3">
         {data != null ? (
           <Grid container className="d-flex justify-content-center" spacing={2}>
-            {data.map((item, i) => (
+            {
+              data.length > PER_PAGE && (
+                <div className='col-md-12 d-flex justify-content-center mb-3'>
+                  <Pagination
+                    count={count}
+                    size="large"
+                    page={pageset}
+                    onChange={handleChange}
+                  />
+                </div>
+              )
+            }
+            {_DATA.currentData().map((item, i) => (
               <Grid item lg={8} xs={12} data-aos={i %2 == 0 ? "zoom-in-left" : "zoom-in-right"}>
                 <Card key={item.postId} className="mb-3">
                   <CardContent className="col-12">
@@ -143,6 +101,18 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
                 </Card>
               </Grid>
             ))}
+            {
+              data.length > PER_PAGE && (
+                <div className='col-md-12 d-flex justify-content-center mb-3'>
+                  <Pagination
+                    count={count}
+                    size="large"
+                    page={pageset}
+                    onChange={handleChange}
+                  />
+                </div>
+              )
+            }
           </Grid>
         ) : (
           <Card>

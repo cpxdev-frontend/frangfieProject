@@ -48,10 +48,16 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
   const PER_PAGE = 5;
   const [clip, setClip] = React.useState(null);
 
+  const music = React.useRef(null);
+  const content = React.useRef(null);
+
   let count1 = Math.ceil(sam1.length / PER_PAGE);
   let _DATA1 = usePagination(sam1, PER_PAGE);
 
   const handleChange1 = (e, p) => {
+    if (music.current) {
+      music.current.scrollIntoView({ behavior: 'smooth' });
+    }
     setPagin1(p);
     _DATA1.jump(p);
   };
@@ -60,6 +66,9 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
   let _DATA2 = usePagination(sam2, PER_PAGE);
 
   const handleChange2 = (e, p) => {
+    if (content.current) {
+      content.current.scrollIntoView({ behavior: 'smooth' });
+    }
     setPagin2(p);
     _DATA2.jump(p);
   };
@@ -183,7 +192,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                   ))}
               </MobileCarousel>
             </Box>
-            <Box className="ml-1" sx={{ display: { sm: 'none', xs: 'initial' } }}>
+            <Box className="ml-1" ref={music} sx={{ display: { sm: 'none', xs: 'initial' } }}>
               {
                 data1.length > PER_PAGE && (
                   <div className='col-md-12 d-flex justify-content-center mb-3'>
@@ -286,7 +295,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
         )}
         <div className="mt-5" />
         {data2 != null ? (
-          <Grid container spacing={2}>
+          <Grid container spacing={2} ref={content}>
             <CardHeader
               title={
                 lang == "th" ? "ห้องนั่งเล่นของข้าวฟ่าง" : "'Frang Playground"

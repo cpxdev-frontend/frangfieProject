@@ -71,7 +71,12 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
   let count = Math.ceil(sam.length / PER_PAGE);
   let _DATA = usePagination(sam, PER_PAGE);
 
+  const event = React.useRef(null);
+
   const handleChange = (e, p) => {
+    if (event.current) {
+      event.current.scrollIntoView({ behavior: 'smooth' });
+    }
     setPagin(p);
     _DATA.jump(p);
   };
@@ -203,7 +208,7 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
   }, []);
 
   return (
-    <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
+    <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }} ref={event}>
       <CardHeader
         title={<h3>Incoming Events of Kaofrang</h3>}
         subheader={
