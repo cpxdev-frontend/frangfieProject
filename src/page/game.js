@@ -424,7 +424,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
                     quesList.length
                   }
                 />
-                {item.img != undefined && (
+                {item.img != undefined && checked == false && (
                   <p className="mt-2 text-primary" onClick={() => {
                       Swal.fire({
                         imageUrl: item.img
