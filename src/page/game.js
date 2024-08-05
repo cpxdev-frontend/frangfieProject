@@ -425,11 +425,16 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
                   }
                 />
                 {item.img != undefined && checked == false && (
-                  <p className="mt-2 text-primary" onClick={() => {
+                  <p className="mt-2 text-primary ml-3" onClick={() => {
                       Swal.fire({
                         imageUrl: item.img
                       })
                     }}><b>{lang == "th" ? "คำแนะนำ: คลิกหรือแตะที่นี่เพื่อดูรูปเต็ม" : "Guide: Click or tap here to view full-size image"}</b></p>
+                )}
+                {item.img != undefined && checked == true && (
+                  <div className="text-center">
+                    <CardMedia component='img' src={item.img} width={300} />
+                  </div>
                 )}
                 <List>
                   {item.choices.map((choice, ix) => (
