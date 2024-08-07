@@ -43,11 +43,11 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
 
   React.useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: "POST",
     };
 
     setPage(lang == "th" ? "อัปเดตจากข้าวฟ่าง" : "Social Update");
-    fetch("https://cpxdevweb.onrender.com/kfsite/sociallist", requestOptions)
+    fetch("/kfsite/sociallist", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setData(result.response);

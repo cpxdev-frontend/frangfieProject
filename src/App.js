@@ -167,7 +167,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
         .catch((error) => console.log("error", error));
       return;
     }
-    fetch("https://cpxdevweb.onrender.com/kfsite/birthdayStatus?ok=kf", {})
+    fetch("/kfsite/birthdayStatus?ok=kf", {})
       .then((response) => response.json())
       .then((result) => {
         setBirthday(result.response);

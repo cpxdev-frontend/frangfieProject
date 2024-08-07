@@ -84,13 +84,13 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
 
   React.useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: "POST",
     };
 
     RefreshDate();
     setPage(lang == "th" ? "ดันเทรน" : "Trend for Kaofrang");
     fetch(
-      "https://cpxdevweb.onrender.com/kfsite/tagboost?data=kf",
+      "/kfsite/tagboost?data=kf",
       requestOptions
     )
       .then((response) => response.json())

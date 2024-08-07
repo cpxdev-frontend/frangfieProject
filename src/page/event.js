@@ -197,7 +197,7 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
 
     RefreshDate();
     setPage(lang == "th" ? "ข้อมูลกิจกรรม" : "Events of Kaofrang");
-    fetch("https://cpxdevweb.onrender.com/kfsite/listevent", requestOptions)
+    fetch("/kfsite/listevent", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setGetData(undefined);

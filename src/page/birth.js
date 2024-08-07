@@ -73,13 +73,13 @@ const Birth = ({
   }, [addPost]);
 
   const RefreshDate = () => {
-    fetch("https://cpxdevweb.onrender.com/kfsite/birthdayStatus?ok=kf", {})
+    fetch("/kfsite/birthdayStatus?ok=kf", {})
       .then((response) => response.json())
       .then((result) => {
         setUp(result.response);
       })
       .catch((error) => console.log("error", error));
-    fetch("https://cpxdevweb.onrender.com/kfsite/birthdayStatus", {})
+    fetch("/kfsite/birthdayStatus", {})
       .then((response) => response.json())
       .then((result) => {
         setView(result.response);
@@ -93,7 +93,7 @@ const Birth = ({
   const refhd = (requestOptions) => {
     if (loadx == false && view) {
       fetch(
-        "https://cpxdevweb.onrender.com/kfsite/birthdayList",
+        "/kfsite/birthdayList",
         requestOptions
       )
         .then((response) => response.json())
@@ -106,11 +106,11 @@ const Birth = ({
 
   React.useEffect(() => {
     var requestOptions = {
-      method: "GET",
+      method: "POST",
     };
     RefreshDate();
     setPage(lang == "th" ? "กิจกรรมวันเกิดของข้าวฟ่าง" : "Birthday Campaign of Kaofrang");
-    fetch("https://cpxdevweb.onrender.com/kfsite/birthdayList", requestOptions)
+    fetch("/kfsite/birthdayList", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setData(result.response);
@@ -135,7 +135,7 @@ const Birth = ({
     };
     setLoadx(true)
     fetch(
-      "https://cpxdevweb.onrender.com/kfsite/birthdayUpload",
+      "/kfsite/birthdayUpload",
       requestOptions
     )
       .then((response) => response.json())
@@ -143,7 +143,7 @@ const Birth = ({
         setLoadx(false)
         if (result.status) {
           refhd({
-            method: "GET",
+            method: "POST",
           })
         }
       })

@@ -97,15 +97,12 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
 
   React.useEffect(() => {
     var requestOptions = {
-      method: "POST",
-      headers: {
-        Origin: "cp-bnk48.pages.dev",
-      },
+      method: "POST"
     };
 
     setPage(lang == "th" ? "เกี่ยวกับข้าวฟ่าง" : "All About Kaofrang");
     fetch(
-      "https://cpxdevweb.onrender.com/bnk48/getmember?name=kaofrang",
+      "/kfsite/getkaofranginfo",
       requestOptions
     )
       .then((response) => response.json())
