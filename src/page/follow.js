@@ -58,7 +58,7 @@ const Follow = ({currentPage, lang, setLang, setPage, launch}) => {
                 </ListItemAvatar>
                 <ListItemText primary="BNK48 Official Website" secondary="Kaofrang" />
             </ListItemButton>
-            <ListItemButton component="a" href="https://app.bnk48.com/members/bnk48/kaofrang" target='_blank' data-aos="fade-right" data-aos-delay={window.innerHeight > 700 ? "1500" : '0'}>
+            <ListItemButton component="a" href="https://app.bnk48.com/members/bnk48/kaofrang" target='_blank' data-aos="fade-right" data-aos-delay={window.innerHeight > 700 ? "2000" : '0'}>
                 <ListItemAvatar>
                 <Avatar sx={{backgroundColor: '#8AAEB5'}}>
                     <FontAwesomeIcon icon={faMobileAlt} />
@@ -66,7 +66,7 @@ const Follow = ({currentPage, lang, setLang, setPage, launch}) => {
                 </ListItemAvatar>
                 <ListItemText primary="IAM48 Mobile Application" secondary="Kaofrang" />
             </ListItemButton>
-            <ListItemButton component="a" href="https://cp-bnk48.pages.dev/member/kaofrang" target='_blank' data-aos="fade-right" data-aos-delay={window.innerHeight > 700 ? "2000" : '0'}>
+            <ListItemButton component="a" href="https://cp-bnk48.pages.dev/member/kaofrang" target='_blank' data-aos="fade-right" data-aos-delay={window.innerHeight > 700 ? "2500" : '0'}>
                 <ListItemAvatar>
                 <Avatar sx={{backgroundColor: '#CB96C2'}}>
                     <FontAwesomeIcon icon={faDesktop} />
