@@ -90,7 +90,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
     RefreshDate();
     setPage(lang == "th" ? "ดันเทรน" : "Trend for Kaofrang");
     fetch(
-      "/kfsite/tagboost?data=kf",
+      process.env.REACT_APP_APIE + "/kfsite/tagboost?data=kf",
       requestOptions
     )
       .then((response) => response.json())

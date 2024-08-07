@@ -47,7 +47,7 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
     };
 
     setPage(lang == "th" ? "อัปเดตจากข้าวฟ่าง" : "Social Update");
-    fetch("/kfsite/sociallist", requestOptions)
+    fetch(process.env.REACT_APP_APIE + "/kfsite/sociallist", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setData(result.response);

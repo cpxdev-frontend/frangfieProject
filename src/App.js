@@ -167,7 +167,7 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
         .catch((error) => console.log("error", error));
       return;
     }
-    fetch("/kfsite/birthdayStatus?ok=kf", {})
+    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {})
       .then((response) => response.json())
       .then((result) => {
         setBirthday(result.response);

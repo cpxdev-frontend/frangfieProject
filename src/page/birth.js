@@ -73,13 +73,13 @@ const Birth = ({
   }, [addPost]);
 
   const RefreshDate = () => {
-    fetch("/kfsite/birthdayStatus?ok=kf", {})
+    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {})
       .then((response) => response.json())
       .then((result) => {
         setUp(result.response);
       })
       .catch((error) => console.log("error", error));
-    fetch("/kfsite/birthdayStatus", {})
+    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus", {})
       .then((response) => response.json())
       .then((result) => {
         setView(result.response);
@@ -93,7 +93,7 @@ const Birth = ({
   const refhd = (requestOptions) => {
     if (loadx == false && view) {
       fetch(
-        "/kfsite/birthdayList",
+        process.env.REACT_APP_APIE + "/kfsite/birthdayList",
         requestOptions
       )
         .then((response) => response.json())
@@ -110,7 +110,7 @@ const Birth = ({
     };
     RefreshDate();
     setPage(lang == "th" ? "กิจกรรมวันเกิดของข้าวฟ่าง" : "Birthday Campaign of Kaofrang");
-    fetch("/kfsite/birthdayList", requestOptions)
+    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayList", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setData(result.response);
@@ -135,7 +135,7 @@ const Birth = ({
     };
     setLoadx(true)
     fetch(
-      "/kfsite/birthdayUpload",
+      process.env.REACT_APP_APIE + "/kfsite/birthdayUpload",
       requestOptions
     )
       .then((response) => response.json())

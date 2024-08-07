@@ -81,7 +81,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
     setData1(null);
     setPage(lang == "th" ? "ผลงานเพลงและการแสดง" : "Discography and Acting");
     fetch(
-      "/kfsite/kfspotplay?l=" + lang,
+      process.env.REACT_APP_APIE + "/kfsite/kfspotplay?l=" + lang,
       requestOptions
     )
       .then((response) => response.json())
@@ -101,7 +101,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
 
     window.addEventListener("resize", handleWindowResize);
     setData2(null);
-    fetch("/kfsite/kfytplay", requestOptions)
+    fetch(process.env.REACT_APP_APIE + "/kfsite/kfytplay", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setData2(result.items);

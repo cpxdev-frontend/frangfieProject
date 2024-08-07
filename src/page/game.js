@@ -91,7 +91,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
       method: "POST",
     };
 
-    fetch("/kfsite/kffetchquiz", requestOptions)
+    fetch(process.env.REACT_APP_APIE + "/kfsite/kffetchquiz", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status) {
@@ -194,7 +194,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
       if (!isIOS()) {
         navigator.vibrate([600, 100, 600, 100, 600]);
       }
-      fetch("/kfsite/kfkeep", {
+      fetch(process.env.REACT_APP_APIE + "/kfsite/kfkeep", {
         method: "put",
         headers: {
           "Content-Type": "application/json",
