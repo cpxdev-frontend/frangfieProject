@@ -34,7 +34,8 @@
     "react-social-media-embed": "^2.5.13",
     "redux": "^4.2.1",
     "sweetalert2": "^11.12.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yarn": "^1.22.22"
   },
   "scripts": {
     "start": "react-scripts start",
