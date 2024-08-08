@@ -39,3 +39,10 @@ export function setLoad(val) {
       val: val
     };
   }
+
+  export function setZone(val) {
+    return {
+      type: 'SET_ZONE',
+      val: val
+    };
+  }

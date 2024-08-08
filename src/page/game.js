@@ -42,7 +42,14 @@ function isIOS() {
 let timerInterval;
 let gamein = false;
 
-const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
+function secondsToMinSec(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  return { minutes, seconds };
+}
+
+const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGame, game }) => {
   const [gamemeet, setGame] = React.useState(0);
   const [quesList, setQuesList] = React.useState([]);
   const [correct, setCorrect] = React.useState(0);
@@ -52,7 +59,19 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
   const [checked, setCheck] = React.useState(false);
   const [startLoad, setLoad] = React.useState(false);
 
-  const history = useHistory();
+  const [time, setTime] = React.useState(0);
+
+  // state to check stopwatch running or not
+  const [isRunning, setIsRunning] = React.useState(false);
+
+  React.useEffect(() => {
+    let intervalId;
+    if (isRunning) {
+      // setting time from 0 to 1 every 10 milisecond using javascript setInterval method
+      intervalId = setInterval(() => setTime(time + 1), 9);
+    }
+    return () => clearInterval(intervalId);
+  }, [isRunning, time]);
 
   const [readyans, setAns] = React.useState(false);
 
@@ -85,6 +104,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
     setQues(0);
     setGame(0);
     setCorrect(0);
+    setTime(0);
     setInGame(true);
     setLoad(true);
     var requestOptions = {
@@ -147,10 +167,12 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
                   console.log(JSON.parse(result.data));
                   setGame(1);
                   setLoad(false);
-                  setAns(false);
+                  setAns(false);  
+                  setIsRunning(false);
                   setTimeout(
                     () => {
                       setAns(true);
+                      setIsRunning(true);
                     },
                     (window.innerHeight > (JSON.parse(result.data)[0].img? 700 : 500) ? 3800 : 1000)
                   );
@@ -161,9 +183,11 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
                 setGame(1);
                 setLoad(false);
                 setAns(false);
+                setIsRunning(false);
                 setTimeout(
                   () => {
                     setAns(true);
+                    setIsRunning(true);
                   },
                   (window.innerHeight > (JSON.parse(result.data)[0].img ? 700 : 500) ? 3800 : 1000)
                 );
@@ -181,6 +205,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
     }
     setSelected(select);
     setCheck(true);
+    setIsRunning(false);
     if (key === select) {
       setStatperques(1);
       setCorrect((x) => (x = x + 1));
@@ -203,6 +228,8 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
           quesText: JSON.stringify(quesList),
           quizScore: correct + (key === select ? 1 : 0),
           quizFrom: quesList.length,
+          quizDuration: Math.floor((time % 6000) / 100),
+          quizCountry: currentCountry
         }),
       })
         .then((response) => response.json())
@@ -248,6 +275,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
             setTimeout(
               () => {
                 setAns(true);
+                setIsRunning(true);
               },
               (window.innerHeight > (quesList[ques + 1].img ? 700 : 500) ? 3800 : 1000)
             );
@@ -264,6 +292,7 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
           setTimeout(
             () => {
               setAns(true);
+              setIsRunning(true);
             },
             (window.innerHeight > (quesList[ques + 1].img ? 700 : 500) ? 3800 : 1000)
           );
@@ -386,6 +415,13 @@ const GameApp = ({ currentPage, lang, setLang, setPage, setInGame, game }) => {
                       " points from all " +
                       aver.fromAll +
                       " points."}
+                </Typography>
+                <Typography className="ml-3" data-aos="zoom-in-down">
+                  {lang == "th"
+                    ? "เวลาที่ใช้ไปโดยเฉลี่ยทั่วโลก " +
+                     (secondsToMinSec(aver.time).minutes > 0 ? secondsToMinSec(aver.time).minutes + ' นาที ' + secondsToMinSec(aver.time).seconds + ' วินาที' : secondsToMinSec(aver.time).seconds + ' วินาที') 
+                    : "Worldwide average time duration " +
+                    (secondsToMinSec(aver.time).minutes > 0 ? secondsToMinSec(aver.time).minutes + ' minutes ' + secondsToMinSec(aver.time).seconds + ' seconds' : secondsToMinSec(aver.time).seconds + ' seconds') }
                 </Typography>
               </>
             ) : (
@@ -518,6 +554,7 @@ const mapStateToProps = (state) => ({
   lang: state.lang,
   currentPage: state.currentPage,
   game: state.game,
+  currentCountry: state.currentCountry
 });
 const mapDispatchToProps = (dispatch) => ({
   setLoad: (val) => dispatch(setLoad(val)),

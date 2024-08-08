@@ -40,6 +40,7 @@ import {
   setDarkMode,
   setPage,
   setLaunch,
+  setZone,
 } from "./redux/action";
 import "moment/locale/th"; // without this line it didn't work
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -53,6 +54,7 @@ import Disco from "./page/port";
 import Trend from "./page/trend";
 import Event from "./page/event";
 import Game from "./page/game";
+import GameD from "./page/gamedash";
 import Feed from "./page/update";
 import Follow from "./page/follow";
 import Birth from './page/birth';
@@ -103,7 +105,7 @@ const langList = [
   },
 ];
 let scrollmot = false;
-function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
+function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [birthdaycampain, setBirthday] = React.useState(false);
@@ -210,6 +212,12 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
       localStorage.setItem("kflang", lang);
     }
   }, [lang]);
+
+  React.useEffect(() => {
+    fetch('https://speed.cloudflare.com/meta')
+    .then(response => response.json())
+    .then(data => setZone(data.country));
+  }, [])
 
   React.useEffect(() => {
     document.title = currentPage + " | KaofrangFie Site";
@@ -505,6 +513,11 @@ function App({ currentPage, lang, setLang, setLaunch, launch, game }) {
               path="/quizgame"
               render={() => <Game />}
             />
+             <Route
+              data-aos="fade-in"
+              path="/quizgameresult/:c"
+              render={() => <GameD />}
+            />
             <Route
               data-aos="fade-in"
               path="/follow"
@@ -612,5 +625,6 @@ const mapDispatchToProps = (dispatch) => ({
   setLang: (val) => dispatch(setLang(val)),
   setLaunch: (val) => dispatch(setLaunch(val)),
   setPage: (val) => dispatch(setPage(val)),
+  setZone: (val) => dispatch(setZone(val)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,5 +1,6 @@
 const initialState = {
   load: false,
+  currentCountry: '',
   lang:
     localStorage.getItem("kflang") != null
       ? localStorage.getItem("kflang")
@@ -2008,6 +2009,8 @@ function Reducer(state = initialState, action) {
   switch (action.type) {
     case "SET_MAINLOAD":
       return { ...state, load: action.val };
+    case "SET_ZONE":
+      return { ...state, currentCountry: action.val };
     case "SET_LANG":
       return { ...state, lang: action.val };
     case "SET_DARK":
