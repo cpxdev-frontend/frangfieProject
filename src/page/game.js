@@ -467,11 +467,7 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
                       })
                     }}><b>{lang == "th" ? "คำแนะนำ: คลิกหรือแตะที่นี่เพื่อดูรูปเต็ม" : "Guide: Click or tap here to view full-size image"}</b></p>
                 )}
-                {item.img != undefined && checked == true && (
-                  <div className="text-center">
-                    <CardMedia component='img' src={item.img} width={300} />
-                  </div>
-                )}
+                
                 <List>
                   {item.choices.map((choice, ix) => (
                     <ListItemButton
