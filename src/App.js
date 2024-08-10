@@ -169,12 +169,12 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
         .catch((error) => console.log("error", error));
       return;
     }
-    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {})
-      .then((response) => response.json())
-      .then((result) => {
-        setBirthday(result.response);
-      })
-      .catch((error) => console.log("error", error));
+    // fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {})
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //     setBirthday(result.response);
+    //   })
+    //   .catch((error) => console.log("error", error));
     fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
       .then((response) => response.json())
       .then((result) => {
@@ -506,7 +506,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
             />
             <Route data-aos="fade-in" path="/events" render={() => <Event />} />
             <Route data-aos="fade-in" path="/trend" render={() => <Trend />} />
-            <Route data-aos="fade-in" path="/birthday" render={() => <Birth leftmode={leftmode} opacity={opacity} />} />
+            {/* <Route data-aos="fade-in" path="/birthday" render={() => <Birth leftmode={leftmode} opacity={opacity} />} /> */}
             <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
             <Route
               data-aos="fade-in"
