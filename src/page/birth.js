@@ -131,6 +131,10 @@ const Birth = ({
     setAddImg(updatedList);
   }
 
+  React.useEffect(() => {
+console.log(editmodeimg)
+  }, [editmodeimg])
+
   const addImg = () => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -160,12 +164,12 @@ const Birth = ({
     });
   }
 
-  const Export = () => {
+  const Export = async () => {
     if (cardsuccess.current === null) {
       return
     }
     setLoad(true);
-    toJpeg(cardsuccess.current, { cacheBust: true })
+    toJpeg(cardsuccess.current, { preferredFontFormat: 'QGZvbnQtZmFjZXtuYW1lOidtaXNhbnMnO3NyYzp1cmwoJ2h0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9naC9jcHgyMDE3L21pc2Fuc2ZvbnRAbWFpbi9lbi9NaVNhbnMtTm9ybWFsLndvZmYyJykgZm9ybWF0KCd3b2ZmMicpLHVybCgnaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2NweDIwMTcvbWlzYW5zZm9udEBtYWluL2VuL01pU2Fucy1Ob3JtYWwud29mZicpIGZvcm1hdCgnd29mZicpO2ZvbnQtd2VpZ2h0OjUwMDtmb250LXN0eWxlOm5vcm1hbDtmb250LWRpc3BsYXk6c3dhcH0=' })
       .then((dataUrl) => {
         const link = document.createElement('a')
         link.download = 'Your KaofrangFie Birthday Card.jpg'
@@ -176,6 +180,15 @@ const Birth = ({
       .catch((err) => {
         console.log(err)
       })
+  }
+
+  const switchimg = (v) => {
+    alert()
+    if (editmodeimg != '') {
+      setEditmodeImg('');
+    } else {
+      setEditmodeImg(v)
+    }
   }
 
   const RenderHTML = (html) => (<div dangerouslySetInnerHTML={{ __html: html }}></div>)
@@ -222,12 +235,12 @@ const Birth = ({
           <CardContent>
             {
               headedit == false ? (
-                <CardHeader title={header} action={open ? null : <Button onClick={() => setHeadedit(true)}><Edit/></Button>} />
+                <CardHeader title={<h3>{header}</h3>} action={open ? null : <Button onClick={() => setHeadedit(true)}><Edit /></Button>} />
               ) : (
                 <Box className='mb-3'>
-                  <TextField sx={{width: '80%'}} value={header} onChange={(e) => setHead(e.target.value)} />
-                  <Button className="mt-2" onClick={() => setHeadedit(false)}><Done/></Button>
-                  </Box>
+                  <TextField sx={{ width: '80%' }} value={header} onChange={(e) => setHead(e.target.value)} />
+                  <Button className="mt-2" onClick={() => setHeadedit(false)}><Done /></Button>
+                </Box>
               )
             }
             <Divider className='mb-3' />
@@ -236,6 +249,7 @@ const Birth = ({
                 {
                   text.map((item, i) => item.id == editmode ? (
                     <Resizable
+                      key={item.id}
                       style={{ border: open ? '' : 'solid 1px #ddd' }}
                       defaultSize={{
                         width: item.w,
@@ -248,19 +262,19 @@ const Birth = ({
                       <TextField fullWidth multiline rows={5} onChange={(e) => Updateh(e, item.id)} autoComplete="off" value={item.txt} />
                       {!open && (
                         <div className="col-12">
-                        <Button onClick={() => item.txt.length > 0 && setEditmode('')}>
-                          <Save />
-                        </Button>
-                        <Button onClick={() => {
-                          setAddText([
-                            ...text.slice(0, i),
-                            ...text.slice(i + 1)
-                          ])
-                          setEditmode('');
-                        }}>
-                          <Delete />
-                        </Button>
-                      </div>
+                          <Button onClick={() => item.txt.length > 0 && setEditmode('')}>
+                            <Save />
+                          </Button>
+                          <Button onClick={() => {
+                            setAddText([
+                              ...text.slice(0, i),
+                              ...text.slice(i + 1)
+                            ])
+                            setEditmode('');
+                          }}>
+                            <Delete />
+                          </Button>
+                        </div>
                       )}
                     </Resizable>
                   ) : (
@@ -270,7 +284,8 @@ const Birth = ({
                 {
                   img.map((item, i) => (
                     <Resizable
-                      style={{ border: open? '' : 'solid 1px #ddd' }}
+                      key={item.id}
+                      style={{ border: open ? '' : 'solid 1px #ddd' }}
                       defaultSize={{
                         width: item.w,
                         height: item.h
@@ -281,21 +296,21 @@ const Birth = ({
                       }}
                     >
                       <CardMedia sx={{ width: '100%', height: '100%' }} component='img' src={item.src} />
-                     {!open && (
-                       <div className="col-12">
-                       <Button onClick={() => setEditmodeImg(editmodeimg == '' ? item.id : '')}>
-                         {editmodeimg != '' ? <AspectRatio /> : <PanTool />}
-                       </Button>
-                       <Button onClick={() => {
-                         setAddImg([
-                           ...img.slice(0, i),
-                           ...img.slice(i + 1)
-                         ])
-                       }}>
-                         <Delete />
-                       </Button>
-                     </div>
-                     )}
+                      {!open && (
+                        <div className="col-12">
+                          <Button onClick={() => switchimg(item.id)}>
+                            {editmodeimg !== '' ? <AspectRatio /> : <PanTool />}
+                          </Button>
+                          <Button onClick={() => {
+                            setAddImg([
+                              ...img.slice(0, i),
+                              ...img.slice(i + 1)
+                            ])
+                          }}>
+                            <Delete />
+                          </Button>
+                        </div>
+                      )}
                     </Resizable>
                   ))
                 }
