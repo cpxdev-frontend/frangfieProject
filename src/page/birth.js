@@ -32,12 +32,15 @@ import {
   setLaunch,
 } from "../redux/action";
 import moment from "moment";
-import { RefreshRounded, NoteAdd, SetMeal } from "@mui/icons-material";
+import { AddPhotoAlternate, BorderColor } from "@mui/icons-material";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, ContentState, convertToRaw } from "draft-js";
 import { stateFromHTML } from "draft-js-import-html";
 import draftToHtml from "draftjs-to-html";
 import { Base64 } from 'https://cdn.jsdelivr.net/npm/js-base64@3.7.7/base64.min.js';
+import Draggable from 'react-draggable';
+import { v4 as uuidv4 } from 'uuid';
+import { Resizable } from 'react-resizable';
 
 const Birth = ({
   currentPage,
@@ -50,112 +53,60 @@ const Birth = ({
   opacity,
   country,
 }) => {
-  const [data, setData] = React.useState(null);
-  const [view, setView] = React.useState(false);
   const [up, setUp] = React.useState(false);
-  const [us, userReadyset] = React.useState(
-    localStorage.getItem("kfbirthuser") == null
-  );
-  const [setupuser, setUserReady] = React.useState(
-    localStorage.getItem("kfbirthuser")
-  );
-  const [loadx, setLoadx] = React.useState(false);
-
-  const [addPost, setPost] = React.useState(false);
-  const [msg, setMsg] = React.useState(EditorState.createEmpty());
+  const [editmode, setEditmode] = React.useState('');
+  const [text, setAddText] = React.useState([]);
 
   const [selectedcountry, setCountry] = React.useState("");
 
-  React.useEffect(() => {
-    if (addPost == false) {
-      setMsg(EditorState.createEmpty());
-    }
-  }, [addPost]);
-
   const RefreshDate = () => {
-    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {})
+    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", { method: 'post' })
       .then((response) => response.json())
       .then((result) => {
-        setUp(result.response);
+        // setUp(result.response);
+        setUp(true);
       })
       .catch((error) => console.log("error", error));
-    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus", {})
-      .then((response) => response.json())
-      .then((result) => {
-        setView(result.response);
-      })
-      .catch((error) => console.log("error", error));
+
     fetch("https://speed.cloudflare.com/meta")
       .then((response) => response.json())
       .then((data) => setCountry(data.country));
   };
 
-  const refhd = (requestOptions) => {
-    if (loadx == false && view) {
-      fetch(
-        process.env.REACT_APP_APIE + "/kfsite/birthdayList",
-        requestOptions
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          setData(result.response);
-        })
-        .catch((error) => console.log("error", error));
-    }
-  };
-
   React.useEffect(() => {
-    var requestOptions = {
-      method: "POST",
-    };
     RefreshDate();
     setPage(lang == "th" ? "กิจกรรมวันเกิดของข้าวฟ่าง" : "Birthday Campaign of Kaofrang");
-    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayList", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        setData(result.response);
-        setInterval(() => {
-          refhd(requestOptions);
-        }, 30000);
-      })
-      .catch((error) => console.log("error", error));
   }, []);
 
-  const savepost = () => {
-    var requestOptions = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: btoa(unescape(encodeURIComponent(draftToHtml(convertToRaw(msg.getCurrentContent()))))),
-        user: setupuser,
-        country: selectedcountry,
-      }),
-    };
-    setLoadx(true)
-    fetch(
-      process.env.REACT_APP_APIE + "/kfsite/birthdayUpload",
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        setLoadx(false)
-        if (result.status) {
-          refhd({
-            method: "POST",
-          })
+  const addTxt = () => {
+    const API = uuidv4();
+    setAddText([...text, {
+      id: API,
+      txt: ''
+    }])
+    setEditmode(API);
+  }
+
+  const Updateh = (e, id) => {
+    let updatedList = text.map(item => 
+      {
+        if (item.id == id){
+          return {...item, txt: e.target.value}; //gets everything that was already in item, and updates "done"
         }
-      })
-      .catch((error) => console.log("error", error));
-  };
+        return item; // else return unmodified item 
+      });
+  
+    setAddText(updatedList); 
+}
+
+const RenderHTML = (html) => (<div dangerouslySetInnerHTML={{__html:html}}></div>)
 
   return (
     <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
       <CardHeader
-        title={<h3>KaofrangFie Day Trend</h3>}
+        title={<h3>KaofrangFie Day Card</h3>}
         subheader={
-          up && view
+          up
             ? lang == "th"
               ? "ร่วมอวยพรวันเกิดข้าวฟ่างกัน! [ระยะเวลาร่วมกิจกรรม " +
               moment(new Date().getFullYear() + "-11-14T17:00:00Z")
@@ -179,252 +130,73 @@ const Birth = ({
                 .lang(lang)
                 .format("DD MMMM YYYY HH:mm") +
               ". Based on Asia/Bangkok timezone]"
-            : up == false && view
-              ? lang == "th"
-                ? "ดูคำอวยพรได้ถึงวันที่ " +
-                moment(new Date().getFullYear() + "-11-16T16:59:59Z")
-                  .local()
-                  .lang(lang)
-                  .format("DD MMMM YYYY HH:mm") +
-                " (อ้างอิงตามเวลาประเทศไทย)"
-                : "See blessing message until " +
-                moment(new Date().getFullYear() + "-11-16T16:59:59Z")
-                  .local()
-                  .lang(lang)
-                  .format("DD MMMM YYYY HH:mm") +
-                ". (Based on Asia/Bangkok timezone)"
-              : lang == "th"
-                ? "ยังไม่พร้อมให้บริการในขณะนี้ ขออภัยในความไม่สะดวก"
-                : "Oops! We are not ready right now."
+            : lang == "th"
+              ? "ยังไม่พร้อมให้บริการในขณะนี้ ขออภัยในความไม่สะดวก"
+              : "Oops! We are not ready right now."
         }
+        action={<Button variant="contained">{lang == "th"
+          ? "ส่งออกเป็นรูปภาพ"
+          : "Export to Image"}</Button>}
       />
-      <div className="container mt-3">
-        {data != null ? (
-          <>
-            {data.length > 0 ? data.map((item, i) => (
-              <Card
-                key={item.birthDayLog}
-                className="mb-3"
-                data-aos="zoom-in-right">
-                <CardHeader
-                  title={item.birthDayby}
-                  subheader={
-                    (lang == "th" ? "โพสต์เมื่อ " : "Post in ") +
-                    moment(item.created)
-                      .lang(lang)
-                      .local()
-                      .format("DD MMMM YYYY HH:mm") +
-                    (lang == "th"
-                      ? " ที่ " +
-                      country.filter(
-                        (x) => x.alpha2 == item.birthDayLocate
-                      )[0].name
-                      : " from " +
-                      country.filter(
-                        (x) => x.alpha2 == item.birthDayLocate
-                      )[0].enName)
-                  }
-                />
-                <CardContent className="w-100" sx={{wordBreak: 'break-word'}}>
-                  <Typography variant="body2" color="text.secondary" className="txtPost" dangerouslySetInnerHTML={{ __html: decodeURIComponent(escape(window.atob(item.birthDaymessage))) }}>
-                  </Typography>
-                </CardContent>
-              </Card>
-            )) : (
-              <Card>
-                <CardContent className="text-center">
-                {lang == "th"
-                  ? "เรากำลังรอคำอวยพรจากคุณอยู่ คุณสามารถร่วมอวยพรน้องเป็นคนแรกได้นะ"
-                  : "You can come to join as first persons to celebrating now."}
-                </CardContent>
-              </Card>
-            )}
-            {up && localStorage.getItem("kfbirthuser") != null && (
-              <Fab
-                color="primary"
-                sx={
-                  leftmode
-                    ? {
-                      display: {
-                        bottom: 170,
-                        left: 8,
-                        position: "fixed",
-                        zIndex: 1300,
-                        opacity: opacity,
-                      },
-                    }
-                    : {
-                      display: {
-                        bottom: 170,
-                        right: 8,
-                        position: "fixed",
-                        zIndex: 1300,
-                        opacity: opacity,
-                      },
-                    }
+      <div className="container d-flex justify-content-center mt-3">
+        <Card sx={{ minHeight: 800, width: { md: 600, xs: '100%' } }}>
+          <CardContent>
+            <Draggable>
+              <div>
+                {
+                  text.map((item, i) => item.id == editmode ? (
+                    <TextField sx={{width: 290}} multiline rows={3} onChange={(e) => Updateh(e, item.id)} autoComplete="off" value={item.txt} onDoubleClick={() => item.txt.length > 0 && setEditmode('')} helperText={lang == "th"
+                      ? "ดับเบิ้ลคลิกที่ช่องกรอกเพื่อบันทึกการเปลี่ยนแปลง"
+                      : "Double click on text field to confirm updated."} />
+                  ) : (
+                    <Resizable style={{wordBreak: 'break-all'}} onDoubleClick={() => setEditmode(item.id)}>
+                    <Typography variant="div">{RenderHTML(item.txt.replace('\n', '<br/>'))}</Typography>
+                    </Resizable>
+                  ))
                 }
-                onClick={() => setPost(true)}>
-                <NoteAdd />
-              </Fab>
-            )}
-            <Dialog open={us && up} maxWidth="md">
-              <DialogTitle>
-                {lang == "th"
-                  ? "กรอกชื่อผู้ใช้สำหรับเข้าใช้งาน"
-                  : "Please create new username to continue"}
-              </DialogTitle>
-              <DialogContent>
-                <TextField
-                  label="Create your username"
-                  value={setupuser}
-                  variant="standard"
-                  onChange={(e) => setUserReady(e.target.value)}
-                  fullWidth={true}
-                />
-                <Typography className="text-info mt-1" variant="subtitle2">
-                  {lang == "th"
-                    ? "หมายเหตุ: คุณไม่สามารถแก้ไขในภายหลังได้"
-                    : "Notes: You cannot change username later."}
-                </Typography>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  disabled={setupuser == null || setupuser == ""}
-                  onClick={() => {
-                    Swal.fire({
-                      title: lang == "th" ? "คุณต้องการใช้ชื่อ \"" + setupuser + "\" เป็นชื่อผู้ใช้สำหรับการเขียนคำอวยพรหรือไม่" : "Do you want to use \"" + setupuser + "\" as username?",
-                      showDenyButton: true,
-                      confirmButtonText: lang == "en" ? "Confirm" : "ยืนยัน",
-                      denyButtonText: lang == "en" ? "Stay" : "แก้ไขต่อ",
-                    }).then((result) => {
-                      /* Read more about isConfirmed, isDenied below */
-                      if (result.isConfirmed) {
-                        localStorage.setItem("kfbirthuser", setupuser);
-                        userReadyset(false);
-                      }
-                    });
-                  }}>
-                  {lang == "th" ? "ตกลง" : "Confirm"}
-                </Button>
-                <Button
-                  onClick={() => {
-                    userReadyset(false);
-                  }}>
-                  {lang == "th" ? "ยกเลิก" : "Cancel"}
-                </Button>
-              </DialogActions>
-            </Dialog>
-            {selectedcountry != "" && (
-              <Dialog open={addPost && up} maxWidth="xl">
-                <DialogTitle>
-                  {lang == "th"
-                    ? "กรอกข้อความที่ต้องการอวยพร"
-                    : "Please say something to Kaofrang"}
-                </DialogTitle>
-                <DialogContent>
-                  <TextField
-                    label="Your Username"
-                    value={setupuser}
-                    variant="standard"
-                    className="mb-2"
-                    fullWidth={true}
-                  />
-                  <TextField
-                    label="Your location (Based on your IP)"
-                    value={
-                      lang == "th"
-                        ? "ประเทศ" +
-                        country.filter((x) => x.alpha2 == selectedcountry)[0]
-                          .name
-                        : country.filter((x) => x.alpha2 == selectedcountry)[0]
-                          .enName
-                    }
-                    variant="standard"
-                    fullWidth={true}
-                  />
-                  <div className="mt-3 border">
-                    <Editor
-                      editorState={msg}
-                      toolbarClassName="toolbarClassName"
-                      wrapperClassName="wrapperClassName"
-                      editorClassName="editorClassName"
-                      onEditorStateChange={(e) => setMsg(e)}
-                    />
-                  </div>
-                </DialogContent>
-                <DialogActions>
-                  <Button
-                    disabled={msg.getCurrentContent().hasText() === false}
-                    onClick={() => {
-                      Swal.fire({
-                        title: lang == "th" ? "คุณต้องการยืนยันการส่งคำอวยพรหรือไม่" : "Do you want to upload this post",
-                        text: lang == "th" ? "คุณจะไม่สามารถแก้ไขข้อความได้ในภายหลัง" : "You cannot edit message later.",
-                        showDenyButton: true,
-                        confirmButtonText: lang == "en" ? "Confirm" : "ยืนยัน",
-                        denyButtonText: lang == "en" ? "Cancel" : "ยกเลิก",
-                      }).then((result) => {
-                        if (result.isConfirmed) {
-                          console.log(
-                            draftToHtml(convertToRaw(msg.getCurrentContent()))
-                          );
-                          setPost(false)
-                          savepost();
-                          // Call sender api
-                        }
-                      });
-                    }}>
-                    {lang == "th" ? "โพสต์" : "Upload"}
-                  </Button>
-                  <Button onClick={() => setPost(false)}>
-                    {lang == "th" ? "ยกเลิก" : "Cancel"}
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            )}
-            <Backdrop
-              sx={{ color: '#fff', position: 'fixed', zIndex: 2000 }}
-              open={loadx}
-            >
-              <CircularProgress color="primary" />
-            </Backdrop>
-          </>
-        ) : (
-          <Card>
-            <CardContent>
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "2rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-            </CardContent>
-          </Card>
-        )}
+              </div>
+            </Draggable>
+          </CardContent>
+        </Card>
       </div>
+      {
+        editmode == '' && (
+          <>
+          <Fab
+            color="primary"
+            sx={
+              {
+                display: {
+                  bottom: 240,
+                  right: 8,
+                  position: "fixed",
+                  zIndex: 1300,
+                  opacity: opacity,
+                }
+              }
+            }
+            onClick={() => addTxt()}>
+            <BorderColor  />
+          </Fab>
+          <Fab
+            color="primary"
+            sx={
+              {
+                display: {
+                  bottom: 170,
+                  right: 8,
+                  position: "fixed",
+                  zIndex: 1300,
+                  opacity: opacity,
+                }
+              }
+            }
+            onClick={() => {}}>
+            <AddPhotoAlternate  />
+          </Fab>
+          </>
+        )
+      }
     </Box>
   );
 };
