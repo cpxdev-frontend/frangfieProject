@@ -132,7 +132,7 @@ const Birth = ({
   }
 
   React.useEffect(() => {
-console.log(editmodeimg)
+    console.log(editmodeimg)
   }, [editmodeimg])
 
   const addImg = () => {
@@ -183,7 +183,6 @@ console.log(editmodeimg)
   }
 
   const switchimg = (v) => {
-    alert()
     if (editmodeimg != '') {
       setEditmodeImg('');
     } else {
@@ -290,7 +289,7 @@ console.log(editmodeimg)
                         width: item.w,
                         height: item.h
                       }}
-                      enable={editmodeimg != '' ? { topRight: true, bottomRight: true, bottomLeft: true, topLeft: true } : false}
+                      enable={editmodeimg !== '' ? { topRight: true, bottomRight: true, bottomLeft: true, topLeft: true } : false}
                       onResizeStop={(e, direction, ref, d) => {
                         resizeModeImg(item.w + d.width, item.h + d.width, item.id);
                       }}
@@ -298,10 +297,10 @@ console.log(editmodeimg)
                       <CardMedia sx={{ width: '100%', height: '100%' }} component='img' src={item.src} />
                       {!open && (
                         <div className="col-12">
-                          <Button onClick={() => switchimg(item.id)}>
+                          <Button onPointerDown={() => switchimg(item.id)}>
                             {editmodeimg !== '' ? <AspectRatio /> : <PanTool />}
                           </Button>
-                          <Button onClick={() => {
+                          <Button onPointerDown={() => {
                             setAddImg([
                               ...img.slice(0, i),
                               ...img.slice(i + 1)
