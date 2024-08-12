@@ -10,7 +10,7 @@ import {
   Avatar,
   Box,
   CircularProgress,
-  Alert,
+  Menu,
   Typography,
   DialogActions,
   Fab,
@@ -21,7 +21,8 @@ import {
   IconButton,
   TextField,
   CardMedia,
-  Backdrop
+  Backdrop,
+  MenuItem
 } from "@mui/material";
 import Swal from "sweetalert2";
 import {
@@ -61,7 +62,11 @@ const Birth = ({
   const [bg, setBg] = React.useState('#fff');
   const [bgd, setChangebg] = React.useState(false);
   const [sizes, setSizescreennotmatch] = React.useState(window.innerWidth < 700);
+  const [sizezoom, setSizeZoom] = React.useState(0);
   const [headercolor, setHeadcolor] = React.useState('#000');
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const editor = Boolean(anchorEl);
 
   const [up, setUp] = React.useState(false);
   const cardsuccess = React.useRef(null)
@@ -73,6 +78,8 @@ const Birth = ({
 
   const [selectedcountry, setCountry] = React.useState("");
   const [open, setLoad] = React.useState(false);
+
+  const [expo, setExport] = React.useState('');
 
   const RefreshDate = () => {
     fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", { method: 'post' })
@@ -92,6 +99,7 @@ const Birth = ({
     RefreshDate();
     window.addEventListener('resize', function (event) {
       setSizescreennotmatch(window.innerWidth < 700)
+      setSizeZoom(window.innerWidth / 638);
     }, true);
     setPage(lang == "th" ? "กิจกรรมวันเกิดของข้าวฟ่าง" : "Birthday Campaign of Kaofrang");
   }, []);
@@ -188,10 +196,7 @@ const Birth = ({
 
     toJpeg(cardsuccess.current, { preferredFontFormat: 'QGZvbnQtZmFjZXtuYW1lOidtaXNhbnMnO3NyYzp1cmwoJ2h0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9naC9jcHgyMDE3L21pc2Fuc2ZvbnRAbWFpbi9lbi9NaVNhbnMtTm9ybWFsLndvZmYyJykgZm9ybWF0KCd3b2ZmMicpLHVybCgnaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2NweDIwMTcvbWlzYW5zZm9udEBtYWluL2VuL01pU2Fucy1Ob3JtYWwud29mZicpIGZvcm1hdCgnd29mZicpO2ZvbnQtd2VpZ2h0OjUwMDtmb250LXN0eWxlOm5vcm1hbDtmb250LWRpc3BsYXk6c3dhcH0=' })
       .then((dataUrl) => {
-        const link = document.createElement('a')
-        link.download = 'Your KaofrangFie Birthday Card.jpg'
-        link.href = dataUrl
-        link.click()
+        setExport(dataUrl)
         setLoad(false)
       })
       .catch((err) => {
@@ -211,9 +216,9 @@ const Birth = ({
 
   return (
     <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
-      {
+      {/* {
         sizes && up && <Alert sx={{ position: 'fixed', zIndex: 1300, buttom: '20%' }} onClick={() => setSizescreennotmatch(false)} severity="warning"><b>{lang == 'th' ? 'ขนาดหน้าจอไม่เหมาะสม' : 'The screen size is not appropriate.'}</b> {lang == 'th' ? 'การสร้างการ์ดอาจไม่ได้ขนาดตามที่ระบบกำหนด (ขนาดเท่าบัตรเครดิต)' : 'Your Card maybe not same as standard size (Size similiar to Credit Card)'}</Alert>
-      }
+      } */}
       <CardHeader
         title={<h3>KaofrangFie Day Card</h3>}
         subheader={
@@ -258,28 +263,28 @@ const Birth = ({
         </Box>}
       />
       <div className="container d-flex justify-content-center mt-3">
-        <Card sx={{ fontFamily: 'misans', backgroundColor: bg, wordBreak: 'break-all', minHeight: 1011, width: { md: 638, xs: '100%' } }} ref={cardsuccess}>
+        <Card sx={{ fontFamily: 'misans', borderRadius: 5, backgroundColor: bg, wordBreak: 'break-all', minHeight: 1011, width: { sm: 638, xs: '100%' } }} ref={cardsuccess}>
           <CardContent>
             {
               headedit == false ? (
-                <CardHeader title={<h2 style={{ color: headercolor }}>{header}</h2>} action={open ? null : <Button onClick={() => setHeadedit(true)}><Edit /></Button>} />
+                <CardHeader title={<h2 style={{ color: headercolor }}>{header}</h2>} action={open ? null : <Button color="inherit" onClick={() => setHeadedit(true)}><Edit /></Button>} />
               ) : (
                 <Box className='mb-3'>
-                  <TextField sx={{ width: '80%' }} value={header} onChange={(e) => setHead(e.target.value)} />
+                  <TextField sx={{ width: { md: '80%', xs: '100%' } }} value={header} onChange={(e) => setHead(e.target.value)} />
                   <Button className="mt-2" onClick={() => setHeadedit(false)}><Done /></Button>
                   <br />
-                  <SketchPicker width='40%' color={headercolor}
+                  <SketchPicker className='w-md-75 w-100' color={headercolor}
                     onChangeComplete={(c) => setHeadcolor(c.hex)} />
                 </Box>
               )
             }
             <Divider className='mb-3' />
-            <Draggable disabled={editmode != '' || editmodeimg != ''}>
-              <div>
-                {
-                  text.map((item, i) => item.id == editmode ? (
+
+            <div>
+              {
+                text.map((item, i) => item.id == editmode ? (
+                  <div style={{ position: 'absolute' }} key={item.id}>
                     <Resizable
-                      key={item.id}
                       style={{ border: open ? '' : 'solid 1px #ddd' }}
                       defaultSize={{
                         width: item.w,
@@ -291,10 +296,10 @@ const Birth = ({
                     >
                       {!open && (
                         <div className="col-12 text-right">
-                          <IconButton color='primary' onClick={() => item.txt.length > 0 && setEditmode('')}>
+                          <IconButton color='dark' onClick={() => item.txt.length > 0 && setEditmode('')}>
                             <Save />
                           </IconButton>
-                          <IconButton color='primary' onClick={() => {
+                          <IconButton color='dark' onClick={() => {
                             Swal.fire({
                               title: lang == "th"
                                 ? "คุณต้องการลบข้อความนี้หรือไม่"
@@ -321,107 +326,93 @@ const Birth = ({
                       <SketchPicker width='90%' color={item.color}
                         onChangeComplete={(c) => UpdateColorBody(c, item.id)} />
                     </Resizable>
-                  ) : (
-                    <Typography sx={{ fontSize: 24, wordBreak: 'break-all', color: item.color }} onDoubleClick={() => setEditmode(item.id)} variant="div">{RenderHTML(item.txt.replaceAll('\n', '<br/>'))}</Typography>
-                  ))
-                }
-                {
-                  img.map((item, i) => (
-                    <Resizable
-                      key={item.id}
-                      style={{ border: open ? '' : 'solid 1px #ddd' }}
-                      defaultSize={{
-                        width: item.w,
-                        height: item.h
-                      }}
-                      enable={editmodeimg !== '' ? { topRight: true, bottomRight: true, bottomLeft: true, topLeft: true } : false}
-                      onResizeStop={(e, direction, ref, d) => {
-                        resizeModeImg(item.w + d.width, item.h + d.width, item.id);
-                      }}
-                    >
-                      {!open && (
-                        <div className="col-12 text-right">
-                          <IconButton color='primary' onPointerUp={() => switchimg(item.id)}>
-                            {editmodeimg !== '' ? <AspectRatio /> : <PanTool />}
-                          </IconButton>
-                          <IconButton color='primary' onPointerUp={() => {
-                            Swal.fire({
-                              title: lang == "th"
-                                ? "คุณต้องการลบรูปนี้หรือไม่"
-                                : "Do you want to remove this image",
-                              showDenyButton: true,
-                              confirmButtonText: lang == 'th' ? 'ยืนยัน' : "Confirm",
-                              denyButtonText: lang == 'th' ? 'แก้ไขต่อ' : "Stay edit"
-                            }).then((result) => {
-                              /* Read more about isConfirmed, isDenied below */
-                              if (result.isConfirmed) {
-                                setAddImg([
-                                  ...img.slice(0, i),
-                                  ...img.slice(i + 1)
-                                ])
-                              }
-                            });
-                          }}>
-                            <Delete />
-                          </IconButton>
-                        </div>
-                      )}
-                      <CardMedia sx={{ width: '100%', height: '100%' }} component='img' src={item.src} />
-                    </Resizable>
-                  ))
-                }
-              </div>
-            </Draggable>
+                  </div>
+                ) : (
+                  <Draggable>
+                    <Typography key={item.id} sx={{ fontSize: 24, position: 'absolute', wordBreak: 'break-all', color: item.color }} onDoubleClick={() => setEditmode(item.id)} variant="div">{RenderHTML(item.txt.replaceAll('\n', '<br/>'))}</Typography>
+                  </Draggable>
+                ))
+              }
+              {
+                img.map((item, i) => (
+                  <Draggable disabled={editmodeimg != ''}>
+                    <div style={{ position: 'absolute' }} key={item.id}>
+                      <Resizable
+                        style={{ border: open ? '' : 'solid 1px #ddd' }}
+                        defaultSize={{
+                          width: item.w,
+                          height: item.h
+                        }}
+                        enable={editmodeimg !== '' ? { topRight: true, bottomRight: true, bottomLeft: true, topLeft: true } : false}
+                        onResizeStop={(e, direction, ref, d) => {
+                          resizeModeImg(item.w + d.width, item.h + d.width, item.id);
+                        }}
+                      >
+                        {!open && (
+                          <div className="col-12 text-right">
+                            <IconButton color='dark' onPointerUp={() => switchimg(item.id)}>
+                              {editmodeimg !== '' ? <AspectRatio /> : <PanTool />}
+                            </IconButton>
+                            <IconButton color='dark' onPointerUp={() => {
+                              Swal.fire({
+                                title: lang == "th"
+                                  ? "คุณต้องการลบรูปนี้หรือไม่"
+                                  : "Do you want to remove this image",
+                                showDenyButton: true,
+                                confirmButtonText: lang == 'th' ? 'ยืนยัน' : "Confirm",
+                                denyButtonText: lang == 'th' ? 'แก้ไขต่อ' : "Stay edit"
+                              }).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                  setAddImg([
+                                    ...img.slice(0, i),
+                                    ...img.slice(i + 1)
+                                  ])
+                                }
+                              });
+                            }}>
+                              <Delete />
+                            </IconButton>
+                          </div>
+                        )}
+                        <CardMedia sx={{ width: '100%', height: '100%' }} component='img' src={item.src} />
+                      </Resizable>
+                    </div>
+                  </Draggable>
+                ))
+              }
+            </div>
           </CardContent>
         </Card>
       </div>
       {
         editmode == '' && open == false && headedit == false && (
           <>
+            <Menu
+              open={editor}
+              anchorEl={anchorEl}
+              onClick={() => setAnchorEl(null)}
+            >
+              <MenuItem onClick={() => setChangebg(true)}>{lang == 'th' ? 'เปลี่ยนสีการ์ด' : 'Change Card Background Color'}</MenuItem>
+              <MenuItem onClick={() => addTxt()}>{lang == 'th' ? 'เพิ่มข้อความ' : 'Add Paragraph'}</MenuItem>
+              <MenuItem onClick={() => addImg()}>{lang == 'th' ? 'แทรกรูปภาพ' : 'Browse Image'}</MenuItem>
+            </Menu>
             <Fab
               color="primary"
               sx={
                 {
                   display: {
-                    bottom: 310,
+                    bottom: 180,
                     right: 8,
                     position: "fixed",
                     zIndex: 1300
                   }
                 }
               }
-              onClick={() => setChangebg(true)}>
-              <Wallpaper />
-            </Fab>
-            <Fab
-              color="primary"
-              sx={
-                {
-                  display: {
-                    bottom: 240,
-                    right: 8,
-                    position: "fixed",
-                    zIndex: 1300
-                  }
-                }
-              }
-              onClick={() => addTxt()}>
+              onClick={(e) => {
+                setAnchorEl(e.currentTarget);
+              }}>
               <BorderColor />
-            </Fab>
-            <Fab
-              color="primary"
-              sx={
-                {
-                  display: {
-                    bottom: 170,
-                    right: 8,
-                    position: "fixed",
-                    zIndex: 1300
-                  }
-                }
-              }
-              onClick={() => addImg()}>
-              <AddPhotoAlternate />
             </Fab>
           </>
         )
@@ -446,7 +437,27 @@ const Birth = ({
           <Button onClick={() => setChangebg(false)}>{lang == 'th' ? 'ปิด' : 'Close'}</Button>
         </DialogActions>
       </Dialog>
-    </Box>
+
+      <Dialog
+        open={expo}
+      >
+        <DialogTitle>
+          {lang == 'th' ? 'ดูตัวอย่าง' : 'Preview'}
+        </DialogTitle>
+        <DialogContent>
+          <CardMedia height='500' src={expo} component='img'/>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => {
+            const link = document.createElement('a')
+            link.download = 'Your KaofrangFie Birthday Card.jpg'
+            link.href = expo
+            link.click()
+          }}>{lang == 'th' ? 'ดาวน์โหลด' : 'Download'}</Button>
+          <Button onClick={() => setExport('')}>{lang == 'th' ? 'ปิด' : 'Close'}</Button>
+        </DialogActions>
+      </Dialog>
+    </Box >
   );
 };
 
