@@ -71,8 +71,9 @@ const Birth = ({
   const [header, setHead] = React.useState("Kaofrang Birthday");
   const [bg, setBg] = React.useState("#fff");
   const [bgd, setChangebg] = React.useState(false);
+  const [h, setH] = React.useState(window.innerHeight);
   const [sizes, setSizescreennotmatch] = React.useState(
-    window.innerWidth < 700
+    window.innerWidth < 900
   );
   const [sizezoom, setSizeZoom] = React.useState(0);
   const [headercolor, setHeadcolor] = React.useState("#000");
@@ -114,7 +115,8 @@ const Birth = ({
     window.addEventListener(
       "resize",
       function (event) {
-        setSizescreennotmatch(window.innerWidth <= 600);
+        setSizescreennotmatch(window.innerWidth < 900);
+        setH(window.innerHeight)
         if (window.innerWidth < 1056) {
           setSizeZoom(cardsuccess.current != null
             ? cardsuccess.current.clientWidth / window.innerWidth
@@ -335,14 +337,14 @@ const Birth = ({
             borderRadius: 5,
             backgroundColor: bg,
             wordBreak: "break-all",
-            width: 900,
-            height: '60vh',
+            width: 950,
+            height: sizes == true ? 850 : (h < 800 ? 580 : '60vh'),
             zoom: sizezoom
           }}
           ref={cardsuccess}>
           <CardContent>
             <CardHeader
-              title={<h3 style={{ color: headercolor, fontSize: 28 - (28 * 0.20) }}>{header}</h3>}
+              title={<h3 style={{ color: headercolor, fontSize: 28 / 1.11 }}>{header}</h3>}
               action={
                 open ? null : (
                   <Button color="inherit" onClick={() => setHeadedit(true)}>
