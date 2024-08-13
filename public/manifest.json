@@ -3,17 +3,17 @@
   "name": "Kaofrangfie FanSite",
   "icons": [
     {
-      "src": "https://www.bnk48.com/data/Members/86/s/20240731082052gopsv1.png",
+      "src": "https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "https://www.bnk48.com/data/Members/86/s/20240731082052gopsv1.png",
+      "src": "https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "https://www.bnk48.com/data/Members/86/s/20240731082052gopsv1.png",
+      "src": "https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp",
       "type": "image/png",
       "sizes": "512x512"
     }

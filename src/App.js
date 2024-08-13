@@ -21,6 +21,7 @@ import {
   DialogActions,
   FormControlLabel,
   Switch,
+  Alert,
   Fab,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -56,8 +57,9 @@ import Event from "./page/event";
 import Game from "./page/game";
 import GameD from "./page/gamedash";
 import Feed from "./page/update";
+import Donate from "./page/donate";
 import Follow from "./page/follow";
-import Birth from './page/birth';
+import Birth from "./page/birth";
 import Err from "./page/error";
 
 const pageSec = [
@@ -70,6 +72,7 @@ const pageSec = [
   "feeds",
   "quizgame",
   "follow",
+  "donation"
 ];
 const pagesEn = [
   "Home",
@@ -81,6 +84,7 @@ const pagesEn = [
   "Social Feeds",
   "Quiz",
   "Follow KaofrangFie",
+  "Donate",
 ];
 const pagesTh = [
   "หน้าหลัก",
@@ -92,6 +96,7 @@ const pagesTh = [
   "ฟีดออนไลน์",
   "มินิเกมส์",
   "ช่องทางการติดตาม",
+  "โดเนท"
 ];
 
 const langList = [
@@ -105,7 +110,9 @@ const langList = [
   },
 ];
 let scrollmot = false;
-function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
+function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
+  const [betabypass, setBetaMode] = React.useState(false);
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [birthdaycampain, setBirthday] = React.useState(false);
@@ -159,7 +166,9 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
   React.useEffect(() => {
     AOS.init({ duration: 800 });
     setLaunch(moment().unix());
-    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {method:'POST'})
+    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {
+      method: "POST",
+    })
       .then((response) => response.json())
       .then((result) => {
         setBirthday(result.response);
@@ -179,15 +188,21 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
       .then((response) => response.json())
       .then((result) => {
         setLaunch(result.unix);
-        if (
-          result.unix >= 1731603600 ||
-          (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
-            localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-              "56f006fb7a76776e1e08eac264bd491aa1a066a1")
-        ) {
+
+        if (result.unix > 1723514187 && result.unix < 1724601600) {
           setUnlock(true);
+          setBetaMode(true);
         } else {
-          setUnlock(false);
+          if (
+            result.unix >= 1731603600 ||
+            (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
+              localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
+                "56f006fb7a76776e1e08eac264bd491aa1a066a1")
+          ) {
+            setUnlock(true);
+          } else {
+            setUnlock(false);
+          }
         }
       })
       .catch((error) => console.log("error", error));
@@ -214,10 +229,10 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
   }, [lang]);
 
   React.useEffect(() => {
-    fetch('https://speed.cloudflare.com/meta')
-    .then(response => response.json())
-    .then(data => setZone(data.country));
-  }, [])
+    fetch("https://speed.cloudflare.com/meta")
+      .then((response) => response.json())
+      .then((data) => setZone(data.country));
+  }, []);
 
   React.useEffect(() => {
     document.title = currentPage + " | KaofrangFie Site";
@@ -245,6 +260,22 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
               : "This screen size is not support on this device. Please rotate your device screen."}
           </h5>
         </div>
+        {betabypass && (
+          <Alert
+            severity="info"
+            className="w-100"
+            sx={{ position: "fixed", top: 0, zIndex: 1300 }}
+            onClick={() => setBetaMode(false)}>
+            <b>Exclusive in BNK48 17th Single "BORDERLESS" Handshake Event</b>{" "}
+            คุณสามารถสัมผัสประสบการณ์ของเว็บ KaofrangFie ได้ก่อนใครแล้ว วันนี้!
+            <br />
+            <span>
+              หมายเหตุ: เนื่องจากระบบอยู่ระหว่างการพัฒนา
+              การทำงานอาจมีข้อผิดพลาดเกิดขึ้นได้
+              กรุณาส่งรายงานข้อผิดพลาดได้ที่อีเมล์ cpxdev@outlook.com
+            </span>
+          </Alert>
+        )}
         <Slide
           direction="down"
           in={appbarx}
@@ -255,9 +286,14 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
             <Container maxWidth="xl">
               <Toolbar disableGutters>
                 <Avatar
-                  sx={{ display: { xs: "none", lg: "flex" }, mr: 1 }}
+                  sx={{
+                    width: 55,
+                    height: 55,
+                    display: { xs: "none", lg: "flex" },
+                    mr: 1,
+                  }}
                   alt="kaofrangicon"
-                  src="https://www.bnk48.com/data/Members/86/s/20240731082052gopsv1.png"
+                  src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp"
                 />
                 <Typography
                   variant="h6"
@@ -374,9 +410,15 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
                   </Dialog>
                 </Box>
                 <Avatar
-                  sx={{ display: { xs: "flex", lg: "none" }, ml: 1, mr: 1 }}
+                  sx={{
+                    width: 55,
+                    height: 55,
+                    display: { xs: "flex", lg: "none" },
+                    ml: 1,
+                    mr: 1,
+                  }}
                   alt="kaofrangicon"
-                  src="https://www.bnk48.com/data/Members/86/s/20240731082052gopsv1.png"
+                  src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp"
                 />
                 <Typography
                   variant="h6"
@@ -429,7 +471,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
                   )}
                 </Box>
 
-                <Box sx={{ position: "fixed", right: 30 }}>
+                <Box sx={{ right: 30, display: { xs: "none", lg: "flex" } }}>
                   <Tooltip title="Open settings">
                     <IconButton
                       onClick={() => setAnchorElUser(true)}
@@ -489,6 +531,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
               render={() => (
                 <Home
                   data-aos="fade-in"
+                  quickmode={betabypass}
                   setMenu={(v) => setAnchorElNav(v)}
                   setLangMod={() => setAnchorElUser(true)}
                 />
@@ -506,14 +549,18 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
             />
             <Route data-aos="fade-in" path="/events" render={() => <Event />} />
             <Route data-aos="fade-in" path="/trend" render={() => <Trend />} />
-            <Route data-aos="fade-in" path="/birthday" render={() => <Birth leftmode={leftmode} opacity={opacity} />} />
+            <Route
+              data-aos="fade-in"
+              path="/birthday"
+              render={() => <Birth leftmode={leftmode} opacity={opacity} />}
+            />
             <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
             <Route
               data-aos="fade-in"
               path="/quizgame"
               render={() => <Game />}
             />
-             <Route
+            <Route
               data-aos="fade-in"
               path="/quizgameresult/:c"
               render={() => <GameD />}
@@ -522,6 +569,11 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
               data-aos="fade-in"
               path="/follow"
               render={() => <Follow />}
+            />
+            <Route
+              data-aos="fade-in"
+              path="/donation"
+              render={() => <Donate />}
             />
             <Route
               exact
@@ -541,6 +593,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
               render={() => (
                 <Home
                   data-aos="fade-in"
+                  quickmode={betabypass}
                   setMenu={(v) => setAnchorElNav(v)}
                   setLangMod={() => setAnchorElUser(true)}
                 />
@@ -599,7 +652,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, game }) {
               <Avatar
                 sx={{ width: 55, height: 55 }}
                 alt="kaofrangicon"
-                src="https://www.bnk48.com/data/Members/86/s/20240731082052gopsv1.png"
+                src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp"
               />
             ) : (
               <MenuOpenIcon />
@@ -618,6 +671,7 @@ const mapStateToProps = (state) => ({
   launch: state.launch,
   currentPage: state.currentPage,
   game: state.game,
+  launch: state.launch,
 });
 const mapDispatchToProps = (dispatch) => ({
   setLoad: (val) => dispatch(setLoad(val)),

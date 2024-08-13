@@ -9,17 +9,21 @@ import {Card, CardContent, Fade, CardHeader, Button, Zoom
     setLoad, setLang, setDarkMode, setPage
   } from '../redux/action';
 
-const Home = ({currentPage, lang, setLang, setPage, setMenu, setLangMod, launch}) => {
+const Home = ({currentPage, quickmode, lang, setLang, setPage, setMenu, setLangMod, launch}) => {
   const history = useHistory();
   const [data, setData] = React.useState(false);
     React.useEffect(() => {
       setPage(lang == 'th' ? 'หน้าหลัก' : 'Homepage')
-      if (launch >= 1731603600 || (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null && localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") == '56f006fb7a76776e1e08eac264bd491aa1a066a1')) {
+      if (quickmode) {
         setData(true)
       } else {
-        setData(false)
+        if (launch >= 1731603600 || (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null && localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") == '56f006fb7a76776e1e08eac264bd491aa1a066a1')) {
+          setData(true)
+        } else {
+          setData(false)
+        }
       }
-    }, [])
+    }, [quickmode, currentPage])
 
     return ( 
         <div>

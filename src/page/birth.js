@@ -283,7 +283,7 @@ const Birth = ({
           up
             ? lang == "th"
               ? "ร่วมอวยพรวันเกิดข้าวฟ่างกัน! [ระยะเวลาร่วมกิจกรรม " +
-                moment(new Date().getFullYear() + "-11-14T17:00:00Z")
+                moment(new Date().getFullYear() + "-11-13T17:00:00Z")
                   .local()
                   .lang(lang)
                   .format("DD MMMM YYYY HH:mm") +
@@ -294,7 +294,7 @@ const Birth = ({
                   .format("DD MMMM YYYY HH:mm") +
                 " อ้างอิงตามเวลาประเทศไทย]"
               : "Let's celebrate the special day of Kaofrang. [Campaign Event between " +
-                moment(new Date().getFullYear() + "-11-14T17:00:00Z")
+                moment(new Date().getFullYear() + "-11-13T17:00:00Z")
                   .local()
                   .lang(lang)
                   .format("DD MMMM YYYY HH:mm") +
