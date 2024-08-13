@@ -195,7 +195,7 @@ const Birth = ({
   const addImg = () => {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = "image/png, image/webp";
+    input.accept = "image/png, image/webp, image/jpg, image/jpeg";
     input.style.display = "none";
 
     document.body.appendChild(input);
