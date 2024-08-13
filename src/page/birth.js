@@ -588,7 +588,7 @@ const Birth = ({
           </DialogActions>
         </Dialog>
 
-        <Dialog open={header}>
+        <Dialog open={headedit}>
           <DialogTitle>
             {lang == "th" ? "แก้ไขข้อความไตเติ้ล" : "Edit Title"}
           </DialogTitle>
