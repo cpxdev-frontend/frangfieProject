@@ -170,7 +170,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   }, [leftmode]);
 
   React.useEffect(() => {
-    AOS.init({ duration: 100 });
+    AOS.init({ duration: 800 });
     setLaunch(moment().unix());
     fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {
       method: "POST",
@@ -532,7 +532,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
 
         {unlock ? (
           <TransitionGroup>
-            <CSSTransition timeout={600} classNames="fade" key={location.key}>
+            <CSSTransition timeout={300} classNames="fade" key={location.key}>
               <BasicSwitch>
                 <Route
                   exact

@@ -184,5 +184,5 @@ html > div[style] {
 
 .fade-enter.fade-enter-active {
   opacity: 1;
-  transition: opacity 550ms ease-in;
+  transition: opacity 100ms ease-in;
 }
