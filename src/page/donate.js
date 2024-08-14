@@ -99,7 +99,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
             : "Let's support Kaofrang with donate every projects to our fan supporter."
         }
       />
-      <div className="container mt-3 d-flex justify-content-center">
+      <div className="container mt-3 d-flex justify-content-center" data-aos="fade-in">
         <div className="row text-center">
           <Typography className="col-12 mb-3">
             {lang == "th"
