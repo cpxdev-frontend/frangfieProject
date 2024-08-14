@@ -133,7 +133,7 @@ const Home = ({
               <h5 className="text-center text-md-left text-light ml-0 ml-md-3">
                 {lang == "th"
                   ? "สัมผัสประสบการณ์เว็บได้ก่อนใคร ในวันที่ 24-25 สิงหาคม 2567 นี้ (เป็นการทดสอบระบบก่อนเปิดใช้งานจริง)"
-                  : "Let's meet this website experience as first group fo the world soon in August 24-25, 2024 (Public Beta testing)"}
+                  : "Let's meet this website experience as the first group of the world soon in August 24-25, 2024 (Public Beta testing)"}
               </h5>
             ) : (
               <h5 className="text-center text-md-left text-light ml-0 ml-md-3">
