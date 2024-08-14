@@ -44,11 +44,6 @@ import {
   Done,
   Wallpaper,
 } from "@mui/icons-material";
-import { Editor } from "react-draft-wysiwyg";
-import { EditorState, ContentState, convertToRaw } from "draft-js";
-import { stateFromHTML } from "draft-js-import-html";
-import draftToHtml from "draftjs-to-html";
-import { Base64 } from "https://cdn.jsdelivr.net/npm/js-base64@3.7.7/base64.min.js";
 import Draggable from "react-draggable";
 import { v4 as uuidv4 } from "uuid";
 import { Resizable } from "re-resizable";
@@ -92,7 +87,7 @@ const Birth = ({
   const [selectedcountry, setCountry] = React.useState("");
   const [open, setLoad] = React.useState(false);
 
-  const [expo, setExport] = React.useState("");
+  // const [expo, setExport] = React.useState("");
 
   const RefreshDate = () => {
     fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {
@@ -171,16 +166,6 @@ const Birth = ({
     setAddText(updatedList);
   };
 
-  const resizeMode = (w, h, id) => {
-    let updatedList = text.map((item) => {
-      if (item.id == id) {
-        return { ...item, w: w, h: h }; //gets everything that was already in item, and updates "done"
-      }
-      return item; // else return unmodified item
-    });
-
-    setAddText(updatedList);
-  };
   const resizeModeImg = (w, h, id) => {
     let updatedList = img.map((item) => {
       if (item.id == id) {
