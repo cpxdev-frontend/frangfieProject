@@ -49,7 +49,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import moment from "moment";
 
-import { AnimatedSwitch } from "react-router-transition";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import Home from "./page/home";
 import About from "./page/about";
@@ -528,68 +528,84 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
         </Slide>
 
         {unlock ? (
-          <BasicSwitch>
-            <Route
-              exact
-              path="/"
-              render={() => (
-                <Home
+          <TransitionGroup>
+            <CSSTransition timeout={600} classNames="fade" key={location.key}>
+              <BasicSwitch>
+                <Route
+                  exact
+                  path="/"
+                  render={() => (
+                    <Home
+                      data-aos="fade-in"
+                      quickmode={betabypass}
+                      setMenu={(v) => setAnchorElNav(v)}
+                      setLangMod={() => setAnchorElUser(true)}
+                    />
+                  )}
+                />
+                <Route
                   data-aos="fade-in"
-                  quickmode={betabypass}
-                  setMenu={(v) => setAnchorElNav(v)}
-                  setLangMod={() => setAnchorElUser(true)}
+                  path="/aboutkf"
+                  render={() => <About />}
                 />
-              )}
-            />
-            <Route
-              data-aos="fade-in"
-              path="/aboutkf"
-              render={() => <About />}
-            />
-            <Route
-              data-aos="fade-in"
-              path="/discography"
-              render={() => <Disco />}
-            />
-            <Route data-aos="fade-in" path="/events" render={() => <Event />} />
-            <Route data-aos="fade-in" path="/trend" render={() => <Trend />} />
-            <Route
-              data-aos="fade-in"
-              path="/birthday"
-              render={() => <Birth leftmode={leftmode} opacity={opacity} />}
-            />
-            <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
-            <Route
-              data-aos="fade-in"
-              path="/quizgame"
-              render={() => <Game />}
-            />
-            <Route
-              data-aos="fade-in"
-              path="/quizgameresult/:c"
-              render={() => <GameD />}
-            />
-            <Route
-              data-aos="fade-in"
-              path="/follow"
-              render={() => <Follow />}
-            />
-            <Route
-              data-aos="fade-in"
-              path="/donation"
-              render={() => <Donate />}
-            />
-            <Route
-              exact
-              data-aos="fade-in"
-              render={() => (
-                <Err
-                  setMenu={(v) => setAnchorElNav(v)}
-                  setLangMod={() => setAnchorElUser(true)}
+                <Route
+                  data-aos="fade-in"
+                  path="/discography"
+                  render={() => <Disco />}
                 />
-              )}
-            />
-          </BasicSwitch>
+                <Route
+                  data-aos="fade-in"
+                  path="/events"
+                  render={() => <Event />}
+                />
+                <Route
+                  data-aos="fade-in"
+                  path="/trend"
+                  render={() => <Trend />}
+                />
+                <Route
+                  data-aos="fade-in"
+                  path="/birthday"
+                  render={() => <Birth leftmode={leftmode} opacity={opacity} />}
+                />
+                <Route
+                  data-aos="fade-in"
+                  path="/feeds"
+                  render={() => <Feed />}
+                />
+                <Route
+                  data-aos="fade-in"
+                  path="/quizgame"
+                  render={() => <Game />}
+                />
+                <Route
+                  data-aos="fade-in"
+                  path="/quizgameresult/:c"
+                  render={() => <GameD />}
+                />
+                <Route
+                  data-aos="fade-in"
+                  path="/follow"
+                  render={() => <Follow />}
+                />
+                <Route
+                  data-aos="fade-in"
+                  path="/donation"
+                  render={() => <Donate />}
+                />
+                <Route
+                  exact
+                  data-aos="fade-in"
+                  render={() => (
+                    <Err
+                      setMenu={(v) => setAnchorElNav(v)}
+                      setLangMod={() => setAnchorElUser(true)}
+                    />
+                  )}
+                />
+              </BasicSwitch>
+            </CSSTransition>
+          </TransitionGroup>
         ) : (
           <BasicSwitch>
             <Route

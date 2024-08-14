@@ -177,10 +177,12 @@ html > div[style] {
   display: none !important;
 }
 
-/* .switch-wrapper {
-  position: relative;
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
 }
 
-.switch-wrapper > div {
-  position: absolute;
-} */
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 550ms ease-in;
+}
