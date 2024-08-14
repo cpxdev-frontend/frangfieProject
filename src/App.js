@@ -531,7 +531,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           <AnimatedSwitch
             atEnter={{ opacity: 0, scale: 0.2 }}
             atLeave={{ opacity: 0, scale: 0.2 }}
-            atActive={{ opacity: 1, scale: 1 }}
+            atActive={{ opacity: 1 }}
             className="switch-wrapper">
             <Route
               exact
