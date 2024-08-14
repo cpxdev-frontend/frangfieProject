@@ -170,7 +170,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   }, [leftmode]);
 
   React.useEffect(() => {
-    AOS.init({ duration: 800 });
+    AOS.init({ duration: 100 });
     setLaunch(moment().unix());
     fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {
       method: "POST",
