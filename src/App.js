@@ -531,8 +531,6 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
         </Slide>
 
         {unlock ? (
-          <TransitionGroup>
-            <CSSTransition timeout={300} classNames="fade" key={location.key}>
               <BasicSwitch>
                 <Route
                   exact
@@ -607,8 +605,6 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   )}
                 />
               </BasicSwitch>
-            </CSSTransition>
-          </TransitionGroup>
         ) : (
           <BasicSwitch>
             <Route
