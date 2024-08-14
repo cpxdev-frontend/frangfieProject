@@ -49,6 +49,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import moment from "moment";
 
+import { AnimatedSwitch } from "react-router-transition";
+
 import Home from "./page/home";
 import About from "./page/about";
 import Disco from "./page/port";
@@ -72,7 +74,7 @@ const pageSec = [
   "feeds",
   "quizgame",
   "follow",
-  "donation"
+  "donation",
 ];
 const pagesEn = [
   "Home",
@@ -96,7 +98,7 @@ const pagesTh = [
   "ฟีดออนไลน์",
   "มินิเกมส์",
   "ช่องทางการติดตาม",
-  "โดเนท"
+  "โดเนท",
 ];
 
 const langList = [
@@ -112,6 +114,7 @@ const langList = [
 let scrollmot = false;
 function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const [betabypass, setBetaMode] = React.useState(false);
+  const [bypassonclose, setOnClose] = React.useState(false);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -192,6 +195,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
         if (result.unix > 1723514187 && result.unix < 1724601600) {
           setUnlock(true);
           setBetaMode(true);
+          setOnClose(true);
         } else {
           if (
             result.unix >= 1731603600 ||
@@ -260,12 +264,12 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
               : "This screen size is not support on this device. Please rotate your device screen."}
           </h5>
         </div>
-        {betabypass && (
+        {betabypass && bypassonclose && (
           <Alert
             severity="info"
             className="w-100"
             sx={{ position: "fixed", top: 0, zIndex: 1300 }}
-            onClick={() => setBetaMode(false)}>
+            onClick={() => setOnClose(false)}>
             <b>Exclusive in BNK48 17th Single "BORDERLESS" Handshake Event</b>{" "}
             คุณสามารถสัมผัสประสบการณ์ของเว็บ KaofrangFie ได้ก่อนใครแล้ว วันนี้!
             <br />
@@ -524,7 +528,11 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
         </Slide>
 
         {unlock ? (
-          <BasicSwitch>
+          <AnimatedSwitch
+            atEnter={{ opacity: 0, scale: 0.2 }}
+            atLeave={{ opacity: 0, scale: 0.2 }}
+            atActive={{ opacity: 1, scale: 1 }}
+            className="switch-wrapper">
             <Route
               exact
               path="/"
@@ -585,7 +593,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 />
               )}
             />
-          </BasicSwitch>
+          </AnimatedSwitch>
         ) : (
           <BasicSwitch>
             <Route

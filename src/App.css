@@ -176,3 +176,11 @@ body{
 html > div[style] {
   display: none !important;
 }
+
+/* .switch-wrapper {
+  position: relative;
+}
+
+.switch-wrapper > div {
+  position: absolute;
+} */
