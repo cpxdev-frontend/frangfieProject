@@ -126,6 +126,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                 <Card
                   key={item.trendId}
                   className="mb-3"
+                  data-aos-delay="600"
                   data-aos="zoom-in-right">
                   <CardContent
                     sx={{
