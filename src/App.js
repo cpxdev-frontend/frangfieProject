@@ -192,7 +192,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       .then((result) => {
         setLaunch(result.unix);
 
-        if (result.unix > 1723514187 && result.unix < 1724601600) {
+        if (result.unix >= 1724457600 && result.unix <= 1724601600) {
           setUnlock(true);
           setBetaMode(true);
           setOnClose(true);
