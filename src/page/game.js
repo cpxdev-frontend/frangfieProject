@@ -34,6 +34,7 @@ import {
   setInGame,
 } from "../redux/action";
 import { useHistory } from 'react-router-dom';
+import ReactGA from 'react-ga4';
 
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -120,6 +121,10 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
               100, 900, 100, 900, 100, 900, 100, 900, 100, 900, 800,
             ]);
           }
+          ReactGA.event({
+            category: 'User',
+            action: 'Game Ready'
+          });
           Swal.fire({
             title: "Game will be started",
             html:
@@ -162,6 +167,10 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
                   },
                   allowOutsideClick: () => false,
                 }).then((r) => {
+                  ReactGA.event({
+                    category: 'User',
+                    action: 'Game Start'
+                  });
                   clearInterval(timerInterval);
                   setQuesList(JSON.parse(result.data));
                   console.log(JSON.parse(result.data));
@@ -178,6 +187,10 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
                   );
                 });
               } else {
+                ReactGA.event({
+                  category: 'User',
+                  action: 'Game Start'
+                });
                 setQuesList(JSON.parse(result.data));
                 console.log(JSON.parse(result.data));
                 setGame(1);
@@ -219,6 +232,10 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
       if (!isIOS()) {
         navigator.vibrate([600, 100, 600, 100, 600]);
       }
+      ReactGA.event({
+        category: 'User',
+        action: 'Game Over'
+      });
       fetch(process.env.REACT_APP_APIE + "/kfsite/kfkeep", {
         method: "put",
         headers: {
@@ -234,6 +251,10 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
       })
         .then((response) => response.json())
         .then((result) => {
+          ReactGA.event({
+            category: 'User',
+            action: 'Result Ready'
+          });
           setAver(result);
           setTimeout(() => {
             setStatperques(0);
@@ -246,6 +267,10 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
         })
         .catch((error) => console.log("error", error));
     } else {
+      ReactGA.event({
+        category: 'User',
+        action: 'Next Question'
+      });
       setTimeout(() => {
         if (quesList[ques + 1].img != undefined) {
           if (!isIOS()) {

@@ -30,6 +30,7 @@ import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { QRCode } from "react-qrcode-logo";
+import ReactGA from 'react-ga4';
 const generatePayload = require("promptpay-qr");
 
 let mem = false;
@@ -57,6 +58,10 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
     }
     setPrint(true);
     setLoad(true);
+    ReactGA.event({
+      category: 'User',
+      action: 'Save QR Payment'
+    });
     setTimeout(() => {
       toJpeg(cardsuccess.current, {
         includeQueryParams: true,
@@ -154,6 +159,10 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
             defaultValue={0}
             fullWidth
             onChange={(e) => {
+              ReactGA.event({
+                category: 'User',
+                action: 'Gen QR Payment'
+              });
               if (rate == 30) {
                 Swal.fire({
                   title:

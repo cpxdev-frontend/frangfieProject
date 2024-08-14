@@ -33,6 +33,7 @@ import {
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import moment from "moment";
 import { RefreshRounded } from "@mui/icons-material";
+import ReactGA from 'react-ga4';
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiY3B4dGgyMDE3IiwiYSI6ImNsZHY0MzN6bTBjNzEzcXJmamJtN3BsZ3AifQ.mYNwWaYKsiLeYXngFDtaWQ";
@@ -293,7 +294,12 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                           {lang == "th" ? "แท็กที่ใช้" : "Available Tags"}:
                           {unix >= item.start && (
                             <Box
-                              sx={{ display: item.tags > 3 ? 'initial' : { xs: "initial", lg: "none" } }}>
+                              sx={{
+                                display:
+                                  item.tags > 3
+                                    ? "initial"
+                                    : { xs: "initial", lg: "none" },
+                              }}>
                               <br />
                             </Box>
                           )}
@@ -333,6 +339,10 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                           <Button
                             variant="outlined"
                             onClick={() => {
+                              ReactGA.event({
+                                category: "User",
+                                action: "Trend link copied",
+                              });
                               navigator.clipboard.writeText(
                                 "https://cpxstatusservice.azurewebsites.net/kaofrangfie/trend/" +
                                   item.trendId
@@ -349,13 +359,17 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                         ) : (
                           <Button
                             variant="outlined"
-                            onClick={() =>
+                            onClick={() => {
+                              ReactGA.event({
+                                category: "User",
+                                action: "Trend link access",
+                              });
                               window.open(
                                 "https://cpxstatusservice.azurewebsites.net/kaofrangfie/trend/" +
                                   item.trendId,
                                 "_blank"
-                              )
-                            }
+                              );
+                            }}
                             className="mt-3">
                             {lang == "th" ? "เริ่มเทรน" : "Start Trend"}
                           </Button>

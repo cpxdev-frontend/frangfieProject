@@ -50,6 +50,7 @@ import { Resizable } from "re-resizable";
 import * as htmlToImage from "html-to-image";
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 import { SketchPicker } from "react-color";
+import ReactGA from 'react-ga4';
 
 const Birth = ({
   currentPage,
@@ -214,7 +215,10 @@ const Birth = ({
     }
 
     setLoad(true);
-
+    ReactGA.event({
+      category: 'User',
+      action: 'Use birthday content'
+    });
     setTimeout(() => {
       toJpeg(cardsuccess.current, {
         preferredFontFormat:

@@ -50,6 +50,7 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import moment from "moment";
 
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import ReactGA from 'react-ga4';
 
 import Home from "./page/home";
 import About from "./page/about";
@@ -153,6 +154,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   };
 
   React.useEffect(() => {
+    ReactGA.initialize('G-HGFSHDZZMC');
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname });
     window.addEventListener("scroll", debounce(handleScroll, 200));
   }, []);
 
