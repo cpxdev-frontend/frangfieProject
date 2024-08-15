@@ -162,7 +162,10 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     fetch(process.env.REACT_APP_APIE + "/home/status", {})
       .then((response) => response.text())
       .then((result) => {})
-      .catch((error) => setOnMaintain(true));
+      .catch((error) => {
+        document.title = "System Maintenance | KaofrangFie Site";
+        setOnMaintain(true)
+      });
   }, []);
 
   React.useEffect(() => {
