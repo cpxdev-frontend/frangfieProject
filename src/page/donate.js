@@ -228,8 +228,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
             <Divider />
             {lang == "th" ? (
               <Typography className="col-12 mt-3">
-                หรือโอนเข้าบัญชี<b>ธนาคารกสิกรไทย</b> เลขที่บัญชี{" "}
-                <b>176-1-39401-7</b> ชื่อบัญชี{" "}
+                หรือโอนเข้าบัญชี <img style={{marginTop: -6}} src='https://cdn.jsdelivr.net/npm/thai-banks-logo@1.0.6/icons/KBANK.png' width={22} height={22} /> <b>ธนาคารกสิกรไทย</b><br />เลขที่บัญชี{" "}
+                <b>176-1-39401-7</b><br/>ชื่อบัญชี{" "}
                 <b>นายคมกฤษ ถาวรชีวัน และ นาย อนุชิต ชาอุรัมย์</b>
               </Typography>
             ) : (

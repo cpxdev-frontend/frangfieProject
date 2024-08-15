@@ -27,6 +27,8 @@ import {
   faFacebook,
   faInstagram,
   faTiktok,
+  faLine,
+  faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import {
   faMobileAlt,
@@ -68,7 +70,12 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
         />
         <div className="container mt-3 d-flex justify-content-center">
           <List
-            sx={{ width: "100%", maxWidth: 600, bgcolor: "background.paper" }}>
+            sx={{
+              width: "100%",
+              maxWidth: 600,
+              bgcolor: "background.paper",
+              borderRadius: 5,
+            }}>
             <ListItemButton
               component="a"
               href="https://facebook.com/bnk48official.kaofrang"
@@ -166,6 +173,105 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
               <ListItemText
                 primary="BNK48 Fan Space Platform"
                 secondary="Kaofrang"
+              />
+            </ListItemButton>
+          </List>
+        </div>
+
+        <CardHeader
+          className="mt-5"
+          title={<h3>Let's joining us!</h3>}
+          subheader={
+            lang == "th"
+              ? "เข้าร่วมชมรมคนรักข้าวฟ่างได้ทุกช่องทาง ดังนี้"
+              : "Join the fandom of Kaofrang below."
+          }
+        />
+        <div className="container mt-3 d-flex justify-content-center">
+          <List
+            sx={{
+              width: "100%",
+              maxWidth: 600,
+              bgcolor: "background.paper",
+              borderRadius: 5,
+            }}>
+            <ListItemButton
+              component="a"
+              href="https://facebook.com/105487801630676"
+              target="_blank"
+              data-aos="fade-right">
+              <ListItemAvatar>
+                <Avatar sx={{ backgroundColor: "#1877F2" }}>
+                  <FontAwesomeIcon icon={faFacebook} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary="Facebook Fanpage"
+                secondary="Kaofrang BNK48 Thailand Fanclub"
+              />
+            </ListItemButton>
+            <ListItemButton
+              component="a"
+              href="https://instagram.com/kaofrangbnk48.thfc"
+              target="_blank"
+              data-aos="fade-right">
+              <ListItemAvatar>
+                <Avatar
+                  sx={{
+                    background:
+                      "linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)",
+                  }}>
+                  <FontAwesomeIcon icon={faInstagram} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary="Instagram Account"
+                secondary="kaofrangbnk48.thfc"
+              />
+            </ListItemButton>
+            {/* <ListItemButton
+              component="a"
+              href="https://tiktok.com/@kaofrang.bnk48official"
+              target="_blank"
+              data-aos="fade-right">
+              <ListItemAvatar>
+                <Avatar sx={{ backgroundColor: "#000", color: "#fff" }}>
+                  <FontAwesomeIcon icon={faTiktok} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary="TikTok Account"
+                secondary="@kaofrang.bnk48official"
+              />
+            </ListItemButton> */}
+            <ListItemButton
+              component="a"
+              href="https://x.com/Kaofrangbnk48TH"
+              target="_blank"
+              data-aos="fade-right">
+              <ListItemAvatar>
+                <Avatar sx={{ backgroundColor: "#14171A" }}>
+                  <FontAwesomeIcon icon={faXTwitter} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary="X (Twitter)"
+                secondary="@Kaofrangbnk48TH"
+              />
+            </ListItemButton>
+            <ListItemButton
+              component="a"
+              href="https://line.me/ti/g2/_tY9YerBmKlDxIoFzU1zdg"
+              target="_blank"
+              data-aos="fade-right">
+              <ListItemAvatar>
+                <Avatar sx={{ backgroundColor: "#06c755" }}>
+                  <FontAwesomeIcon icon={faLine} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary="LINE Open Chat"
+                secondary="Kaofrang BNK48 TH.FC (กอข้าวของข้าวฟ่าง)"
               />
             </ListItemButton>
           </List>
