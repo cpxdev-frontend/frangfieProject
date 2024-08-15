@@ -169,7 +169,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
             </div>
             <div className="col-md col-12 m-xs-2">
               <CardHeader
-              sx={{marginTop: {xs: 8, md:0}}}
+                sx={{ marginTop: { xs: 8, md: 0 } }}
                 title={lang == "th" ? "สำหรับชาวกอฟ่าง" : "For Kaofrang Fandom"}
               />
               <List
@@ -199,7 +199,11 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
                   href="https://facebook.com/105487801630676"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerWidth > 800 ? "500" : "0"}>
+                  data-aos-delay={
+                    window.innerWidth > 800 && window.innerHeight > 800
+                      ? "500"
+                      : "0"
+                  }>
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#1877F2" }}>
                       <FontAwesomeIcon icon={faFacebook} />
@@ -215,7 +219,11 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
                   href="https://www.facebook.com/groups/280412833494438"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerWidth > 800 ? "1000" : "0"}>
+                  data-aos-delay={
+                    window.innerWidth > 800 && window.innerHeight > 800
+                      ? "1000"
+                      : "0"
+                  }>
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#1877F2" }}>
                       <FontAwesomeIcon icon={faFacebookF} />
@@ -231,7 +239,11 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
                   href="https://instagram.com/kaofrangbnk48.thfc"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerWidth > 800 ? "1500" : "0"}>
+                  data-aos-delay={
+                    window.innerWidth > 800 && window.innerHeight > 800
+                      ? "1500"
+                      : "0"
+                  }>
                   <ListItemAvatar>
                     <Avatar
                       sx={{
@@ -266,7 +278,11 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
                   href="https://x.com/Kaofrangbnk48TH"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerWidth > 800 ? "2000" : "0"}>
+                  data-aos-delay={
+                    window.innerWidth > 800 && window.innerHeight > 800
+                      ? "2000"
+                      : "0"
+                  }>
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#14171A" }}>
                       <FontAwesomeIcon icon={faXTwitter} />
@@ -282,7 +298,11 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
                   href="https://line.me/ti/g2/_tY9YerBmKlDxIoFzU1zdg"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerWidth > 800 ? "2500" : "0"}>
+                  data-aos-delay={
+                    window.innerWidth > 800 && window.innerHeight > 800
+                      ? "2500"
+                      : "0"
+                  }>
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#06c755" }}>
                       <FontAwesomeIcon icon={faLine} />
