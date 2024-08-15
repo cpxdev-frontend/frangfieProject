@@ -164,7 +164,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       .then((result) => {})
       .catch((error) => {
         document.title = "System Maintenance | KaofrangFie Site";
-        setOnMaintain(true)
+        setOnMaintain(true);
       });
   }, []);
 
@@ -304,7 +304,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
         id="blockwhenland"
         className="d-flex justify-content-center align-items-center text-center">
         <h5>
-        <img
+          <img
             src="https://cdn-icons-png.flaticon.com/512/6737/6737502.png"
             width={150}
           />
@@ -330,6 +330,187 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           </span>
         </Alert>
       )}
+      <AppBar
+        position="fixed"
+        sx={{
+          borderBottomLeftRadius: 10,
+          borderBottomRightRadius: 10,
+          display: { xs: "initial", md: "none" },
+          backgroundColor:
+            location.pathname == "/" ? "transparent !important" : "",
+        }}>
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Box
+              className="justify-content-center"
+              sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
+              {location.pathname != "/" ? (
+                <Avatar
+                  sx={{
+                    width: 55,
+                    height: 55,
+                    display: { xs: "flex", lg: "none" },
+                    ml: 1,
+                    mr: 1,
+                  }}
+                  alt="kaofrangicon"
+                  src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp"
+                />
+              ) : (
+                <div className="w-100 d-flex justify-content-center">
+                  <Avatar
+                    sx={{
+                      width: 70,
+                      height: 70,
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      display: "block",
+                      top: 0,
+                    }}
+                    alt="kaofrangicon"
+                    src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp"
+                  />
+                </div>
+              )}
+
+              <Dialog
+                open={anchorElNav}
+                onClose={handleCloseNavMenu}
+                maxWidth="xl">
+                <DialogTitle>
+                  {lang == "th" ? "เมนูหลัก" : "Main Menu"}
+                </DialogTitle>
+                <DialogContent>
+                  {pages.map((page, i) =>
+                    pageSec[i] != "birthday" ? (
+                      <MenuItem
+                        component={Link}
+                        key={page}
+                        to={"/" + pageSec[i]}
+                        onClick={handleCloseNavMenu}>
+                        <Typography
+                          textAlign="center"
+                          sx={{
+                            color:
+                              location.pathname == "/" + pageSec[i]
+                                ? "#fb61ee"
+                                : "#000",
+                          }}
+                          component="p">
+                          {page}
+                        </Typography>
+                      </MenuItem>
+                    ) : pageSec[i] == "birthday" && birthdaycampain == true ? (
+                      <MenuItem
+                        component={Link}
+                        key={page}
+                        to={"/" + pageSec[i]}
+                        onClick={handleCloseNavMenu}>
+                        <Typography
+                          textAlign="center"
+                          sx={{
+                            color:
+                              location.pathname == "/" + pageSec[i]
+                                ? "#fb61ee"
+                                : "#000",
+                          }}
+                          component="p">
+                          {page}
+                        </Typography>
+                      </MenuItem>
+                    ) : null
+                  )}
+
+                  <Box sx={{ display: { xs: "initial", md: "none" } }}>
+                    <Divider className="border border-secondary mb-3 mt-2" />
+                    <TextField
+                      select
+                      label="Change Language"
+                      value={lang}
+                      variant="filled"
+                      onChange={(e) => setLang(e.target.value)}
+                      sx={{
+                        width: 180,
+                        display:
+                          window.location.pathname == "/" ? "none" : "block",
+                      }}
+                      fullWidth={true}>
+                      {langList.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+
+                    <FormControlLabel
+                      onChange={() => setLeftMode(!leftmode)}
+                      control={<Switch checked={leftmode} />}
+                      label={
+                        lang == "th" ? "โหมดใช้งานข้างซ้าย" : "Left Hand mode"
+                      }
+                    />
+                  </Box>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleCloseNavMenu}>
+                    {lang == "th" ? "ปิด" : "Close"}
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </Box>
+
+            {location.pathname !== "/" && (
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                sx={{
+                  color: location.pathname == "/" ? "white" : "",
+                  position: "fixed",
+                  right: 20,
+                }}
+                onClick={handleOpenNavMenu}
+                color="inherit">
+                <MenuIcon />
+              </IconButton>
+            )}
+
+            <Box sx={{ right: 30, display: { xs: "none", lg: "flex" } }}>
+              <Dialog
+                open={anchorElUser}
+                onClose={() => setAnchorElUser(false)}
+                maxWidth="xl">
+                <DialogTitle>
+                  {lang == "th" ? "การตั้งค่าภาษา" : "Language Setting"}
+                </DialogTitle>
+                <DialogContent>
+                  <TextField
+                    select
+                    label="Change Language"
+                    value={lang}
+                    variant="filled"
+                    onChange={(e) => setLang(e.target.value)}
+                    sx={{ width: 180 }}
+                    fullWidth={true}>
+                    {langList.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => setAnchorElUser(false)}>
+                    {lang == "th" ? "ปิด" : "Close"}
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+
       <Slide
         direction="down"
         in={appbarx}
@@ -341,13 +522,13 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             <Toolbar disableGutters>
               <Avatar
                 sx={{
-                  width: 55,
-                  height: 55,
+                  width: 65,
+                  height: 65,
                   display: { xs: "none", lg: "flex" },
                   mr: 1,
                 }}
                 alt="kaofrangicon"
-                src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/kfico.webp"
+                src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp"
               />
               <Typography
                 variant="h6"
@@ -574,7 +755,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       </Slide>
 
       <Fade in={transit} timeout={!transit ? 0 : 700}>
-        <div>
+        <Box sx={{ marginTop: { xs: location.pathname != '/' ? 10 : 0, md: 0 } }}>
           {unlock ? (
             <BasicSwitch>
               <Route
@@ -661,7 +842,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
               />
             </BasicSwitch>
           )}
-        </div>
+        </Box>
       </Fade>
 
       <footer className="fixed-bottom bg-secondary text-center">
@@ -682,7 +863,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           </small>
         </Card>
       </footer>
-      {appbarx && (
+      {/* {appbarx && (
         <Fab
           color="primary"
           sx={
@@ -721,7 +902,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             <MenuOpenIcon />
           )}
         </Fab>
-      )}
+      )} */}
     </div>
   );
 }
