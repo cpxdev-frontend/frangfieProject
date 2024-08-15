@@ -357,7 +357,7 @@ const GameApp = ({
           data-aos="fade-in"
           className="d-flex justify-content-center"
           style={{ marginBottom: 100 }}>
-          <Card sx={{ marginTop: "15vh", width: { xs: "90%", md: "70%" } }}>
+          <Card sx={{ marginTop: { xs: 3, md: "15vh" }, width: { xs: "90%", md: "70%" } }}>
             <CardContent>
               <CardHeader
                 title="Quiz Game"
@@ -457,32 +457,32 @@ const GameApp = ({
                 <Typography className="ml-3" data-aos="zoom-in-down">
                   {lang == "th"
                     ? "คะแนนเฉลี่ยจากผู้เล่นทั่วโลก " +
-                      aver.average +
-                      " คะแนนจากทั้งหมด " +
-                      aver.fromAll +
-                      " คะแนน"
+                    aver.average +
+                    " คะแนนจากทั้งหมด " +
+                    aver.fromAll +
+                    " คะแนน"
                     : "Average scores from worldwide are " +
-                      aver.average +
-                      " points from all " +
-                      aver.fromAll +
-                      " points."}
+                    aver.average +
+                    " points from all " +
+                    aver.fromAll +
+                    " points."}
                 </Typography>
                 <Typography className="ml-3" data-aos="zoom-in-down">
                   {lang == "th"
                     ? "เวลาที่ใช้ไปโดยเฉลี่ยทั่วโลก " +
-                      (secondsToMinSec(aver.time).minutes > 0
-                        ? secondsToMinSec(aver.time).minutes +
-                          " นาที " +
-                          secondsToMinSec(aver.time).seconds +
-                          " วินาที"
-                        : secondsToMinSec(aver.time).seconds + " วินาที")
+                    (secondsToMinSec(aver.time).minutes > 0
+                      ? secondsToMinSec(aver.time).minutes +
+                      " นาที " +
+                      secondsToMinSec(aver.time).seconds +
+                      " วินาที"
+                      : secondsToMinSec(aver.time).seconds + " วินาที")
                     : "Worldwide average time duration " +
-                      (secondsToMinSec(aver.time).minutes > 0
-                        ? secondsToMinSec(aver.time).minutes +
-                          " minutes " +
-                          secondsToMinSec(aver.time).seconds +
-                          " seconds"
-                        : secondsToMinSec(aver.time).seconds + " seconds")}
+                    (secondsToMinSec(aver.time).minutes > 0
+                      ? secondsToMinSec(aver.time).minutes +
+                      " minutes " +
+                      secondsToMinSec(aver.time).seconds +
+                      " seconds"
+                      : secondsToMinSec(aver.time).seconds + " seconds")}
                 </Typography>
               </>
             ) : (
@@ -556,15 +556,15 @@ const GameApp = ({
                       className={
                         checked && item.key === choice.choiceId
                           ? "text-success" +
-                            (choice.choiceId == selected
-                              ? " bgSelectedquiz"
-                              : " shake")
+                          (choice.choiceId == selected
+                            ? " bgSelectedquiz"
+                            : " shake")
                           : checked && item.key !== choice.choiceId
-                          ? "text-danger" +
+                            ? "text-danger" +
                             (choice.choiceId == selected
                               ? " bgSelectedquiz"
                               : "")
-                          : ""
+                            : ""
                       }>
                       <ListItemText
                         primary={ix + 1 + ". " + choice.choiceName[lang]}

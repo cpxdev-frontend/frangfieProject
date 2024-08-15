@@ -161,7 +161,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     window.addEventListener("scroll", debounce(handleScroll, 200));
     fetch(process.env.REACT_APP_APIE + "/home/status", {})
       .then((response) => response.text())
-      .then((result) => {})
+      .then((result) => { })
       .catch((error) => {
         document.title = "System Maintenance | KaofrangFie Site";
         setOnMaintain(true);
@@ -220,7 +220,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             result.unix >= 1731603600 ||
             (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
               localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-                "56f006fb7a76776e1e08eac264bd491aa1a066a1")
+              "56f006fb7a76776e1e08eac264bd491aa1a066a1")
           ) {
             setUnlock(true);
           } else {
@@ -330,110 +330,157 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           </span>
         </Alert>
       )}
-      <AppBar
-        position="fixed"
-        sx={{
-          borderBottomLeftRadius: 10,
-          borderBottomRightRadius: 10,
-          display: { xs: "initial", md: "none" },
-          backgroundColor:
-            location.pathname == "/" ? "transparent !important" : "",
-        }}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Box
-              className="justify-content-center"
-              sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
-              {location.pathname != "/" ? (
-                <Avatar
-                  sx={{
-                    width: 55,
-                    height: 55,
-                    display: { xs: "flex", lg: "none" },
-                    ml: 1,
-                    mr: 1,
-                  }}
-                  alt="kaofrangicon"
-                  src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp"
-                />
-              ) : (
-                <div className="w-100 d-flex justify-content-center">
+
+      <Slide
+        direction="down"
+        in={location.pathname != "/" && !game && !currentPage.includes("404 Not Found")}>
+        <AppBar
+          position="fixed"
+          sx={{
+            borderBottomLeftRadius: 10,
+            borderBottomRightRadius: 10,
+            backgroundColor:
+              location.pathname == "/" || currentPage.includes("404 Not Found") ? "transparent !important" : "",
+            boxShadow: location.pathname == "/" || currentPage.includes("404 Not Found") ? 'none' : ''
+          }}>
+          <Container maxWidth="xl">
+            <Toolbar disableGutters>
+              <Box
+                className="justify-content-center"
+                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
+                {location.pathname != "/" && !currentPage.includes("404 Not Found") && (
                   <Avatar
                     sx={{
                       width: 70,
                       height: 70,
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      display: "block",
-                      top: 0,
+                      display: { xs: "flex", lg: "none" },
+                      ml: 1,
+                      mr: 1,
                     }}
                     alt="kaofrangicon"
                     src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp"
                   />
-                </div>
+                )}
+
+                <Dialog
+                  open={anchorElNav}
+                  onClose={handleCloseNavMenu}
+                  maxWidth="xl">
+                  <DialogTitle>
+                    {lang == "th" ? "เมนูหลัก" : "Main Menu"}
+                  </DialogTitle>
+                  <DialogContent>
+                    {pages.map((page, i) =>
+                      pageSec[i] != "birthday" ? (
+                        <MenuItem
+                          component={Link}
+                          key={page}
+                          to={"/" + pageSec[i]}
+                          onClick={handleCloseNavMenu}>
+                          <Typography
+                            textAlign="center"
+                            sx={{
+                              color:
+                                location.pathname == "/" + pageSec[i]
+                                  ? "#fb61ee"
+                                  : "#000",
+                            }}
+                            component="p">
+                            {page}
+                          </Typography>
+                        </MenuItem>
+                      ) : pageSec[i] == "birthday" && birthdaycampain == true ? (
+                        <MenuItem
+                          component={Link}
+                          key={page}
+                          to={"/" + pageSec[i]}
+                          onClick={handleCloseNavMenu}>
+                          <Typography
+                            textAlign="center"
+                            sx={{
+                              color:
+                                location.pathname == "/" + pageSec[i]
+                                  ? "#fb61ee"
+                                  : "#000",
+                            }}
+                            component="p">
+                            {page}
+                          </Typography>
+                        </MenuItem>
+                      ) : null
+                    )}
+
+                    <Box sx={{ display: { xs: "initial", md: "none" } }}>
+                      <Divider className="border border-secondary mb-3 mt-2" />
+                      <TextField
+                        select
+                        label="Change Language"
+                        value={lang}
+                        variant="filled"
+                        onChange={(e) => setLang(e.target.value)}
+                        sx={{
+                          width: 180,
+                          display:
+                            window.location.pathname == "/" ? "none" : "block",
+                        }}
+                        fullWidth={true}>
+                        {langList.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+
+                      <FormControlLabel
+                        onChange={() => setLeftMode(!leftmode)}
+                        control={<Switch checked={leftmode} />}
+                        label={
+                          lang == "th" ? "โหมดใช้งานข้างซ้าย" : "Left Hand mode"
+                        }
+                      />
+                    </Box>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCloseNavMenu}>
+                      {lang == "th" ? "ปิด" : "Close"}
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </Box>
+
+              {location.pathname !== "/" && !currentPage.includes("404 Not Found") && (
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  sx={{
+                    color: location.pathname == "/" ? "white" : "",
+                    position: "fixed",
+                    right: 20,
+                  }}
+                  onClick={handleOpenNavMenu}
+                  color="inherit">
+                  <MenuIcon />
+                </IconButton>
               )}
 
-              <Dialog
-                open={anchorElNav}
-                onClose={handleCloseNavMenu}
-                maxWidth="xl">
-                <DialogTitle>
-                  {lang == "th" ? "เมนูหลัก" : "Main Menu"}
-                </DialogTitle>
-                <DialogContent>
-                  {pages.map((page, i) =>
-                    pageSec[i] != "birthday" ? (
-                      <MenuItem
-                        component={Link}
-                        key={page}
-                        to={"/" + pageSec[i]}
-                        onClick={handleCloseNavMenu}>
-                        <Typography
-                          textAlign="center"
-                          sx={{
-                            color:
-                              location.pathname == "/" + pageSec[i]
-                                ? "#fb61ee"
-                                : "#000",
-                          }}
-                          component="p">
-                          {page}
-                        </Typography>
-                      </MenuItem>
-                    ) : pageSec[i] == "birthday" && birthdaycampain == true ? (
-                      <MenuItem
-                        component={Link}
-                        key={page}
-                        to={"/" + pageSec[i]}
-                        onClick={handleCloseNavMenu}>
-                        <Typography
-                          textAlign="center"
-                          sx={{
-                            color:
-                              location.pathname == "/" + pageSec[i]
-                                ? "#fb61ee"
-                                : "#000",
-                          }}
-                          component="p">
-                          {page}
-                        </Typography>
-                      </MenuItem>
-                    ) : null
-                  )}
-
-                  <Box sx={{ display: { xs: "initial", md: "none" } }}>
-                    <Divider className="border border-secondary mb-3 mt-2" />
+              <Box sx={{ right: 30, display: { xs: "none", lg: "flex" } }}>
+                <Dialog
+                  open={anchorElUser}
+                  onClose={() => setAnchorElUser(false)}
+                  maxWidth="xl">
+                  <DialogTitle>
+                    {lang == "th" ? "การตั้งค่าภาษา" : "Language Setting"}
+                  </DialogTitle>
+                  <DialogContent>
                     <TextField
                       select
                       label="Change Language"
                       value={lang}
                       variant="filled"
                       onChange={(e) => setLang(e.target.value)}
-                      sx={{
-                        width: 180,
-                        display:
-                          window.location.pathname == "/" ? "none" : "block",
-                      }}
+                      sx={{ width: 180 }}
                       fullWidth={true}>
                       {langList.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -441,75 +488,18 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                         </MenuItem>
                       ))}
                     </TextField>
-
-                    <FormControlLabel
-                      onChange={() => setLeftMode(!leftmode)}
-                      control={<Switch checked={leftmode} />}
-                      label={
-                        lang == "th" ? "โหมดใช้งานข้างซ้าย" : "Left Hand mode"
-                      }
-                    />
-                  </Box>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleCloseNavMenu}>
-                    {lang == "th" ? "ปิด" : "Close"}
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </Box>
-
-            {location.pathname !== "/" && (
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                sx={{
-                  color: location.pathname == "/" ? "white" : "",
-                  position: "fixed",
-                  right: 20,
-                }}
-                onClick={handleOpenNavMenu}
-                color="inherit">
-                <MenuIcon />
-              </IconButton>
-            )}
-
-            <Box sx={{ right: 30, display: { xs: "none", lg: "flex" } }}>
-              <Dialog
-                open={anchorElUser}
-                onClose={() => setAnchorElUser(false)}
-                maxWidth="xl">
-                <DialogTitle>
-                  {lang == "th" ? "การตั้งค่าภาษา" : "Language Setting"}
-                </DialogTitle>
-                <DialogContent>
-                  <TextField
-                    select
-                    label="Change Language"
-                    value={lang}
-                    variant="filled"
-                    onChange={(e) => setLang(e.target.value)}
-                    sx={{ width: 180 }}
-                    fullWidth={true}>
-                    {langList.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={() => setAnchorElUser(false)}>
-                    {lang == "th" ? "ปิด" : "Close"}
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => setAnchorElUser(false)}>
+                      {lang == "th" ? "ปิด" : "Close"}
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </Box>
+            </Toolbar>
+          </Container>
+        </AppBar>
+      </Slide>
 
       <Slide
         direction="down"
@@ -522,8 +512,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             <Toolbar disableGutters>
               <Avatar
                 sx={{
-                  width: 65,
-                  height: 65,
+                  width: 70,
+                  height: 70,
                   display: { xs: "none", lg: "flex" },
                   mr: 1,
                 }}
@@ -551,6 +541,21 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
+                  sx={{ display: { md: "none", lg: "initial" } }}
+                  color="inherit">
+                  <MenuIcon />
+                </IconButton>
+
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  sx={{
+                    display: { md: "initial", lg: "none" }, position: "fixed",
+                    right: 20, top: -1
+                  }}
                   color="inherit">
                   <MenuIcon />
                 </IconButton>
@@ -642,14 +647,14 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
               </Box>
               <Avatar
                 sx={{
-                  width: 55,
-                  height: 55,
+                  width: 70,
+                  height: 70,
                   display: { xs: "flex", lg: "none" },
                   ml: 1,
                   mr: 1,
                 }}
                 alt="kaofrangicon"
-                src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/kfico.webp"
+                src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp"
               />
               <Typography
                 variant="h6"
@@ -755,7 +760,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       </Slide>
 
       <Fade in={transit} timeout={!transit ? 0 : 700}>
-        <Box sx={{ marginTop: { xs: location.pathname != '/' ? 10 : 0, md: 0 } }}>
+        <Box sx={{ marginTop: { xs: location.pathname != '/' && !currentPage.includes("404 Not Found") ? 10 : 0, md: 0 } }}>
           {unlock ? (
             <BasicSwitch>
               <Route
