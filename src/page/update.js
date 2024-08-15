@@ -26,7 +26,7 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
   const [data, setData] = React.useState(null);
   const [sam, setSam] = React.useState([]);
   const [pageset, setPagin] = React.useState(1);
-  const PER_PAGE = 8;
+  const PER_PAGE = 10;
 
   let count = Math.ceil(sam.length / PER_PAGE);
   let _DATA = usePagination(sam, PER_PAGE);
