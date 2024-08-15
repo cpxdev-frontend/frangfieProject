@@ -33,8 +33,8 @@ import {
   setPage,
   setInGame,
 } from "../redux/action";
-import { useHistory } from 'react-router-dom';
-import ReactGA from 'react-ga4';
+import { useHistory } from "react-router-dom";
+import ReactGA from "react-ga4";
 
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -50,7 +50,15 @@ function secondsToMinSec(totalSeconds) {
   return { minutes, seconds };
 }
 
-const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGame, game }) => {
+const GameApp = ({
+  currentPage,
+  lang,
+  setLang,
+  currentCountry,
+  setPage,
+  setInGame,
+  game,
+}) => {
   const [gamemeet, setGame] = React.useState(0);
   const [quesList, setQuesList] = React.useState([]);
   const [correct, setCorrect] = React.useState(0);
@@ -64,6 +72,12 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
 
   // state to check stopwatch running or not
   const [isRunning, setIsRunning] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  React.useState(() => {
+    setTimeout(() => {
+      setOpen(true);
+    }, 50);
+  }, [currentPage]);
 
   React.useEffect(() => {
     let intervalId;
@@ -84,11 +98,11 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
         return;
       }
       event.preventDefault();
-      event.returnValue = '';
+      event.returnValue = "";
     };
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
 
@@ -122,8 +136,8 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
             ]);
           }
           ReactGA.event({
-            category: 'User',
-            action: 'Game Ready'
+            category: "User",
+            action: "Game Ready",
           });
           Swal.fire({
             title: "Game will be started",
@@ -168,28 +182,31 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
                   allowOutsideClick: () => false,
                 }).then((r) => {
                   ReactGA.event({
-                    category: 'User',
-                    action: 'Game Start'
+                    category: "User",
+                    action: "Game Start",
                   });
                   clearInterval(timerInterval);
                   setQuesList(JSON.parse(result.data));
                   console.log(JSON.parse(result.data));
                   setGame(1);
                   setLoad(false);
-                  setAns(false);  
+                  setAns(false);
                   setIsRunning(false);
                   setTimeout(
                     () => {
                       setAns(true);
                       setIsRunning(true);
                     },
-                    (window.innerHeight > (JSON.parse(result.data)[0].img? 700 : 500) ? 3800 : 1000)
+                    window.innerHeight >
+                      (JSON.parse(result.data)[0].img ? 700 : 500)
+                      ? 3800
+                      : 1000
                   );
                 });
               } else {
                 ReactGA.event({
-                  category: 'User',
-                  action: 'Game Start'
+                  category: "User",
+                  action: "Game Start",
                 });
                 setQuesList(JSON.parse(result.data));
                 console.log(JSON.parse(result.data));
@@ -202,7 +219,10 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
                     setAns(true);
                     setIsRunning(true);
                   },
-                  (window.innerHeight > (JSON.parse(result.data)[0].img ? 700 : 500) ? 3800 : 1000)
+                  window.innerHeight >
+                    (JSON.parse(result.data)[0].img ? 700 : 500)
+                    ? 3800
+                    : 1000
                 );
               }
             }
@@ -233,8 +253,8 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
         navigator.vibrate([600, 100, 600, 100, 600]);
       }
       ReactGA.event({
-        category: 'User',
-        action: 'Game Over'
+        category: "User",
+        action: "Game Over",
       });
       fetch(process.env.REACT_APP_APIE + "/kfsite/kfkeep", {
         method: "put",
@@ -246,14 +266,14 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
           quizScore: correct + (key === select ? 1 : 0),
           quizFrom: quesList.length,
           quizDuration: Math.floor((time % 6000) / 100),
-          quizCountry: currentCountry
+          quizCountry: currentCountry,
         }),
       })
         .then((response) => response.json())
         .then((result) => {
           ReactGA.event({
-            category: 'User',
-            action: 'Result Ready'
+            category: "User",
+            action: "Result Ready",
           });
           setAver(result);
           setTimeout(() => {
@@ -268,8 +288,8 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
         .catch((error) => console.log("error", error));
     } else {
       ReactGA.event({
-        category: 'User',
-        action: 'Next Question'
+        category: "User",
+        action: "Next Question",
       });
       setTimeout(() => {
         if (quesList[ques + 1].img != undefined) {
@@ -302,7 +322,9 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
                 setAns(true);
                 setIsRunning(true);
               },
-              (window.innerHeight > (quesList[ques + 1].img ? 700 : 500) ? 3800 : 1000)
+              window.innerHeight > (quesList[ques + 1].img ? 700 : 500)
+                ? 3800
+                : 1000
             );
           });
         } else {
@@ -319,7 +341,9 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
               setAns(true);
               setIsRunning(true);
             },
-            (window.innerHeight > (quesList[ques + 1].img ? 700 : 500) ? 3800 : 1000)
+            window.innerHeight > (quesList[ques + 1].img ? 700 : 500)
+              ? 3800
+              : 1000
           );
         }
       }, 6000);
@@ -328,86 +352,88 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
 
   if (gamemeet == 0) {
     return (
-      <div
-        data-aos="fade-in"
-        className="d-flex justify-content-center"
-        style={{ marginBottom: 100 }}>
-        <Card sx={{ marginTop: "15vh", width: { xs: "90%", md: "70%" } }}>
-          <CardContent>
-            <CardHeader
-              title="Quiz Game"
-              subheader={
-                lang == "th"
-                  ? "คำถามพิชิตสุดยอดกองฟ่างของข้าวฟ่าง"
-                  : "KaofrangFie Fandom Quiz"
-              }
-            />
-            <List>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    lang == "th"
-                      ? "1. เลือกคำถามที่ถูกต้องที่สุด"
-                      : "1. Please choose correct answer as you can."
-                  }
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    lang == "th"
-                      ? "2. หากเลือกแล้วจะไม่สามารถเปลี่ยนตัวเลือกได้"
-                      : "2. You cannot change answer after selected."
-                  }
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    lang == "th"
-                      ? "3. หากตอบคำถามถูกจะได้ 1 คะแนน"
-                      : "3. You will earn 1 point when answer correct."
-                  }
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    lang == "th"
-                      ? "4. สำหรับผู้ใช้งาน Android ทางผู้พัฒนาได้พัฒนาระบบคำสั่งสั่นที่ตัวอุปกรณ์เพื่อเพิ่มอรรถรสในการเล่น"
-                      : "4. We use vibration on your device for Android device to increase the enjoyment of playing the game."
-                  }
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    lang == "th"
-                      ? "5. หลังเกมจบ คุณสามารถเข้ามาเล่นซ้ำได้ แต่คำถามจะถูกเปลี่ยนสลับกันไปโดยไม่ซ้ำลำดับกัน"
-                      : "5. After the game ends, you can come and play again. But the questions will be rotated in no repeating order."
-                  }
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    lang == "th"
-                      ? "6. แคปหน้าจอและแชร์คะแนนไปที่กลุ่มเฟสบุ๊คหรือ LINE Square ของข้าวฟ่างด้วยนะ"
-                      : "6. Take your scores and share to Kaofrang Facebook group or LINE Square."
-                  }
-                />
-              </ListItem>
-            </List>
-            <Button
-              className="mt-5"
-              variant="contained"
-              disabled={startLoad}
-              onClick={() => StartGame()}>
-              {lang == "th" ? "เริ่มเกมส์" : "Play!"}
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
+      <Fade in={open} timeout={300}>
+        <div
+          data-aos="fade-in"
+          className="d-flex justify-content-center"
+          style={{ marginBottom: 100 }}>
+          <Card sx={{ marginTop: "15vh", width: { xs: "90%", md: "70%" } }}>
+            <CardContent>
+              <CardHeader
+                title="Quiz Game"
+                subheader={
+                  lang == "th"
+                    ? "คำถามพิชิตสุดยอดกองฟ่างของข้าวฟ่าง"
+                    : "KaofrangFie Fandom Quiz"
+                }
+              />
+              <List>
+                <ListItem>
+                  <ListItemText
+                    primary={
+                      lang == "th"
+                        ? "1. เลือกคำถามที่ถูกต้องที่สุด"
+                        : "1. Please choose correct answer as you can."
+                    }
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary={
+                      lang == "th"
+                        ? "2. หากเลือกแล้วจะไม่สามารถเปลี่ยนตัวเลือกได้"
+                        : "2. You cannot change answer after selected."
+                    }
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary={
+                      lang == "th"
+                        ? "3. หากตอบคำถามถูกจะได้ 1 คะแนน"
+                        : "3. You will earn 1 point when answer correct."
+                    }
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary={
+                      lang == "th"
+                        ? "4. สำหรับผู้ใช้งาน Android ทางผู้พัฒนาได้พัฒนาระบบคำสั่งสั่นที่ตัวอุปกรณ์เพื่อเพิ่มอรรถรสในการเล่น"
+                        : "4. We use vibration on your device for Android device to increase the enjoyment of playing the game."
+                    }
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary={
+                      lang == "th"
+                        ? "5. หลังเกมจบ คุณสามารถเข้ามาเล่นซ้ำได้ แต่คำถามจะถูกเปลี่ยนสลับกันไปโดยไม่ซ้ำลำดับกัน"
+                        : "5. After the game ends, you can come and play again. But the questions will be rotated in no repeating order."
+                    }
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary={
+                      lang == "th"
+                        ? "6. แคปหน้าจอและแชร์คะแนนไปที่กลุ่มเฟสบุ๊คหรือ LINE Square ของข้าวฟ่างด้วยนะ"
+                        : "6. Take your scores and share to Kaofrang Facebook group or LINE Square."
+                    }
+                  />
+                </ListItem>
+              </List>
+              <Button
+                className="mt-5"
+                variant="contained"
+                disabled={startLoad}
+                onClick={() => StartGame()}>
+                {lang == "th" ? "เริ่มเกมส์" : "Play!"}
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </Fade>
     );
   }
   if (gamemeet == 2) {
@@ -444,9 +470,19 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
                 <Typography className="ml-3" data-aos="zoom-in-down">
                   {lang == "th"
                     ? "เวลาที่ใช้ไปโดยเฉลี่ยทั่วโลก " +
-                     (secondsToMinSec(aver.time).minutes > 0 ? secondsToMinSec(aver.time).minutes + ' นาที ' + secondsToMinSec(aver.time).seconds + ' วินาที' : secondsToMinSec(aver.time).seconds + ' วินาที') 
+                      (secondsToMinSec(aver.time).minutes > 0
+                        ? secondsToMinSec(aver.time).minutes +
+                          " นาที " +
+                          secondsToMinSec(aver.time).seconds +
+                          " วินาที"
+                        : secondsToMinSec(aver.time).seconds + " วินาที")
                     : "Worldwide average time duration " +
-                    (secondsToMinSec(aver.time).minutes > 0 ? secondsToMinSec(aver.time).minutes + ' minutes ' + secondsToMinSec(aver.time).seconds + ' seconds' : secondsToMinSec(aver.time).seconds + ' seconds') }
+                      (secondsToMinSec(aver.time).minutes > 0
+                        ? secondsToMinSec(aver.time).minutes +
+                          " minutes " +
+                          secondsToMinSec(aver.time).seconds +
+                          " seconds"
+                        : secondsToMinSec(aver.time).seconds + " seconds")}
                 </Typography>
               </>
             ) : (
@@ -486,13 +522,21 @@ const GameApp = ({ currentPage, lang, setLang, currentCountry, setPage, setInGam
                   }
                 />
                 {item.img != undefined && checked == false && (
-                  <p className="mt-2 text-primary ml-3" onClick={() => {
+                  <p
+                    className="mt-2 text-primary ml-3"
+                    onClick={() => {
                       Swal.fire({
-                        imageUrl: item.img
-                      })
-                    }}><b>{lang == "th" ? "คำแนะนำ: คลิกหรือแตะที่นี่เพื่อดูรูปเต็ม" : "Guide: Click or tap here to view full-size image"}</b></p>
+                        imageUrl: item.img,
+                      });
+                    }}>
+                    <b>
+                      {lang == "th"
+                        ? "คำแนะนำ: คลิกหรือแตะที่นี่เพื่อดูรูปเต็ม"
+                        : "Guide: Click or tap here to view full-size image"}
+                    </b>
+                  </p>
                 )}
-                
+
                 <List>
                   {item.choices.map((choice, ix) => (
                     <ListItemButton
@@ -575,7 +619,7 @@ const mapStateToProps = (state) => ({
   lang: state.lang,
   currentPage: state.currentPage,
   game: state.game,
-  currentCountry: state.currentCountry
+  currentCountry: state.currentCountry,
 });
 const mapDispatchToProps = (dispatch) => ({
   setLoad: (val) => dispatch(setLoad(val)),

@@ -63,6 +63,12 @@ const GameApp = ({
   const [gamemeet, setGame] = React.useState(0);
   const [startLoad, setLoad] = React.useState(false);
   const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  React.useState(() => {
+    setTimeout(() => {
+      setOpen(true);
+    }, 50);
+  }, [currentPage]);
 
   function headertrans() {
     if (lang == "th") {
@@ -117,63 +123,65 @@ const GameApp = ({
   }, []);
 
   return (
-    <div
-      className="d-flex justify-content-center"
-      style={{ marginBottom: 100 }}>
-      <Card sx={{ marginTop: "30vh", width: { xs: "90%", md: "70%" } }}>
-        <CardContent>
-          <CardHeader title={headertrans()} data-aos="fade-right" />
-          {aver != null ? (
-            <>
-              {aver.fromAll > 0 ? (
-                <>
-                  <Typography className="ml-3" data-aos="zoom-in-down">
-                    {lang == "th"
-                      ? "คะแนนเฉลี่ยจากผู้เล่น " +
-                        aver.average +
-                        " คะแนนจากทั้งหมด " +
-                        aver.fromAll +
-                        " คะแนน"
-                      : "Average scores are " +
-                        aver.average +
-                        " points from all " +
-                        aver.fromAll +
-                        " points."}
-                  </Typography>
-                  <Typography className="ml-3" data-aos="zoom-in-down">
-                    {lang == "th"
-                      ? "เวลาที่ใช้ไปโดยเฉลี่ย " +
-                        (secondsToMinSec(aver.time).minutes > 0
-                          ? secondsToMinSec(aver.time).minutes +
-                            " นาที " +
-                            secondsToMinSec(aver.time).seconds +
-                            " วินาที"
-                          : secondsToMinSec(aver.time).seconds + " วินาที")
-                      : "Average time duration " +
-                        (secondsToMinSec(aver.time).minutes > 0
-                          ? secondsToMinSec(aver.time).minutes +
-                            " minutes " +
-                            secondsToMinSec(aver.time).seconds +
-                            " seconds"
-                          : secondsToMinSec(aver.time).seconds + " seconds")}
-                  </Typography>
-                </>
-              ) : (
-                <>
-                  <Typography className="ml-3" data-aos="zoom-in-down">
-                    {lang == "th"
-                      ? "ไม่พบข้อมูลในระบบในขณะนี้"
-                      : "System not found any game records of this country"}
-                  </Typography>
-                </>
-              )}
-            </>
-          ) : (
-            <Skeleton height={100} />
-          )}
-        </CardContent>
-      </Card>
-    </div>
+    <Fade in={open} timeout={300}>
+      <div
+        className="d-flex justify-content-center"
+        style={{ marginBottom: 100 }}>
+        <Card sx={{ marginTop: "30vh", width: { xs: "90%", md: "70%" } }}>
+          <CardContent>
+            <CardHeader title={headertrans()} data-aos="fade-right" />
+            {aver != null ? (
+              <>
+                {aver.fromAll > 0 ? (
+                  <>
+                    <Typography className="ml-3" data-aos="zoom-in-down">
+                      {lang == "th"
+                        ? "คะแนนเฉลี่ยจากผู้เล่น " +
+                          aver.average +
+                          " คะแนนจากทั้งหมด " +
+                          aver.fromAll +
+                          " คะแนน"
+                        : "Average scores are " +
+                          aver.average +
+                          " points from all " +
+                          aver.fromAll +
+                          " points."}
+                    </Typography>
+                    <Typography className="ml-3" data-aos="zoom-in-down">
+                      {lang == "th"
+                        ? "เวลาที่ใช้ไปโดยเฉลี่ย " +
+                          (secondsToMinSec(aver.time).minutes > 0
+                            ? secondsToMinSec(aver.time).minutes +
+                              " นาที " +
+                              secondsToMinSec(aver.time).seconds +
+                              " วินาที"
+                            : secondsToMinSec(aver.time).seconds + " วินาที")
+                        : "Average time duration " +
+                          (secondsToMinSec(aver.time).minutes > 0
+                            ? secondsToMinSec(aver.time).minutes +
+                              " minutes " +
+                              secondsToMinSec(aver.time).seconds +
+                              " seconds"
+                            : secondsToMinSec(aver.time).seconds + " seconds")}
+                    </Typography>
+                  </>
+                ) : (
+                  <>
+                    <Typography className="ml-3" data-aos="zoom-in-down">
+                      {lang == "th"
+                        ? "ไม่พบข้อมูลในระบบในขณะนี้"
+                        : "System not found any game records of this country"}
+                    </Typography>
+                  </>
+                )}
+              </>
+            ) : (
+              <Skeleton height={100} />
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </Fade>
   );
 };
 

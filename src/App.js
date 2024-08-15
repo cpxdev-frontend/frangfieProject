@@ -116,6 +116,7 @@ let scrollmot = false;
 function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const [betabypass, setBetaMode] = React.useState(false);
   const [bypassonclose, setOnClose] = React.useState(false);
+  const [transit, setTran] = React.useState(false);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -158,6 +159,13 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     ReactGA.send({ hitType: "pageview", page: window.location.pathname });
     window.addEventListener("scroll", debounce(handleScroll, 200));
   }, []);
+
+  React.useEffect(() => {
+    setTran(false)
+    setTimeout(() => {
+      setTran(true)
+    }, 50);
+  }, [location.key]);
 
   const [unlock, setUnlock] = React.useState(null);
 
@@ -256,7 +264,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   };
 
   return (
-    <Fade in={true} timeout={800}>
+    <Fade in={transit} timeout={!transit ? 0 : 700}>
       <div ref={scrollRef}>
         <div
           id="blockwhenland"

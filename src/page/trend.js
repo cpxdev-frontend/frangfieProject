@@ -16,7 +16,7 @@ import {
   ListItem,
   Chip,
   Skeleton,
-  Dialog,
+  Fade,
   DialogTitle,
   DialogContent,
   DialogContentText,
@@ -33,7 +33,7 @@ import {
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import moment from "moment";
 import { RefreshRounded } from "@mui/icons-material";
-import ReactGA from 'react-ga4';
+import ReactGA from "react-ga4";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiY3B4dGgyMDE3IiwiYSI6ImNsZHY0MzN6bTBjNzEzcXJmamJtN3BsZ3AifQ.mYNwWaYKsiLeYXngFDtaWQ";
@@ -68,6 +68,12 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
   const [data, setData] = React.useState(null);
   const [fet, setFetch] = React.useState(false);
   const [unix, setUnix] = React.useState(launch);
+  const [open, setOpen] = React.useState(false);
+  React.useState(() => {
+    setTimeout(() => {
+      setOpen(true);
+    }, 50);
+  }, [currentPage]);
 
   const RefreshDate = () => {
     setFetch(false);
@@ -102,283 +108,290 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
   }, []);
 
   return (
-    <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
-      <CardHeader
-        title={<h3>Start Trend</h3>}
-        subheader={
-          lang == "th"
-            ? "ร่วมดันเทรน (ปั่นแท็ก) กิจกรรมของข้าวฟ่างไปด้วยกัน"
-            : "Let's join to growth trend of X tag(s) about Kaofrang events."
-        }
-        action={
-          fet == true ? (
-            <IconButton onClick={() => RefreshDate()}>
-              <RefreshRounded />
-            </IconButton>
-          ) : null
-        }
-      />
-      <div className="container mt-3">
-        {data != null ? (
-          <>
-            {data.length > 0 ? (
-              data.map((item, i) => (
-                <Card
-                  key={item.trendId}
-                  className="mb-3"
-                  data-aos-delay="600"
-                  data-aos="zoom-in-right">
-                  <CardContent
-                    sx={{
-                      opacity: item.end > 0 && launch >= item.end ? 0.4 : 1,
-                    }}>
-                    <CardHeader
-                      className="pl-0 pb-0"
-                      title={<h4>{item.title}</h4>}
-                      action={
-                        unix < item.start && (
-                          <Chip
-                            className="p-1"
-                            sx={{ display: { xs: "none", lg: "initial" } }}
-                            label={
-                              lang == "th"
-                                ? "กำลังเริ่มต้นในอีก " +
-                                  compareTimestamps(unix, item.start).days +
-                                  " วัน " +
-                                  compareTimestamps(unix, item.start).hours +
-                                  " ชั่วโมง " +
-                                  compareTimestamps(unix, item.start).minutes +
-                                  " นาที"
-                                : "Event start in " +
-                                  compareTimestamps(unix, item.start).days +
-                                  " day(s) " +
-                                  compareTimestamps(unix, item.start).hours +
-                                  " hr(s) " +
-                                  compareTimestamps(unix, item.start).minutes +
-                                  " minute(s)"
-                            }
-                            color="primary"
-                          />
-                        )
-                      }
-                    />
-                    {unix < item.start && (
-                      <Chip
-                        sx={{
-                          display: { xs: "inline-block", lg: "none" },
-                          marginTop: 1,
-                          padding: 0,
-                          paddingTop: ".4rem",
-                        }}
-                        label={
-                          lang == "th"
-                            ? "กำลังเริ่มต้นในอีก " +
-                              compareTimestamps(unix, item.start).days +
-                              " วัน " +
-                              compareTimestamps(unix, item.start).hours +
-                              " ชั่วโมง " +
-                              compareTimestamps(unix, item.start).minutes +
-                              " นาที"
-                            : "Event start in " +
-                              compareTimestamps(unix, item.start).days +
-                              " day(s) " +
-                              compareTimestamps(unix, item.start).hours +
-                              " hr(s) " +
-                              compareTimestamps(unix, item.start).minutes +
-                              " minute(s)"
-                        }
-                        color="primary"
-                      />
-                    )}
-                    <hr />
-                    <Grid container spacing={2}>
-                      {item.img != undefined &&
-                        item.img != null &&
-                        item.img != "" && (
-                          <Grid item lg={5} xs={12}>
-                            <Avatar
-                              src={item.img}
-                              variant="rounded"
-                              sx={{
-                                width: { lg: "400px", xs: "100%" },
-                                height: "100%",
-                              }}
-                            />
-                          </Grid>
-                        )}
-                      <Grid item lg={7} xs={12}>
-                        {item.start > 0 &&
-                        item.end > 0 &&
-                        moment
-                          .unix(item.start)
-                          .local()
-                          .format("MMMM DD, YYYY") ===
-                          moment
-                            .unix(item.end)
-                            .local()
-                            .format("MMMM DD, YYYY") ? (
-                          <p>
-                            {lang == "th"
-                              ? "ช่วงเวลาของเทรน"
-                              : "Trend duration"}
-                            :{" "}
-                            {moment
-                              .unix(item.start)
-                              .lang(lang)
-                              .local()
-                              .format(
+    <Fade in={open} timeout={300}>
+      <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
+        <CardHeader
+          title={<h3>Start Trend</h3>}
+          subheader={
+            lang == "th"
+              ? "ร่วมดันเทรน (ปั่นแท็ก) กิจกรรมของข้าวฟ่างไปด้วยกัน"
+              : "Let's join to growth trend of X tag(s) about Kaofrang events."
+          }
+          action={
+            fet == true ? (
+              <IconButton onClick={() => RefreshDate()}>
+                <RefreshRounded />
+              </IconButton>
+            ) : null
+          }
+        />
+        <div className="container mt-3">
+          {data != null ? (
+            <>
+              {data.length > 0 ? (
+                data.map((item, i) => (
+                  <Card
+                    key={item.trendId}
+                    className="mb-3"
+                    data-aos-delay="600"
+                    data-aos="zoom-in-right">
+                    <CardContent
+                      sx={{
+                        opacity: item.end > 0 && launch >= item.end ? 0.4 : 1,
+                      }}>
+                      <CardHeader
+                        className="pl-0 pb-0"
+                        title={<h4>{item.title}</h4>}
+                        action={
+                          unix < item.start && (
+                            <Chip
+                              className="p-1"
+                              sx={{ display: { xs: "none", lg: "initial" } }}
+                              label={
                                 lang == "th"
-                                  ? "DD MMMM YYYY เวลา HH:mm"
-                                  : "MMMM DD, YYYY HH:mm"
-                              )}
-                            {lang == "th" ? " ถึง " : " to "}
-                            {moment
-                              .unix(item.end)
-                              .lang(lang)
-                              .local()
-                              .format("HH:mm")}
-                          </p>
-                        ) : item.start > 0 &&
+                                  ? "กำลังเริ่มต้นในอีก " +
+                                    compareTimestamps(unix, item.start).days +
+                                    " วัน " +
+                                    compareTimestamps(unix, item.start).hours +
+                                    " ชั่วโมง " +
+                                    compareTimestamps(unix, item.start)
+                                      .minutes +
+                                    " นาที"
+                                  : "Event start in " +
+                                    compareTimestamps(unix, item.start).days +
+                                    " day(s) " +
+                                    compareTimestamps(unix, item.start).hours +
+                                    " hr(s) " +
+                                    compareTimestamps(unix, item.start)
+                                      .minutes +
+                                    " minute(s)"
+                              }
+                              color="primary"
+                            />
+                          )
+                        }
+                      />
+                      {unix < item.start && (
+                        <Chip
+                          sx={{
+                            display: { xs: "inline-block", lg: "none" },
+                            marginTop: 1,
+                            padding: 0,
+                            paddingTop: ".4rem",
+                          }}
+                          label={
+                            lang == "th"
+                              ? "กำลังเริ่มต้นในอีก " +
+                                compareTimestamps(unix, item.start).days +
+                                " วัน " +
+                                compareTimestamps(unix, item.start).hours +
+                                " ชั่วโมง " +
+                                compareTimestamps(unix, item.start).minutes +
+                                " นาที"
+                              : "Event start in " +
+                                compareTimestamps(unix, item.start).days +
+                                " day(s) " +
+                                compareTimestamps(unix, item.start).hours +
+                                " hr(s) " +
+                                compareTimestamps(unix, item.start).minutes +
+                                " minute(s)"
+                          }
+                          color="primary"
+                        />
+                      )}
+                      <hr />
+                      <Grid container spacing={2}>
+                        {item.img != undefined &&
+                          item.img != null &&
+                          item.img != "" && (
+                            <Grid item lg={5} xs={12}>
+                              <Avatar
+                                src={item.img}
+                                variant="rounded"
+                                sx={{
+                                  width: { lg: "400px", xs: "100%" },
+                                  height: "100%",
+                                }}
+                              />
+                            </Grid>
+                          )}
+                        <Grid item lg={7} xs={12}>
+                          {item.start > 0 &&
                           item.end > 0 &&
                           moment
                             .unix(item.start)
                             .local()
-                            .format("MMMM DD, YYYY") !==
+                            .format("MMMM DD, YYYY") ===
                             moment
                               .unix(item.end)
                               .local()
                               .format("MMMM DD, YYYY") ? (
-                          <p>
-                            {lang == "th"
-                              ? "ช่วงเวลาของเทรน"
-                              : "Trend duration"}
-                            :{" "}
-                            {moment
+                            <p>
+                              {lang == "th"
+                                ? "ช่วงเวลาของเทรน"
+                                : "Trend duration"}
+                              :{" "}
+                              {moment
+                                .unix(item.start)
+                                .lang(lang)
+                                .local()
+                                .format(
+                                  lang == "th"
+                                    ? "DD MMMM YYYY เวลา HH:mm"
+                                    : "MMMM DD, YYYY HH:mm"
+                                )}
+                              {lang == "th" ? " ถึง " : " to "}
+                              {moment
+                                .unix(item.end)
+                                .lang(lang)
+                                .local()
+                                .format("HH:mm")}
+                            </p>
+                          ) : item.start > 0 &&
+                            item.end > 0 &&
+                            moment
                               .unix(item.start)
-                              .lang(lang)
                               .local()
-                              .format(
-                                lang == "th"
-                                  ? "DD MMMM YYYY เวลา HH:mm"
-                                  : "MMMM DD, YYYY HH:mm"
-                              )}
-                            {lang == "th" ? " ถึง " : " to "}
-                            {moment
-                              .unix(item.end)
-                              .lang(lang)
-                              .local()
-                              .format(
-                                lang == "th"
-                                  ? "DD MMMM YYYY เวลา HH:mm"
-                                  : "MMMM DD, YYYY HH:mm"
-                              )}
-                          </p>
-                        ) : (
-                          <p>
-                            {lang == "th"
-                              ? "วันที่เริ่มต้นกิจกรรม "
-                              : "Event start on "}{" "}
-                            {moment
-                              .unix(item.start)
-                              .lang(lang)
-                              .local()
-                              .format(
-                                lang == "th" ? "DD MMMM YYYY" : "MMMM DD, YYYY"
-                              )}
-                          </p>
-                        )}
-                        <p className="mt-4">
-                          {lang == "th" ? "รายละเอียดกิจกรรม" : "Description"}:{" "}
-                          {item.desc[lang]}
-                        </p>
-                        <p className="mt-4" style={{ wordWrap: "break-word" }}>
-                          {lang == "th" ? "แท็กที่ใช้" : "Available Tags"}:
-                          {unix >= item.start && (
-                            <Box
-                              sx={{
-                                display:
-                                  item.tags > 3
-                                    ? "initial"
-                                    : { xs: "initial", lg: "none" },
-                              }}>
-                              <br />
-                            </Box>
-                          )}
-                          {unix >= item.start ? (
-                            item.tags.map((txt) => (
-                              <a
-                                href={
-                                  "https://x.com/hashtag/" +
-                                  txt +
-                                  "?src=hashtag_click&f=live"
-                                }
-                                className="ml-1"
-                                target="_blank">
-                                #{txt}
-                              </a>
-                            ))
+                              .format("MMMM DD, YYYY") !==
+                              moment
+                                .unix(item.end)
+                                .local()
+                                .format("MMMM DD, YYYY") ? (
+                            <p>
+                              {lang == "th"
+                                ? "ช่วงเวลาของเทรน"
+                                : "Trend duration"}
+                              :{" "}
+                              {moment
+                                .unix(item.start)
+                                .lang(lang)
+                                .local()
+                                .format(
+                                  lang == "th"
+                                    ? "DD MMMM YYYY เวลา HH:mm"
+                                    : "MMMM DD, YYYY HH:mm"
+                                )}
+                              {lang == "th" ? " ถึง " : " to "}
+                              {moment
+                                .unix(item.end)
+                                .lang(lang)
+                                .local()
+                                .format(
+                                  lang == "th"
+                                    ? "DD MMMM YYYY เวลา HH:mm"
+                                    : "MMMM DD, YYYY HH:mm"
+                                )}
+                            </p>
                           ) : (
-                            <span>
+                            <p>
                               {lang == "th"
-                                ? " ใกล้เริ่มเทรนแล้ว"
-                                : " Almost ready"}
-                            </span>
+                                ? "วันที่เริ่มต้นกิจกรรม "
+                                : "Event start on "}{" "}
+                              {moment
+                                .unix(item.start)
+                                .lang(lang)
+                                .local()
+                                .format(
+                                  lang == "th"
+                                    ? "DD MMMM YYYY"
+                                    : "MMMM DD, YYYY"
+                                )}
+                            </p>
                           )}
-                        </p>
-                        {item.start > 0 && item.end > 0 && (
-                          <small>
-                            <i>
-                              {lang == "th" ? "หมายเหตุ" : "Notes"}:{" "}
-                              {lang == "th"
-                                ? "ช่วงเวลาของกิจกรรมอ้างอิงตามโซนเวลาของอุปกรณ์"
-                                : "Event time duration are based on device timezone."}
-                            </i>
-                          </small>
-                        )}
-                        <br />
-                        {unix < item.start ? (
-                          <Button
-                            variant="outlined"
-                            onClick={() => {
-                              ReactGA.event({
-                                category: "User",
-                                action: "Trend link copied",
-                              });
-                              navigator.clipboard.writeText(
-                                "https://cpxstatusservice.azurewebsites.net/kaofrangfie/trend/" +
-                                  item.trendId
-                              );
-                              alert(
-                                lang == "th"
-                                  ? "คัดลอกลิงก์แล้ว"
-                                  : "Copied link to clipboard"
-                              );
-                            }}
-                            className="mt-3">
-                            {lang == "th" ? "คัดลอกลิงก์" : "Copy Link"}
-                          </Button>
-                        ) : (
-                          <Button
-                            variant="outlined"
-                            onClick={() => {
-                              ReactGA.event({
-                                category: "User",
-                                action: "Trend link access",
-                              });
-                              window.open(
-                                "https://cpxstatusservice.azurewebsites.net/kaofrangfie/trend/" +
-                                  item.trendId,
-                                "_blank"
-                              );
-                            }}
-                            className="mt-3">
-                            {lang == "th" ? "เริ่มเทรน" : "Start Trend"}
-                          </Button>
-                        )}
+                          <p className="mt-4">
+                            {lang == "th" ? "รายละเอียดกิจกรรม" : "Description"}
+                            : {item.desc[lang]}
+                          </p>
+                          <p
+                            className="mt-4"
+                            style={{ wordWrap: "break-word" }}>
+                            {lang == "th" ? "แท็กที่ใช้" : "Available Tags"}:
+                            {unix >= item.start && (
+                              <Box
+                                sx={{
+                                  display:
+                                    item.tags > 3
+                                      ? "initial"
+                                      : { xs: "initial", lg: "none" },
+                                }}>
+                                <br />
+                              </Box>
+                            )}
+                            {unix >= item.start ? (
+                              item.tags.map((txt) => (
+                                <a
+                                  href={
+                                    "https://x.com/hashtag/" +
+                                    txt +
+                                    "?src=hashtag_click&f=live"
+                                  }
+                                  className="ml-1"
+                                  target="_blank">
+                                  #{txt}
+                                </a>
+                              ))
+                            ) : (
+                              <span>
+                                {lang == "th"
+                                  ? " ใกล้เริ่มเทรนแล้ว"
+                                  : " Almost ready"}
+                              </span>
+                            )}
+                          </p>
+                          {item.start > 0 && item.end > 0 && (
+                            <small>
+                              <i>
+                                {lang == "th" ? "หมายเหตุ" : "Notes"}:{" "}
+                                {lang == "th"
+                                  ? "ช่วงเวลาของกิจกรรมอ้างอิงตามโซนเวลาของอุปกรณ์"
+                                  : "Event time duration are based on device timezone."}
+                              </i>
+                            </small>
+                          )}
+                          <br />
+                          {unix < item.start ? (
+                            <Button
+                              variant="outlined"
+                              onClick={() => {
+                                ReactGA.event({
+                                  category: "User",
+                                  action: "Trend link copied",
+                                });
+                                navigator.clipboard.writeText(
+                                  "https://cpxstatusservice.azurewebsites.net/kaofrangfie/trend/" +
+                                    item.trendId
+                                );
+                                alert(
+                                  lang == "th"
+                                    ? "คัดลอกลิงก์แล้ว"
+                                    : "Copied link to clipboard"
+                                );
+                              }}
+                              className="mt-3">
+                              {lang == "th" ? "คัดลอกลิงก์" : "Copy Link"}
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="outlined"
+                              onClick={() => {
+                                ReactGA.event({
+                                  category: "User",
+                                  action: "Trend link access",
+                                });
+                                window.open(
+                                  "https://cpxstatusservice.azurewebsites.net/kaofrangfie/trend/" +
+                                    item.trendId,
+                                  "_blank"
+                                );
+                              }}
+                              className="mt-3">
+                              {lang == "th" ? "เริ่มเทรน" : "Start Trend"}
+                            </Button>
+                          )}
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </CardContent>
-                  {/* {!(
+                    </CardContent>
+                    {/* {!(
                   checktime(item).prepare == 0 && checktime(item).launch == 0
                 ) &&
                   item.end > 0 &&
@@ -390,56 +403,57 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                       valueBuffer={checktime(item).prepare}
                     />
                   )} */}
-                </Card>
-              ))
-            ) : (
-              <Box component={Card} className="p-5 text-center">
-                <Typography variant="h5">
-                  {lang == "th"
-                    ? "ไม่พบเทรนในช่วงนี้"
-                    : "Not found any trend(s) soon."}
-                </Typography>
-              </Box>
-            )}
-          </>
-        ) : (
-          <Card>
-            <CardContent>
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "2rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-              <Skeleton
-                variant="text"
-                className="bg-m"
-                sx={{ fontSize: "1rem" }}
-              />
-            </CardContent>
-          </Card>
-        )}
-      </div>
-    </Box>
+                  </Card>
+                ))
+              ) : (
+                <Box component={Card} className="p-5 text-center">
+                  <Typography variant="h5">
+                    {lang == "th"
+                      ? "ไม่พบเทรนในช่วงนี้"
+                      : "Not found any trend(s) soon."}
+                  </Typography>
+                </Box>
+              )}
+            </>
+          ) : (
+            <Card>
+              <CardContent>
+                <Skeleton
+                  variant="text"
+                  className="bg-m"
+                  sx={{ fontSize: "2rem" }}
+                />
+                <Skeleton
+                  variant="text"
+                  className="bg-m"
+                  sx={{ fontSize: "1rem" }}
+                />
+                <Skeleton
+                  variant="text"
+                  className="bg-m"
+                  sx={{ fontSize: "1rem" }}
+                />
+                <Skeleton
+                  variant="text"
+                  className="bg-m"
+                  sx={{ fontSize: "1rem" }}
+                />
+                <Skeleton
+                  variant="text"
+                  className="bg-m"
+                  sx={{ fontSize: "1rem" }}
+                />
+                <Skeleton
+                  variant="text"
+                  className="bg-m"
+                  sx={{ fontSize: "1rem" }}
+                />
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </Box>
+    </Fade>
   );
 };
 
