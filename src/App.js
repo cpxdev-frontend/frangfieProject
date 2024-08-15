@@ -117,6 +117,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const [betabypass, setBetaMode] = React.useState(false);
   const [bypassonclose, setOnClose] = React.useState(false);
   const [transit, setTran] = React.useState(false);
+  const [mainten, setOnMaintain] = React.useState(false);
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -158,6 +159,10 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     ReactGA.initialize("G-HGFSHDZZMC");
     ReactGA.send({ hitType: "pageview", page: window.location.pathname });
     window.addEventListener("scroll", debounce(handleScroll, 200));
+    fetch(process.env.REACT_APP_APIE + "/home/status", {})
+      .then((response) => response.text())
+      .then((result) => {})
+      .catch((error) => setOnMaintain(true));
   }, []);
 
   React.useEffect(() => {
@@ -263,12 +268,44 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     setAnchorElNav(null);
   };
 
+  if (mainten) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center text-center row"
+        style={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}>
+        <div className="col-12">
+          <img
+            src="https://niceillustrations.com/wp-content/uploads/2021/07/Connection-Lost-color-800px.png"
+            width={300}
+          />
+        </div>
+        <div className="col-12">
+          <h5>
+            {lang == "th"
+              ? "อยู่ระหว่างการปรับปรุงระบบ ขออภัยในความไม่สะดวก"
+              : "Our Web Server is under maintenance. Sorry for inconvenience."}
+          </h5>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div ref={scrollRef}>
       <div
         id="blockwhenland"
         className="d-flex justify-content-center align-items-center text-center">
         <h5>
+        <img
+            src="https://cdn-icons-png.flaticon.com/512/6737/6737502.png"
+            width={150}
+          />
+          <br />
           {lang == "th"
             ? "เว็บไซต์ไม่รองรับขนาดหน้าจอนี้ กรุณาหมุนจอเป็นแนวตั้งหรือทางทิศที่เหมาะสม"
             : "This screen size is not support on this device. Please rotate your device screen."}
