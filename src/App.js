@@ -347,7 +347,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   mr: 1,
                 }}
                 alt="kaofrangicon"
-                src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp"
+                src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/kfico.webp"
               />
               <Typography
                 variant="h6"
@@ -468,7 +468,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   mr: 1,
                 }}
                 alt="kaofrangicon"
-                src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp"
+                src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/kfico.webp"
               />
               <Typography
                 variant="h6"
