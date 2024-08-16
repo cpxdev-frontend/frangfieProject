@@ -188,12 +188,16 @@ html > div[style] {
 }
 
 .newpcAppbar{
+  position: 'fixed';
+  top: 0;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   background: linear-gradient(180deg, #fb61ee 0%, rgba(247, 138, 238, 0.89) 40%, rgba(247, 153, 239, 0.514) 80%, #ffffff00 100%) !important;
   box-shadow: none !important;
 }
 .newmobileAppbar{
+  position: 'fixed';
+  top: 0;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   background: linear-gradient(180deg, #fb61ee 0%, rgba(247, 138, 238, 0.89) 30%, rgba(250,97,237,0) 100%) !important;
