@@ -170,7 +170,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
             <div className="col-md col-12 m-xs-2">
               <CardHeader
                 sx={{ marginTop: { xs: 8, md: 0 } }}
-                title={lang == "th" ? "สำหรับชาวกอฟ่าง" : "For Kaofrang Fandom"}
+                title={lang == "th" ? "สำหรับชาวกอข้าว" : "For Kaofrang Fandom"}
               />
               <List
                 sx={{
