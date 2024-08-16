@@ -105,11 +105,10 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
                   item
                   lg={8}
                   xs={12}
-                  data-aos={i % 2 == 0 ? "zoom-in-left" : "zoom-in-right"}>
+                  >
                   <Card key={item.postId} className="mb-3">
                     <CardContent className="col-12">
-                      {/* <Iframe item={item} lang={lang} /> */}
-                      <div style={{height:500}}></div>
+                      <Iframe item={item} lang={lang} />
                     </CardContent>
                   </Card>
                 </Grid>
