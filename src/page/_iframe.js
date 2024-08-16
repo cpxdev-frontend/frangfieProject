@@ -29,7 +29,7 @@ const IFRAMEwithPost = ({ item, lang }) => {
         width="100%"
         style={{
           display: load ? "none" : "initial",
-          height: 500,
+          height: 700,
           overflow: "auto",
           border: "none",
         }}></iframe>
