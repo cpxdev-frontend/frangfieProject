@@ -161,7 +161,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     window.addEventListener("scroll", debounce(handleScroll, 200));
     fetch(process.env.REACT_APP_APIE + "/home/status", {})
       .then((response) => response.text())
-      .then((result) => { })
+      .then((result) => {})
       .catch((error) => {
         document.title = "System Maintenance | KaofrangFie Site";
         setOnMaintain(true);
@@ -220,7 +220,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             result.unix >= 1731603600 ||
             (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
               localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-              "56f006fb7a76776e1e08eac264bd491aa1a066a1")
+                "56f006fb7a76776e1e08eac264bd491aa1a066a1")
           ) {
             setUnlock(true);
           } else {
@@ -331,36 +331,34 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
         </Alert>
       )}
 
-      <Slide
-        direction="down"
-        in={location.pathname != "/" && !game && !currentPage.includes("404 Not Found")}>
-        <AppBar
-          position="fixed"
-          sx={{
-            borderBottomLeftRadius: 10,
-            borderBottomRightRadius: 10,
-            backgroundColor:
-              location.pathname == "/" || currentPage.includes("404 Not Found") ? "transparent !important" : "",
-            boxShadow: location.pathname == "/" || currentPage.includes("404 Not Found") ? 'none' : ''
-          }}>
+      {/* Mobile */}
+      <Fade
+        sx={{ display: { xs: "initial", md: "none" } }}
+        in={
+          location.pathname != "/" &&
+          !game &&
+          !currentPage.includes("404 Not Found")
+        }>
+        <AppBar position="fixed" className="newmobileAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Box
                 className="justify-content-center"
                 sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
-                {location.pathname != "/" && !currentPage.includes("404 Not Found") && (
-                  <Avatar
-                    sx={{
-                      width: 70,
-                      height: 70,
-                      display: { xs: "flex", lg: "none" },
-                      ml: 1,
-                      mr: 1,
-                    }}
-                    alt="kaofrangicon"
-                    src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp"
-                  />
-                )}
+                {location.pathname != "/" &&
+                  !currentPage.includes("404 Not Found") && (
+                    <Avatar
+                      sx={{
+                        width: 70,
+                        height: 70,
+                        display: { xs: "flex", lg: "none" },
+                        ml: 1,
+                        mr: 1,
+                      }}
+                      alt="kaofrangicon"
+                      src="https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/korfranglogo.webp"
+                    />
+                  )}
 
                 <Dialog
                   open={anchorElNav}
@@ -389,7 +387,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                             {page}
                           </Typography>
                         </MenuItem>
-                      ) : pageSec[i] == "birthday" && birthdaycampain == true ? (
+                      ) : pageSec[i] == "birthday" &&
+                        birthdaycampain == true ? (
                         <MenuItem
                           component={Link}
                           key={page}
@@ -448,22 +447,23 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 </Dialog>
               </Box>
 
-              {location.pathname !== "/" && !currentPage.includes("404 Not Found") && (
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  sx={{
-                    color: location.pathname == "/" ? "white" : "",
-                    position: "fixed",
-                    right: 20,
-                  }}
-                  onClick={handleOpenNavMenu}
-                  color="inherit">
-                  <MenuIcon />
-                </IconButton>
-              )}
+              {location.pathname !== "/" &&
+                !currentPage.includes("404 Not Found") && (
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    sx={{
+                      color: location.pathname == "/" ? "white" : "",
+                      position: "fixed",
+                      right: 20,
+                    }}
+                    onClick={handleOpenNavMenu}
+                    color="inherit">
+                    <MenuIcon />
+                  </IconButton>
+                )}
 
               <Box sx={{ right: 30, display: { xs: "none", lg: "flex" } }}>
                 <Dialog
@@ -499,15 +499,14 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             </Toolbar>
           </Container>
         </AppBar>
-      </Slide>
+      </Fade>
 
+      {/* PC or Tablet */}
       <Slide
         direction="down"
         in={appbarx}
         sx={{ display: { xs: "none", md: "initial" } }}>
-        <AppBar
-          position="fixed"
-          sx={{ borderBottomLeftRadius: 10, borderBottomRightRadius: 10 }}>
+        <AppBar position="fixed" className="newpcAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Avatar
@@ -553,8 +552,10 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
                   sx={{
-                    display: { md: "initial", lg: "none" }, position: "fixed",
-                    right: 20, top: -1
+                    display: { md: "initial", lg: "none" },
+                    position: "fixed",
+                    right: 20,
+                    top: -1,
                   }}
                   color="inherit">
                   <MenuIcon />
@@ -758,9 +759,18 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           </Container>
         </AppBar>
       </Slide>
-
       <Fade in={transit} timeout={!transit ? 0 : 700}>
-        <Box sx={{ marginTop: { xs: location.pathname != '/' && !currentPage.includes("404 Not Found") ? 10 : 0, md: 0 } }}>
+        <Box
+          sx={{
+            marginTop: {
+              xs:
+                location.pathname != "/" &&
+                !currentPage.includes("404 Not Found")
+                  ? 10
+                  : 0,
+              md: 0,
+            },
+          }}>
           {unlock ? (
             <BasicSwitch>
               <Route
@@ -849,7 +859,6 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           )}
         </Box>
       </Fade>
-
       <footer className="fixed-bottom bg-secondary text-center">
         <Card
           className="p-2"
