@@ -28,12 +28,12 @@ const IFRAMEwithPost = ({ item, lang }) => {
         ref={ref}
         width="100%"
         style={{
-          display: load ? "none" : "initial",
-          height: 700,
+          // display: load ? "none" : "initial",
+          height: 500,
           overflow: "auto",
           border: "none",
         }}></iframe>
-      <div
+      {/* <div
         data-aos="fade-in"
         style={{
           display: load ? "flex" : "none",
@@ -47,7 +47,7 @@ const IFRAMEwithPost = ({ item, lang }) => {
         <div className="ml-2">
           {lang == "th" ? "กำลังโหลดข้อมูลจาก" : "Fetching data from"} Instagram
         </div>
-      </div>
+      </div> */}
     </>
   );
   // return (
