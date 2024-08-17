@@ -22,6 +22,7 @@ import {
   FormControlLabel,
   Switch,
   Alert,
+  ButtonGroup,
   Fab,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -161,7 +162,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     window.addEventListener("scroll", debounce(handleScroll, 200));
     fetch(process.env.REACT_APP_APIE + "/home/status", {})
       .then((response) => response.text())
-      .then((result) => {})
+      .then((result) => { })
       .catch((error) => {
         document.title = "System Maintenance | KaofrangFie Site";
         setOnMaintain(true);
@@ -220,7 +221,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             result.unix >= 1731603600 ||
             (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
               localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-                "56f006fb7a76776e1e08eac264bd491aa1a066a1")
+              "56f006fb7a76776e1e08eac264bd491aa1a066a1")
           ) {
             setUnlock(true);
           } else {
@@ -319,7 +320,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           severity="info"
           className="w-100"
           sx={{ position: "fixed", top: 0, zIndex: 1300 }}
-          onClick={() => setOnClose(false)}>
+        >
           <b>Exclusive in BNK48 17th Single "BORDERLESS" Handshake Event</b>{" "}
           คุณสามารถสัมผัสประสบการณ์ของเว็บ KaofrangFie ได้ก่อนใครแล้ว วันนี้!
           <br />
@@ -328,6 +329,11 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             การทำงานอาจมีข้อผิดพลาดเกิดขึ้นได้
             กรุณาส่งรายงานข้อผิดพลาดได้ที่อีเมล์ cpxdev@outlook.com
           </span>
+          <br />
+          <ButtonGroup variant="contained" className="mt-3">
+            <Button onClick={() => window.open('https://docs.google.com/forms/d/e/1FAIpQLSd6POb3SrDfm88ZZ84274fwfcG3zFDn4069ExbImVCk-T6esg/viewform?usp=sf_link', '_target')}>ตอบแบบสำรวจความพึงพอใจ</Button>
+            <Button onClick={() => setOnClose(false)}>ปิด</Button>
+          </ButtonGroup>
         </Alert>
       )}
 
@@ -765,7 +771,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             marginTop: {
               xs:
                 location.pathname != "/" &&
-                !currentPage.includes("404 Not Found")
+                  !currentPage.includes("404 Not Found")
                   ? 10
                   : 0,
               md: 0,
