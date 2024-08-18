@@ -170,11 +170,15 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   }, []);
 
   React.useEffect(() => {
-    setTran(false);
+    if (location.pathname == window.location.pathname) {
+      setTran(true);
+    } else {
+      setTran(false);
+    }
     setTimeout(() => {
       setTran(true);
     }, 50);
-  }, [location.key]);
+  }, [location]);
 
   const [unlock, setUnlock] = React.useState(null);
 
@@ -627,14 +631,6 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           </MenuItem>
                         ))}
                       </TextField>
-
-                      <FormControlLabel
-                        onChange={() => setLeftMode(!leftmode)}
-                        control={<Switch checked={leftmode} />}
-                        label={
-                          lang == "th" ? "โหมดใช้งานข้างซ้าย" : "Left Hand mode"
-                        }
-                      />
                     </Box>
                   </DialogContent>
                   <DialogActions>

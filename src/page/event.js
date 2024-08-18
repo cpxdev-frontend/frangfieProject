@@ -92,7 +92,7 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
     fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
       .then((response) => response.json())
       .then((result) => {
-        setLaunch();
+        setLaunch(result.unix);
         setUnix(result.unix);
         setTimeout(() => {
           setFetch(true);
@@ -461,7 +461,7 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                               launch >= item.timerange[1]
                             }
                             variant="outlined"
-                            className="mt-3">
+                            className="mt-3 mr-1">
                             {lang == "th" ? "สถานที่จัดงาน" : "Event location"}
                           </Button>
                         )}
