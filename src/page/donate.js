@@ -150,11 +150,16 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                 </Typography>
               )}
               {print && (
+                <>
                 <Typography className="col-12 mt-3">
                   Biller ID: 004999166938497
                   <br />
-                  ชื่อบัญชี: นายคมกฤษ ถาวรชีวัน และ นาย อนุชิต ชาอุรัมย์
+                  {lang == 'th' ? 'ชื่อบัญชี: นายคมกฤษ ถาวรชีวัน และ นาย อนุชิต ชาอุรัมย์' : 'Account Name: Mr.Khomkrit Thaworncheewan and Mr.Anuchit Chaurum'}
                 </Typography>
+                <Typography className="col-12 mt-3">
+                  {lang != 'th' && 'Please make sure that your local mobile banking is support to transfer to international bank via Thai QR payment. You maybe have some fee for transfer abroad.'}
+                </Typography>
+                </>
               )}
             </div>
             <TextField
