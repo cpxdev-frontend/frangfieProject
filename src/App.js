@@ -171,7 +171,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     window.addEventListener("scroll", debounce(handleScroll, 200));
     fetch(process.env.REACT_APP_APIE + "/home/status", {})
       .then((response) => response.text())
-      .then((result) => {})
+      .then((result) => { })
       .catch((error) => {
         document.title = "System Maintenance | KaofrangFie Site";
         setOnMaintain(true);
@@ -234,7 +234,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             result.unix >= 1731603600 ||
             (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
               localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-                "56f006fb7a76776e1e08eac264bd491aa1a066a1")
+              "56f006fb7a76776e1e08eac264bd491aa1a066a1")
           ) {
             setUnlock(true);
           } else {
@@ -371,7 +371,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       <Fade
         sx={{ display: { xs: "initial", md: "none" } }}
         in={
-          location.pathname != "/" &&
+          unlock && location.pathname != "/" &&
           !game &&
           !currentPage.includes("404 Not Found")
         }>
@@ -790,8 +790,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           sx={{
             marginTop: {
               xs:
-                location.pathname != "/" &&
-                !currentPage.includes("404 Not Found")
+                unlock && location.pathname != "/" &&
+                  !currentPage.includes("404 Not Found")
                   ? 10
                   : 0,
               md: 0,
