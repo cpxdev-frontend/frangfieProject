@@ -34,6 +34,36 @@ import ReactGA from "react-ga4";
 const generatePayload = require("promptpay-qr");
 
 let mem = false;
+const moneyCurren = [
+  {
+    val: "khr",
+    lab: "Cambodia Riel (KHR)",
+  },
+  {
+    val: "hkd",
+    lab: "Hong Kong Dollar (HKD)",
+  },
+  {
+    val: "khr",
+    lab: "Indonesian Rupiah (IDR)",
+  },
+  {
+    val: "lak",
+    lab: "Lao PDR Kip (LAK)",
+  },
+  {
+    val: "myr",
+    lab: "Malaysia Ringgit (MYR)",
+  },
+  {
+    val: "sgd",
+    lab: "Singapore Dollar (SGD)",
+  },
+  {
+    val: "vnd",
+    lab: "Vietnamese Dong (VND)",
+  },
+];
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiY3B4dGgyMDE3IiwiYSI6ImNsZHY0MzN6bTBjNzEzcXJmamJtN3BsZ3AifQ.mYNwWaYKsiLeYXngFDtaWQ";
@@ -49,6 +79,10 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
   const [print, setPrint] = React.useState(false);
   const [load, setLoad] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [exc, setExch] = React.useState([]);
+  const [excDate, setExchd] = React.useState("");
+  const [setexc, setSelctedExc] = React.useState("-");
+
   React.useState(() => {
     setTimeout(() => {
       setOpen(true);
@@ -58,6 +92,23 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
   React.useEffect(() => {
     setPage(lang == "th" ? "โดเนทเพื่อข้าวฟ่าง" : "Donate Kaofrang");
   }, []);
+
+  React.useEffect(() => {
+    if (lang != "th") {
+      fetch(
+        "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/thb.json",
+        {
+          method: "get",
+        }
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setExch(result.thb);
+          setExchd(result.date);
+        })
+        .catch((error) => console.log("error", error));
+    }
+  }, [lang]);
 
   const ExportQR = () => {
     if (cardsuccess.current === null) {
@@ -95,6 +146,12 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
         });
     }, 200);
   };
+
+  function comma(number) {
+    const formatter = new Intl.NumberFormat("en-US");
+    const formattedNumber = formatter.format(number);
+    return formattedNumber;
+  }
 
   return (
     <Fade in={open} timeout={300}>
@@ -145,23 +202,57 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                 )}
               </div>
               {num > 0 && print && (
-                <Typography className="col-12 mt-3">
-                  ยอดที่โอน {num} บาท
-                </Typography>
+                <Typography
+                  className="col-12 mt-3"
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      lang == "th"
+                        ? "ยอดที่โอน " + comma(num) + " บาท"
+                        : "Amount " +
+                          comma(num) +
+                          " THB<br />(Based on estimated " +
+                          comma((num * exc[setexc]).toFixed(2)) +
+                          " " +
+                          setexc.toUpperCase(),
+                  }}></Typography>
               )}
               {print && (
                 <>
-                <Typography className="col-12 mt-3">
-                  Biller ID: 004999166938497
-                  <br />
-                  {lang == 'th' ? 'ชื่อบัญชี: นายคมกฤษ ถาวรชีวัน และ นาย อนุชิต ชาอุรัมย์' : 'Account Name: Mr.Khomkrit Thaworncheewan and Mr.Anuchit Chaurum'}
-                </Typography>
-                <Typography className="col-12 mt-3">
-                  {lang != 'th' && 'Please make sure that your local mobile banking is support to transfer to international bank via Thai QR payment. You maybe have some fee for transfer abroad.'}
-                </Typography>
+                  <Typography className="col-12 mt-3">
+                    Biller ID: 004999166938497
+                    <br />
+                    {lang == "th"
+                      ? "ชื่อบัญชี: นายคมกฤษ ถาวรชีวัน และ นาย อนุชิต ชาอุรัมย์"
+                      : "Account Name: Mr.Khomkrit Thaworncheewan and Mr.Anuchit Chaurum"}
+                  </Typography>
+                  <Typography className="col-12 mt-3">
+                    {lang != "th" &&
+                      "Please make sure that your local mobile banking is support to transfer to international bank via Thai QR payment. You maybe have some fee for transfer abroad."}
+                  </Typography>
                 </>
               )}
             </div>
+            {lang != "th" && (
+              <TextField
+                select
+                label="Choose your currency"
+                value={setexc}
+                helperText={"As of " + excDate}
+                className="mt-5"
+                defaultValue={0}
+                fullWidth
+                onChange={(e) => {
+                  setSelctedExc(e.target.value);
+                }}
+                SelectProps={{
+                  native: true,
+                }}>
+                <option value="-">Select your currency</option>
+                {moneyCurren.map((item) => (
+                  <option value={item.val}>{item.lab}</option>
+                ))}
+              </TextField>
+            )}
             <TextField
               select
               label={
@@ -170,7 +261,15 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                   : "Choose amount (Thai Baht)"
               }
               value={num}
-              className="mt-5 mb-3"
+              helperText={
+                lang == "th" || (lang == "en" && (setexc == "-" || num == 0))
+                  ? null
+                  : "Estimated exchange rates are " +
+                    comma((num * exc[setexc]).toFixed(2)) +
+                    " " +
+                    setexc.toUpperCase()
+              }
+              className={(lang == "th" ? "mt-5" : "mt-3") + " mb-3"}
               defaultValue={0}
               fullWidth
               onChange={(e) => {
@@ -233,9 +332,18 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
             <Divider />
             {lang == "th" ? (
               <Typography className="col-12 mt-3">
-                หรือโอนเข้าบัญชี <img style={{marginTop: -6}} src='https://cdn.jsdelivr.net/npm/thai-banks-logo@1.0.6/icons/KBANK.png' width={22} height={22} /> <b>ธนาคารกสิกรไทย</b><br />เลขที่บัญชี{" "}
-                <b>176-1-39401-7</b><br/>ชื่อบัญชี{" "}
-                <b>นายคมกฤษ ถาวรชีวัน และ นาย อนุชิต ชาอุรัมย์</b>
+                หรือโอนเข้าบัญชี{" "}
+                <img
+                  style={{ marginTop: -6 }}
+                  src="https://cdn.jsdelivr.net/npm/thai-banks-logo@1.0.6/icons/KBANK.png"
+                  width={22}
+                  height={22}
+                />{" "}
+                <b>ธนาคารกสิกรไทย</b>
+                <br />
+                เลขที่บัญชี <b>176-1-39401-7</b>
+                <br />
+                ชื่อบัญชี <b>นายคมกฤษ ถาวรชีวัน และ นาย อนุชิต ชาอุรัมย์</b>
               </Typography>
             ) : (
               <Typography className="col-12 mt-3">
