@@ -23,7 +23,7 @@ import {
   Switch,
   Alert,
   ButtonGroup,
-  Fab,
+  Backdrop,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AOS from "aos";
@@ -114,6 +114,15 @@ const langList = [
   },
 ];
 let scrollmot = false;
+
+function isInIframe() {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+}
+
 function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const [betabypass, setBetaMode] = React.useState(false);
   const [bypassonclose, setOnClose] = React.useState(false);
@@ -275,6 +284,16 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  if (isInIframe()) {
+    return (
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={true} className="text-center">
+        {lang == 'th' ? 'เว็บไซต์นี้ไม่รองรับการแสดงแบบฝังบนเว็บไซต์อื่น' : 'This site is not support on iframe tag'}
+      </Backdrop>
+    );
+  }
 
   if (mainten) {
     return (
