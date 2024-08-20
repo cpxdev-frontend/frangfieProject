@@ -210,10 +210,10 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                         ? "ยอดที่โอน " + comma(num) + " บาท"
                         : "Amount " +
                           comma(num) +
-                          " THB<br />(Based on estimated " +
+                          (setexc == '-' ? " THB<br />Please check your exchange rate on your local mobile banking after scan this QR Code." : " THB<br />(Based on estimated " +
                           comma((num * exc[setexc]).toFixed(2)) +
                           " " +
-                          setexc.toUpperCase(),
+                          setexc.toUpperCase()),
                   }}></Typography>
               )}
               {print && (
