@@ -24,7 +24,7 @@ import {
   CardMedia,
 } from "@mui/material";
 import Swal from "sweetalert2";
-import * as htmlToImage from "html-to-image";
+import moment from "moment";
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
@@ -237,7 +237,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                 select
                 label="Choose your currency"
                 value={setexc}
-                helperText={"As of " + excDate}
+                helperText={"Latest update exchange rates as of " + moment(excDate).lang('en').format('DD MMMM YYYY')}
                 className="mt-5"
                 defaultValue={0}
                 fullWidth
@@ -264,7 +264,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
               helperText={
                 lang == "th" || (lang == "en" && (setexc == "-" || num == 0))
                   ? null
-                  : "Estimated exchange rates are " +
+                  : "Estimated in " + moneyCurren.filter(x => x.val == setexc)[0].lab +" are " +
                     comma((num * exc[setexc]).toFixed(2)) +
                     " " +
                     setexc.toUpperCase()
