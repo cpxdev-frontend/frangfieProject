@@ -25,7 +25,7 @@ const Err = ({currentPage, lang, setLang, setPage, setMenu, setLangMod, launch})
         <div>
              <Fade in={true} timeout={1200}>
  <div className="video-container">
-    <div className='d-block d-lg-none img' style={{filter: 'brightness(80%)', backgroundImage: 'url(https://ucjgycqgnxeuujucorsm.supabase.co/storage/v1/object/public/kfsite/kaofrang.webp)'}}></div>
+    <div className='d-block d-lg-none img' style={{filter: 'brightness(80%)', backgroundImage: 'url(https://d2m23ocr3g32v7.cloudfront.net/kf/kaofrang.webp)'}}></div>
     <div className='d-none d-lg-block img' style={{filter: 'brightness(80%)', backgroundImage: 'url(https://pbs.twimg.com/media/GTqpfrGb0AAcPAG?format=webp&name=4096x4096)'}}></div>
   </div>
  </Fade>
