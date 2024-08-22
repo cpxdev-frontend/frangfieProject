@@ -135,7 +135,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
               <Grid container spacing={5}>
                 <Grid item lg={5} xs={12}>
                   <Avatar
-                    src={data.img}
+                    src='https://d2m23ocr3g32v7.cloudfront.net/kf/kfprofile.webp'
                     slotProps={{
                       img: {
                         onLoad: () => setImg(true),
