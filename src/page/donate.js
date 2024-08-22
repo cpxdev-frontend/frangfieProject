@@ -96,7 +96,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
   React.useEffect(() => {
     if (lang != "th") {
       fetch(
-        "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/thb.json",
+        "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@" + moment().format('YYYY-MM-DD') + "/v1/currencies/thb.json",
         {
           method: "get",
         }
