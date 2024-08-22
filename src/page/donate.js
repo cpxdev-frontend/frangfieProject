@@ -245,7 +245,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                   "Latest update exchange rates as of " +
                   moment(excDate).lang("en").format("DD MMMM YYYY")
                 }
-                className="mt-5"
+                className="mt-5 m-2"
                 defaultValue={0}
                 fullWidth
                 onChange={(e) => {
@@ -269,9 +269,9 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
               }
               value={num}
               helperText={
-                lang == "th" || (lang == "en" && (setexc == "-" || num == 0))
+                lang == "th" || (lang == "en" && (setexc == "-" && num == 0))
                   ? null
-                  : lang == "en" && (setexc != "-" || num == 0)
+                  : lang == "en" && setexc != "-" && num == 0
                   ? "Current exchange rate 1 THB approximately " +
                     comma((1 * exc[setexc]).toFixed(2)) +
                     " " +
@@ -283,7 +283,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                     " " +
                     setexc.toUpperCase()
               }
-              className={(lang == "th" ? "mt-5" : "mt-3") + " mb-3"}
+              className={(lang == "th" ? "mt-5" : "mt-3") + " mb-3 m-2"}
               defaultValue={0}
               fullWidth
               onChange={(e) => {
@@ -340,7 +340,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
               <option value={5000.0}>5,000</option>
               <option value={10000.0}>10,000</option>
             </TextField>
-            <Button variant="outlined" onClick={() => ExportQR()}>
+            <Button variant="outlined" onClick={() => ExportQR()} className="m-2">
               {lang == "th" ? "บันทึก QR Code นี้" : "Save this QR Payment"}
             </Button>
             <Divider />
@@ -367,7 +367,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
             <Typography variant="subtitle2" className="col-12 mt-3">
               {lang == "th"
                 ? "หมายเหตุ: เงินที่โอนผ่านช่องทางนี้จะถูกโอนเข้าบัญชีของบ้านข้าวฟ่างโดยตรงเพื่อนำไปใช้ในการสนับสนุนในทุกกิจกรรมน้องข้าวฟ่าง โดยเว็บไซต์นี้เป็นแค่เพียงตัวกลางเพื่อกระจายข่าวสารเท่านั้น"
-                : "Notes: All donated amounts will be transfer directly to Kaofrang's Fandom supporter to make supporting about projects of Kaofrang Yanisa or Kaofrang BNK48. This website is only a medium for sharing events or about all of her projects."}
+                : "Notes: All donated amounts will be transfer directly to Kaofrang's Fandom supporter to make supporting about projects of Kaofrang Yanisa or Kaofrang BNK48. This website is only a agent for sharing events or about all of her projects."}
             </Typography>
           </div>
         </div>
