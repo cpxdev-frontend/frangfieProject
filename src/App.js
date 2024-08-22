@@ -171,7 +171,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     window.addEventListener("scroll", debounce(handleScroll, 200));
     fetch(process.env.REACT_APP_APIE + "/home/status", {})
       .then((response) => response.text())
-      .then((result) => { })
+      .then((result) => {})
       .catch((error) => {
         document.title = "System Maintenance | KaofrangFie Site";
         setOnMaintain(true);
@@ -234,7 +234,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             result.unix >= 1731603600 ||
             (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
               localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-              "56f006fb7a76776e1e08eac264bd491aa1a066a1")
+                "56f006fb7a76776e1e08eac264bd491aa1a066a1")
           ) {
             setUnlock(true);
           } else {
@@ -289,8 +289,11 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     return (
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={true} className="text-center">
-        {lang == 'th' ? 'เว็บไซต์นี้ไม่รองรับการแสดงแบบฝังบนเว็บไซต์อื่น' : 'This site is not support on iframe tag'}
+        open={true}
+        className="text-center">
+        {lang == "th"
+          ? "เว็บไซต์นี้ไม่รองรับการแสดงแบบฝังบนเว็บไซต์อื่น"
+          : "This site is not support on iframe tag"}
       </Backdrop>
     );
   }
@@ -371,7 +374,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       <Fade
         sx={{ display: { xs: "initial", md: "none" } }}
         in={
-          unlock && location.pathname != "/" &&
+          unlock &&
+          location.pathname != "/" &&
           !game &&
           !currentPage.includes("404 Not Found")
         }>
@@ -644,7 +648,13 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       ) : null
                     )}
                     <Box sx={{ display: { xs: "initial", md: "none" } }}>
-                      <Divider className="border border-secondary mb-3 mt-2" />
+                      <Divider
+                        sx={{
+                          display:
+                            window.location.pathname == "/" ? "none" : "block",
+                        }}
+                        className="border border-secondary mb-3 mt-2"
+                      />
                       <TextField
                         select
                         label="Change Language"
@@ -790,8 +800,9 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           sx={{
             marginTop: {
               xs:
-                unlock && location.pathname != "/" &&
-                  !currentPage.includes("404 Not Found")
+                unlock &&
+                location.pathname != "/" &&
+                !currentPage.includes("404 Not Found")
                   ? 10
                   : 0,
               md: 0,
