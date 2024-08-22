@@ -96,7 +96,9 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
   React.useEffect(() => {
     if (lang != "th") {
       fetch(
-        "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@" + moment().format('YYYY-MM-DD') + "/v1/currencies/thb.json",
+        "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@" +
+          moment().format("YYYY-MM-DD") +
+          "/v1/currencies/thb.json",
         {
           method: "get",
         }
@@ -210,10 +212,12 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                         ? "ยอดที่โอน " + comma(num) + " บาท"
                         : "Amount " +
                           comma(num) +
-                          (setexc == '-' ? " THB<br />Please check your exchange rate on your local mobile banking after scan this QR Code." : " THB<br />(Based on estimated " +
-                          comma((num * exc[setexc]).toFixed(2)) +
-                          " " +
-                          setexc.toUpperCase()),
+                          (setexc == "-"
+                            ? " THB<br />Please check your exchange rate on your local mobile banking after scan this QR Code."
+                            : " THB<br />(Based on estimated " +
+                              comma((num * exc[setexc]).toFixed(2)) +
+                              " " +
+                              setexc.toUpperCase()),
                   }}></Typography>
               )}
               {print && (
@@ -237,7 +241,10 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                 select
                 label="Choose your currency"
                 value={setexc}
-                helperText={"Latest update exchange rates as of " + moment(excDate).lang('en').format('DD MMMM YYYY')}
+                helperText={
+                  "Latest update exchange rates as of " +
+                  moment(excDate).lang("en").format("DD MMMM YYYY")
+                }
                 className="mt-5"
                 defaultValue={0}
                 fullWidth
@@ -264,7 +271,14 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
               helperText={
                 lang == "th" || (lang == "en" && (setexc == "-" || num == 0))
                   ? null
-                  : "Estimated in " + moneyCurren.filter(x => x.val == setexc)[0].lab +" are " +
+                  : lang == "en" && (setexc != "-" || num == 0)
+                  ? "Current exchange rate 1 THB approximately " +
+                    comma((1 * exc[setexc]).toFixed(2)) +
+                    " " +
+                    setexc.toUpperCase()
+                  : "Estimated in " +
+                    moneyCurren.filter((x) => x.val == setexc)[0].lab +
+                    " are " +
                     comma((num * exc[setexc]).toFixed(2)) +
                     " " +
                     setexc.toUpperCase()
