@@ -108,7 +108,11 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
           setExch(result.thb);
           setExchd(result.date);
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => {
+          console.log("error", error);
+          setExch([]);
+          setExchd("");
+        });
     }
   }, [lang]);
 
@@ -242,8 +246,10 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                 label="Choose your currency"
                 value={setexc}
                 helperText={
-                  "Latest update exchange rates as of " +
-                  moment(excDate).lang("en").format("DD MMMM YYYY")
+                  lang == "en" && excDate == ""
+                    ? null
+                    : "Latest update exchange rates as of " +
+                      moment(excDate).lang("en").format("DD MMMM YYYY")
                 }
                 className="mt-5 m-2"
                 defaultValue={0}
@@ -269,19 +275,23 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
               }
               value={num}
               helperText={
-                lang == "th" || (lang == "en" && (setexc == "-" && num == 0))
+                lang == "th" ||
+                (lang == "en" && setexc == "-" && num == 0) ||
+                (lang == "en" && excDate == "" && setexc == "-")
                   ? null
                   : lang == "en" && setexc != "-" && num == 0
                   ? "Current exchange rate 1 THB approximately " +
                     comma((1 * exc[setexc]).toFixed(2)) +
                     " " +
                     setexc.toUpperCase()
-                  : "Estimated in " +
+                  : lang == "en" && setexc != "-" && num > 0
+                  ? "Estimated in " +
                     moneyCurren.filter((x) => x.val == setexc)[0].lab +
                     " are " +
                     comma((num * exc[setexc]).toFixed(2)) +
                     " " +
                     setexc.toUpperCase()
+                  : null
               }
               className={(lang == "th" ? "mt-5" : "mt-3") + " mb-3 m-2"}
               defaultValue={0}
@@ -340,7 +350,10 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
               <option value={5000.0}>5,000</option>
               <option value={10000.0}>10,000</option>
             </TextField>
-            <Button variant="outlined" onClick={() => ExportQR()} className="m-2">
+            <Button
+              variant="outlined"
+              onClick={() => ExportQR()}
+              className="m-2">
               {lang == "th" ? "บันทึก QR Code นี้" : "Save this QR Payment"}
             </Button>
             <Divider />
