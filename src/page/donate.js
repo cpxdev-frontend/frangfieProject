@@ -97,7 +97,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
     if (lang != "th") {
       fetch(
         "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@" +
-          moment().format("YYYY-MM-DD") +
+          moment().format("YYYY.M") +
           "/v1/currencies/thb.json",
         {
           method: "get",
