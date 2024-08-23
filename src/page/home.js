@@ -39,7 +39,7 @@ const Home = ({
         launch >= 1731603600 ||
         (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
           localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-            "56f006fb7a76776e1e08eac264bd491aa1a066a1")
+          "56f006fb7a76776e1e08eac264bd491aa1a066a1")
       ) {
         setData(true);
       } else {
@@ -66,7 +66,7 @@ const Home = ({
               controlsList="nodownload nofullscreen noremoteplayback"
               muted
               autoPlay
-              style={{ pointerEvents: "none", scrollbarWidth: "none" }}
+              style={{ pointerEvents: "none", scrollbarWidth: "none", top: '50%', left: '50%', minWidth: '100%', minHeight: '100%', width: 'auto', height: 'auto', transform: 'translate(-50%,-50%)' }}
               loop
               playsinline>
               <source
