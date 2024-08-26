@@ -145,8 +145,7 @@ const Gallery = ({
         <div className="container mt-3">
           {data != null ? (
             <>
-              <Box className={data == null ? "d-
-                            "d-none" : ""}>
+              <Box>
                 <LightGallery
                   className="pb-3"
                   plugins={[lgZoom, lgVideo]}
