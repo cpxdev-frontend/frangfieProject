@@ -146,7 +146,7 @@ const Gallery = ({
           {data != null ? (
             <>
               <Box className={data == null ? "d-
-                            "" : ""}>
+                            "d-none" : ""}>
                 <LightGallery
                   className="pb-3"
                   plugins={[lgZoom, lgVideo]}
@@ -159,7 +159,6 @@ const Gallery = ({
                   {data.map((item, i) => (
                     <a
                       key={item.id}
-                      data-aos="zoom-in"
                       data-lg-size="1600-2400"
                       className="gallery__item"
                       data-src={item.thumbnailLink.replace("=s220", "=s800")}
