@@ -41,6 +41,9 @@ import lgZoom from "lightgallery/plugins/zoom";
 import lgVideo from "lightgallery/plugins/video";
 import fjGallery from "flickr-justified-gallery";
 
+import {initLightboxJS} from 'lightbox.js-react'
+import 'lightbox.js-react/dist/index.css'
+
 function compareTimestamps(timestamp1, timestamp2) {
   // Get the difference in milliseconds
   const difference = timestamp2 * 1000 - timestamp1 * 1000;
@@ -90,7 +93,7 @@ const Gallery = ({
   React.useEffect(() => {
     fjGallery(document.querySelectorAll(".gallery"), {
       itemSelector: ".gallery__item",
-      rowHeight: 180,
+      rowWeight: '100%',
       lastRow: "start",
       gutter: 2,
       rowHeightTolerance: 0.1,
@@ -123,24 +126,23 @@ const Gallery = ({
               : "The universe of Kaofrang's Gallery by KorKaofrang Team Support. Provided by Google Drive"
           }
         />
-        <div className="container mt-3">
+        <div className="mt-3">
           {data != null ? (
             <>
-              <Box>
+              <Box sx={{display: {xs: 'block', md: 'block'}}}>
                 <LightGallery
-                  className="col-12 pb-3"
-                  plugins={[lgZoom, lgVideo]}
+                  className="container pb-3"
+                  plugins={[lgZoom]}
                   mode="lg-fade"
                   pager={false}
                   thumbnail={true}
-                  galleryId={"nature"}
                   autoplayFirstVideo={false}
                   isMobile={true}
                   elementClassNames={"gallery"}>
                   {data.map((item, i) => (
                     <a
                       key={item.id}
-                      data-lg-size="1600-2400"
+                      data-lg-size="700-2400"
                       className="gallery__item"
                       data-src={item.thumbnailLink.replace("=s220", "=s800")}
                       data-sub-html={
@@ -169,6 +171,9 @@ const Gallery = ({
                     </a>
                   ))}
                 </LightGallery>
+              </Box>
+              <Box sx={{display: {xs: 'block', md: 'none'}}}>
+
               </Box>
             </>
           ) : (
