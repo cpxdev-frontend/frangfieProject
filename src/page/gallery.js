@@ -79,24 +79,7 @@ const Gallery = ({
   const [data, setData] = React.useState(null);
   const [fet, setFetch] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const containerRef = React.useRef(null);
-  const [galleryContainer, setGalleryContainer] = React.useState(null);
-
-  const onInit = React.useCallback(
-    (detail) => {
-      if (detail) {
-        // lightGalleryRef.current = detail.instance;
-        detail.instance.openGallery();
-      }
-    },
-    [data]
-  );
-
-  React.useEffect(() => {
-    if (containerRef.current) {
-      setGalleryContainer("aaa");
-    }
-  }, []);
+  
 
   React.useState(() => {
     setTimeout(() => {
