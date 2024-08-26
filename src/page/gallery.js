@@ -38,10 +38,7 @@ import ReactGA from "react-ga4";
 
 import LightGallery from "lightgallery/react";
 import lgZoom from "lightgallery/plugins/zoom";
-import lgVideo from "lightgallery/plugins/video";
 import fjGallery from "flickr-justified-gallery";
-
-import {initLightboxJS} from 'lightbox.js-react'
 import 'lightbox.js-react/dist/index.css'
 
 function compareTimestamps(timestamp1, timestamp2) {
@@ -78,9 +75,7 @@ const Gallery = ({
   setPage,
   launch,
 }) => {
-  const [dataMob, setMob] = React.useState([]);
   const [data, setData] = React.useState(null);
-  const [fet, setFetch] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
 
@@ -126,56 +121,51 @@ const Gallery = ({
               : "The universe of Kaofrang's Gallery by KorKaofrang Team Support. Provided by Google Drive"
           }
         />
-        <div className="mt-3">
+        <div className="container mt-3">
           {data != null ? (
-            <>
-              <Box sx={{display: {xs: 'block', md: 'block'}}}>
-                <LightGallery
-                  className="container pb-3"
-                  plugins={[lgZoom]}
-                  mode="lg-fade"
-                  pager={false}
-                  thumbnail={true}
-                  autoplayFirstVideo={false}
-                  isMobile={true}
-                  elementClassNames={"gallery"}>
-                  {data.map((item, i) => (
-                    <a
-                      key={item.id}
-                      data-lg-size="700-2400"
-                      className="gallery__item"
-                      data-src={item.thumbnailLink.replace("=s220", "=s800")}
-                      data-sub-html={
-                        lang == "th"
-                          ? "<h4>อัปโหลดโดย " +
-                          item.lastModifyingUserName +
-                          "</h4><br/><p>อัปเดตเมื่อ " +
-                          moment(item.modifiedDate)
-                            .lang(lang)
-                            .local()
-                            .format("DD MMMM YYYY HH:mm") +
-                          "</p>"
-                          : "<h4>Uploaded by " +
-                          item.lastModifyingUserName +
-                          "</h4><br/><p>Updated in " +
-                          moment(item.modifiedDate)
-                            .lang(lang)
-                            .local()
-                            .format("DD MMMM YYYY HH:mm") +
-                          "</p>"
-                      }>
-                      <img
-                        className="img-responsive"
-                        src={item.thumbnailLink.replace("=s220", "=s400")}
-                      />
-                    </a>
-                  ))}
-                </LightGallery>
-              </Box>
-              <Box sx={{display: {xs: 'block', md: 'none'}}}>
-
-              </Box>
-            </>
+            <Box sx={{ display: 'block' }} data-aos="fade-in">
+              <LightGallery
+                className="pb-3"
+                plugins={[lgZoom]}
+                mode="lg-fade"
+                pager={false}
+                thumbnail={true}
+                autoplayFirstVideo={false}
+                isMobile={true}
+                elementClassNames={"gallery"}>
+                {data.map((item, i) => (
+                  <a
+                    key={item.id}
+                    data-lg-size="700-2400"
+                    className="gallery__item"
+                    data-src={item.thumbnailLink.replace("=s220", "=s800")}
+                    data-sub-html={
+                      lang == "th"
+                        ? "<h4>อัปโหลดโดย " +
+                        item.lastModifyingUserName +
+                        "</h4><br/><p>อัปเดตเมื่อ " +
+                        moment(item.modifiedDate)
+                          .lang(lang)
+                          .local()
+                          .format("DD MMMM YYYY HH:mm") +
+                        "</p>"
+                        : "<h4>Uploaded by " +
+                        item.lastModifyingUserName +
+                        "</h4><br/><p>Updated in " +
+                        moment(item.modifiedDate)
+                          .lang(lang)
+                          .local()
+                          .format("DD MMMM YYYY HH:mm") +
+                        "</p>"
+                    }>
+                    <img
+                      className="img-responsive"
+                      src={item.thumbnailLink.replace("=s220", "=s400")}
+                    />
+                  </a>
+                ))}
+              </LightGallery>
+            </Box>
           ) : (
             <Card>
               <CardContent>

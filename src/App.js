@@ -175,7 +175,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     window.addEventListener("scroll", debounce(handleScroll, 200));
     fetch(process.env.REACT_APP_APIE + "/home/status", {})
       .then((response) => response.text())
-      .then((result) => {})
+      .then((result) => { })
       .catch((error) => {
         document.title = "System Maintenance | KaofrangFie Site";
         setOnMaintain(true);
@@ -238,7 +238,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             result.unix >= 1731603600 ||
             (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
               localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-                "56f006fb7a76776e1e08eac264bd491aa1a066a1")
+              "56f006fb7a76776e1e08eac264bd491aa1a066a1")
           ) {
             setUnlock(true);
           } else {
@@ -392,6 +392,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 {location.pathname != "/" &&
                   !currentPage.includes("404 Not Found") && (
                     <Avatar
+                      data-aos="fade-in"
                       sx={{
                         width: 70,
                         height: 70,
@@ -492,6 +493,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
               {location.pathname !== "/" &&
                 !currentPage.includes("404 Not Found") && (
                   <IconButton
+                    data-aos="fade-in"
                     size="large"
                     aria-label="account of current user"
                     aria-controls="menu-appbar"
@@ -805,8 +807,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             marginTop: {
               xs:
                 unlock &&
-                location.pathname != "/" &&
-                !currentPage.includes("404 Not Found")
+                  location.pathname != "/" &&
+                  !currentPage.includes("404 Not Found")
                   ? 10
                   : 0,
               md: 0,
