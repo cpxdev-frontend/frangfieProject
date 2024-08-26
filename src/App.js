@@ -58,6 +58,7 @@ import About from "./page/about";
 import Disco from "./page/port";
 import Trend from "./page/trend";
 import Event from "./page/event";
+import Gallery from "./page/gallery";
 import Game from "./page/game";
 import GameD from "./page/gamedash";
 import Feed from "./page/update";
@@ -69,6 +70,7 @@ import Err from "./page/error";
 const pageSec = [
   "",
   "aboutkf",
+  "gallery",
   "discography",
   "birthday",
   "trend",
@@ -81,6 +83,7 @@ const pageSec = [
 const pagesEn = [
   "Home",
   "About Kaofrang",
+  "Gallery",
   "Discography",
   "KF.Day Trend",
   "Trend Boost",
@@ -93,6 +96,7 @@ const pagesEn = [
 const pagesTh = [
   "หน้าหลัก",
   "เกี่ยวกับข้าวฟ่าง",
+  "คลังรูป",
   "ผลงาน",
   "กิจกรรมอวยพรวันเกิด",
   "ปั่นเทรน",
@@ -826,6 +830,11 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 data-aos="fade-in"
                 path="/aboutkf"
                 render={() => <About />}
+              />
+              <Route
+                data-aos="fade-in"
+                path="/gallery"
+                render={() => <Gallery />}
               />
               <Route
                 data-aos="fade-in"

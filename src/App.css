@@ -213,3 +213,21 @@ html > div[style] {
   background: linear-gradient(180deg, #fb61ee 0%, rgba(247, 138, 238, 0.89) 30%, rgba(250,97,237,0) 100%) !important;
   box-shadow: none !important;
 }
+
+.gallery {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.gallery__item img {
+  width: 100%;
+}
+.lg-container{
+  position: fixed !important;
+  z-index: 1500 !important;
+}
+.lg-download{
+  display: none !important;
+}
+
+
+

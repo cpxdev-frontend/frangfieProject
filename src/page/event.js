@@ -219,7 +219,7 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
           title={<h3>Incoming Events of Kaofrang</h3>}
           subheader={
             lang == "th"
-              ? "เร็วๆนี้น้องข้าวฟ่างมีงานอะไรให้เราตามบ้าง ไปดูกัน!"
+              ? "ข้าวฟ่างมีงานอะไรบ้างนะในช่วงนี้"
               : "See all Kaofrang Yanisa or Kaofrang BNK48 events here."
           }
           action={
