@@ -128,13 +128,14 @@ const Gallery = ({
             <>
               <Box>
                 <LightGallery
-                  className="pb-3"
+                  className="col-12 pb-3"
                   plugins={[lgZoom, lgVideo]}
                   mode="lg-fade"
                   pager={false}
                   thumbnail={true}
                   galleryId={"nature"}
                   autoplayFirstVideo={false}
+                  isMobile={true}
                   elementClassNames={"gallery"}>
                   {data.map((item, i) => (
                     <a
