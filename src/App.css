@@ -74,6 +74,16 @@ body{
   min-height: 90vh;
   height: 100vh;
 }
+.imgpc {
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  display: grid;
+  align-items: end;
+  transition: 0.3s;
+  min-height: 90vh;
+  height: 100vh;
+}
   .text-container {
     position: absolute;
     top: 30%;
