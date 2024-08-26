@@ -79,7 +79,7 @@ const Gallery = ({
   const [data, setData] = React.useState(null);
   const [fet, setFetch] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  
+
 
   React.useState(() => {
     setTimeout(() => {
@@ -88,16 +88,14 @@ const Gallery = ({
   }, [currentPage]);
 
   React.useEffect(() => {
-    if (data != null) {
-      fjGallery(document.querySelectorAll(".gallery"), {
-        itemSelector: ".gallery__item",
-        rowHeight: 180,
-        lastRow: "start",
-        gutter: 2,
-        rowHeightTolerance: 0.1,
-        calculateItemsHeight: false,
-      });
-    }
+    fjGallery(document.querySelectorAll(".gallery"), {
+      itemSelector: ".gallery__item",
+      rowHeight: 180,
+      lastRow: "start",
+      gutter: 2,
+      rowHeightTolerance: 0.1,
+      calculateItemsHeight: false,
+    });
   }, [data]);
 
   React.useEffect(() => {
@@ -147,21 +145,21 @@ const Gallery = ({
                       data-sub-html={
                         lang == "th"
                           ? "<h4>อัปโหลดโดย " +
-                            item.lastModifyingUserName +
-                            "</h4><br/><p>อัปเดตเมื่อ " +
-                            moment(item.modifiedDate)
-                              .lang(lang)
-                              .local()
-                              .format("DD MMMM YYYY HH:mm") +
-                            "</p>"
+                          item.lastModifyingUserName +
+                          "</h4><br/><p>อัปเดตเมื่อ " +
+                          moment(item.modifiedDate)
+                            .lang(lang)
+                            .local()
+                            .format("DD MMMM YYYY HH:mm") +
+                          "</p>"
                           : "<h4>Uploaded by " +
-                            item.lastModifyingUserName +
-                            "</h4><br/><p>Updated in " +
-                            moment(item.modifiedDate)
-                              .lang(lang)
-                              .local()
-                              .format("DD MMMM YYYY HH:mm") +
-                            "</p>"
+                          item.lastModifyingUserName +
+                          "</h4><br/><p>Updated in " +
+                          moment(item.modifiedDate)
+                            .lang(lang)
+                            .local()
+                            .format("DD MMMM YYYY HH:mm") +
+                          "</p>"
                       }>
                       <img
                         className="img-responsive"
