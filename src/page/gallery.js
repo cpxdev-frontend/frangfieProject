@@ -136,9 +136,9 @@ const Gallery = ({
                 {data.map((item, i) => (
                   <a
                     key={item.id}
-                    data-lg-size="700-2400"
+                    data-lg-size="1600-2400"
                     className="gallery__item"
-                    data-src={item.thumbnailLink.replace("=s220", "=s800")}
+                    data-src={item.thumbnailLink.replace("=s220", "=s700")}
                     data-sub-html={
                       lang == "th"
                         ? "<h4>อัปโหลดโดย " +
@@ -160,7 +160,7 @@ const Gallery = ({
                     }>
                     <img
                       className="img-responsive"
-                      src={item.thumbnailLink.replace("=s220", "=s400")}
+                      src={item.thumbnailLink.replace("=s220", "=s300")}
                     />
                   </a>
                 ))}
