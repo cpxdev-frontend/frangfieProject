@@ -101,14 +101,16 @@ const Gallery = ({
   }, [currentPage]);
 
   React.useEffect(() => {
-    fjGallery(document.querySelectorAll(".gallery"), {
-      itemSelector: ".gallery__item",
-      rowWeight: "100%",
-      lastRow: "start",
-      gutter: 2,
-      rowHeightTolerance: 0.1,
-      calculateItemsHeight: false,
-    });
+    if (data != null && imgLoad) {
+      fjGallery(document.querySelectorAll(".gallery"), {
+        itemSelector: ".gallery__item",
+        rowWeight: "100%",
+        lastRow: "start",
+        gutter: 2,
+        rowHeightTolerance: 0.1,
+        calculateItemsHeight: false,
+      });
+    }
   }, [data, imgLoad]);
 
   React.useEffect(() => {
@@ -148,9 +150,7 @@ const Gallery = ({
                   thumbnail={true}
                   autoplayFirstVideo={false}
                   isMobile={true}
-                  onInit={() =>
-                    setImgLoad(true)
-                  }
+                  onInit={() => setImgLoad(true)}
                   onBeforeOpen={() => (thumb = true)}
                   onBeforeClose={() => (thumb = false)}
                   mobileSettings={{
