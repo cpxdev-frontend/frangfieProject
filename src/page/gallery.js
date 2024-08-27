@@ -166,7 +166,7 @@ const Gallery = ({
                       data-src={
                         "https://drive.google.com/thumbnail?id=" +
                         item.id +
-                        "&sz=w600"
+                        "&sz=w700"
                       }
                       data-referrerPolicy="no-referrer"
                       data-sub-html={
