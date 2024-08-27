@@ -166,8 +166,9 @@ const Gallery = ({
                       data-src={
                         "https://drive.google.com/thumbnail?id=" +
                         item.id +
-                        "&sz=w800"
+                        "&sz=w600"
                       }
+                      data-referrerPolicy="no-referrer"
                       data-sub-html={
                         lang == "th"
                           ? "<h4>อัปโหลดโดย " +
@@ -192,6 +193,7 @@ const Gallery = ({
                         data-aos="fade-in"
                         data-aos-duration="1500"
                         className="img-responsive"
+                        referrerPolicy="no-referrer"
                         src={
                           "https://drive.google.com/thumbnail?id=" +
                           item.id +
