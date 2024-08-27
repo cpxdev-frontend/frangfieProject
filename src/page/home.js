@@ -7,6 +7,8 @@ import {
   Button,
   Zoom,
 } from "@mui/material";
+import moment from "moment";
+import momentTz from "moment-timezone";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
@@ -36,10 +38,10 @@ const Home = ({
       setData(true);
     } else {
       if (
-        launch >= 1731603600 ||
+        launch >= 1730448000 ||
         (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
           localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-          "56f006fb7a76776e1e08eac264bd491aa1a066a1")
+            "56f006fb7a76776e1e08eac264bd491aa1a066a1")
       ) {
         setData(true);
       } else {
@@ -66,7 +68,17 @@ const Home = ({
               controlsList="nodownload nofullscreen noremoteplayback"
               muted
               autoPlay
-              style={{ pointerEvents: "none", scrollbarWidth: "none", top: '50%', left: '50%', minWidth: '100%', minHeight: '100%', width: 'auto', height: 'auto', transform: 'translate(-50%,-50%)' }}
+              style={{
+                pointerEvents: "none",
+                scrollbarWidth: "none",
+                top: "50%",
+                left: "50%",
+                minWidth: "100%",
+                minHeight: "100%",
+                width: "auto",
+                height: "auto",
+                transform: "translate(-50%,-50%)",
+              }}
               loop
               playsinline>
               <source
@@ -137,19 +149,37 @@ const Home = ({
                   </p>
                 }
               />
-              {launch < 1724457600 ? (
-                <h5 className="text-center text-md-left text-light ml-0 ml-md-3">
-                  {lang == "th"
-                    ? "สัมผัสประสบการณ์เว็บได้ก่อนใคร ในวันที่ 24-25 สิงหาคม 2567 นี้ (เป็นการทดสอบระบบก่อนเปิดใช้งานจริง)"
-                    : "Let's meet this website experience as the first group of the world soon in August 24-25, 2024 (Public Beta testing)"}
-                </h5>
-              ) : (
-                <h5 className="text-center text-md-left text-light ml-0 ml-md-3">
-                  {lang == "th"
-                    ? "พบกันได้ ในวันที่ 15 พฤศจิกายน 2567 เป็นต้นไป"
-                    : "Let's meet this website soon in November 15, 2024"}
-                </h5>
-              )}
+              <h5 className="text-center text-md-left text-light ml-0 ml-md-3">
+                {lang == "th"
+                  ? "พบกันได้ ในวันที่ " +
+                    moment
+                      .unix(1730448000)
+                      .lang(lang)
+                      .local()
+                      .format("D MMMM") +
+                    " 2567"
+                  : "Let's meet this website soon in " +
+                    moment
+                      .unix(1730448000)
+                      .lang(lang)
+                      .local()
+                      .format("MMMM D") +
+                    ", 2024"}
+              </h5>
+              <p className="text-light">
+                {lang == "th"
+                  ? "เวลา " +
+                    moment.unix(1730448000).lang(lang).local().format("HH:mm") +
+                    " เป็นต้นไป"  + ' ตามโซนเวลา ' +
+                    momentTz.tz.guess()
+                  : "In " +
+                    moment
+                      .unix(1730448000)
+                      .lang(lang)
+                      .local()
+                      .format("h:mm A") + '. Based on ' +
+                    momentTz.tz.guess() + ' timezone.'}
+              </p>
               <br />
               <Button className="ml-2 mt-1" onClick={() => setLangMod(true)}>
                 Choose Language

@@ -235,7 +235,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           setOnClose(true);
         } else {
           if (
-            result.unix >= 1731603600 ||
+            result.unix >= 1730448000 ||
             (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
               localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
               "56f006fb7a76776e1e08eac264bd491aa1a066a1")
