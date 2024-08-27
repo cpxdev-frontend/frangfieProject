@@ -138,7 +138,7 @@ const Gallery = ({
                     key={item.id}
                     data-lg-size="600-800"
                     className="gallery__item"
-                    data-src={'https://drive.google.com/thumbnail?id=' + item.id + '&sz=w800'}
+                    data-src={'https://drive.google.com/thumbnail?id=' + item.id + '&sz=w600'}
                     data-sub-html={
                       lang == "th"
                         ? "<h4>อัปโหลดโดย " +
@@ -160,7 +160,7 @@ const Gallery = ({
                     }>
                     <img
                       className="img-responsive"
-                      src={'https://drive.google.com/thumbnail?id=' + item.id + '&sz=w400'}
+                      src={'https://drive.google.com/thumbnail?id=' + item.id + '&sz=w300'}
                     />
                   </a>
                 ))}
