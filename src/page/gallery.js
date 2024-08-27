@@ -140,7 +140,7 @@ const Gallery = ({
         <div className="container mt-3">
           {data != null ? (
             <>
-              <Box sx={{ display: imgLoad ? "block" : "none" }}>
+              <Box sx={{ display: "block" }}>
                 <LightGallery
                   plugins={[lgZoom]}
                   mode="lg-fade"
@@ -148,13 +148,16 @@ const Gallery = ({
                   thumbnail={true}
                   autoplayFirstVideo={false}
                   isMobile={true}
-                  onInit={() => setImgLoad(true)}
+                  onInit={() =>
+                    setImgLoad(true)
+                  }
                   onBeforeOpen={() => (thumb = true)}
                   onBeforeClose={() => (thumb = false)}
                   mobileSettings={{
                     showCloseIcon: true,
                   }}
-                  elementClassNames={"gallery"}>
+                  elementClassNames={"gallery"}
+                >
                   {data.map((item, i) => (
                     <a
                       key={item.id}
@@ -163,7 +166,7 @@ const Gallery = ({
                       data-src={
                         "https://drive.google.com/thumbnail?id=" +
                         item.id +
-                        "&sz=w600"
+                        "&sz=w800"
                       }
                       data-sub-html={
                         lang == "th"
@@ -183,7 +186,8 @@ const Gallery = ({
                               .local()
                               .format("DD MMMM YYYY HH:mm") +
                             "</p>"
-                      }>
+                      }
+                    >
                       <img
                         data-aos="fade-in"
                         data-aos-duration="1500"
@@ -191,47 +195,49 @@ const Gallery = ({
                         src={
                           "https://drive.google.com/thumbnail?id=" +
                           item.id +
-                          "&sz=w300"
+                          "&sz=w400"
                         }
                       />
                     </a>
                   ))}
                 </LightGallery>
               </Box>
-              <Card sx={{ display: imgLoad ? "none" : "initial" }}>
-                <CardContent>
-                  <Skeleton
-                    variant="text"
-                    className="bg-m"
-                    sx={{ fontSize: "2rem" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    className="bg-m"
-                    sx={{ fontSize: "1rem" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    className="bg-m"
-                    sx={{ fontSize: "1rem" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    className="bg-m"
-                    sx={{ fontSize: "1rem" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    className="bg-m"
-                    sx={{ fontSize: "1rem" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    className="bg-m"
-                    sx={{ fontSize: "1rem" }}
-                  />
-                </CardContent>
-              </Card>
+              <Box sx={{ display: imgLoad ? "none" : "initial" }}>
+                <Card>
+                  <CardContent>
+                    <Skeleton
+                      variant="text"
+                      className="bg-m"
+                      sx={{ fontSize: "2rem" }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      className="bg-m"
+                      sx={{ fontSize: "1rem" }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      className="bg-m"
+                      sx={{ fontSize: "1rem" }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      className="bg-m"
+                      sx={{ fontSize: "1rem" }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      className="bg-m"
+                      sx={{ fontSize: "1rem" }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      className="bg-m"
+                      sx={{ fontSize: "1rem" }}
+                    />
+                  </CardContent>
+                </Card>
+              </Box>
             </>
           ) : (
             <Card>
