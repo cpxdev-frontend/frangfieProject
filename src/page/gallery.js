@@ -123,7 +123,7 @@ const Gallery = ({
         />
         <div className="container mt-3">
           {data != null ? (
-            <Box sx={{ display: 'block' }} data-aos="fade-in">
+            <Box sx={{ display: 'block' }} data-aos-duration="1500" data-aos="fade-in">
               <LightGallery
                 className="pb-3"
                 plugins={[lgZoom]}
