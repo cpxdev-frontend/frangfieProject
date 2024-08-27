@@ -166,7 +166,7 @@ const Home = ({
                       .format("MMMM D") +
                     ", 2024"}
               </h5>
-              <p className="text-light">
+              <p className="text-center text-md-left text-light ml-0 ml-md-3">
                 {lang == "th"
                   ? "เวลา " +
                     moment.unix(1730448000).lang(lang).local().format("HH:mm") +
