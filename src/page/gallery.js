@@ -39,7 +39,7 @@ import ReactGA from "react-ga4";
 import LightGallery from "lightgallery/react";
 import lgZoom from "lightgallery/plugins/zoom";
 import fjGallery from "flickr-justified-gallery";
-import 'lightbox.js-react/dist/index.css'
+import "lightbox.js-react/dist/index.css";
 
 function compareTimestamps(timestamp1, timestamp2) {
   // Get the difference in milliseconds
@@ -67,6 +67,7 @@ function compareTimestamps(timestamp1, timestamp2) {
   };
 }
 
+let thumb = false;
 const Gallery = ({
   currentPage,
   lang,
@@ -77,7 +78,21 @@ const Gallery = ({
 }) => {
   const [data, setData] = React.useState(null);
   const [open, setOpen] = React.useState(false);
+  const [imgLoad, setImgLoad] = React.useState(false);
 
+  React.useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (thumb == false) {
+        return;
+      }
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   React.useState(() => {
     setTimeout(() => {
@@ -88,19 +103,20 @@ const Gallery = ({
   React.useEffect(() => {
     fjGallery(document.querySelectorAll(".gallery"), {
       itemSelector: ".gallery__item",
-      rowWeight: '100%',
+      rowWeight: "100%",
       lastRow: "start",
       gutter: 2,
       rowHeightTolerance: 0.1,
       calculateItemsHeight: false,
     });
-  }, [data]);
+  }, [data, imgLoad]);
 
   React.useEffect(() => {
     var requestOptions = {
       method: "POST",
     };
 
+    thumb = false;
     setPage(lang == "th" ? "คลังรูปของข้าวฟ่าง" : "Gallery of Kaofrang");
     fetch(process.env.REACT_APP_APIE + "/kfsite/getgallery", requestOptions)
       .then((response) => response.json())
@@ -123,49 +139,100 @@ const Gallery = ({
         />
         <div className="container mt-3">
           {data != null ? (
-            <Box sx={{ display: 'block' }} data-aos-duration="1500" data-aos="fade-in">
-              <LightGallery
-                className="pb-3"
-                plugins={[lgZoom]}
-                mode="lg-fade"
-                pager={false}
-                thumbnail={true}
-                autoplayFirstVideo={false}
-                isMobile={true}
-                elementClassNames={"gallery"}>
-                {data.map((item, i) => (
-                  <a
-                    key={item.id}
-                    data-lg-size="600-800"
-                    className="gallery__item"
-                    data-src={'https://drive.google.com/thumbnail?id=' + item.id + '&sz=w600'}
-                    data-sub-html={
-                      lang == "th"
-                        ? "<h4>อัปโหลดโดย " +
-                        item.lastModifyingUserName +
-                        "</h4><br/><p>อัปเดตเมื่อ " +
-                        moment(item.modifiedDate)
-                          .lang(lang)
-                          .local()
-                          .format("DD MMMM YYYY HH:mm") +
-                        "</p>"
-                        : "<h4>Uploaded by " +
-                        item.lastModifyingUserName +
-                        "</h4><br/><p>Updated in " +
-                        moment(item.modifiedDate)
-                          .lang(lang)
-                          .local()
-                          .format("DD MMMM YYYY HH:mm") +
-                        "</p>"
-                    }>
-                    <img
-                      className="img-responsive"
-                      src={'https://drive.google.com/thumbnail?id=' + item.id + '&sz=w300'}
-                    />
-                  </a>
-                ))}
-              </LightGallery>
-            </Box>
+            <>
+              <Box sx={{ display: imgLoad ? "block" : "none" }}>
+                <LightGallery
+                  plugins={[lgZoom]}
+                  mode="lg-fade"
+                  pager={false}
+                  thumbnail={true}
+                  autoplayFirstVideo={false}
+                  isMobile={true}
+                  onInit={() => setImgLoad(true)}
+                  onBeforeOpen={() => (thumb = true)}
+                  onBeforeClose={() => (thumb = false)}
+                  mobileSettings={{
+                    showCloseIcon: true,
+                  }}
+                  elementClassNames={"gallery"}>
+                  {data.map((item, i) => (
+                    <a
+                      key={item.id}
+                      data-lg-size="600-800"
+                      className="gallery__item"
+                      data-src={
+                        "https://drive.google.com/thumbnail?id=" +
+                        item.id +
+                        "&sz=w600"
+                      }
+                      data-sub-html={
+                        lang == "th"
+                          ? "<h4>อัปโหลดโดย " +
+                            item.lastModifyingUserName +
+                            "</h4><br/><p>อัปเดตเมื่อ " +
+                            moment(item.modifiedDate)
+                              .lang(lang)
+                              .local()
+                              .format("DD MMMM YYYY HH:mm") +
+                            "</p>"
+                          : "<h4>Uploaded by " +
+                            item.lastModifyingUserName +
+                            "</h4><br/><p>Updated in " +
+                            moment(item.modifiedDate)
+                              .lang(lang)
+                              .local()
+                              .format("DD MMMM YYYY HH:mm") +
+                            "</p>"
+                      }>
+                      <img
+                        data-aos="fade-in"
+                        data-aos-duration="1500"
+                        className="img-responsive"
+                        src={
+                          "https://drive.google.com/thumbnail?id=" +
+                          item.id +
+                          "&sz=w300"
+                        }
+                      />
+                    </a>
+                  ))}
+                </LightGallery>
+              </Box>
+              <Card sx={{ display: imgLoad ? "none" : "initial" }}>
+                <CardContent>
+                  <Skeleton
+                    variant="text"
+                    className="bg-m"
+                    sx={{ fontSize: "2rem" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    className="bg-m"
+                    sx={{ fontSize: "1rem" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    className="bg-m"
+                    sx={{ fontSize: "1rem" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    className="bg-m"
+                    sx={{ fontSize: "1rem" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    className="bg-m"
+                    sx={{ fontSize: "1rem" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    className="bg-m"
+                    sx={{ fontSize: "1rem" }}
+                  />
+                </CardContent>
+              </Card>
+            </>
           ) : (
             <Card>
               <CardContent>
