@@ -199,8 +199,6 @@ const Gallery = ({
                       }
                     >
                       <img
-                        data-aos="fade-in"
-                        data-aos-duration="1500"
                         className="img-responsive"
                         referrerPolicy="no-referrer"
                         src={
@@ -224,7 +222,8 @@ const Gallery = ({
                   }}
                   onClick={(e) => {
                     his.push("/gallery");
-                  }}>
+                  }}
+                >
                   <ArrowBackIosNewIcon />
                 </Fab>
               </Box>
