@@ -100,7 +100,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                 <Card key={item.id} className="mb-3">
                   <CardContent>
                     <CardHeader
-                      sx={{ whiteSpace: { xs: "break-spaces", md: "none" } }}
+                      sx={{ wordWrap: { xs: "break-word", md: "normal" } }}
                       title={item.title}
                       subheader={
                         (lang == "th"

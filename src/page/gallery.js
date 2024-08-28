@@ -141,6 +141,7 @@ const Gallery = ({
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
         <CardHeader
           className="text-center"
+          sx={{ wordWrap: "break-word" }}
           title={<h3>{JSON.parse(atob(atob(id))).name}</h3>}
           subheader={
             lang == "th"
