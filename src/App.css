@@ -270,3 +270,8 @@ html>div[style] {
 .lg-zoom-in {
   display: none !important;
 }
+
+.MuiCardHeader-content {
+  white-space: normal;
+  word-break: break-all;
+}
