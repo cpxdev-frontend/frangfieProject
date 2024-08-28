@@ -105,14 +105,16 @@ const Gallery = ({
   }, [currentPage]);
 
   React.useEffect(() => {
-    fjGallery(document.querySelectorAll(".gallery"), {
-      itemSelector: ".gallery__item",
-      rowWeight: "100%",
-      lastRow: "start",
-      gutter: 2,
-      rowHeightTolerance: 0.1,
-      calculateItemsHeight: false,
-    });
+    if (data != null && imgLoad) {
+      fjGallery(document.querySelectorAll(".gallery"), {
+        itemSelector: ".gallery__item",
+        rowWeight: "100%",
+        lastRow: "start",
+        gutter: 2,
+        rowHeightTolerance: 0.1,
+        calculateItemsHeight: false,
+      });
+    }
   }, [data, imgLoad]);
 
   React.useEffect(() => {
@@ -149,7 +151,7 @@ const Gallery = ({
         <div className="container mt-3">
           {data != null ? (
             <>
-              <Box sx={{ display: imgLoad ? "block" : "none" }}>
+              <Box sx={{ display: "block" }}>
                 <LightGallery
                   plugins={[lgZoom]}
                   mode="lg-fade"
@@ -163,7 +165,8 @@ const Gallery = ({
                   mobileSettings={{
                     showCloseIcon: true,
                   }}
-                  elementClassNames={"gallery"}>
+                  elementClassNames={"gallery"}
+                >
                   {data.map((item, i) => (
                     <a
                       key={item.id}
@@ -172,8 +175,9 @@ const Gallery = ({
                       data-src={
                         "https://drive.google.com/thumbnail?id=" +
                         item.id +
-                        "&sz=w600"
+                        "&sz=w700"
                       }
+                      data-referrerPolicy="no-referrer"
                       data-sub-html={
                         lang == "th"
                           ? "<h4>อัปโหลดโดย " +
@@ -192,15 +196,17 @@ const Gallery = ({
                               .local()
                               .format("DD MMMM YYYY HH:mm") +
                             "</p>"
-                      }>
+                      }
+                    >
                       <img
                         data-aos="fade-in"
                         data-aos-duration="1500"
                         className="img-responsive"
+                        referrerPolicy="no-referrer"
                         src={
                           "https://drive.google.com/thumbnail?id=" +
                           item.id +
-                          "&sz=w300"
+                          "&sz=w400"
                         }
                       />
                     </a>
@@ -222,40 +228,42 @@ const Gallery = ({
                   <ArrowBackIosNewIcon />
                 </Fab>
               </Box>
-              <Card sx={{ display: imgLoad ? "none" : "initial" }}>
-                <CardContent>
-                  <Skeleton
-                    variant="text"
-                    className="bg-m"
-                    sx={{ fontSize: "2rem" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    className="bg-m"
-                    sx={{ fontSize: "1rem" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    className="bg-m"
-                    sx={{ fontSize: "1rem" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    className="bg-m"
-                    sx={{ fontSize: "1rem" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    className="bg-m"
-                    sx={{ fontSize: "1rem" }}
-                  />
-                  <Skeleton
-                    variant="text"
-                    className="bg-m"
-                    sx={{ fontSize: "1rem" }}
-                  />
-                </CardContent>
-              </Card>
+              <Box sx={{ display: imgLoad ? "none" : "initial" }}>
+                <Card>
+                  <CardContent>
+                    <Skeleton
+                      variant="text"
+                      className="bg-m"
+                      sx={{ fontSize: "2rem" }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      className="bg-m"
+                      sx={{ fontSize: "1rem" }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      className="bg-m"
+                      sx={{ fontSize: "1rem" }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      className="bg-m"
+                      sx={{ fontSize: "1rem" }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      className="bg-m"
+                      sx={{ fontSize: "1rem" }}
+                    />
+                    <Skeleton
+                      variant="text"
+                      className="bg-m"
+                      sx={{ fontSize: "1rem" }}
+                    />
+                  </CardContent>
+                </Card>
+              </Box>
             </>
           ) : (
             <Card>
