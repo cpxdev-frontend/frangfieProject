@@ -58,6 +58,7 @@ import About from "./page/about";
 import Disco from "./page/port";
 import Trend from "./page/trend";
 import Event from "./page/event";
+import Album from "./page/albumgroup";
 import Gallery from "./page/gallery";
 import Game from "./page/game";
 import GameD from "./page/gamedash";
@@ -175,7 +176,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     window.addEventListener("scroll", debounce(handleScroll, 200));
     fetch(process.env.REACT_APP_APIE + "/home/status", {})
       .then((response) => response.text())
-      .then((result) => { })
+      .then((result) => {})
       .catch((error) => {
         document.title = "System Maintenance | KaofrangFie Site";
         setOnMaintain(true);
@@ -238,7 +239,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             result.unix >= 1730448000 ||
             (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
               localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-              "56f006fb7a76776e1e08eac264bd491aa1a066a1")
+                "56f006fb7a76776e1e08eac264bd491aa1a066a1")
           ) {
             setUnlock(true);
           } else {
@@ -424,6 +425,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                             textAlign="center"
                             sx={{
                               color:
+                                (pageSec[i] == "gallery" &&
+                                  location.pathname.includes("/gallery/")) ||
                                 location.pathname == "/" + pageSec[i]
                                   ? "#fb61ee"
                                   : "#000",
@@ -443,6 +446,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                             textAlign="center"
                             sx={{
                               color:
+                                (pageSec[i] == "gallery" &&
+                                  location.pathname.includes("/gallery/")) ||
                                 location.pathname == "/" + pageSec[i]
                                   ? "#fb61ee"
                                   : "#000",
@@ -624,6 +629,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                             textAlign="center"
                             sx={{
                               color:
+                                (pageSec[i] == "gallery" &&
+                                  location.pathname.includes("/gallery/")) ||
                                 location.pathname == "/" + pageSec[i]
                                   ? "#fb61ee"
                                   : "#000",
@@ -643,6 +650,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                             textAlign="center"
                             sx={{
                               color:
+                                (pageSec[i] == "gallery" &&
+                                  location.pathname.includes("/gallery/")) ||
                                 location.pathname == "/" + pageSec[i]
                                   ? "#fb61ee"
                                   : "#000",
@@ -722,6 +731,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       sx={{
                         my: 2,
                         color:
+                          (pageSec[i] == "gallery" &&
+                            location.pathname.includes("/gallery/")) ||
                           location.pathname == "/" + pageSec[i]
                             ? "#fff"
                             : "#000",
@@ -739,6 +750,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       sx={{
                         my: 2,
                         color:
+                          (pageSec[i] == "gallery" &&
+                            location.pathname.includes("/gallery/")) ||
                           location.pathname == "/" + pageSec[i]
                             ? "#fff"
                             : "#000",
@@ -807,8 +820,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             marginTop: {
               xs:
                 unlock &&
-                  location.pathname != "/" &&
-                  !currentPage.includes("404 Not Found")
+                location.pathname != "/" &&
+                !currentPage.includes("404 Not Found")
                   ? 10
                   : 0,
               md: 0,
@@ -835,8 +848,13 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
               />
               <Route
                 data-aos="fade-in"
-                path="/gallery"
+                path="/gallery/:id"
                 render={() => <Gallery />}
+              />
+              <Route
+                data-aos="fade-in"
+                path="/gallery"
+                render={() => <Album />}
               />
               <Route
                 data-aos="fade-in"

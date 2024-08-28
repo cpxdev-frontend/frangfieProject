@@ -9,7 +9,7 @@ import {
   Grid,
   Avatar,
   Box,
-  Tabs,
+  Fab,
   Tab,
   Typography,
   List,
@@ -24,6 +24,7 @@ import {
   IconButton,
   CardMedia,
 } from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import {
   setLoad,
   setLang,
@@ -40,6 +41,7 @@ import LightGallery from "lightgallery/react";
 import lgZoom from "lightgallery/plugins/zoom";
 import fjGallery from "flickr-justified-gallery";
 import "lightbox.js-react/dist/index.css";
+import { useHistory, useParams } from "react-router-dom";
 
 function compareTimestamps(timestamp1, timestamp2) {
   // Get the difference in milliseconds
@@ -79,6 +81,8 @@ const Gallery = ({
   const [data, setData] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [imgLoad, setImgLoad] = React.useState(false);
+  const { id } = useParams();
+  const his = useHistory();
 
   React.useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -117,8 +121,12 @@ const Gallery = ({
     };
 
     thumb = false;
-    setPage(lang == "th" ? "คลังรูปของข้าวฟ่าง" : "Gallery of Kaofrang");
-    fetch(process.env.REACT_APP_APIE + "/kfsite/getgallery", requestOptions)
+    const stance = JSON.parse(atob(atob(id)));
+    setPage(stance.name);
+    fetch(
+      process.env.REACT_APP_APIE + "/kfsite/getgalleryeach?id=" + stance.id,
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => {
         setData(result.items);
@@ -130,11 +138,12 @@ const Gallery = ({
     <Fade in={open} timeout={300}>
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
         <CardHeader
-          title={<h3>Kaofrang Gallery Space</h3>}
+          className="text-center"
+          title={<h3>{JSON.parse(atob(atob(id))).name}</h3>}
           subheader={
             lang == "th"
-              ? "จักรวาลคลังรูปของข้าวฟ่างโดยหัวใจคนรักข้าวฟ่าง ให้บริการโดยกูเกิ้ลไดรฟ์"
-              : "The universe of Kaofrang's Gallery by KorKaofrang Team Support. Provided by Google Drive"
+              ? "มาย้อนความทรงจำของรูปเหล่านี้กันเถอะ"
+              : "Let's enjoy with Kaofrang Gallery"
           }
         />
         <div className="container mt-3">
@@ -197,6 +206,21 @@ const Gallery = ({
                     </a>
                   ))}
                 </LightGallery>
+                <Fab
+                  color="primary"
+                  sx={{
+                    display: {
+                      bottom: 100,
+                      right: 8,
+                      position: "fixed",
+                      zIndex: 1300,
+                    },
+                  }}
+                  onClick={(e) => {
+                    his.push("/gallery");
+                  }}>
+                  <ArrowBackIosNewIcon />
+                </Fab>
               </Box>
               <Card sx={{ display: imgLoad ? "none" : "initial" }}>
                 <CardContent>

@@ -60,8 +60,6 @@ const GameApp = ({
   game,
 }) => {
   const { c } = useParams();
-  const [gamemeet, setGame] = React.useState(0);
-  const [startLoad, setLoad] = React.useState(false);
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   React.useState(() => {
