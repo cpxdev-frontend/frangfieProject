@@ -115,7 +115,7 @@ const Gallery = ({
         calculateItemsHeight: false,
       });
     }
-  }, [data, imgLoad]);
+  }, [imgLoad]);
 
   React.useEffect(() => {
     var requestOptions = {
