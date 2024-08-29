@@ -64,6 +64,12 @@ function compareTimestamps(timestamp1, timestamp2) {
   };
 }
 
+function comma(number) {
+  const formatter = new Intl.NumberFormat("en-US");
+  const formattedNumber = formatter.format(number);
+  return formattedNumber;
+}
+
 const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
   const [data, setData] = React.useState(null);
   const [fet, setFetch] = React.useState(false);
@@ -216,6 +222,20 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                             </Grid>
                           )}
                         <Grid item lg={7} xs={12}>
+                          {unix >= item.start && (
+                            <Chip
+                              label={
+                                (lang == "th"
+                                  ? "การเข้าร่วมเทรนตอนนี้ "
+                                  : "Current trend hit are ") +
+                                comma(item.boost) +
+                                (lang == "th" ? " ครั้ง " : " times")
+                              }
+                              color="primary"
+                              variant="outlined"
+                              className="mb-4"
+                            />
+                          )}
                           {item.start > 0 &&
                           item.end > 0 &&
                           moment
