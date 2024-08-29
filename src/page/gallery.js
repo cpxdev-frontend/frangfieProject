@@ -158,6 +158,7 @@ const GalleryMod = ({
                           item.id +
                           "&sz=w700"
                         }
+                        className="galleryitem"
                         component="img"
                       />
                     </ImageListItem>
