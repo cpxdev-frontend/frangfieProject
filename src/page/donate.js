@@ -187,7 +187,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                 {print == false ? (
                   <QRCode
                     value={qrCode}
-                    logoImage="https://www.bot.or.th/content/dam/bot/icons/icon-thaiqr.png"
+                    logoImage="https://d2m23ocr3g32v7.cloudfront.net/kf/thqr.webp"
                     logoWidth={100}
                     logoHeight={100}
                     size={300}
@@ -201,7 +201,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                     src={
                       "https://quickchart.io/qr?size=300&text=" +
                       qrCode +
-                      "&centerImageUrl=https%3A%2F%2Fwww.bot.or.th%2Fcontent%2Fdam%2Fbot%2Ficons%2Ficon-thaiqr.png"
+                      "&centerImageUrl=https://d2m23ocr3g32v7.cloudfront.net/kf/thqr.webp"
                     }
                     component="img"
                   />
