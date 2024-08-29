@@ -281,7 +281,7 @@ html>div[style] {
 .MuiList-root, .MuiCard-root {
   border-radius: 20px !important;
 }
-.MuiInputBase-root, .MuiPaper-root {
+.MuiInputBase-root, .MuiDialog-paper {
   border-radius: 10px !important;
 }
 .foot{
