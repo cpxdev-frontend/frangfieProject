@@ -275,3 +275,12 @@ html>div[style] {
   white-space: normal;
   word-break: break-all;
 }
+.MuiButtonBase-root{
+  border-radius: 30px !important;
+}
+.MuiList-root, .MuiCard-root {
+  border-radius: 20px !important;
+}
+.MuiInputBase-root, .MuiPaper-root {
+  border-radius: 10px !important;
+}
