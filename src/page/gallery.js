@@ -43,7 +43,7 @@ import { useHistory, useParams } from "react-router-dom";
 let thumb = false;
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Grow ref={ref} {...props} />;
+  return <Grow timeout={1200} ref={ref} {...props} />;
 });
 
 const GalleryMod = ({
