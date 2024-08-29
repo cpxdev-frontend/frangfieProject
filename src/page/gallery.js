@@ -22,7 +22,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  IconButton,
+  Grow,
   CardMedia,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -38,22 +38,13 @@ import moment from "moment";
 import { RefreshRounded } from "@mui/icons-material";
 import ReactGA from "react-ga4";
 
-// import LightGallery from "lightgallery/react";
-// import lgZoom from "lightgallery/plugins/zoom";
-import fjGallery from "flickr-justified-gallery";
-import "lightbox.js-react/dist/index.css";
-import { SlideshowLightbox, initLightboxJS } from "lightbox.js-react";
 import { useHistory, useParams } from "react-router-dom";
-import Masonry from "react-responsive-masonry";
 
 let thumb = false;
 
-function srcset(image, size, rows = 1, cols = 1) {
-  return {
-    src: `${image}`,
-    srcSet: `${image}`,
-  };
-}
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Grow ref={ref} {...props} />;
+});
 
 const GalleryMod = ({
   currentPage,
@@ -96,19 +87,6 @@ const GalleryMod = ({
       setOpen(true);
     }, 50);
   }, [currentPage]);
-
-  React.useEffect(() => {
-    if (data != null) {
-      fjGallery(document.querySelectorAll(".gallery"), {
-        itemSelector: ".gallery__item",
-        rowWeight: "100%",
-        lastRow: "start",
-        gutter: 2,
-        rowHeightTolerance: 0.1,
-        calculateItemsHeight: false,
-      });
-    }
-  }, [data]);
 
   React.useEffect(() => {
     if (imgLoad == false) {
@@ -203,7 +181,11 @@ const GalleryMod = ({
                 </Fab>
               </Box>
 
-              <Dialog open={imgLoad} maxWidth="lg">
+              <Dialog
+                tra
+                open={imgLoad}
+                maxWidth="lg"
+                TransitionComponent={Transition}>
                 {imgtag != null && (
                   <>
                     <DialogTitle>
@@ -238,7 +220,7 @@ const GalleryMod = ({
                         style={{
                           display: l ? "initial" : "none",
                         }}
-                        width={'100%'}
+                        width={"100%"}
                         onLoad={() => setL(true)}
                       />
                     </DialogContent>
