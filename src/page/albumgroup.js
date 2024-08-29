@@ -100,6 +100,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                 <Card key={item.id} className="mb-3">
                   <CardContent>
                     <CardHeader
+                      className="forceline"
                       title={item.title}
                       subheader={
                         (lang == "th"
@@ -116,8 +117,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                             color="primary"
                             aria-label="navigate"
                             size="small"
-                            onClick={() => getLink(item, true)}
-                          >
+                            onClick={() => getLink(item, true)}>
                             <CollectionsIcon />
                             &nbsp;{lang == "th" ? "ดูอัลบั้ม" : "View Album"}
                           </IconButton>
@@ -126,8 +126,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                             color="primary"
                             size="small"
                             aria-label="copyalbumlink"
-                            onClick={() => getLink(item, false)}
-                          >
+                            onClick={() => getLink(item, false)}>
                             <ContentCopyIcon />
                             &nbsp;
                             {lang == "th"
@@ -210,8 +209,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                     getData.locate[0] +
                     "," +
                     getData.locate[1]
-                  }
-                ></iframe>
+                  }></iframe>
               </>
             ) : (
               <>
@@ -232,8 +230,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
             <Button
               onClick={() => {
                 setGetData(null);
-              }}
-            >
+              }}>
               {lang == "th" ? "ปิด" : "Close"}
             </Button>
             <Button
@@ -241,8 +238,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                 getData != null && getData != undefined
                   ? window.open(getData.place, "_blank")
                   : null
-              }
-            >
+              }>
               {lang == "th" ? "ไปยังแอป Google Maps" : "View on Google Maps"}
             </Button>
           </DialogActions>

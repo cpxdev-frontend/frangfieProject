@@ -271,7 +271,7 @@ html>div[style] {
   display: none !important;
 }
 
-.MuiCardHeader-content {
+.forceline {
   white-space: normal;
   word-break: break-all;
 }

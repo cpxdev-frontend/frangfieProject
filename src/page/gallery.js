@@ -118,7 +118,7 @@ const GalleryMod = ({
     <Fade in={open} timeout={300}>
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
         <CardHeader
-          className="text-center"
+          className="text-center forceline"
           sx={{ wordWrap: "break-word" }}
           title={<h3>{JSON.parse(atob(atob(id))).name}</h3>}
           subheader={
