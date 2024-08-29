@@ -13,7 +13,7 @@ import {
   Tab,
   Typography,
   List,
-  ListItem,
+  Dialog,
   ImageList,
   ImageListItem,
   Skeleton,
@@ -65,7 +65,9 @@ const GalleryMod = ({
 }) => {
   const [data, setData] = React.useState(null);
   const [open, setOpen] = React.useState(false);
-  const [imgLoad, setImgLoad] = React.useState(false);
+  const [l, setL] = React.useState(false);
+  const [imgLoad, setImgAct] = React.useState(false);
+  const [imgtag, setImgtag] = React.useState(null);
   const { id } = useParams();
   const his = useHistory();
   const [width, setRealwidth] = React.useState(window.innerWidth);
@@ -96,7 +98,7 @@ const GalleryMod = ({
   }, [currentPage]);
 
   React.useEffect(() => {
-    if (data != null && imgLoad) {
+    if (data != null) {
       fjGallery(document.querySelectorAll(".gallery"), {
         itemSelector: ".gallery__item",
         rowWeight: "100%",
@@ -107,6 +109,13 @@ const GalleryMod = ({
       });
     }
   }, [data]);
+
+  React.useEffect(() => {
+    if (imgLoad == false) {
+      setImgtag(null);
+      setL(false);
+    }
+  }, [imgLoad]);
 
   React.useEffect(() => {
     var requestOptions = {
@@ -144,77 +153,34 @@ const GalleryMod = ({
           {data != null ? (
             <>
               <Box sx={{ display: "block" }}>
-                {/* <LightGallery
-                  // plugins={[lgZoom]}
-                  mode="lg-fade"
-                  pager={false}
-                  thumbnail={true}
-                  // autoplayFirstVideo={false}
-                  isMobile={true}
-                  onInit={() => setImgLoad(true)}
-                  onBeforeOpen={() => (thumb = true)}
-                  onBeforeClose={() => (thumb = false)}
-                  mobileSettings={{
-                    showCloseIcon: true,
-                  }}
-                  elementClassNames={"gallery"}
-                >
-                  {data.map((item, i) => (
-                    <a
+                <ImageList cols={Math.floor(width / 300)}>
+                  {data.map((item) => (
+                    <ImageListItem
+                      data-aos="fade-in"
+                      onClick={() => {
+                        setImgtag(item);
+                        setImgAct(true);
+                      }}
                       key={item.id}
-                      data-lg-size="600-800"
-                      className="gallery__item"
-                      data-src={
-                        "https://drive.google.com/thumbnail?id=" +
-                        item.id +
-                        "&sz=w700"
+                      cols={
+                        item.imageMediaMetadata.width >
+                        item.imageMediaMetadata.height
+                          ? 2
+                          : 1
                       }
-                      data-referrerPolicy="no-referrer"
-                      data-sub-html={
-                        lang == "th"
-                          ? "<h4>อัปโหลดโดย " +
-                            item.lastModifyingUserName +
-                            "</h4><br/><p>อัปเดตเมื่อ " +
-                            moment(item.modifiedDate)
-                              .lang(lang)
-                              .local()
-                              .format("DD MMMM YYYY HH:mm") +
-                            "</p>"
-                          : "<h4>Uploaded by " +
-                            item.lastModifyingUserName +
-                            "</h4><br/><p>Updated in " +
-                            moment(item.modifiedDate)
-                              .lang(lang)
-                              .local()
-                              .format("DD MMMM YYYY HH:mm") +
-                            "</p>"
-                      }
-                    >
-                      <img
-                        className="img-responsive"
-                        referrerPolicy="no-referrer"
+                      rows={
+                        item.imageMediaMetadata.width <
+                        item.imageMediaMetadata.height
+                          ? 2
+                          : 1
+                      }>
+                      <CardMedia
                         src={
                           "https://drive.google.com/thumbnail?id=" +
                           item.id +
-                          "&sz=w400"
+                          "&sz=w700"
                         }
-                      />
-                    </a>
-                  ))}
-                </LightGallery> */}
-                <ImageList cols={Math.floor(width / 300)}>
-                  {data.map((item) => (
-                    <ImageListItem key={item.id} cols={item.imageMediaMetadata.width > item.imageMediaMetadata.height ? 2 : 1} rows={item.imageMediaMetadata.width < item.imageMediaMetadata.height ? 2 : 1}>
-                      <img
-                        {...srcset(
-                          "https://drive.google.com/thumbnail?id=" +
-                            item.id +
-                            "&sz=w4000",
-                          item.imageMediaMetadata.width,
-                          item.imageMediaMetadata.height,
-                          undefined,
-                          undefined
-                        )}
+                        component="img"
                       />
                     </ImageListItem>
                   ))}
@@ -232,47 +198,67 @@ const GalleryMod = ({
                   }}
                   onClick={(e) => {
                     his.push("/gallery");
-                  }}
-                >
+                  }}>
                   <ArrowBackIosNewIcon />
                 </Fab>
               </Box>
-              {/* <Box sx={{ display: imgLoad ? "none" : "initial" }}>
-                <Card>
-                  <CardContent>
+
+              <Dialog open={imgLoad} maxWidth="lg">
+                {imgtag != null && (
+                  <>
+                    <DialogTitle>
+                      {lang == "th"
+                        ? "อัปโหลดโดย " + imgtag.lastModifyingUserName
+                        : "Uploaded by " + imgtag.lastModifyingUserName}
+                    </DialogTitle>
+                    <DialogTitle
+                      className="text-muted"
+                      sx={{ marginTop: -3, fontSize: 14 }}>
+                      {lang == "th"
+                        ? "อัปเดตเมื่อ " +
+                          moment(imgtag.modifiedDate)
+                            .lang(lang)
+                            .local()
+                            .format("DD MMMM YYYY HH:mm") +
+                          ""
+                        : " Updated in " +
+                          moment(imgtag.modifiedDate)
+                            .lang(lang)
+                            .local()
+                            .format("DD MMMM YYYY HH:mm") +
+                          ""}
+                    </DialogTitle>
+                    <DialogContent>
+                      <img
+                        src={
+                          "https://drive.google.com/thumbnail?id=" +
+                          imgtag.id +
+                          "&sz=w700"
+                        }
+                        style={{
+                          display: l ? "initial" : "none",
+                        }}
+                        width={'100%'}
+                        onLoad={() => setL(true)}
+                      />
+                    </DialogContent>
                     <Skeleton
-                      variant="text"
+                      variant="rounded"
                       className="bg-m"
-                      sx={{ fontSize: "2rem" }}
+                      sx={{
+                        display: l ? "none" : "initial",
+                        width: imgtag.imageMediaMetadata.width,
+                        height: imgtag.imageMediaMetadata.height,
+                      }}
                     />
-                    <Skeleton
-                      variant="text"
-                      className="bg-m"
-                      sx={{ fontSize: "1rem" }}
-                    />
-                    <Skeleton
-                      variant="text"
-                      className="bg-m"
-                      sx={{ fontSize: "1rem" }}
-                    />
-                    <Skeleton
-                      variant="text"
-                      className="bg-m"
-                      sx={{ fontSize: "1rem" }}
-                    />
-                    <Skeleton
-                      variant="text"
-                      className="bg-m"
-                      sx={{ fontSize: "1rem" }}
-                    />
-                    <Skeleton
-                      variant="text"
-                      className="bg-m"
-                      sx={{ fontSize: "1rem" }}
-                    />
-                  </CardContent>
-                </Card>
-              </Box> */}
+                    <DialogActions>
+                      <Button onClick={() => setImgAct(false)} autoFocus>
+                        {lang == "th" ? "ปิด" : "Close"}
+                      </Button>
+                    </DialogActions>
+                  </>
+                )}
+              </Dialog>
             </>
           ) : (
             <Card>
