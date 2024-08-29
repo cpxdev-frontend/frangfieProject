@@ -111,20 +111,45 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                           .format("DD MMMM YYYY HH:mm")
                       }
                       action={
-                        <Box>
+                        <Box sx={{ display: { xs: "none", lg: "initial" } }}>
                           <IconButton
+                            color="primary"
                             aria-label="navigate"
-                            onClick={() => getLink(item, true)}>
+                            size="small"
+                            onClick={() => getLink(item, true)}
+                          >
                             <CollectionsIcon />
+                            &nbsp;{lang == "th" ? "ดูอัลบั้ม" : "View Album"}
                           </IconButton>
+                          <br />
                           <IconButton
+                            color="primary"
+                            size="small"
                             aria-label="copyalbumlink"
-                            onClick={() => getLink(item, false)}>
+                            onClick={() => getLink(item, false)}
+                          >
                             <ContentCopyIcon />
+                            &nbsp;
+                            {lang == "th"
+                              ? "คัดลอกลิงก์อัลบั้ม"
+                              : "Copy Album link"}
                           </IconButton>
                         </Box>
                       }
                     />
+                    <Box sx={{ display: { xs: "initial", lg: "none" } }}>
+                      <Button onClick={() => getLink(item, true)}>
+                        <CollectionsIcon />
+                        &nbsp;{lang == "th" ? "ดูอัลบั้ม" : "View Album"}
+                      </Button>
+                      <Button onClick={() => getLink(item, false)}>
+                        <ContentCopyIcon />
+                        &nbsp;
+                        {lang == "th"
+                          ? "คัดลอกลิงก์อัลบั้ม"
+                          : "Copy Album link"}
+                      </Button>
+                    </Box>
                   </CardContent>
                 </Card>
               ))}
@@ -185,7 +210,8 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                     getData.locate[0] +
                     "," +
                     getData.locate[1]
-                  }></iframe>
+                  }
+                ></iframe>
               </>
             ) : (
               <>
@@ -206,7 +232,8 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
             <Button
               onClick={() => {
                 setGetData(null);
-              }}>
+              }}
+            >
               {lang == "th" ? "ปิด" : "Close"}
             </Button>
             <Button
@@ -214,7 +241,8 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                 getData != null && getData != undefined
                   ? window.open(getData.place, "_blank")
                   : null
-              }>
+              }
+            >
               {lang == "th" ? "ไปยังแอป Google Maps" : "View on Google Maps"}
             </Button>
           </DialogActions>
