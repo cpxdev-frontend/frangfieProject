@@ -90,8 +90,10 @@ const GalleryMod = ({
 
   React.useEffect(() => {
     if (imgLoad == false) {
-      setImgtag(null);
-      setL(false);
+      setTimeout(() => {
+        setImgtag(null);
+        setL(false);
+      }, 800);
     }
   }, [imgLoad]);
 
@@ -131,7 +133,7 @@ const GalleryMod = ({
           {data != null ? (
             <>
               <Box sx={{ display: "block" }}>
-                <ImageList cols={Math.floor(width / 300)}>
+                <ImageList cols={Math.floor(width / 400)}>
                   {data.map((item) => (
                     <ImageListItem
                       data-aos="fade-in"
@@ -142,13 +144,13 @@ const GalleryMod = ({
                       key={item.id}
                       cols={
                         item.imageMediaMetadata.width >
-                        item.imageMediaMetadata.height
+                          item.imageMediaMetadata.height && width > 700
                           ? 2
                           : 1
                       }
                       rows={
                         item.imageMediaMetadata.width <
-                        item.imageMediaMetadata.height
+                          item.imageMediaMetadata.height && width > 700
                           ? 2
                           : 1
                       }>
