@@ -927,7 +927,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       </Fade>
       <footer className="fixed-bottom bg-secondary text-center">
         <Card
-          className="p-2"
+          className="p-2 foot"
           style={{
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,

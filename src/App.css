@@ -284,3 +284,6 @@ html>div[style] {
 .MuiInputBase-root, .MuiPaper-root {
   border-radius: 10px !important;
 }
+.foot{
+  border-radius: 0px !important;
+}
