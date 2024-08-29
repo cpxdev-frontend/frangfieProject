@@ -90,10 +90,8 @@ const GalleryMod = ({
 
   React.useEffect(() => {
     if (imgLoad == false) {
-      setTimeout(() => {
         setImgtag(null);
         setL(false);
-      }, 800);
     }
   }, [imgLoad]);
 
