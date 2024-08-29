@@ -131,7 +131,7 @@ const GalleryMod = ({
           {data != null ? (
             <>
               <Box sx={{ display: "block" }}>
-                <ImageList cols={Math.floor(width / 300)}>
+                <ImageList cols={Math.floor(width / 350)}>
                   {data.map((item) => (
                     <ImageListItem
                       data-aos="fade-in"
