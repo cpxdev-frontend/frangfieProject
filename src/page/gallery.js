@@ -14,7 +14,8 @@ import {
   Typography,
   List,
   ListItem,
-  Chip,
+  ImageList,
+  ImageListItem,
   Skeleton,
   Fade,
   DialogTitle,
@@ -37,40 +38,24 @@ import moment from "moment";
 import { RefreshRounded } from "@mui/icons-material";
 import ReactGA from "react-ga4";
 
-import LightGallery from "lightgallery/react";
-import lgZoom from "lightgallery/plugins/zoom";
+// import LightGallery from "lightgallery/react";
+// import lgZoom from "lightgallery/plugins/zoom";
 import fjGallery from "flickr-justified-gallery";
 import "lightbox.js-react/dist/index.css";
+import { SlideshowLightbox, initLightboxJS } from "lightbox.js-react";
 import { useHistory, useParams } from "react-router-dom";
+import Masonry from "react-responsive-masonry";
 
-function compareTimestamps(timestamp1, timestamp2) {
-  // Get the difference in milliseconds
-  const difference = timestamp2 * 1000 - timestamp1 * 1000;
+let thumb = false;
 
-  // Calculate days
-  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-
-  // Get remaining milliseconds after removing days
-  const remainingMilliseconds = difference % (1000 * 60 * 60 * 24);
-
-  // Calculate hours
-  const hours = Math.floor(remainingMilliseconds / (1000 * 60 * 60));
-
-  // Get remaining milliseconds after removing hours
-  const remainingMinutes = remainingMilliseconds % (1000 * 60 * 60);
-
-  // Calculate minutes
-  const minutes = Math.floor(remainingMinutes / (1000 * 60));
-
+function srcset(image, size, rows = 1, cols = 1) {
   return {
-    days,
-    hours,
-    minutes,
+    src: `${image}`,
+    srcSet: `${image}`,
   };
 }
 
-let thumb = false;
-const Gallery = ({
+const GalleryMod = ({
   currentPage,
   lang,
   setLang,
@@ -83,6 +68,7 @@ const Gallery = ({
   const [imgLoad, setImgLoad] = React.useState(false);
   const { id } = useParams();
   const his = useHistory();
+  const [width, setRealwidth] = React.useState(window.innerWidth);
 
   React.useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -92,6 +78,11 @@ const Gallery = ({
       event.preventDefault();
       event.returnValue = "";
     };
+    function handleWindowResize() {
+      setRealwidth(window.innerWidth);
+    }
+
+    window.addEventListener("resize", handleWindowResize);
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
@@ -115,7 +106,7 @@ const Gallery = ({
         calculateItemsHeight: false,
       });
     }
-  }, [data, imgLoad]);
+  }, [data]);
 
   React.useEffect(() => {
     var requestOptions = {
@@ -152,12 +143,12 @@ const Gallery = ({
           {data != null ? (
             <>
               <Box sx={{ display: "block" }}>
-                <LightGallery
-                  plugins={[lgZoom]}
+                {/* <LightGallery
+                  // plugins={[lgZoom]}
                   mode="lg-fade"
                   pager={false}
                   thumbnail={true}
-                  autoplayFirstVideo={false}
+                  // autoplayFirstVideo={false}
                   isMobile={true}
                   onInit={() => setImgLoad(true)}
                   onBeforeOpen={() => (thumb = true)}
@@ -211,7 +202,25 @@ const Gallery = ({
                       />
                     </a>
                   ))}
-                </LightGallery>
+                </LightGallery> */}
+                <ImageList cols={Math.floor(width / 300)}>
+                  {data.map((item) => (
+                    <ImageListItem key={item.id} cols={item.imageMediaMetadata.width > item.imageMediaMetadata.height ? 2 : 1} rows={item.imageMediaMetadata.width < item.imageMediaMetadata.height ? 2 : 1}>
+                      <img
+                        {...srcset(
+                          "https://drive.google.com/thumbnail?id=" +
+                            item.id +
+                            "&sz=w4000",
+                          item.imageMediaMetadata.width,
+                          item.imageMediaMetadata.height,
+                          undefined,
+                          undefined
+                        )}
+                      />
+                    </ImageListItem>
+                  ))}
+                </ImageList>
+
                 <Fab
                   color="primary"
                   sx={{
@@ -228,7 +237,7 @@ const Gallery = ({
                   <ArrowBackIosNewIcon />
                 </Fab>
               </Box>
-              <Box sx={{ display: imgLoad ? "none" : "initial" }}>
+              {/* <Box sx={{ display: imgLoad ? "none" : "initial" }}>
                 <Card>
                   <CardContent>
                     <Skeleton
@@ -263,7 +272,7 @@ const Gallery = ({
                     />
                   </CardContent>
                 </Card>
-              </Box>
+              </Box> */}
             </>
           ) : (
             <Card>
@@ -321,4 +330,4 @@ const mapDispatchToProps = (dispatch) => ({
   setPage: (val) => dispatch(setPage(val)),
   setLaunch: (val) => dispatch(setLaunch(val)),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(Gallery);
+export default connect(mapStateToProps, mapDispatchToProps)(GalleryMod);
