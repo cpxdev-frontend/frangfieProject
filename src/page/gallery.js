@@ -90,8 +90,8 @@ const GalleryMod = ({
 
   React.useEffect(() => {
     if (imgLoad == false) {
-        setImgtag(null);
-        setL(false);
+      setImgtag(null);
+      setL(false);
     }
   }, [imgLoad]);
 
@@ -132,7 +132,7 @@ const GalleryMod = ({
             <>
               <Box sx={{ display: "block" }}>
                 <ImageList cols={Math.floor(width / 350)}>
-                  {data.map((item) => (
+                  {data.map((item, i) => (
                     <ImageListItem
                       data-aos="fade-in"
                       onClick={() => {
@@ -142,13 +142,21 @@ const GalleryMod = ({
                       key={item.id}
                       cols={
                         item.imageMediaMetadata.width >
-                          item.imageMediaMetadata.height && width > 650
+                          item.imageMediaMetadata.height &&
+                        i > 0 &&
+                        data[i - 1].imageMediaMetadata.width <
+                          data[i - 1].imageMediaMetadata.height &&
+                        width > 650
                           ? 2
                           : 1
                       }
                       rows={
                         item.imageMediaMetadata.width <
-                          item.imageMediaMetadata.height && width > 650
+                          item.imageMediaMetadata.height &&
+                        i > 0 &&
+                        data[i - 1].imageMediaMetadata.width >
+                          data[i - 1].imageMediaMetadata.height &&
+                        width > 650
                           ? 2
                           : 1
                       }>

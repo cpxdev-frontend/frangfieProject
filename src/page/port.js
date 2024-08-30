@@ -431,7 +431,13 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
             </Card>
           )}
         </div>
-        <Dialog fullScreen open={clip != null} TransitionComponent={Transition}>
+        <Dialog
+          fullScreen
+          open={clip != null}
+          PaperProps={{
+            sx: { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 },
+          }}
+          TransitionComponent={Transition}>
           {clip != null && (
             <>
               <AppBar sx={{ position: "relative" }}>
