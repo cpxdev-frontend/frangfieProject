@@ -222,7 +222,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                             </Grid>
                           )}
                         <Grid item lg={7} xs={12}>
-                          {unix >= item.start && (
+                          {/* {unix >= item.start && (
                             <Chip
                               label={
                                 (lang == "th"
@@ -235,7 +235,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                               variant="outlined"
                               className="mb-4"
                             />
-                          )}
+                          )} */}
                           {item.start > 0 &&
                           item.end > 0 &&
                           moment
