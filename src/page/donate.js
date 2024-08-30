@@ -374,7 +374,16 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
               </Typography>
             ) : (
               <Typography className="col-12 mt-3">
-                Sorry, but this donation way is supported for thai peoples only.
+                Thai QR Payment is also support with foreigner from Cambodia, Hong
+                Kong, Indonesia, Laos, Malaysia, Singapore and Vietnam banking. You can use your supported mobile banking to scan upper QR Payment directly.
+                Please click{" "}
+                <a
+                  href="https://s7ap1.scene7.com/is/image/bot/2024_06_19_Crossborder%20QR%20Payment_Brochure_update%20(1)?ts=1718875185342&dpr=off"
+                  target="_blank">
+                  here
+                </a>{" "}
+                to view Accepted international mobile banking with Thai QR
+                payment<br />(Information referenced by The Bank Of Thailand - BOT)
               </Typography>
             )}
             <Typography variant="subtitle2" className="col-12 mt-3">
