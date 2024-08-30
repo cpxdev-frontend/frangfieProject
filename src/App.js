@@ -20,7 +20,7 @@ import {
   DialogContent,
   DialogActions,
   FormControlLabel,
-  Switch,
+  LinearProgress,
   Alert,
   ButtonGroup,
   Backdrop,
@@ -128,6 +128,8 @@ function isInIframe() {
   }
 }
 
+let adm = 0;
+
 function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const [betabypass, setBetaMode] = React.useState(false);
   const [bypassonclose, setOnClose] = React.useState(false);
@@ -137,12 +139,45 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [birthdaycampain, setBirthday] = React.useState(false);
-  const [leftmode, setLeftMode] = React.useState(
-    localStorage.getItem("left") != null
-  );
+
   const location = useLocation();
   const [opacity, setOpacity] = React.useState(1); // เริ่มต้น opacity เต็ม
   const scrollRef = React.useRef(null); // เก็บ reference ของ element ที่ scroll
+
+  const targetTime = 1730448000;
+
+  function calculateTimeLeft() {
+    const difference = moment.unix(targetTime) - moment.unix(launch + adm);
+    let duration = moment.duration(difference);
+    return {
+      months: duration.months(),
+      days: duration.days(),
+      hours: duration.hours(),
+      minutes: duration.minutes(),
+      seconds: duration.seconds(),
+    };
+  }
+
+  const [timeLeft, setTimeLeft] = React.useState(calculateTimeLeft());
+
+  React.useEffect(() => {
+    if (moment.unix(targetTime) - moment.unix(launch + adm) <= 0) {
+      return;
+    }
+    setTimeLeft(calculateTimeLeft());
+    const interval = setInterval(() => {
+      if (moment.unix(targetTime) - moment.unix(launch + adm) <= 0) {
+        clearInterval(interval);
+        window.location.reload();
+      } else {
+        adm += 1;
+        setTimeLeft(calculateTimeLeft());
+        console.log("time trigger");
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [launch]);
 
   function debounce(func, wait) {
     let timeout;
@@ -197,14 +232,6 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const [unlock, setUnlock] = React.useState(null);
 
   React.useEffect(() => {
-    if (leftmode) {
-      localStorage.setItem("left", "");
-    } else {
-      localStorage.removeItem("left");
-    }
-  }, [leftmode]);
-
-  React.useEffect(() => {
     AOS.init({ duration: 800 });
     setLaunch(moment().unix());
     fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {
@@ -230,21 +257,15 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       .then((result) => {
         setLaunch(result.unix);
 
-        if (result.unix >= 1724457600 && result.unix <= 1724601600) {
+        if (
+          result.unix >= targetTime ||
+          (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
+            localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
+              "56f006fb7a76776e1e08eac264bd491aa1a066a1")
+        ) {
           setUnlock(true);
-          setBetaMode(true);
-          setOnClose(true);
         } else {
-          if (
-            result.unix >= 1730448000 ||
-            (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
-              localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-                "56f006fb7a76776e1e08eac264bd491aa1a066a1")
-          ) {
-            setUnlock(true);
-          } else {
-            setUnlock(false);
-          }
+          setUnlock(false);
         }
       })
       .catch((error) => console.log("error", error));
@@ -327,6 +348,87 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           </h5>
         </div>
       </div>
+    );
+  }
+
+  if (launch > targetTime - 1209600 && launch < targetTime) {
+    if (
+      timeLeft.months == 0 &&
+      timeLeft.days == 0 &&
+      timeLeft.hours == 0 &&
+      timeLeft.minutes == 0 &&
+      timeLeft.seconds > 0
+    ) {
+      return (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={true}
+          className="text-center">
+          <div className="row">
+            <h5 className="col-12">
+              {lang == "th"
+                ? "คุณกำลังเข้าสู่เว็บไซต์นี้ในอีก " +
+                  timeLeft.seconds +
+                  " วินาที"
+                : "We are almost ready in " + timeLeft.seconds + " seconds"}
+            </h5>
+            <div className="col-12">
+              <LinearProgress
+                className="d-initial"
+                variant="determinate"
+                sx={{ height: 5, width: "100%" }}
+                value={((60 - (timeLeft.seconds - 1)) / 60) * 100}
+              />
+            </div>
+          </div>
+        </Backdrop>
+      );
+    }
+    if (
+      timeLeft.months == 0 &&
+      timeLeft.days == 0 &&
+      timeLeft.hours == 0 &&
+      timeLeft.minutes == 0 &&
+      timeLeft.seconds == 0
+    ) {
+      return (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={true}
+          className="text-center">
+          <h4>
+            {lang == "th"
+              ? "เราพร้อมมอบประสบการณ์ของการเยี่ยมชมจักรวาลของข้าวฟ่างแล้ว!"
+              : "You are ready to move through The KorKaofrang Universe!"}
+          </h4>
+        </Backdrop>
+      );
+    }
+    return (
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={true}
+        className="text-center">
+        {lang == "th"
+          ? "เว็บไซต์นี้กำลังจะเปิดตัวในอีก " +
+            timeLeft.days +
+            " วัน " +
+            timeLeft.hours +
+            " ชั่วโมง " +
+            timeLeft.minutes +
+            " นาที " +
+            timeLeft.seconds +
+            " วินาที"
+          : "This website is soon in " +
+            timeLeft.days +
+            " days " +
+            timeLeft.hours +
+            " hours " +
+            timeLeft.minutes +
+            " minutes " +
+            timeLeft.seconds +
+            " seconds"}
+      </Backdrop>
     );
   }
 
@@ -835,6 +937,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 render={() => (
                   <Home
                     data-aos="fade-in"
+                    timeready={targetTime}
                     quickmode={betabypass}
                     setMenu={(v) => setAnchorElNav(v)}
                     setLangMod={() => setAnchorElUser(true)}
@@ -874,7 +977,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
               <Route
                 data-aos="fade-in"
                 path="/birthday"
-                render={() => <Birth leftmode={leftmode} opacity={opacity} />}
+                render={() => <Birth leftmode={false} opacity={opacity} />}
               />
               <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
               <Route
@@ -915,6 +1018,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 render={() => (
                   <Home
                     data-aos="fade-in"
+                    timeready={targetTime}
                     quickmode={betabypass}
                     setMenu={(v) => setAnchorElNav(v)}
                     setLangMod={() => setAnchorElUser(true)}

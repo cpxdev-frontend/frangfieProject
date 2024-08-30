@@ -17,7 +17,7 @@ const Home = ({
   currentPage,
   quickmode,
   lang,
-  setLang,
+  timeready,
   setPage,
   setMenu,
   setLangMod,
@@ -30,15 +30,13 @@ const Home = ({
     setTimeout(() => {
       setOpen(true);
     }, 50);
+    setPage(lang == "th" ? "หน้าหลัก" : "Homepage");
   }, [currentPage]);
 
   React.useEffect(() => {
-    setPage(lang == "th" ? "หน้าหลัก" : "Homepage");
-    if (quickmode) {
-      setData(true);
-    } else {
+    if (launch != null && timeready != null) {
       if (
-        launch >= 1730448000 ||
+        launch >= timeready ||
         (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
           localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
             "56f006fb7a76776e1e08eac264bd491aa1a066a1")
@@ -47,8 +45,10 @@ const Home = ({
       } else {
         setData(false);
       }
+    } else {
+      setData(false);
     }
-  }, [quickmode, currentPage]);
+  }, [launch, timeready]);
 
   return (
     <Fade in={open} timeout={300}>
@@ -152,33 +152,24 @@ const Home = ({
               <h5 className="text-center text-md-left text-light ml-0 ml-md-3">
                 {lang == "th"
                   ? "พบกันได้ ในวันที่ " +
-                    moment
-                      .unix(1730448000)
-                      .lang(lang)
-                      .local()
-                      .format("D MMMM") +
+                    moment.unix(timeready).lang(lang).local().format("D MMMM") +
                     " 2567"
                   : "Let's meet this website soon in " +
-                    moment
-                      .unix(1730448000)
-                      .lang(lang)
-                      .local()
-                      .format("MMMM D") +
+                    moment.unix(timeready).lang(lang).local().format("MMMM D") +
                     ", 2024"}
               </h5>
               <p className="text-center text-md-left text-light ml-0 ml-md-3">
                 {lang == "th"
                   ? "เวลา " +
-                    moment.unix(1730448000).lang(lang).local().format("HH:mm") +
-                    " เป็นต้นไป"  + ' ตามโซนเวลา ' +
+                    moment.unix(timeready).lang(lang).local().format("HH:mm") +
+                    " เป็นต้นไป" +
+                    " ตามโซนเวลา " +
                     momentTz.tz.guess()
                   : "In " +
-                    moment
-                      .unix(1730448000)
-                      .lang(lang)
-                      .local()
-                      .format("h:mm A") + '. Based on ' +
-                    momentTz.tz.guess() + ' timezone.'}
+                    moment.unix(timeready).lang(lang).local().format("h:mm A") +
+                    ". Based on " +
+                    momentTz.tz.guess() +
+                    " timezone."}
               </p>
               <br />
               <Button className="ml-2 mt-1" onClick={() => setLangMod(true)}>
