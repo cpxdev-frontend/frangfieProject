@@ -448,34 +448,6 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             : "This screen size is not support on this device. Please rotate your device screen."}
         </h5>
       </div>
-      {betabypass && bypassonclose && (
-        <Alert
-          severity="info"
-          className="w-100"
-          sx={{ position: "fixed", top: 0, zIndex: 1300 }}>
-          <b>Exclusive in BNK48 17th Single "BORDERLESS" Handshake Event</b>{" "}
-          คุณสามารถสัมผัสประสบการณ์ของเว็บ KorKaofrang ได้ก่อนใครแล้ว วันนี้!
-          <br />
-          <span>
-            หมายเหตุ: เนื่องจากระบบอยู่ระหว่างการพัฒนา
-            การทำงานอาจมีข้อผิดพลาดเกิดขึ้นได้
-            กรุณาส่งรายงานข้อผิดพลาดได้ที่อีเมล์ cpxdev@outlook.com
-          </span>
-          <br />
-          <ButtonGroup variant="contained" className="mt-3">
-            <Button
-              onClick={() =>
-                window.open(
-                  "https://docs.google.com/forms/d/e/1FAIpQLSd6POb3SrDfm88ZZ84274fwfcG3zFDn4069ExbImVCk-T6esg/viewform?usp=sf_link",
-                  "_target"
-                )
-              }>
-              ตอบแบบสำรวจความพึงพอใจ
-            </Button>
-            <Button onClick={() => setOnClose(false)}>ปิด</Button>
-          </ButtonGroup>
-        </Alert>
-      )}
 
       {/* Mobile */}
       <Fade
@@ -684,18 +656,52 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
 
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
+                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}>
                 <IconButton
                   size="large"
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
-                  sx={{ display: { md: "none", lg: "initial" } }}
+                  sx={{ display: { md: "none", xl: "initial" } }}
                   color="inherit">
                   <MenuIcon />
                 </IconButton>
 
+                <Box sx={{ display: { lg: "initial", xs: "none" } }}>
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleOpenNavMenu}
+                    sx={{
+                      position: "fixed",
+                      right: 80,
+                      top: 10,
+                    }}
+                    color="inherit">
+                    <MenuIcon />
+                  </IconButton>
+                  <IconButton
+                    onClick={() => setAnchorElUser(true)}
+                    sx={{
+                      display: { xs: "none", lg: "initial", xl: "none" },
+                      position: "fixed",
+                      right: 20,
+                      top: 10,
+                    }}>
+                    <Avatar
+                      sx={{ width: 30, height: 30 }}
+                      variant="rounded"
+                      alt="lang"
+                      src={
+                        "https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/" +
+                        (lang == "th" ? "th.png" : "us.png")
+                      }
+                    />
+                  </IconButton>
+                </Box>
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -703,13 +709,31 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
                   sx={{
-                    display: { md: "initial", lg: "none" },
+                    display: { xs: "initial", lg: "none" },
                     position: "fixed",
                     right: 20,
-                    top: -1,
+                    top: -2,
                   }}
                   color="inherit">
                   <MenuIcon />
+                </IconButton>
+                <IconButton
+                  onClick={() => setAnchorElUser(true)}
+                  sx={{
+                    display: { xs: "none", lg: "none", xl: "initial" },
+                    position: "fixed",
+                    right: 60,
+                    top: 10,
+                  }}>
+                  <Avatar
+                    sx={{ width: 30, height: 30 }}
+                    variant="rounded"
+                    alt="lang"
+                    src={
+                      "https://pub-8132af7faa6a48298af6aaa68af91b48.r2.dev/" +
+                      (lang == "th" ? "th.png" : "us.png")
+                    }
+                  />
                 </IconButton>
 
                 <Dialog
@@ -821,7 +845,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 }}>
                 <b>KorKaofrang</b>
               </Typography>
-              <Box sx={{ flexGrow: 1, display: { xs: "none", lg: "flex" } }}>
+              <Box sx={{ flexGrow: 1, display: { xs: "none", xl: "flex" } }}>
                 {pages.map((page, i) =>
                   pageSec[i] != "birthday" ? (
                     <Button
@@ -829,6 +853,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       component={Link}
                       to={"/" + pageSec[i]}
                       size="medium"
+                      className="text-center"
                       onClick={handleCloseNavMenu}
                       sx={{
                         my: 2,
@@ -848,6 +873,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       component={Link}
                       to={"/" + pageSec[i]}
                       size="medium"
+                      className="text-center"
                       onClick={handleCloseNavMenu}
                       sx={{
                         my: 2,
@@ -869,7 +895,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 <Tooltip title="Open settings">
                   <IconButton
                     onClick={() => setAnchorElUser(true)}
-                    sx={{ p: 0 }}>
+                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}>
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
