@@ -378,7 +378,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                                   action: "Trend link copied",
                                 });
                                 navigator.clipboard.writeText(
-                                  "https://cpxstatusservice.azurewebsites.net/kaofrangfie/trend/" +
+                                  "https://cpxstatusservice.azurewebsites.net/KorKaofrang/trend/" +
                                     item.trendId
                                 );
                                 alert(
@@ -399,7 +399,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                                   action: "Trend link access",
                                 });
                                 window.open(
-                                  "https://cpxstatusservice.azurewebsites.net/kaofrangfie/trend/" +
+                                  "https://cpxstatusservice.azurewebsites.net/KorKaofrang/trend/" +
                                     item.trendId,
                                   "_blank"
                                 );

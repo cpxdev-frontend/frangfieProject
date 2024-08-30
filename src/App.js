@@ -91,7 +91,7 @@ const pagesEn = [
   "Events of Frang",
   "Social Feeds",
   "Quiz",
-  "Follow KaofrangFie",
+  "Follow KorKaofrang",
   "Donate",
 ];
 const pagesTh = [
@@ -213,7 +213,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       .then((response) => response.text())
       .then((result) => {})
       .catch((error) => {
-        document.title = "System Maintenance | KaofrangFie Site";
+        document.title = "System Maintenance | KorKaofrang Site";
         setOnMaintain(true);
       });
   }, []);
@@ -298,7 +298,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   }, []);
 
   React.useEffect(() => {
-    document.title = currentPage + " | KaofrangFie Site";
+    document.title = currentPage + " | KorKaofrang Site";
     window.scrollTo(0, 0);
   }, [currentPage]);
 
@@ -454,7 +454,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           className="w-100"
           sx={{ position: "fixed", top: 0, zIndex: 1300 }}>
           <b>Exclusive in BNK48 17th Single "BORDERLESS" Handshake Event</b>{" "}
-          คุณสามารถสัมผัสประสบการณ์ของเว็บ KaofrangFie ได้ก่อนใครแล้ว วันนี้!
+          คุณสามารถสัมผัสประสบการณ์ของเว็บ KorKaofrang ได้ก่อนใครแล้ว วันนี้!
           <br />
           <span>
             หมายเหตุ: เนื่องจากระบบอยู่ระหว่างการพัฒนา
@@ -679,7 +679,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   color: "inherit",
                   textDecoration: "none",
                 }}>
-                <b>KaofrangFie</b>
+                <b>KorKaofrang</b>
               </Typography>
 
               <Box
@@ -819,7 +819,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   color: "inherit",
                   textDecoration: "none",
                 }}>
-                <b>KaofrangFie</b>
+                <b>KorKaofrang</b>
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", lg: "flex" } }}>
                 {pages.map((page, i) =>

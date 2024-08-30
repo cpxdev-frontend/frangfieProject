@@ -246,7 +246,7 @@ const Birth = ({
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
               const link = document.createElement("a");
-              link.download = "Your KaofrangFie Birthday Card.jpg";
+              link.download = "Your KorKaofrang Birthday Card.jpg";
               link.href = dataUrl;
               link.click();
             }
@@ -275,7 +275,7 @@ const Birth = ({
     <Fade in={open} timeout={300}>
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
         <CardHeader
-          title={<h3>KaofrangFie Day Card</h3>}
+          title={<h3>KorKaofrang Day Card</h3>}
           subheader={
             up
               ? lang == "th"

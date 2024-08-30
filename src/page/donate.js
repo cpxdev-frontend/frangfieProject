@@ -134,7 +134,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
       })
         .then((dataUrl) => {
           const link = document.createElement("a");
-          link.download = "KaofrangFie QR Donate.jpg";
+          link.download = "KorKaofrang QR Donate.jpg";
           link.href = dataUrl;
           link.click();
           setPrint(false);

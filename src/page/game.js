@@ -364,7 +364,7 @@ const GameApp = ({
                 subheader={
                   lang == "th"
                     ? "คำถามพิชิตสุดยอดกองฟ่างของข้าวฟ่าง"
-                    : "KaofrangFie Fandom Quiz"
+                    : "KorKaofrang Fandom Quiz"
                 }
               />
               <List>
