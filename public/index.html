@@ -53,15 +53,6 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-  <script>
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function (OneSignal) {
-      await OneSignal.init({
-        appId: "ee3a1e37-1129-4034-84fe-636371edaa24",
-      });
-    });
-  </script>
   <script>
     setInterval(() => {
       var divsToHide = document.getElementsByClassName("ytp-title-link"); //divsToHide is an array

@@ -52,6 +52,7 @@ import moment from "moment";
 
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import ReactGA from "react-ga4";
+import OneSignal from 'react-onesignal';
 
 import Home from "./page/home";
 import About from "./page/about";
@@ -145,6 +146,21 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const scrollRef = React.useRef(null); // เก็บ reference ของ element ที่ scroll
 
   const targetTime = 1730448000;
+
+  React.useEffect(() => {
+    // Ensure this code runs only on the client side
+    if (typeof window !== 'undefined') {
+      OneSignal.init({
+        appId: 'ee3a1e37-1129-4034-84fe-636371edaa24',
+        // You can add other initialization options here
+        notifyButton: {
+          enable: true,
+        },
+        // Uncomment the below line to run on localhost. See: https://documentation.onesignal.com/docs/local-testing
+        // allowLocalhostAsSecureOrigin: true
+      });
+    }
+  }, []);
 
   function calculateTimeLeft() {
     const difference = moment.unix(targetTime) - moment.unix(launch + adm);
