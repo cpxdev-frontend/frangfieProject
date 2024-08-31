@@ -17,7 +17,7 @@ import {
   Chip,
   Skeleton,
   CardMedia,
-  CardActionArea,
+  LinearProgress,
   ListItemText,
 } from "@mui/material";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -67,8 +67,8 @@ const GameApp = ({
   const [ques, setQues] = React.useState(0);
   const [checked, setCheck] = React.useState(false);
   const [startLoad, setLoad] = React.useState(false);
-  const [ip, setIP] = React.useState('');
-  const [session, setSession] = React.useState('');
+  const [ip, setIP] = React.useState("");
+  const [session, setSession] = React.useState("");
 
   const [time, setTime] = React.useState(0);
 
@@ -114,11 +114,9 @@ const GameApp = ({
 
   React.useEffect(() => {
     setPage(lang == "th" ? "มินิเกมส์" : "Quiz Game");
-    React.useEffect(() => {
-      fetch("https://speed.cloudflare.com/meta")
-        .then((response) => response.json())
-        .then((data) => setIP(data.clientIp));
-    }, []);
+    fetch("https://speed.cloudflare.com/meta")
+      .then((response) => response.json())
+      .then((data) => setIP(data.clientIp));
   }, []);
 
   const StartGame = () => {
@@ -139,7 +137,7 @@ const GameApp = ({
       },
       body: JSON.stringify({
         quizIP: ip,
-        quizCountry: currentCountry
+        quizCountry: currentCountry,
       }),
     };
 
@@ -480,7 +478,16 @@ const GameApp = ({
             />
             {aver != null ? (
               <>
-                <Typography className="ml-3" data-aos="zoom-in-down">
+                <LinearProgress
+                  sx={{
+                    width: "100%",
+                    height: 5,
+                  }}
+                  variant="buffer"
+                  value={(correct / 10) * 100}
+                  valueBuffer={(aver.average / 10) * 100}
+                />
+                <Typography className="ml-3 mt-3" data-aos="zoom-in-down">
                   {lang == "th"
                     ? "คะแนนเฉลี่ยจากผู้เล่นทั่วโลก " +
                       aver.average +
