@@ -67,6 +67,8 @@ const GameApp = ({
   const [ques, setQues] = React.useState(0);
   const [checked, setCheck] = React.useState(false);
   const [startLoad, setLoad] = React.useState(false);
+  const [ip, setIP] = React.useState('');
+  const [session, setSession] = React.useState('');
 
   const [time, setTime] = React.useState(0);
 
@@ -112,9 +114,17 @@ const GameApp = ({
 
   React.useEffect(() => {
     setPage(lang == "th" ? "มินิเกมส์" : "Quiz Game");
+    React.useEffect(() => {
+      fetch("https://speed.cloudflare.com/meta")
+        .then((response) => response.json())
+        .then((data) => setIP(data.clientIp));
+    }, []);
   }, []);
 
   const StartGame = () => {
+    if (ip == "") {
+      return;
+    }
     setAver(null);
     setQues(0);
     setGame(0);
@@ -124,6 +134,13 @@ const GameApp = ({
     setLoad(true);
     var requestOptions = {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        quizIP: ip,
+        quizCountry: currentCountry
+      }),
     };
 
     fetch(process.env.REACT_APP_APIE + "/kfsite/kffetchquiz", requestOptions)
@@ -162,6 +179,7 @@ const GameApp = ({
           }).then((r) => {
             /* Read more about handling dismissals below */
             if (r.dismiss === Swal.DismissReason.timer) {
+              setSession(result.sessionId);
               if (JSON.parse(result.data)[0].img != undefined) {
                 if (!isIOS()) {
                   navigator.vibrate([100, 200, 100]);
@@ -266,7 +284,7 @@ const GameApp = ({
           quizScore: correct + (key === select ? 1 : 0),
           quizFrom: quesList.length,
           quizDuration: Math.floor((time % 6000) / 100),
-          quizCountry: currentCountry,
+          sessionId: session,
         }),
       })
         .then((response) => response.json())
@@ -356,8 +374,14 @@ const GameApp = ({
         <div
           data-aos="fade-in"
           className="d-flex justify-content-center"
-          style={{ marginBottom: 100 }}>
-          <Card sx={{ marginTop: { xs: 3, md: "15vh" }, width: { xs: "90%", md: "70%" } }}>
+          style={{ marginBottom: 100 }}
+        >
+          <Card
+            sx={{
+              marginTop: { xs: 3, md: "15vh" },
+              width: { xs: "90%", md: "70%" },
+            }}
+          >
             <CardContent>
               <CardHeader
                 title="Quiz Game"
@@ -427,7 +451,8 @@ const GameApp = ({
                 className="mt-5"
                 variant="contained"
                 disabled={startLoad}
-                onClick={() => StartGame()}>
+                onClick={() => StartGame()}
+              >
                 {lang == "th" ? "เริ่มเกมส์" : "Play!"}
               </Button>
             </CardContent>
@@ -440,7 +465,8 @@ const GameApp = ({
     return (
       <div
         className="d-flex justify-content-center"
-        style={{ marginBottom: 100 }}>
+        style={{ marginBottom: 100 }}
+      >
         <Card sx={{ marginTop: "30vh", width: { xs: "90%", md: "70%" } }}>
           <CardContent>
             <CardHeader
@@ -457,32 +483,32 @@ const GameApp = ({
                 <Typography className="ml-3" data-aos="zoom-in-down">
                   {lang == "th"
                     ? "คะแนนเฉลี่ยจากผู้เล่นทั่วโลก " +
-                    aver.average +
-                    " คะแนนจากทั้งหมด " +
-                    aver.fromAll +
-                    " คะแนน"
+                      aver.average +
+                      " คะแนนจากทั้งหมด " +
+                      aver.fromAll +
+                      " คะแนน"
                     : "Average scores from worldwide are " +
-                    aver.average +
-                    " points from all " +
-                    aver.fromAll +
-                    " points."}
+                      aver.average +
+                      " points from all " +
+                      aver.fromAll +
+                      " points."}
                 </Typography>
                 <Typography className="ml-3" data-aos="zoom-in-down">
                   {lang == "th"
                     ? "เวลาที่ใช้ไปโดยเฉลี่ยทั่วโลก " +
-                    (secondsToMinSec(aver.time).minutes > 0
-                      ? secondsToMinSec(aver.time).minutes +
-                      " นาที " +
-                      secondsToMinSec(aver.time).seconds +
-                      " วินาที"
-                      : secondsToMinSec(aver.time).seconds + " วินาที")
+                      (secondsToMinSec(aver.time).minutes > 0
+                        ? secondsToMinSec(aver.time).minutes +
+                          " นาที " +
+                          secondsToMinSec(aver.time).seconds +
+                          " วินาที"
+                        : secondsToMinSec(aver.time).seconds + " วินาที")
                     : "Worldwide average time duration " +
-                    (secondsToMinSec(aver.time).minutes > 0
-                      ? secondsToMinSec(aver.time).minutes +
-                      " minutes " +
-                      secondsToMinSec(aver.time).seconds +
-                      " seconds"
-                      : secondsToMinSec(aver.time).seconds + " seconds")}
+                      (secondsToMinSec(aver.time).minutes > 0
+                        ? secondsToMinSec(aver.time).minutes +
+                          " minutes " +
+                          secondsToMinSec(aver.time).seconds +
+                          " seconds"
+                        : secondsToMinSec(aver.time).seconds + " seconds")}
                 </Typography>
               </>
             ) : (
@@ -492,7 +518,8 @@ const GameApp = ({
               className="mt-5"
               variant="contained"
               disabled={startLoad}
-              onClick={() => setGame(0)}>
+              onClick={() => setGame(0)}
+            >
               {lang == "th" ? "เล่นอีกครั้ง" : "Play again"}
             </Button>
           </CardContent>
@@ -503,14 +530,16 @@ const GameApp = ({
   return (
     <div
       className="d-flex justify-content-center"
-      style={{ marginBottom: 100 }}>
+      style={{ marginBottom: 100 }}
+    >
       {quesList.map(
         (item, i) =>
           i === ques && (
             <Card
               data-aos="fade-in"
               key={item.quizId}
-              sx={{ marginTop: "5vh", width: { xs: "90%", md: "70%" } }}>
+              sx={{ marginTop: "5vh", width: { xs: "90%", md: "70%" } }}
+            >
               <CardContent>
                 <CardHeader
                   title={item.question[lang]}
@@ -528,7 +557,8 @@ const GameApp = ({
                       Swal.fire({
                         imageUrl: item.img,
                       });
-                    }}>
+                    }}
+                  >
                     <b>
                       {lang == "th"
                         ? "คำแนะนำ: คลิกหรือแตะที่นี่เพื่อดูรูปเต็ม"
@@ -556,16 +586,17 @@ const GameApp = ({
                       className={
                         checked && item.key === choice.choiceId
                           ? "text-success" +
-                          (choice.choiceId == selected
-                            ? " bgSelectedquiz"
-                            : " shake")
+                            (choice.choiceId == selected
+                              ? " bgSelectedquiz"
+                              : " shake")
                           : checked && item.key !== choice.choiceId
-                            ? "text-danger" +
+                          ? "text-danger" +
                             (choice.choiceId == selected
                               ? " bgSelectedquiz"
                               : "")
-                            : ""
-                      }>
+                          : ""
+                      }
+                    >
                       <ListItemText
                         primary={ix + 1 + ". " + choice.choiceName[lang]}
                       />
@@ -575,7 +606,8 @@ const GameApp = ({
                 {stat === 1 && (
                   <Typography
                     className="text-info mt-3"
-                    data-aos="zoom-in-right">
+                    data-aos="zoom-in-right"
+                  >
                     <CheckCircleIcon className="mr-2" />
                     {item.correctMessage[lang].replace(/\\/g, "")}
                   </Typography>
@@ -583,7 +615,8 @@ const GameApp = ({
                 {stat === 2 && (
                   <Typography
                     className="text-danger mt-3"
-                    data-aos="zoom-in-right">
+                    data-aos="zoom-in-right"
+                  >
                     <CancelIcon className="mr-2" />
                     {item.wrongMessage[lang].replace(/\\/g, "")}
                   </Typography>
