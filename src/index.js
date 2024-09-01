@@ -28,6 +28,7 @@ const theme = createTheme({
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <React.StrictMode>
   <BrowserRouter>
    <Provider store={store}>
   <ThemeProvider theme={theme}>
@@ -35,6 +36,7 @@ root.render(
   </ThemeProvider>
   </Provider>
   </BrowserRouter>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
