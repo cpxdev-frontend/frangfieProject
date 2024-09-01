@@ -21,7 +21,7 @@ import {
   DialogActions,
   FormControlLabel,
   LinearProgress,
-  Alert,
+  Switch,
   ButtonGroup,
   Backdrop,
 } from "@mui/material";
@@ -52,7 +52,7 @@ import moment from "moment";
 
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import ReactGA from "react-ga4";
-import OneSignal from 'react-onesignal';
+import OneSignal from "react-onesignal";
 
 import Home from "./page/home";
 import About from "./page/about";
@@ -140,6 +140,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [birthdaycampain, setBirthday] = React.useState(false);
+  const [noti, setNoti] = React.useState(false);
 
   const location = useLocation();
   const [opacity, setOpacity] = React.useState(1); // เริ่มต้น opacity เต็ม
@@ -148,10 +149,23 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const targetTime = 1730448000;
 
   React.useEffect(() => {
+    if (noti) {
+      Notification.requestPermission()
+        .then((permission) => {
+          console.log(permission)
+          setNoti(true)
+        })
+        .catch((error) => {
+          setNoti(false)
+        });
+    }
+  }, [noti]);
+
+  React.useEffect(() => {
     // Ensure this code runs only on the client side
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       OneSignal.init({
-        appId: 'ee3a1e37-1129-4034-84fe-636371edaa24',
+        appId: "ee3a1e37-1129-4034-84fe-636371edaa24",
         // You can add other initialization options here
         notifyButton: {
           enable: true,
@@ -160,6 +174,13 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
         // allowLocalhostAsSecureOrigin: true
       });
     }
+    Notification.requestPermission().then(function (result) {
+      if (result === "denied" || result === "default") {
+        setNoti(false);
+        return;
+      }
+      setNoti(true);
+    });
   }, []);
 
   function calculateTimeLeft() {
@@ -332,7 +353,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
-        className="text-center">
+        className="text-center"
+      >
         {lang == "th"
           ? "เว็บไซต์นี้ไม่รองรับการแสดงแบบฝังบนเว็บไซต์อื่น"
           : "This site is not support on iframe tag"}
@@ -349,7 +371,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-        }}>
+        }}
+      >
         <div className="col-12">
           <img
             src="https://niceillustrations.com/wp-content/uploads/2021/07/Connection-Lost-color-800px.png"
@@ -379,7 +402,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={true}
-          className="text-center">
+          className="text-center"
+        >
           <div className="row">
             <h5 className="col-12">
               {lang == "th"
@@ -411,7 +435,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={true}
-          className="text-center">
+          className="text-center"
+        >
           <h4>
             {lang == "th"
               ? "เราพร้อมมอบประสบการณ์ของการเยี่ยมชมจักรวาลของข้าวฟ่างแล้ว!"
@@ -424,7 +449,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
-        className="text-center">
+        className="text-center"
+      >
         {lang == "th"
           ? "เว็บไซต์นี้กำลังจะเปิดตัวในอีก " +
             timeLeft.days +
@@ -452,7 +478,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     <div ref={scrollRef}>
       <div
         id="blockwhenland"
-        className="d-flex justify-content-center align-items-center text-center">
+        className="d-flex justify-content-center align-items-center text-center"
+      >
         <h5>
           <img
             src="https://cdn-icons-png.flaticon.com/512/6737/6737502.png"
@@ -473,13 +500,15 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           location.pathname != "/" &&
           !game &&
           !currentPage.includes("404 Not Found")
-        }>
+        }
+      >
         <AppBar position="fixed" className="newmobileAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
+                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}
+              >
                 {location.pathname != "/" &&
                   !currentPage.includes("404 Not Found") && (
                     <Avatar
@@ -499,7 +528,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 <Dialog
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
-                  maxWidth="xl">
+                  maxWidth="xl"
+                >
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
@@ -510,7 +540,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}>
+                          onClick={handleCloseNavMenu}
+                        >
                           <Typography
                             textAlign="center"
                             sx={{
@@ -521,7 +552,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p">
+                            component="p"
+                          >
                             {page}
                           </Typography>
                         </MenuItem>
@@ -531,7 +563,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}>
+                          onClick={handleCloseNavMenu}
+                        >
                           <Typography
                             textAlign="center"
                             sx={{
@@ -542,7 +575,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p">
+                            component="p"
+                          >
                             {page}
                           </Typography>
                         </MenuItem>
@@ -568,7 +602,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           display:
                             window.location.pathname == "/" ? "none" : "block",
                         }}
-                        fullWidth={true}>
+                        fullWidth={true}
+                      >
                         {langList.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
@@ -599,42 +634,11 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       right: 20,
                     }}
                     onClick={handleOpenNavMenu}
-                    color="inherit">
+                    color="inherit"
+                  >
                     <MenuIcon />
                   </IconButton>
                 )}
-
-              <Box sx={{ right: 30, display: { xs: "none", lg: "flex" } }}>
-                <Dialog
-                  open={anchorElUser}
-                  onClose={() => setAnchorElUser(false)}
-                  maxWidth="xl">
-                  <DialogTitle>
-                    {lang == "th" ? "การตั้งค่าภาษา" : "Language Setting"}
-                  </DialogTitle>
-                  <DialogContent>
-                    <TextField
-                      select
-                      label="Change Language"
-                      value={lang}
-                      variant="filled"
-                      onChange={(e) => setLang(e.target.value)}
-                      sx={{ width: 180 }}
-                      fullWidth={true}>
-                      {langList.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={() => setAnchorElUser(false)}>
-                      {lang == "th" ? "ปิด" : "Close"}
-                    </Button>
-                  </DialogActions>
-                </Dialog>
-              </Box>
             </Toolbar>
           </Container>
         </AppBar>
@@ -644,7 +648,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       <Slide
         direction="down"
         in={appbarx}
-        sx={{ display: { xs: "none", md: "initial" } }}>
+        sx={{ display: { xs: "none", md: "initial" } }}
+      >
         <AppBar position="fixed" className="newpcAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
@@ -666,13 +671,15 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   display: { xs: "none", lg: "flex" },
                   color: "inherit",
                   textDecoration: "none",
-                }}>
+                }}
+              >
                 <b>KorKaofrang</b>
               </Typography>
 
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}>
+                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}
+              >
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -680,7 +687,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
                   sx={{ display: { md: "none", xl: "initial" } }}
-                  color="inherit">
+                  color="inherit"
+                >
                   <MenuIcon />
                 </IconButton>
 
@@ -696,7 +704,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       right: 80,
                       top: 10,
                     }}
-                    color="inherit">
+                    color="inherit"
+                  >
                     <MenuIcon />
                   </IconButton>
                   <IconButton
@@ -706,7 +715,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       position: "fixed",
                       right: 20,
                       top: 10,
-                    }}>
+                    }}
+                  >
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -730,7 +740,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                     right: 20,
                     top: -2,
                   }}
-                  color="inherit">
+                  color="inherit"
+                >
                   <MenuIcon />
                 </IconButton>
                 <IconButton
@@ -740,7 +751,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                     position: "fixed",
                     right: 60,
                     top: 10,
-                  }}>
+                  }}
+                >
                   <Avatar
                     sx={{ width: 30, height: 30 }}
                     variant="rounded"
@@ -755,7 +767,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 <Dialog
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
-                  maxWidth="xl">
+                  maxWidth="xl"
+                >
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
@@ -766,7 +779,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}>
+                          onClick={handleCloseNavMenu}
+                        >
                           <Typography
                             textAlign="center"
                             sx={{
@@ -777,7 +791,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p">
+                            component="p"
+                          >
                             {page}
                           </Typography>
                         </MenuItem>
@@ -787,7 +802,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}>
+                          onClick={handleCloseNavMenu}
+                        >
                           <Typography
                             textAlign="center"
                             sx={{
@@ -798,7 +814,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p">
+                            component="p"
+                          >
                             {page}
                           </Typography>
                         </MenuItem>
@@ -823,7 +840,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           display:
                             window.location.pathname == "/" ? "none" : "block",
                         }}
-                        fullWidth={true}>
+                        fullWidth={true}
+                      >
                         {langList.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
@@ -831,6 +849,18 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                         ))}
                       </TextField>
                     </Box>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={noti}
+                          disabled={noti}
+                          onChange={() => setNoti(!noti)}
+                        />
+                      }
+                      label={
+                        lang ? "เปิดการแจ้งเตือน" : "Enable Push Notification"
+                      }
+                    />
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={handleCloseNavMenu}>
@@ -858,7 +888,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   display: { xs: "flex", lg: "none" },
                   color: "inherit",
                   textDecoration: "none",
-                }}>
+                }}
+              >
                 <b>KorKaofrang</b>
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", xl: "flex" } }}>
@@ -880,7 +911,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                             ? "#fff"
                             : "#000",
                         display: "block",
-                      }}>
+                      }}
+                    >
                       {page}
                     </Button>
                   ) : pageSec[i] == "birthday" && birthdaycampain == true ? (
@@ -900,7 +932,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                             ? "#fff"
                             : "#000",
                         display: "block",
-                      }}>
+                      }}
+                    >
                       {page}
                     </Button>
                   ) : null
@@ -911,7 +944,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 <Tooltip title="Open settings">
                   <IconButton
                     onClick={() => setAnchorElUser(true)}
-                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}>
+                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}
+                  >
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -927,7 +961,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 <Dialog
                   open={anchorElUser}
                   onClose={() => setAnchorElUser(false)}
-                  maxWidth="xl">
+                  maxWidth="xl"
+                >
                   <DialogTitle>
                     {lang == "th" ? "การตั้งค่าภาษา" : "Language Setting"}
                   </DialogTitle>
@@ -939,13 +974,27 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       variant="filled"
                       onChange={(e) => setLang(e.target.value)}
                       sx={{ width: 180 }}
-                      fullWidth={true}>
+                      fullWidth={true}
+                    >
                       {langList.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
                       ))}
                     </TextField>
+                    <br />
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={noti}
+                          disabled={noti}
+                          onChange={() => setNoti(!noti)}
+                        />
+                      }
+                      label={
+                        lang ? "เปิดการแจ้งเตือน" : "Enable Push Notification"
+                      }
+                    />
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={() => setAnchorElUser(false)}>
@@ -970,7 +1019,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   : 0,
               md: 0,
             },
-          }}>
+          }}
+        >
           {unlock ? (
             <BasicSwitch>
               <Route
@@ -1079,7 +1129,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             borderTopRightRadius: 0,
             fontSize: 14,
             lineHeight: 1.2,
-          }}>
+          }}
+        >
           &copy; Copyright {new Date().getFullYear()}, CPXDevStudio
           <br />
           <small style={{ fontSize: 10 }}>
