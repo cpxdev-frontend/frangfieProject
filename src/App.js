@@ -165,7 +165,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     // Ensure this code runs only on the client side
     if (typeof window !== 'undefined') {
       OneSignal.init({
-        appId: 'YOUR_APP_ID',
+        appId: 'ee3a1e37-1129-4034-84fe-636371edaa24',
         // You can add other initialization options here
         notifyButton: {
           enable: true,
