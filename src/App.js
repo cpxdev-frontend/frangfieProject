@@ -163,16 +163,16 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
 
   React.useEffect(() => {
     // Ensure this code runs only on the client side
-    OneSignal.init({
-      appId: "ee3a1e37-1129-4034-84fe-636371edaa24",
-      // You can add other initialization options here
-      notifyButton: {
-        enable: true,
-      },
-      // Uncomment the below line to run on localhost. See: https://documentation.onesignal.com/docs/local-testing
-      // allowLocalhostAsSecureOrigin: true
+    // OneSignal.init({
+    //   appId: "ee3a1e37-1129-4034-84fe-636371edaa24",
+    //   // You can add other initialization options here
+    //   notifyButton: {
+    //     enable: true,
+    //   },
+    //   // Uncomment the below line to run on localhost. See: https://documentation.onesignal.com/docs/local-testing
+    //   // allowLocalhostAsSecureOrigin: true
 
-    });
+    // });
     // Notification.requestPermission().then(function (result) {
     //   if (result === "denied" || result === "default") {
     //     setNoti(false);
