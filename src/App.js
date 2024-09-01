@@ -148,18 +148,18 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
 
   const targetTime = 1730448000;
 
-  React.useEffect(() => {
-    if (noti) {
-      Notification.requestPermission()
-        .then((permission) => {
-          console.log(permission)
-          setNoti(true)
-        })
-        .catch((error) => {
-          setNoti(false)
-        });
-    }
-  }, [noti]);
+  // React.useEffect(() => {
+  //   if (noti) {
+  //     Notification.requestPermission()
+  //       .then((permission) => {
+  //         console.log(permission)
+  //         setNoti(true)
+  //       })
+  //       .catch((error) => {
+  //         setNoti(false)
+  //       });
+  //   }
+  // }, [noti]);
 
   React.useEffect(() => {
     // Ensure this code runs only on the client side
@@ -853,7 +853,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       control={
                         <Switch
                           checked={noti}
-                          disabled={noti}
+                          disabled={true}
                           onChange={() => setNoti(!noti)}
                         />
                       }
@@ -987,7 +987,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       control={
                         <Switch
                           checked={noti}
-                          disabled={noti}
+                          disabled={true}
                           onChange={() => setNoti(!noti)}
                         />
                       }
