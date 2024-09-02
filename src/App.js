@@ -845,7 +845,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                         />
                       }
                       label={
-                        lang ? "เปิดการแจ้งเตือน" : "Enable Push Notification"
+                        lang == 'th' ? "เปิดการแจ้งเตือน" : "Enable Push Notification"
                       }
                     />
                   </DialogContent>
@@ -979,7 +979,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                         />
                       }
                       label={
-                        lang ? "เปิดการแจ้งเตือน" : "Enable Push Notification"
+                        lang == 'th' ? "เปิดการแจ้งเตือน" : "Enable Push Notification"
                       }
                     />
                   </DialogContent>
