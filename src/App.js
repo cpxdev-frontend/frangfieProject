@@ -130,6 +130,11 @@ function isInIframe() {
 
 let adm = 0;
 
+const isSupported = () =>
+'Notification' in window &&
+'serviceWorker' in navigator &&
+'PushManager' in window
+
 function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const [betabypass, setBetaMode] = React.useState(false);
   const [bypassonclose, setOnClose] = React.useState(false);
@@ -148,7 +153,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const targetTime = 1730448000;
 
   React.useEffect(() => {
-    if (noti == false) {
+    if (noti == false && isSupported()) {
       Notification.requestPermission()
         .then((permission) => {
           console.log(permission)
@@ -161,13 +166,15 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   }, [noti]);
 
   React.useEffect(() => {
-    Notification.requestPermission().then(function (result) {
-      if (result === "denied" || result === "default") {
-        setNoti(false);
-        return;
-      }
-      setNoti(true);
-    });
+    if (isSupported()) {
+      Notification.requestPermission().then(function (result) {
+        if (result === "denied" || result === "default") {
+          setNoti(false);
+          return;
+        }
+        setNoti(true);
+      });
+    }
   }, []);
 
   function calculateTimeLeft() {
