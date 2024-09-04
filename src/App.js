@@ -131,9 +131,9 @@ function isInIframe() {
 let adm = 0;
 
 const isSupported = () =>
-'Notification' in window &&
-'serviceWorker' in navigator &&
-'PushManager' in window
+  "Notification" in window &&
+  "serviceWorker" in navigator &&
+  "PushManager" in window;
 
 function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   const [betabypass, setBetaMode] = React.useState(false);
@@ -156,11 +156,11 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     if (noti == false && isSupported()) {
       Notification.requestPermission()
         .then((permission) => {
-          console.log(permission)
-          setNoti(true)
+          console.log(permission);
+          setNoti(true);
         })
         .catch((error) => {
-          setNoti(false)
+          setNoti(false);
         });
     }
   }, [noti]);
@@ -844,15 +844,11 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       </TextField>
                     </Box>
                     <FormControlLabel
-                      control={
-                        <Switch
-                          checked={noti}
-                          disabled={true}
-                          onChange={() => setNoti(!noti)}
-                        />
-                      }
+                      control={<Switch checked={noti} />}
                       label={
-                        lang == 'th' ? "เปิดการแจ้งเตือน" : "Enable Push Notification"
+                        lang == "th"
+                          ? "สถานะการแจ้งเตือน"
+                          : "Notification Status"
                       }
                     />
                   </DialogContent>
@@ -978,15 +974,11 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                     </TextField>
                     <br />
                     <FormControlLabel
-                      control={
-                        <Switch
-                          checked={noti}
-                          disabled={true}
-                          onChange={() => setNoti(!noti)}
-                        />
-                      }
+                      control={<Switch checked={noti} />}
                       label={
-                        lang == 'th' ? "เปิดการแจ้งเตือน" : "Enable Push Notification"
+                        lang == "th"
+                          ? "สถานะการแจ้งเตือน"
+                          : "Notification Status"
                       }
                     />
                   </DialogContent>
