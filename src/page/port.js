@@ -466,7 +466,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                   data-aos="zoom-in-down"
                   sx={{
                     width: "100%",
-                    height: 400,
+                    height: '70vh',
                   }}
                   component="iframe"
                   image={
