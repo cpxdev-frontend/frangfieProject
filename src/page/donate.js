@@ -98,7 +98,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
       fetch(
         "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@" +
           moment().format("YYYY.M") +
-          "/v1/currencies/thb.json",
+          "/v1/currencies/thb.json?time=" + moment().unix(),
         {
           method: "get",
         }
