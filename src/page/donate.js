@@ -98,7 +98,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
       fetch(
         "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@" +
           moment().format("YYYY.M") +
-          "/v1/currencies/thb.json?time=" + moment().unix(),
+          "/v1/currencies/thb.json?time=" +
+          moment().unix(),
         {
           method: "get",
         }
@@ -235,7 +236,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                   </Typography>
                   <Typography className="col-12 mt-3">
                     {lang != "th" &&
-                      "Please make sure that your local mobile banking is support to transfer to international bank via Thai QR payment. You maybe have some fee for transfer abroad."}
+                      "Please make sure that your local mobile banking is support to transfer to international bank via Thai QR payment. You maybe have some fee for transfer abroad. However, this exchange rate maybe different to data from your local mobile banking. Please refer to the exchange rate of the bank you use."}
                   </Typography>
                 </>
               )}
@@ -374,16 +375,21 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
               </Typography>
             ) : (
               <Typography className="col-12 mt-3">
-                Thai QR Payment is also support with foreigner from Cambodia, Hong
-                Kong, Indonesia, Laos, Malaysia, Singapore and Vietnam banking. You can use your supported mobile banking to scan upper QR Payment directly.
-                Please click{" "}
+                Thai QR Payment is also support with foreigner from Cambodia,
+                Hong Kong, Indonesia, Laos, Malaysia, Singapore and Vietnam
+                banking. You can use your supported mobile banking to scan upper
+                QR Payment directly. Please click{" "}
                 <a
                   href="https://s7ap1.scene7.com/is/image/bot/2024_06_19_Crossborder%20QR%20Payment_Brochure_update%20(1)?ts=1718875185342&dpr=off"
                   target="_blank">
                   here
                 </a>{" "}
                 to view Accepted international mobile banking with Thai QR
-                payment<br />(Information referenced by The Bank Of Thailand - BOT)
+                payment. However, this exchange rate maybe different to data
+                from your local mobile banking. Please refer to the exchange
+                rate of the bank you use.
+                <br />
+                (Information referenced by The Bank Of Thailand - BOT)
               </Typography>
             )}
             <Typography variant="subtitle2" className="col-12 mt-3">
