@@ -523,6 +523,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
                   maxWidth="xl"
+                  sx={{ display: { xs: "initial", xl: "none" } }}
                 >
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
@@ -762,6 +763,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
                   maxWidth="xl"
+                  sx={{ display: { xs: "none", xl: "initial" } }}
                 >
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
