@@ -3,17 +3,17 @@
   "name": "KorKaofrang FanSite",
   "icons": [
     {
-      "src": "https://d2m23ocr3g32v7.cloudfront.net/kf/korfranglogo.webp",
+      "src": "https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "https://d2m23ocr3g32v7.cloudfront.net/kf/korfranglogo.webp",
+      "src": "https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "https://d2m23ocr3g32v7.cloudfront.net/kf/korfranglogo.webp",
+      "src": "https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp",
       "type": "image/png",
       "sizes": "512x512"
     }

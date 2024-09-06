@@ -60,7 +60,7 @@ const Home = ({
               style={{
                 filter: "brightness(80%)",
                 backgroundImage:
-                  "url(https://d2m23ocr3g32v7.cloudfront.net/kf/kaofrang.webp)",
+                  "url(https://d3hhrps04devi8.cloudfront.net/kf/kaofrang.webp)",
               }}></div>
             <video
               className="d-none d-lg-block vdo overflow-hidden"
@@ -82,7 +82,7 @@ const Home = ({
               loop
               playsinline>
               <source
-                src="https://d2m23ocr3g32v7.cloudfront.net/kf/vdo.webm"
+                src="https://d3hhrps04devi8.cloudfront.net/kf/vdo.webm"
                 type="video/webm"
               />
               Your browser does not support the video tag.

@@ -515,7 +515,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                         mr: 1,
                       }}
                       alt="kaofrangicon"
-                      src="https://d2m23ocr3g32v7.cloudfront.net/kf/korfranglogo.webp"
+                      src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
                     />
                   )}
 
@@ -656,7 +656,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   mr: 1,
                 }}
                 alt="kaofrangicon"
-                src="https://d2m23ocr3g32v7.cloudfront.net/kf/korfranglogo.webp"
+                src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
               />
               <Typography
                 variant="h6"
@@ -870,7 +870,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   mr: 1,
                 }}
                 alt="kaofrangicon"
-                src="https://d2m23ocr3g32v7.cloudfront.net/kf/korfranglogo.webp"
+                src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
               />
               <Typography
                 variant="h6"
@@ -1161,7 +1161,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             <Avatar
               sx={{ width: 55, height: 55 }}
               alt="kaofrangicon"
-              src="https://d2m23ocr3g32v7.cloudfront.net/kf/korfranglogo.webp"
+              src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
             />
           ) : (
             <MenuOpenIcon />
