@@ -32,7 +32,6 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import { QRCode } from "react-qrcode-logo";
 import ReactGA from "react-ga4";
 const generatePayload = require("promptpay-qr");
-import { useLocation } from "react-router-dom";
 
 let mem = false;
 
