@@ -32,8 +32,16 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import { QRCode } from "react-qrcode-logo";
 import ReactGA from "react-ga4";
 const generatePayload = require("promptpay-qr");
+import { useLocation } from "react-router-dom";
 
 let mem = false;
+
+function useQuery() {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
+
 const moneyCurren = [
   {
     val: "khr",
@@ -75,6 +83,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
   const cardsuccess = React.useRef(null);
   const [num, setNum] = React.useState(0);
   const [rate, setRate] = React.useState(0);
+  const [lock, setLockcache] = React.useState(false);
   const [change, setLockchange] = React.useState(false);
   const [print, setPrint] = React.useState(false);
   const [load, setLoad] = React.useState(false);
@@ -82,6 +91,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
   const [exc, setExch] = React.useState([]);
   const [excDate, setExchd] = React.useState("");
   const [setexc, setSelctedExc] = React.useState("-");
+  let query = useQuery();
 
   React.useState(() => {
     setTimeout(() => {
@@ -91,6 +101,15 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
 
   React.useEffect(() => {
     setPage(lang == "th" ? "โดเนทเพื่อข้าวฟ่าง" : "Donate Kaofrang");
+    if (query.get("amount") != null && query.get("amount") != "") {
+      setNum(parseInt(query.get("amount")));
+      setqrCode(
+        generatePayload("004999166938497", {
+          amount: parseInt(query.get("amount")),
+        })
+      );
+      setLockcache(true);
+    }
   }, []);
 
   React.useEffect(() => {
@@ -173,7 +192,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
         />
         <div
           className="container mt-3 d-flex justify-content-center"
-          data-aos="fade-in">
+          data-aos="fade-in"
+        >
           <div className="row text-center">
             <Typography className="col-12 mb-3">
               {lang == "th"
@@ -183,7 +203,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
             <div
               className="col-12 text-center"
               ref={cardsuccess}
-              style={{ backgroundColor: print ? "#fff" : "" }}>
+              style={{ backgroundColor: print ? "#fff" : "" }}
+            >
               <div className="col-12 d-flex justify-content-center">
                 {print == false ? (
                   <QRCode
@@ -222,8 +243,10 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                             : " THB<br />(Based on estimated " +
                               comma((num * exc[setexc]).toFixed(2)) +
                               " " +
-                              setexc.toUpperCase()),
-                  }}></Typography>
+                              setexc.toUpperCase()) +
+                          ")",
+                  }}
+                ></Typography>
               )}
               {print && (
                 <>
@@ -239,6 +262,19 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                       "Please make sure that your local mobile banking is support to transfer to international bank via Thai QR payment. You maybe have some fee for transfer abroad. However, this exchange rate maybe different to data from your local mobile banking. Please refer to the exchange rate of the bank you use."}
                   </Typography>
                 </>
+              )}
+              {lock && !print && (
+                <Typography
+                  className="col-12 mt-3"
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      lang == "th"
+                        ? "ยอดที่โอน " + comma(num) + " บาท"
+                        : "Amount " +
+                          comma(num) +
+                          " THB<br />Please view exchange rate below.",
+                  }}
+                ></Typography>
               )}
             </div>
             {lang != "th" && (
@@ -260,7 +296,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                 }}
                 SelectProps={{
                   native: true,
-                }}>
+                }}
+              >
                 <option value="-">Select your currency</option>
                 {moneyCurren.map((item) => (
                   <option value={item.val}>{item.lab}</option>
@@ -294,6 +331,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                     setexc.toUpperCase()
                   : null
               }
+              disabled={lock}
               className={(lang == "th" ? "mt-5" : "mt-3") + " mb-3 m-2"}
               defaultValue={0}
               fullWidth
@@ -334,7 +372,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
               }}
               SelectProps={{
                 native: true,
-              }}>
+              }}
+            >
               <option value={0}>
                 {lang == "th"
                   ? "ระบุจำนวนเงินเองในภายหลัง"
@@ -354,7 +393,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
             <Button
               variant="outlined"
               onClick={() => ExportQR()}
-              className="m-2">
+              className="m-2"
+            >
               {lang == "th" ? "บันทึก QR Code นี้" : "Save this QR Payment"}
             </Button>
             <Divider />
@@ -381,7 +421,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                 QR Payment directly. Please click{" "}
                 <a
                   href="https://s7ap1.scene7.com/is/image/bot/2024_06_19_Crossborder%20QR%20Payment_Brochure_update%20(1)?ts=1718875185342&dpr=off"
-                  target="_blank">
+                  target="_blank"
+                >
                   here
                 </a>{" "}
                 to view Accepted international mobile banking with Thai QR
@@ -402,7 +443,8 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}>
+          open={load}
+        >
           <CircularProgress />
         </Backdrop>
       </Box>
