@@ -36,12 +36,6 @@ import { useLocation } from "react-router-dom";
 
 let mem = false;
 
-function useQuery() {
-  const { search } = useLocation();
-
-  return React.useMemo(() => new URLSearchParams(search), [search]);
-}
-
 const moneyCurren = [
   {
     val: "khr",
@@ -91,7 +85,6 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
   const [exc, setExch] = React.useState([]);
   const [excDate, setExchd] = React.useState("");
   const [setexc, setSelctedExc] = React.useState("-");
-  let query = useQuery();
 
   React.useState(() => {
     setTimeout(() => {
@@ -101,11 +94,13 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
 
   React.useEffect(() => {
     setPage(lang == "th" ? "โดเนทเพื่อข้าวฟ่าง" : "Donate Kaofrang");
-    if (query.get("amount") != null && query.get("amount") != "") {
-      setNum(parseInt(query.get("amount")));
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParam = urlParams.get("amount");
+    if (myParam != null && myParam != "") {
+      setNum(parseInt(myParam));
       setqrCode(
         generatePayload("004999166938497", {
-          amount: parseInt(query.get("amount")),
+          amount: parseInt(myParam),
         })
       );
       setLockcache(true);
