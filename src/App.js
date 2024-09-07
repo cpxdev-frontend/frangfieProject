@@ -605,6 +605,15 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           </MenuItem>
                         ))}
                       </TextField>
+                      <br />
+                      <FormControlLabel
+                        control={<Switch checked={noti} />}
+                        label={
+                          lang == "th"
+                            ? "สถานะการแจ้งเตือน"
+                            : "Notification Status"
+                        }
+                      />
                     </Box>
                   </DialogContent>
                   <DialogActions>
