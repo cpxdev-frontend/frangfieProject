@@ -42,6 +42,14 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
   const [open, setOpen] = React.useState(false);
   const history = useHistory();
 
+  const setFileName = (name) => {
+    if (name.split("|").length > 1) {
+      return name.split("|")[1].replace("_", " ");
+    } else {
+      return name;
+    }
+  };
+
   React.useState(() => {
     setTimeout(() => {
       setOpen(true);
@@ -101,7 +109,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                   <CardContent>
                     <CardHeader
                       className="forceline"
-                      title={item.title}
+                      title={setFileName(item.title)}
                       subheader={
                         (lang == "th"
                           ? "อัปเดตล่าสุดเมื่อ "

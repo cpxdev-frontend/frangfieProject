@@ -95,6 +95,14 @@ const GalleryMod = ({
     }
   }, [imgLoad]);
 
+  const setFileName = (name) => {
+    if (name.split("|").length > 1) {
+      return name.split("|")[1].replace("_", " ");
+    } else {
+      return name;
+    }
+  };
+
   React.useEffect(() => {
     var requestOptions = {
       method: "POST",
@@ -120,7 +128,7 @@ const GalleryMod = ({
         <CardHeader
           className="text-center forceline"
           sx={{ wordWrap: "break-word" }}
-          title={<h3>{JSON.parse(atob(atob(id))).name}</h3>}
+          title={<h3>{setFileName(JSON.parse(atob(atob(id))).name)}</h3>}
           subheader={
             lang == "th"
               ? "มาย้อนความทรงจำของรูปเหล่านี้กันเถอะ"
@@ -159,7 +167,8 @@ const GalleryMod = ({
                         width > 650
                           ? 2
                           : 1
-                      }>
+                      }
+                    >
                       <CardMedia
                         src={
                           "https://drive.google.com/thumbnail?id=" +
@@ -185,7 +194,8 @@ const GalleryMod = ({
                   }}
                   onClick={(e) => {
                     his.push("/gallery");
-                  }}>
+                  }}
+                >
                   <ArrowBackIosNewIcon />
                 </Fab>
               </Box>
@@ -194,7 +204,8 @@ const GalleryMod = ({
                 tra
                 open={imgLoad}
                 maxWidth="lg"
-                TransitionComponent={Transition}>
+                TransitionComponent={Transition}
+              >
                 {imgtag != null && (
                   <>
                     <DialogTitle>
@@ -204,7 +215,8 @@ const GalleryMod = ({
                     </DialogTitle>
                     <DialogTitle
                       className="text-muted"
-                      sx={{ marginTop: -3, fontSize: 14 }}>
+                      sx={{ marginTop: -3, fontSize: 14 }}
+                    >
                       {lang == "th"
                         ? "อัปเดตเมื่อ " +
                           moment(imgtag.modifiedDate)
