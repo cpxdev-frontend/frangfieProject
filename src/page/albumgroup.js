@@ -44,7 +44,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
 
   const setFileName = (name) => {
     if (name.split("|").length > 1) {
-      return name.split("|")[1].replace("_", " ");
+      return name.split("|")[1].replaceAll("_", " ");
     } else {
       return name;
     }
