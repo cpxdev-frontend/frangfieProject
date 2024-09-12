@@ -24,6 +24,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import Swal from "sweetalert2";
 import { InfoOutlined } from "@mui/icons-material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import CancelIcon from "@mui/icons-material/Cancel";
 import { connect } from "react-redux";
 import {
@@ -445,12 +446,19 @@ const GameApp = ({
                 </ListItem>
               </List>
               <Button
-                className="mt-5"
+                className="mt-3"
                 variant="contained"
                 disabled={startLoad}
                 onClick={() => StartGame()}>
                 {lang == "th" ? "เริ่มเกมส์" : "Play!"}
               </Button>
+              <br />
+              <Button
+                  className="mt-2"
+                  variant="outlined"
+                  onClick={() => his.push("/quizgameresult/all")}>
+                  {lang == "th" ? "ดูคะแนนเฉลี่ย" : "View average score"}
+                </Button>
             </CardContent>
           </Card>
         </div>

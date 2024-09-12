@@ -11,7 +11,7 @@ import {
   Tabs,
   Tab,
   Typography,
-  ListItemButton,
+  IconButton,
   List,
   ListItem,
   Chip,
@@ -20,6 +20,7 @@ import {
   FormControlLabel,
   Radio,
 } from "@mui/material";
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import "sweetalert2/dist/sweetalert2.min.css";
 import Swal from "sweetalert2";
 import { InfoOutlined } from "@mui/icons-material";
@@ -141,7 +142,7 @@ const GameApp = ({
   }, [game]);
 
   React.useEffect(() => {
-    setPage(lang == "th" ? "มินิเกมส์" : "Quiz Game");
+    setPage("Quiz Game World Tournament");
   }, []);
 
   return (
@@ -151,7 +152,15 @@ const GameApp = ({
         style={{ marginBottom: 100 }}>
         <Card sx={{ marginTop: "30vh", width: { xs: "90%", md: "70%" } }}>
           <CardContent>
-            <CardHeader title={"World Challenge"} data-aos="fade-right" />
+            <CardHeader
+              title={"World Challenge"}
+              data-aos="fade-right"
+              action={
+                <IconButton onClick={() => history.push("/quizgame")}>
+                  <SportsEsportsIcon />
+                </IconButton>
+              }
+            />
             {data != null ? (
               <Box>
                 <Chart
@@ -178,28 +187,58 @@ const GameApp = ({
                   className="justify-content-center"
                   name="row-radio-buttons-group">
                   <FormControlLabel
-                    control={<Radio checked={zone == 'world'} onChange={() => setZone('world')} />}
-                    label={lang == 'th' ? 'ทั่วโลก' : 'Global'}
+                    control={
+                      <Radio
+                        checked={zone == "world"}
+                        onChange={() => setZone("world")}
+                      />
+                    }
+                    label={lang == "th" ? "ทั่วโลก" : "Global"}
                   />
                   <FormControlLabel
-                    control={<Radio checked={zone == '142'} onChange={() => setZone('142')} />}
-                    label={lang == 'th' ? 'เอเชีย' : 'Asia'}
+                    control={
+                      <Radio
+                        checked={zone == "142"}
+                        onChange={() => setZone("142")}
+                      />
+                    }
+                    label={lang == "th" ? "เอเชีย" : "Asia"}
                   />
                   <FormControlLabel
-                    control={<Radio checked={zone == '150'} onChange={() => setZone('150')} />}
-                    label={lang == 'th' ? 'ยุโรป' : 'Europe'}
+                    control={
+                      <Radio
+                        checked={zone == "150"}
+                        onChange={() => setZone("150")}
+                      />
+                    }
+                    label={lang == "th" ? "ยุโรป" : "Europe"}
                   />
                   <FormControlLabel
-                    control={<Radio checked={zone == '002'} onChange={() => setZone('002')} />}
-                    label={lang == 'th' ? 'แอฟริกา' : 'Africa'}
+                    control={
+                      <Radio
+                        checked={zone == "002"}
+                        onChange={() => setZone("002")}
+                      />
+                    }
+                    label={lang == "th" ? "แอฟริกา" : "Africa"}
                   />
                   <FormControlLabel
-                    control={<Radio checked={zone == '019'} onChange={() => setZone('019')} />}
-                    label={lang == 'th' ? 'อเมริกา' : 'Americas'}
+                    control={
+                      <Radio
+                        checked={zone == "019"}
+                        onChange={() => setZone("019")}
+                      />
+                    }
+                    label={lang == "th" ? "อเมริกา" : "Americas"}
                   />
                   <FormControlLabel
-                    control={<Radio checked={zone == '009'} onChange={() => setZone('009')} />}
-                    label={lang == 'th' ? 'แปซิฟิก' : 'Pacific'}
+                    control={
+                      <Radio
+                        checked={zone == "009"}
+                        onChange={() => setZone("009")}
+                      />
+                    }
+                    label={lang == "th" ? "แปซิฟิก" : "Pacific"}
                   />
                 </RadioGroup>
               </Box>
@@ -210,6 +249,11 @@ const GameApp = ({
               title={headertrans()}
               className="mt-5"
               data-aos="fade-right"
+              action={
+                <IconButton onClick={() => history.push("/quizgame")}>
+                  <SportsEsportsIcon />
+                </IconButton>
+              }
             />
             {aver != null ? (
               <>
