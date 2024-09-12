@@ -39,7 +39,6 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import moment from "moment";
 import { RefreshRounded } from "@mui/icons-material";
 import ReactGA from "react-ga4";
-import Carousel from "better-react-carousel";
 
 import { useHistory, useParams } from "react-router-dom";
 
