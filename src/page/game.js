@@ -69,6 +69,7 @@ const GameApp = ({
   const [startLoad, setLoad] = React.useState(false);
   const [ip, setIP] = React.useState("");
   const [session, setSession] = React.useState("");
+  const his = useHistory();
 
   const [time, setTime] = React.useState(0);
 
@@ -372,14 +373,12 @@ const GameApp = ({
         <div
           data-aos="fade-in"
           className="d-flex justify-content-center"
-          style={{ marginBottom: 100 }}
-        >
+          style={{ marginBottom: 100 }}>
           <Card
             sx={{
               marginTop: { xs: 3, md: "15vh" },
               width: { xs: "90%", md: "70%" },
-            }}
-          >
+            }}>
             <CardContent>
               <CardHeader
                 title="Quiz Game"
@@ -449,8 +448,7 @@ const GameApp = ({
                 className="mt-5"
                 variant="contained"
                 disabled={startLoad}
-                onClick={() => StartGame()}
-              >
+                onClick={() => StartGame()}>
                 {lang == "th" ? "เริ่มเกมส์" : "Play!"}
               </Button>
             </CardContent>
@@ -463,8 +461,7 @@ const GameApp = ({
     return (
       <div
         className="d-flex justify-content-center"
-        style={{ marginBottom: 100 }}
-      >
+        style={{ marginBottom: 100 }}>
         <Card sx={{ marginTop: "30vh", width: { xs: "90%", md: "70%" } }}>
           <CardContent>
             <CardHeader
@@ -517,16 +514,22 @@ const GameApp = ({
                           " seconds"
                         : secondsToMinSec(aver.time).seconds + " seconds")}
                 </Typography>
+                <Button
+                  className="mt-4"
+                  variant="outlined"
+                  onClick={() => his.push("/quizgameresult/all")}>
+                  {lang == "th" ? "ดูคะแนนเฉลี่ย" : "View average score"}
+                </Button>
+                <br/>
               </>
             ) : (
               <Skeleton height={500} />
             )}
             <Button
-              className="mt-5"
+              className="mt-1"
               variant="contained"
               disabled={startLoad}
-              onClick={() => setGame(0)}
-            >
+              onClick={() => setGame(0)}>
               {lang == "th" ? "เล่นอีกครั้ง" : "Play again"}
             </Button>
           </CardContent>
@@ -537,16 +540,14 @@ const GameApp = ({
   return (
     <div
       className="d-flex justify-content-center"
-      style={{ marginBottom: 100 }}
-    >
+      style={{ marginBottom: 100 }}>
       {quesList.map(
         (item, i) =>
           i === ques && (
             <Card
               data-aos="fade-in"
               key={item.quizId}
-              sx={{ marginTop: "5vh", width: { xs: "90%", md: "70%" } }}
-            >
+              sx={{ marginTop: "5vh", width: { xs: "90%", md: "70%" } }}>
               <CardContent>
                 <CardHeader
                   title={item.question[lang]}
@@ -564,8 +565,7 @@ const GameApp = ({
                       Swal.fire({
                         imageUrl: item.img,
                       });
-                    }}
-                  >
+                    }}>
                     <b>
                       {lang == "th"
                         ? "คำแนะนำ: คลิกหรือแตะที่นี่เพื่อดูรูปเต็ม"
@@ -602,8 +602,7 @@ const GameApp = ({
                               ? " bgSelectedquiz"
                               : "")
                           : ""
-                      }
-                    >
+                      }>
                       <ListItemText
                         primary={ix + 1 + ". " + choice.choiceName[lang]}
                       />
@@ -613,8 +612,7 @@ const GameApp = ({
                 {stat === 1 && (
                   <Typography
                     className="text-info mt-3"
-                    data-aos="zoom-in-right"
-                  >
+                    data-aos="zoom-in-right">
                     <CheckCircleIcon className="mr-2" />
                     {item.correctMessage[lang].replace(/\\/g, "")}
                   </Typography>
@@ -622,8 +620,7 @@ const GameApp = ({
                 {stat === 2 && (
                   <Typography
                     className="text-danger mt-3"
-                    data-aos="zoom-in-right"
-                  >
+                    data-aos="zoom-in-right">
                     <CancelIcon className="mr-2" />
                     {item.wrongMessage[lang].replace(/\\/g, "")}
                   </Typography>

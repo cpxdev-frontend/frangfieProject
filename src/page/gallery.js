@@ -37,8 +37,6 @@ import {
 } from "../redux/action";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import moment from "moment";
-import { RefreshRounded } from "@mui/icons-material";
-import ReactGA from "react-ga4";
 
 import { useHistory, useParams } from "react-router-dom";
 
