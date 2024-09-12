@@ -12,7 +12,7 @@ import {
   Tabs,
   Fade,
   Typography,
-  Pagination,
+  CircularProgress,
   IconButton,
   Chip,
   Skeleton,
@@ -20,6 +20,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
+  Backdrop,
   DialogActions,
 } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -32,8 +33,7 @@ import {
   setLaunch,
 } from "../redux/action";
 import moment from "moment";
-import { RefreshRounded } from "@mui/icons-material";
-import usePagination from "../pagination";
+import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
 
 const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
@@ -41,6 +41,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
   const [getData, setGetData] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const history = useHistory();
+  const [load, setLoad] = React.useState(false);
 
   const setFileName = (name) => {
     if (name.split("|").length > 1) {
@@ -57,20 +58,38 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
   }, [currentPage]);
 
   const getLink = (item, redirect) => {
-    const id = btoa(
-      btoa(
-        JSON.stringify({
-          id: item.id,
-          name: item.title,
-        })
-      )
-    );
-    if (redirect) {
-      history.push("/gallery/" + id);
-    } else {
-      navigator.clipboard.writeText(window.location.href + "/" + id);
-      alert("Album link has been copied");
-    }
+    var requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: item.id,
+        title: item.title
+      }),
+    };
+
+    setLoad(true)
+    fetch(process.env.REACT_APP_APIE + "/kfsite/gallerylinkgen", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setLoad(false)
+        if (redirect) {
+          history.push("/gallery/" + result.encrypt);
+        } else {
+          navigator.clipboard.writeText(
+            window.location.href + "/" + result.encrypt
+          );
+          Swal.fire({
+            title:
+              lang == "th"
+                ? "คัดลอกอัลบั้มลิงก์แล้ว"
+                : "Album link as been copied",
+            icon: 'success',
+          })
+        }
+      })
+      .catch((error) => console.log("error", error));
   };
 
   React.useEffect(() => {
@@ -251,6 +270,11 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
             </Button>
           </DialogActions>
         </Dialog>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={load}>
+          <CircularProgress />
+        </Backdrop>
       </Box>
     </Fade>
   );

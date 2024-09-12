@@ -24,7 +24,9 @@ import {
   DialogActions,
   Grow,
   CardMedia,
+  Backdrop
 } from "@mui/material";
+import { Carousel as MobileCarousel } from "react-responsive-carousel";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import {
   setLoad,
@@ -37,6 +39,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import moment from "moment";
 import { RefreshRounded } from "@mui/icons-material";
 import ReactGA from "react-ga4";
+import Carousel from "better-react-carousel";
 
 import { useHistory, useParams } from "react-router-dom";
 
@@ -59,6 +62,7 @@ const GalleryMod = ({
   const [l, setL] = React.useState(false);
   const [imgLoad, setImgAct] = React.useState(false);
   const [imgtag, setImgtag] = React.useState(null);
+  const [title, setTitle] = React.useState(lang == 'th'? 'กำลังโหลดคลังรูป' :'Loading Gallery');
   const { id } = useParams();
   const his = useHistory();
   const [width, setRealwidth] = React.useState(window.innerWidth);
@@ -109,15 +113,15 @@ const GalleryMod = ({
     };
 
     thumb = false;
-    const stance = JSON.parse(atob(atob(id)));
-    setPage(stance.name);
     fetch(
-      process.env.REACT_APP_APIE + "/kfsite/getgalleryeach?id=" + stance.id,
+      process.env.REACT_APP_APIE + "/kfsite/getgalleryeach?id=" + id,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        setData(result.items);
+        setTitle(setFileName(result.title))
+        setPage(setFileName(result.title));
+        setData(result.r.items);
       })
       .catch((error) => console.log("error", error));
   }, []);
@@ -128,7 +132,7 @@ const GalleryMod = ({
         <CardHeader
           className="text-center forceline"
           sx={{ wordWrap: "break-word" }}
-          title={<h3>{setFileName(JSON.parse(atob(atob(id))).name)}</h3>}
+          title={<h3>{title}</h3>}
           subheader={
             lang == "th"
               ? "มาย้อนความทรงจำของรูปเหล่านี้กันเถอะ"
@@ -138,37 +142,17 @@ const GalleryMod = ({
         <div className="container mt-3">
           {data != null ? (
             <>
-              <Box sx={{ display: "block" }}>
-                <ImageList cols={Math.floor(width / 350)}>
+              <Box>
+                <ImageList cols={Math.floor(width / 500)}>
                   {data.map((item, i) => (
                     <ImageListItem
+                      className="m-1"
                       data-aos="fade-in"
                       onClick={() => {
                         setImgtag(item);
                         setImgAct(true);
                       }}
-                      key={item.id}
-                      cols={
-                        item.imageMediaMetadata.width >
-                          item.imageMediaMetadata.height &&
-                        i > 0 &&
-                        data[i - 1].imageMediaMetadata.width <
-                          data[i - 1].imageMediaMetadata.height &&
-                        width > 650
-                          ? 2
-                          : 1
-                      }
-                      rows={
-                        item.imageMediaMetadata.width <
-                          item.imageMediaMetadata.height &&
-                        i > 0 &&
-                        data[i - 1].imageMediaMetadata.width >
-                          data[i - 1].imageMediaMetadata.height &&
-                        width > 650
-                          ? 2
-                          : 1
-                      }
-                    >
+                      key={item.id}>
                       <CardMedia
                         src={
                           "https://drive.google.com/thumbnail?id=" +
@@ -177,6 +161,7 @@ const GalleryMod = ({
                         }
                         className="galleryitem"
                         component="img"
+                        sx={{ height: 460 }}
                       />
                     </ImageListItem>
                   ))}
@@ -194,8 +179,7 @@ const GalleryMod = ({
                   }}
                   onClick={(e) => {
                     his.push("/gallery");
-                  }}
-                >
+                  }}>
                   <ArrowBackIosNewIcon />
                 </Fab>
               </Box>
@@ -204,8 +188,7 @@ const GalleryMod = ({
                 tra
                 open={imgLoad}
                 maxWidth="lg"
-                TransitionComponent={Transition}
-              >
+                TransitionComponent={Transition}>
                 {imgtag != null && (
                   <>
                     <DialogTitle>
@@ -215,8 +198,7 @@ const GalleryMod = ({
                     </DialogTitle>
                     <DialogTitle
                       className="text-muted"
-                      sx={{ marginTop: -3, fontSize: 14 }}
-                    >
+                      sx={{ marginTop: -3, fontSize: 14 }}>
                       {lang == "th"
                         ? "อัปเดตเมื่อ " +
                           moment(imgtag.modifiedDate)
