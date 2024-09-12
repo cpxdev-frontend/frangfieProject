@@ -64,6 +64,7 @@ const GameApp = ({
   const { c } = useParams();
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
+  const [fresh, setFresh] = React.useState(null);
   const [data, setData] = React.useState(null);
   const [zone, setZone] = React.useState("world");
   React.useState(() => {
@@ -96,6 +97,34 @@ const GameApp = ({
 
   const [aver, setAver] = React.useState(null);
 
+  const checkpoint = (result) => {
+    const res = [];
+    if (lang == "th") {
+      res.push(["ประเทศ", "คะแนนเฉลี่ย", "ระยะเวลาที่เล่นโดยเฉลี่ย (วินาที)"]);
+    } else {
+      res.push([
+        "Countries",
+        "Average Score",
+        "Average Time Duration (Seconds)",
+      ]);
+    }
+    for (let i = 0; i < result.responses.length; i++) {
+      res.push([
+        country.filter((x) => x.alpha2 == result.responses[i].country)[0]
+          .enName,
+        result.responses[i].totalPoints,
+        result.responses[i].time,
+      ]);
+    }
+    setData(res);
+  };
+
+  React.useEffect(() => {
+    if (fresh != null) {
+      checkpoint(fresh);
+    }
+  }, [lang]);
+
   React.useEffect(() => {
     if (c == null) {
       history.push("/quizgame");
@@ -119,20 +148,8 @@ const GameApp = ({
     })
       .then((response) => response.json())
       .then((result) => {
-        const res = [];
-        res.push([
-          "Countries",
-          "Average Score",
-          "Average Time Duration (Seconds)",
-        ]);
-        for (let i = 0; i < result.responses.length; i++) {
-          res.push([
-            result.responses[i].country,
-            result.responses[i].totalPoints,
-            result.responses[i].time,
-          ]);
-        }
-        setData(res);
+        checkpoint(result);
+        setFresh(result);
       })
       .catch((error) => console.log("error", error));
   }, []);
@@ -149,8 +166,8 @@ const GameApp = ({
     <Fade in={open} timeout={300}>
       <div
         className="d-flex justify-content-center"
-        style={{ marginBottom: 100 }}>
-        <Card sx={{ marginTop: "30vh", width: { xs: "90%", md: "70%" } }}>
+        style={{ marginBottom: 150 }}>
+        <Card sx={{ marginTop: "20vh", width: { xs: "90%", md: "70%" } }}>
           <CardContent>
             <CardHeader
               title={"World Challenge"}
@@ -172,7 +189,7 @@ const GameApp = ({
                         const selection = chart.getSelection();
                         if (selection.length === 0) return;
                         const region = data[selection[0].row + 1];
-                        console.log("Selected : " + region);
+                        console.clear()
                       },
                     },
                   ]}
