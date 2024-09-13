@@ -88,6 +88,7 @@ const Birth = ({
 
   const [selectedcountry, setCountry] = React.useState("");
   const [load, setLoad] = React.useState(false);
+  const [port, setPortrait] = React.useState(false);
 
   // const [expo, setExport] = React.useState("");
 
@@ -328,22 +329,25 @@ const Birth = ({
             )
           }
         />
-        <div className="container mt-3 p-5" style={{overflow: 'scroll'}}>
+        {text.length > 0 && (
+          <h6 className="text-center text-info">{lang == 'th' ? 'คำแนะนำ: กรุณาดับเบิ้ลคลิกที่ข้อความ (ยกเว้นไตเติ้ล) เพื่อแก้ไข': "Guide: You can double-click at text (except Title text) to edit which you want."}</h6>
+        )}
+        <div className={port ? "container d-md-flex d-initial justify-content-center mt-3 p-5" : "container d-lg-flex d-initial justify-content-center mt-3 p-5"} style={{ overflow: "scroll" }}>
           <Card
             sx={{
               borderRadius: 5,
               backgroundColor: bg,
               wordBreak: "break-all",
-              minWidth: 1011,
-              minHeight: 638,
+              minWidth: !port ? 1011 : 638,
+              minHeight: !port ? 638 : 1011,
+              width: !port ? 1011 : 638,
+              height: !port ? 638 : 1011
             }}
             ref={cardsuccess}>
             <CardContent>
               <CardHeader
                 title={
-                  <h3 style={{ color: headercolor, fontSize: 28 / 1.11 }}>
-                    {header}
-                  </h3>
+                  <h3 style={{ color: headercolor, fontSize: port ? 28 : 33 }}>{header}</h3>
                 }
                 action={
                   load ? null : (
@@ -449,7 +453,10 @@ const Birth = ({
                       }}
                       key={item.id}>
                       <Resizable
-                        style={{ border: load ? "" : "solid 1px #ddd" }}
+                        style={{
+                          border: load ? "" : "solid 1px #8a8a8a",
+                          borderRadius: 5,
+                        }}
                         defaultSize={{
                           width: item.w,
                           height: item.h,
@@ -543,6 +550,39 @@ const Birth = ({
               </MenuItem>
               <MenuItem onClick={() => addImg()}>
                 {lang == "th" ? "แทรกรูปภาพ" : "Browse Image"}
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  if (text.length > 0 || img.length > 0) {
+                    Swal.fire({
+                      title:
+                        lang == "th"
+                          ? "คุณต้องการหมุนด้านของการ์ดเป็น" +
+                            (port == true ? "แนวนอน" : "แนวตั้ง") +
+                            "หรือไม่"
+                          : "Do you want to rotated your card on " +
+                            (port == true ? "landscape" : "portrait") +
+                            " layout?",
+                      text:
+                        lang == "th"
+                          ? "ข้อความ (ยกเว้นข้อความไตเติ้ล) และรูปภาพจะถูกลบทั้งหมด"
+                          : "All Texts (except Title text) and images will be clear.",
+                      showDenyButton: true,
+                      confirmButtonText: lang == "th" ? "ยืนยัน" : "Confirm",
+                      denyButtonText: lang == "th" ? "แก้ไขต่อ" : "Stay edit",
+                    }).then((result) => {
+                      /* Read more about isConfirmed, isDenied below */
+                      if (result.isConfirmed) {
+                        setAddText([]);
+                        setAddImg([]);
+                        setPortrait(!port);
+                      }
+                    });
+                  } else {
+                    setPortrait(!port);
+                  }
+                }}>
+                {lang == "th" ? "สลับด้านของการ์ด" : "Rotate Card"}
               </MenuItem>
             </Menu>
             <Fab
