@@ -328,15 +328,14 @@ const Birth = ({
             )
           }
         />
-        <div className="container d-flex justify-content-center mt-3">
+        <div className="container mt-3 p-5" style={{overflow: 'scroll'}}>
           <Card
             sx={{
               borderRadius: 5,
               backgroundColor: bg,
               wordBreak: "break-all",
-              width: 950,
-              height: sizes == true ? 850 : h < 800 ? 580 : "60vh",
-              zoom: sizezoom,
+              minWidth: 1011,
+              minHeight: 638,
             }}
             ref={cardsuccess}>
             <CardContent>

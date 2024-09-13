@@ -167,7 +167,7 @@ const GameApp = ({
       <div
         className="d-flex justify-content-center"
         style={{ marginBottom: 150 }}>
-        <Card sx={{ marginTop: "20vh", width: { xs: "90%", md: "70%" } }}>
+        <Card sx={{ marginTop: "8%", width: { xs: "90%", md: "70%" } }}>
           <CardContent>
             <CardHeader
               title={"World Challenge"}
