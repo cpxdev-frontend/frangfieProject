@@ -541,6 +541,10 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                             textAlign="center"
                             sx={{
                               color:
+                                (pageSec[i] == "quizgame" &&
+                                  location.pathname.includes(
+                                    "/quizgameresult/"
+                                  )) ||
                                 (pageSec[i] == "gallery" &&
                                   location.pathname.includes("/gallery/")) ||
                                 location.pathname == "/" + pageSec[i]
@@ -564,6 +568,10 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                             textAlign="center"
                             sx={{
                               color:
+                                (pageSec[i] == "quizgame" &&
+                                  location.pathname.includes(
+                                    "/quizgameresult/"
+                                  )) ||
                                 (pageSec[i] == "gallery" &&
                                   location.pathname.includes("/gallery/")) ||
                                 location.pathname == "/" + pageSec[i]
@@ -790,6 +798,10 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                             textAlign="center"
                             sx={{
                               color:
+                                (pageSec[i] == "quizgame" &&
+                                  location.pathname.includes(
+                                    "/quizgameresult/"
+                                  )) ||
                                 (pageSec[i] == "gallery" &&
                                   location.pathname.includes("/gallery/")) ||
                                 location.pathname == "/" + pageSec[i]
@@ -813,6 +825,10 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                             textAlign="center"
                             sx={{
                               color:
+                                (pageSec[i] == "quizgame" &&
+                                  location.pathname.includes(
+                                    "/quizgameresult/"
+                                  )) ||
                                 (pageSec[i] == "gallery" &&
                                   location.pathname.includes("/gallery/")) ||
                                 location.pathname == "/" + pageSec[i]
@@ -906,6 +922,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       sx={{
                         my: 2,
                         color:
+                          (pageSec[i] == "quizgame" &&
+                            location.pathname.includes("/quizgameresult/")) ||
                           (pageSec[i] == "gallery" &&
                             location.pathname.includes("/gallery/")) ||
                           location.pathname == "/" + pageSec[i]
@@ -927,6 +945,8 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       sx={{
                         my: 2,
                         color:
+                          (pageSec[i] == "quizgame" &&
+                            location.pathname.includes("/quizgameresult/")) ||
                           (pageSec[i] == "gallery" &&
                             location.pathname.includes("/gallery/")) ||
                           location.pathname == "/" + pageSec[i]
