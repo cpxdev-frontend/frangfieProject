@@ -110,8 +110,8 @@ const Birth = ({
     })
       .then((response) => response.json())
       .then((result) => {
-        // setUp(result.response);
-        setUp(true);
+        setUp(result.response);
+        //setUp(true);
       })
       .catch((error) => console.log("error", error));
 
@@ -283,6 +283,26 @@ const Birth = ({
   const RenderHTML = (html) => (
     <div dangerouslySetInnerHTML={{ __html: html }}></div>
   );
+
+  if (up == false) {
+    return (
+      <Fade in={open} timeout={300}>
+        <Box
+          sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}
+          className="container">
+          <Card className="text-center">
+            <CardContent>
+              <h6 className="mt-3">
+                {lang == "th"
+                  ? "ฟีเจอร์นี้ยังไม่พร้อมใช้งาน กรุณาลองใหม่อีกครั้งในภายหลัง"
+                  : "This feature is unavaliable yet. Please come back again soon."}
+              </h6>
+            </CardContent>
+          </Card>
+        </Box>
+      </Fade>
+    );
+  }
 
   return (
     <Fade in={open} timeout={300}>

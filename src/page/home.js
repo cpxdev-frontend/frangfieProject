@@ -106,7 +106,7 @@ const Home = ({
                   <p className="overlaytext">
                     {lang == "th"
                       ? 'เว็บไซต์ที่จะทำให้คุณรู้จัก "น้องข้าวฟ่าง" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน'
-                      : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Let's come to enjoy with us!"}
+                      : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Come to enjoy with us!"}
                   </p>
                 }
               />
@@ -144,8 +144,8 @@ const Home = ({
                 subheader={
                   <p className="overlaytext">
                     {lang == "th"
-                      ? 'เว็บไซต์ที่จะทำให้คุณรู้จัก "น้องข้าวฟ่าง" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน'
-                      : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Let's come to enjoy with us!"}
+                      ? 'เว็บไซต์ที่จะทำให้คุณรู้จัก "น้องข้าวฟ่าง" มากขึ้น มาร่วมโดนตก (หลุมรัก) ข้าวฟ่างไปด้วยกัน เร็วๆนี้'
+                      : "This is your space for Kaofrang Yanisa or Kaofrang BNK48 fans. Come to enjoy with us soon!"}
                   </p>
                 }
               />
