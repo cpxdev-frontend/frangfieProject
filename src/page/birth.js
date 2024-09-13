@@ -90,7 +90,19 @@ const Birth = ({
   const [load, setLoad] = React.useState(false);
   const [port, setPortrait] = React.useState(false);
 
-  // const [expo, setExport] = React.useState("");
+  React.useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (text.length == 0 && img.length == 0) {
+        return;
+      }
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [text, img]);
 
   const RefreshDate = () => {
     fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {
@@ -231,7 +243,7 @@ const Birth = ({
       action: "Use birthday content",
     });
     setTimeout(() => {
-      toJpeg(cardsuccess.current, {
+      toPng(cardsuccess.current, {
         preferredFontFormat:
           "QGZvbnQtZmFjZXtuYW1lOidtaXNhbnMnO3NyYzp1cmwoJ2h0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9naC9jcHgyMDE3L21pc2Fuc2ZvbnRAbWFpbi9lbi9NaVNhbnMtTm9ybWFsLndvZmYyJykgZm9ybWF0KCd3b2ZmMicpLHVybCgnaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2NweDIwMTcvbWlzYW5zZm9udEBtYWluL2VuL01pU2Fucy1Ob3JtYWwud29mZicpIGZvcm1hdCgnd29mZicpO2ZvbnQtd2VpZ2h0OjUwMDtmb250LXN0eWxlOm5vcm1hbDtmb250LWRpc3BsYXk6c3dhcH0=",
       })
@@ -330,9 +342,19 @@ const Birth = ({
           }
         />
         {text.length > 0 && (
-          <h6 className="text-center text-info">{lang == 'th' ? 'คำแนะนำ: กรุณาดับเบิ้ลคลิกที่ข้อความ (ยกเว้นไตเติ้ล) เพื่อแก้ไข': "Guide: You can double-click at text (except Title text) to edit which you want."}</h6>
+          <h6 className="text-center text-info">
+            {lang == "th"
+              ? "คำแนะนำ: กรุณาดับเบิ้ลคลิกที่ข้อความ (ยกเว้นไตเติ้ล) เพื่อแก้ไข"
+              : "Guide: You can double-click at text (except Title text) to edit which you want."}
+          </h6>
         )}
-        <div className={port ? "container d-md-flex d-initial justify-content-center mt-3 p-5" : "container d-lg-flex d-initial justify-content-center mt-3 p-5"} style={{ overflow: "scroll" }}>
+        <div
+          className={
+            port
+              ? "container d-md-flex d-initial justify-content-center mt-3 p-5"
+              : "container d-lg-flex d-initial justify-content-center mt-3 p-5"
+          }
+          style={{ overflow: "scroll" }}>
           <Card
             sx={{
               borderRadius: 5,
@@ -341,13 +363,15 @@ const Birth = ({
               minWidth: !port ? 1011 : 638,
               minHeight: !port ? 638 : 1011,
               width: !port ? 1011 : 638,
-              height: !port ? 638 : 1011
+              height: !port ? 638 : 1011,
             }}
             ref={cardsuccess}>
             <CardContent>
               <CardHeader
                 title={
-                  <h3 style={{ color: headercolor, fontSize: port ? 28 : 33 }}>{header}</h3>
+                  <h3 style={{ color: headercolor, fontSize: port ? 28 : 33 }}>
+                    {header}
+                  </h3>
                 }
                 action={
                   load ? null : (
@@ -365,6 +389,7 @@ const Birth = ({
                     <div>
                       <Typography
                         key={item.id}
+                        className="col-12"
                         sx={{
                           fontSize: 23,
                           position: "absolute",
