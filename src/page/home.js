@@ -112,18 +112,20 @@ const Home = ({
               />
               <Button
                 className="ml-2"
+                data-tour="home-1"
                 variant="contained"
                 onClick={() => history.push("/aboutkf")}>
                 Get Started
               </Button>
               <Button
                 className="ml-2"
+                data-tour="home-2"
                 variant="outlined"
                 onClick={() => setMenu(true)}>
                 Go to Menu
               </Button>
               <br />
-              <Button className="ml-2 mt-3" onClick={() => setLangMod(true)}>
+              <Button className="ml-2 mt-3" data-tour="home-3" onClick={() => setLangMod(true)}>
                 Choose Language
               </Button>
             </CardContent>

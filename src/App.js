@@ -67,6 +67,10 @@ import Donate from "./page/donate";
 import Follow from "./page/follow";
 import Birth from "./page/birth";
 import Err from "./page/error";
+import { TourProvider, useTour } from "@reactour/tour";
+
+import stepEn from './stepEn'
+import stepTh from './stepTh'
 
 const pageSec = [
   "",
@@ -136,6 +140,8 @@ const isSupported = () =>
   "PushManager" in window;
 
 function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
+  const { setIsOpen } = useTour()
+
   const [betabypass, setBetaMode] = React.useState(false);
   const [bypassonclose, setOnClose] = React.useState(false);
   const [transit, setTran] = React.useState(false);
@@ -166,6 +172,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   }, [noti]);
 
   React.useEffect(() => {
+    setIsOpen(true)
     if (isSupported()) {
       Notification.requestPermission().then(function (result) {
         if (result === "denied" || result === "default") {
@@ -469,6 +476,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
   }
 
   return (
+    <TourProvider steps={lang == 'th' ? stepTh : stepEn}>
     <div ref={scrollRef}>
       <div
         id="blockwhenland"
@@ -1198,6 +1206,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
         </Fab>
       )} */}
     </div>
+    </TourProvider>
   );
 }
 
