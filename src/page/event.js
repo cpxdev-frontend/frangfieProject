@@ -533,6 +533,14 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
                 steps={lang == "th" ? stepTh : stepEn}
                 continuous
                 run={guide}
+                styles={{
+                  options: {
+                    arrowColor: '#fb61ee',
+                    backgroundColor: '#f1cef2',
+                    primaryColor: '#f526fc',
+                    textColor: '#000'
+                  },
+                }}
               />
             </>
           ) : (

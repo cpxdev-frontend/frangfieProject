@@ -147,7 +147,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
               <Box
                 className="ml-1"
                 data-aos="zoom-in-down"
-                sx={{ display: { sm: "initial", xs: "none" } }}>
+                sx={{ display: { sm: "initial", xs: "none" } }}
+              >
                 <MobileCarousel
                   autoPlay
                   centerMode
@@ -166,14 +167,16 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                   swipeable={true}
                   showStatus={false}
                   interval={8000}
-                  onChange={(e) => setIx(e)}>
+                  onChange={(e) => setIx(e)}
+                >
                   {data1.length > 0 &&
                     data1.map((item, i) => (
                       <Card
                         key={"home-" + item.track.id}
                         data-tempid={item.track.id}
                         className="m-2"
-                        sx={{ backgroundColor: "transperent" }}>
+                        sx={{ backgroundColor: "transperent" }}
+                      >
                         <CardActionArea className="cro-container">
                           <CardMedia
                             src={item.track.album.images[0].url}
@@ -195,7 +198,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                                       item.track.external_urls.spotify,
                                       "_blank"
                                     )
-                                  }>
+                                  }
+                                >
                                   {lang == "th"
                                     ? "ฟังเพลงนี้บน Spotify"
                                     : "Listening on Spotify"}
@@ -211,7 +215,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
               <Box
                 className="ml-1"
                 ref={music}
-                sx={{ display: { sm: "none", xs: "initial" } }}>
+                sx={{ display: { sm: "none", xs: "initial" } }}
+              >
                 {data1.length > PER_PAGE && (
                   <div className="col-md-12 d-flex justify-content-center mb-3">
                     <Pagination
@@ -229,7 +234,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                       key={"home-" + item.track.id}
                       data-tempid={item.track.id}
                       className="m-3"
-                      sx={{ backgroundColor: "transperent" }}>
+                      sx={{ backgroundColor: "transperent" }}
+                    >
                       <CardActionArea className="cro-container">
                         <CardMedia
                           src={item.track.album.images[0].url}
@@ -250,7 +256,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                                   item.track.external_urls.spotify,
                                   "_blank"
                                 )
-                              }>
+                              }
+                            >
                               {lang == "th"
                                 ? "ฟังเพลงนี้บน Spotify"
                                 : "Listening on Spotify"}
@@ -337,7 +344,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                   component={Grid}
                   className="mb-3 ml-3 ml-lg-0"
                   container
-                  key={item.snippet.resourceId.videoId}>
+                  key={item.snippet.resourceId.videoId}
+                >
                   <Grid xs={12}>
                     <CardMedia
                       sx={{ width: "100%" }}
@@ -349,12 +357,14 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                   <Grid
                     item
                     md
-                    sx={{ display: "flex", flexDirection: "column" }}>
+                    sx={{ display: "flex", flexDirection: "column" }}
+                  >
                     <CardContent sx={{ flex: "1 0 auto" }}>
                       <Typography
                         component="div"
                         variant="h5"
-                        sx={{ fontSize: 22 }}>
+                        sx={{ fontSize: 22 }}
+                      >
                         <b>{item.snippet.title}</b>
                       </Typography>
                       <small className="text-muted">
@@ -366,7 +376,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                         <Button
                           variant="outlined"
                           className="text-success border-success m-1"
-                          onClick={() => setClip(item)}>
+                          onClick={() => setClip(item)}
+                        >
                           {lang == "th" ? "รับชมคลิป" : "View Content"}
                         </Button>
                         <Button
@@ -378,7 +389,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                                 item.snippet.videoOwnerChannelId,
                               "_blank"
                             )
-                          }>
+                          }
+                        >
                           {lang == "th"
                             ? "รับชมรายการอื่น"
                             : "View other contents"}
@@ -440,6 +452,14 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
               steps={lang == "th" ? stepTh : stepEn}
               continuous
               run={guide}
+              styles={{
+                options: {
+                  arrowColor: "#fb61ee",
+                  backgroundColor: "#f1cef2",
+                  primaryColor: "#f526fc",
+                  textColor: "#000",
+                },
+              }}
             />
           )}
         </div>
@@ -449,7 +469,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
           PaperProps={{
             sx: { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 },
           }}
-          TransitionComponent={Transition}>
+          TransitionComponent={Transition}
+        >
           {clip != null && (
             <>
               <AppBar sx={{ position: "relative" }}>
@@ -468,7 +489,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                     edge="end"
                     color="inherit"
                     onClick={() => setClip(null)}
-                    aria-label="close">
+                    aria-label="close"
+                  >
                     <CloseIcon />
                   </IconButton>
                 </Toolbar>
@@ -498,7 +520,8 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                       __html:
                         (lang == "th" ? "รายละเอียด: " : "Description: ") +
                         clip.snippet.description.replace(/\n/g, "<br />"),
-                    }}></Typography>
+                    }}
+                  ></Typography>
                 </Card>
               </DialogContent>
             </>
