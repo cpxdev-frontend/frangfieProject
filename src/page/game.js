@@ -24,7 +24,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import Swal from "sweetalert2";
 import { InfoOutlined } from "@mui/icons-material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { connect } from "react-redux";
 import {
@@ -36,6 +36,10 @@ import {
 } from "../redux/action";
 import { useHistory } from "react-router-dom";
 import ReactGA from "react-ga4";
+
+import Joyride from "react-joyride";
+import stepEn from "../stepGuide/en/quiz";
+import stepTh from "../stepGuide/th/quiz";
 
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -376,6 +380,7 @@ const GameApp = ({
           className="d-flex justify-content-center"
           style={{ marginBottom: 100 }}>
           <Card
+            data-tour="quiz"
             sx={{
               marginTop: { xs: 3, md: "15vh" },
               width: { xs: "90%", md: "70%" },
@@ -454,13 +459,20 @@ const GameApp = ({
               </Button>
               <br />
               <Button
-                  className="mt-2"
-                  variant="outlined"
-                  onClick={() => his.push("/quizgameresult/all")}>
-                  {lang == "th" ? "ดูคะแนนเฉลี่ย" : "View average score"}
-                </Button>
+                className="mt-2"
+                variant="outlined"
+                onClick={() => his.push("/quizgameresult/all")}>
+                {lang == "th" ? "ดูคะแนนเฉลี่ย" : "View average score"}
+              </Button>
             </CardContent>
           </Card>
+          {open && (
+            <Joyride
+              steps={lang == "th" ? stepTh : stepEn}
+              continuous
+              run={true}
+            />
+          )}
         </div>
       </Fade>
     );
@@ -528,7 +540,7 @@ const GameApp = ({
                   onClick={() => his.push("/quizgameresult/all")}>
                   {lang == "th" ? "ดูคะแนนเฉลี่ย" : "View average score"}
                 </Button>
-                <br/>
+                <br />
               </>
             ) : (
               <Skeleton height={500} />

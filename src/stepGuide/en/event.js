@@ -1,16 +1,16 @@
 const steps = [
-    {
-      target: '[data-tour="home-1"]',
-      content: "Click 'Get Started' to navigate to let you know about her life."
-    },
-    {
-      target: '[data-tour="home-2"]',
-      content: "Or click this button when you want to go any pages by yourself."
-    },
-    {
-      target: '[data-tour="home-3"]',
-      content: "This site is default on Thai language. But don't worry, we also support in English language. You can keep try it!"
-    },
+    // {
+    //   target: '[data-tour="home-1"]',
+    //   content: "Click 'Get Started' to navigate to let you know about her life."
+    // },
+    // {
+    //   target: '[data-tour="home-2"]',
+    //   content: "Or click this button when you want to go any pages by yourself."
+    // },
+    // {
+    //   target: '[data-tour="home-3"]',
+    //   content: "This site is default on Thai language. But don't worry, we also support in English language. You can keep try it!"
+    // },
     // {
     //     target: '[data-tour="profile-1"]',
     //     content: "All about Kaofrang Yanisa or Kaofrang BNK48 is here!"
@@ -19,30 +19,32 @@ const steps = [
     //     target: '[data-tour="profile-2"]',
     //     content: "You can switch these tab to view another her lifestyle and job working."
     //   },
-    //   {
-    //     target: '[data-tour="disco-1"]',
-    //     content: "All about her discography of single or albums as well as various content that she has participated in the past."
-    //   },
-    //   {
-    //     target: '[data-tour="disco-2"]',
-    //     content: "Kaofrang's single and albums which you may know."
-    //   },
-    //   {
-    //     target: '[data-tour="disco-3"]',
-    //     content: "All Kaofrang's music video and her original contents will make you enjoy with her. Click 'View Content' to view that video content seamlessly."
-    //   },
-    //   {
-    //     target: '[data-tour="trend"]',
-    //     content: "This feature will be help to start trend on X (Twitter) easier for all about Kaofrang's event. You can click refresh button to refresh current time state."
-    //   },
+      // {
+      //   target: '[data-tour="disco-1"]',
+      //   position: 'bottom',
+      //   content: "All about her discography of single or albums as well as various content that she has participated in the past."
+      // },
+      // {
+      //   target: '[data-tour="disco-2"]',
+      //   content: "Kaofrang's single and albums which you may know."
+      // },
+      // {
+      //   target: '[data-tour="disco-3"]',
+      //   content: "All Kaofrang's music video and her original contents will make you enjoy with her. Click 'View Content' to view that video content seamlessly."
+      // },
+      // {
+      //   target: '[data-tour="trend"]',
+      //   content: "This feature will be help to start trend on X (Twitter) easier for all about Kaofrang's event. You can click refresh button to refresh current time state."
+      // },
     //   {
     //     target: '[data-tour="gallery"]',
     //     content: "Kaofrang Gallery is the another way to make rewind previous events of Kaofrang from our fanbase team. Select gallery album then here you go!"
     //   },
-    //   {
-    //     target: '[data-tour="event"]',
-    //     content: "All incoming and current Kaofrang's events which you should know are here. You can see event status, time to event is starting and also where is event at once. You can click refresh button to refresh current time state. Please don't forget to enable web push notification feature to receive new updates from Kaofrang faster!"
-    //   },
+      {
+        target: '[data-tour="event"]',
+        placementBeacon: 'top',
+        content: "All incoming and current Kaofrang's events which you should know are here. You can see event status, time to event is starting and also where is event at once. You can click refresh button to refresh current time state. Please don't forget to enable web push notification feature to receive new updates from Kaofrang faster!"
+      },
     //   {
     //     target: '[data-tour="feed"]',
     //     content: "The another way for knowing Kaofrang's lifestyle. That is on her Instagram (Currently as @kaofrang.bnk48official). You can see highlight posts of her for you!"

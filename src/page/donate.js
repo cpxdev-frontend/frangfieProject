@@ -31,6 +31,11 @@ import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { QRCode } from "react-qrcode-logo";
 import ReactGA from "react-ga4";
+
+import Joyride from "react-joyride";
+import stepEn from "../stepGuide/en/donate";
+import stepTh from "../stepGuide/th/donate";
+
 const generatePayload = require("promptpay-qr");
 
 let mem = false;
@@ -178,6 +183,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
         <CardHeader
           title={<h3>Fight for Kaofrang</h3>}
+          data-tour="donate-1"
           subheader={
             lang == "th"
               ? "ร่วมโดเนทเพื่อผลักดันกิจกรรมหรือโปรเจคต่างๆ ของข้าวฟ่างได้ที่ช่องทางนี้"
@@ -186,8 +192,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
         />
         <div
           className="container mt-3 d-flex justify-content-center"
-          data-aos="fade-in"
-        >
+          data-aos="fade-in">
           <div className="row text-center">
             <Typography className="col-12 mb-3">
               {lang == "th"
@@ -197,8 +202,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
             <div
               className="col-12 text-center"
               ref={cardsuccess}
-              style={{ backgroundColor: print ? "#fff" : "" }}
-            >
+              style={{ backgroundColor: print ? "#fff" : "" }}>
               <div className="col-12 d-flex justify-content-center">
                 {print == false ? (
                   <QRCode
@@ -239,8 +243,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                               " " +
                               setexc.toUpperCase()) +
                           ")",
-                  }}
-                ></Typography>
+                  }}></Typography>
               )}
               {print && (
                 <>
@@ -267,13 +270,13 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                         : "Amount " +
                           comma(num) +
                           " THB<br />Please view exchange rate below.",
-                  }}
-                ></Typography>
+                  }}></Typography>
               )}
             </div>
             {lang != "th" && (
               <TextField
                 select
+                data-tour="donate-2"
                 label="Choose your currency"
                 value={setexc}
                 helperText={
@@ -290,8 +293,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                 }}
                 SelectProps={{
                   native: true,
-                }}
-              >
+                }}>
                 <option value="-">Select your currency</option>
                 {moneyCurren.map((item) => (
                   <option value={item.val}>{item.lab}</option>
@@ -305,6 +307,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                   ? "เลือกจำนวนเงิน (บาท)"
                   : "Choose amount (Thai Baht)"
               }
+              data-tour="donate-3"
               value={num}
               helperText={
                 lang == "th" ||
@@ -366,8 +369,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
               }}
               SelectProps={{
                 native: true,
-              }}
-            >
+              }}>
               <option value={0}>
                 {lang == "th"
                   ? "ระบุจำนวนเงินเองในภายหลัง"
@@ -385,10 +387,10 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
               <option value={10000.0}>10,000</option>
             </TextField>
             <Button
+              data-tour="donate-4"
               variant="outlined"
               onClick={() => ExportQR()}
-              className="m-2"
-            >
+              className="m-2">
               {lang == "th" ? "บันทึก QR Code นี้" : "Save this QR Payment"}
             </Button>
             <Divider />
@@ -415,8 +417,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
                 QR Payment directly. Please click{" "}
                 <a
                   href="https://s7ap1.scene7.com/is/image/bot/2024_06_19_Crossborder%20QR%20Payment_Brochure_update%20(1)?ts=1718875185342&dpr=off"
-                  target="_blank"
-                >
+                  target="_blank">
                   here
                 </a>{" "}
                 to view Accepted international mobile banking with Thai QR
@@ -437,10 +438,17 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}
-        >
+          open={load}>
           <CircularProgress />
         </Backdrop>
+
+        {open && (
+          <Joyride
+            steps={lang == "th" ? stepTh : stepEn}
+            continuous
+            run={true}
+          />
+        )}
       </Box>
     </Fade>
   );

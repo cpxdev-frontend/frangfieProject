@@ -22,6 +22,10 @@ import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 import getAge from "get-age";
 import moment from "moment";
 
+import Joyride from "react-joyride";
+import stepEn from "../stepGuide/en/profile";
+import stepTh from "../stepGuide/th/profile";
+
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -159,7 +163,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                   )}
                 </Grid>
                 <Grid item lg={7} xs={12}>
-                  <Grid xs={12} data-aos="zoom-in-right">
+                  <Grid xs={12} data-aos="zoom-in-right" data-tour="profile-1">
                     <CardHeader
                       className="pl-0"
                       title={
@@ -214,6 +218,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                           onChange={handleChange}
                           aria-label="basic tabs example"
                           variant="scrollable"
+                          data-tour="profile-2"
                           allowScrollButtonsMobile>
                           <Tab
                             sx={{ color: "#000" }}
@@ -272,6 +277,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                       value={value2}
                       onChange={handleChange2}
                       variant="scrollable"
+                      data-tour="profile-2"
                       allowScrollButtonsMobile>
                       <Tab
                         sx={{ color: "#000" }}
@@ -331,6 +337,11 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
                   </CustomTabPanel>
                 </Box>
               </Grid>
+              <Joyride
+                steps={lang == "th" ? stepTh : stepEn}
+                continuous
+                run={true}
+              />
             </div>
           ) : (
             <Grid container spacing={5}>

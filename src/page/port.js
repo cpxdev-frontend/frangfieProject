@@ -32,6 +32,10 @@ import moment from "moment";
 import { Carousel as MobileCarousel } from "react-responsive-carousel";
 import usePagination from "../pagination";
 
+import Joyride from "react-joyride";
+import stepEn from "../stepGuide/en/disco";
+import stepTh from "../stepGuide/th/disco";
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -122,6 +126,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
       <Box sx={{ marginTop: { xs: 0, md: 15 }, marginBottom: 15 }}>
         <CardHeader
           title={<h3>Discography and Acting of Kaofrang</h3>}
+          data-tour="disco-1"
           subheader={
             lang == "th"
               ? "ผลงานที่ผ่านมาของน้องข้าวฟ่าง (อ้างอิงจาก Spotify และ Youtube)"
@@ -130,7 +135,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
         />
         <div className="container">
           {data1 != null ? (
-            <Grid container spacing={2}>
+            <Grid container spacing={2} data-tour="disco-2">
               <CardHeader
                 title={lang == "th" ? "แฟรงเพลย์" : "'Frang Play"}
                 subheader={
@@ -305,7 +310,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
           )}
           <div className="mt-5" />
           {data2 != null ? (
-            <Grid container spacing={2} ref={content}>
+            <Grid container spacing={2} ref={content} data-tour="disco-3">
               <CardHeader
                 title={
                   lang == "th" ? "ห้องนั่งเล่นของข้าวฟ่าง" : "'Frang Playground"
@@ -430,6 +435,13 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
               </CardContent>
             </Card>
           )}
+          {data1 != null && data2 != null && (
+            <Joyride
+              steps={lang == "th" ? stepTh : stepEn}
+              continuous
+              run={true}
+            />
+          )}
         </div>
         <Dialog
           fullScreen
@@ -466,7 +478,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
                   data-aos="zoom-in-down"
                   sx={{
                     width: "100%",
-                    height: '70vh',
+                    height: "70vh",
                   }}
                   component="iframe"
                   image={

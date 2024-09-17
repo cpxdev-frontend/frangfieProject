@@ -35,6 +35,10 @@ import moment from "moment";
 import { RefreshRounded } from "@mui/icons-material";
 import ReactGA from "react-ga4";
 
+import Joyride from "react-joyride";
+import stepEn from "../stepGuide/en/trend";
+import stepTh from "../stepGuide/th/trend";
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoiY3B4dGgyMDE3IiwiYSI6ImNsZHY0MzN6bTBjNzEzcXJmamJtN3BsZ3AifQ.mYNwWaYKsiLeYXngFDtaWQ";
 
@@ -118,6 +122,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
         <CardHeader
           title={<h3>Start Trend</h3>}
+          data-tour="trend"
           subheader={
             lang == "th"
               ? "ร่วมดันเทรน (ปั่นแท็ก) กิจกรรมของข้าวฟ่างไปด้วยกัน"
@@ -134,6 +139,11 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
         <div className="container mt-3">
           {data != null ? (
             <>
+              <Joyride
+                steps={lang == "th" ? stepTh : stepEn}
+                continuous
+                run={true}
+              />
               {data.length > 0 ? (
                 data.map((item, i) => (
                   <Card

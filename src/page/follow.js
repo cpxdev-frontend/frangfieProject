@@ -43,6 +43,10 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import moment from "moment";
 import LanguageIcon from "@mui/icons-material/Language";
 
+import Joyride from "react-joyride";
+import stepEn from "../stepGuide/en/follow";
+import stepTh from "../stepGuide/th/follow";
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoiY3B4dGgyMDE3IiwiYSI6ImNsZHY0MzN6bTBjNzEzcXJmamJtN3BsZ3AifQ.mYNwWaYKsiLeYXngFDtaWQ";
 
@@ -63,6 +67,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
         <CardHeader
           title={<h3>Follow Kaofrang</h3>}
+          data-tour="follow-1"
           subheader={
             lang == "th"
               ? "ติดตามความเคลื่อนไหวของน้องข้าวฟ่างได้ตามด้านล่างนี้เลย"
@@ -76,6 +81,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
                 title={lang == "th" ? "ช่องทางหลัก" : "Kaofrang's Official SNS"}
               />
               <List
+                data-tour="follow-2"
                 sx={{
                   width: "100%",
                   maxWidth: 600,
@@ -173,6 +179,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
                 title={lang == "th" ? "สำหรับชาวกอข้าว" : "For Kaofrang Fandom"}
               />
               <List
+                data-tour="follow-3"
                 sx={{
                   width: "100%",
                   maxWidth: 600,
@@ -317,6 +324,13 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
             </div>
           </div>
         </div>
+        {open && (
+          <Joyride
+            steps={lang == "th" ? stepTh : stepEn}
+            continuous
+            run={true}
+          />
+        )}
       </Box>
     </Fade>
   );

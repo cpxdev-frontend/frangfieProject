@@ -22,6 +22,10 @@ import getAge from "get-age";
 import Iframe from "./_iframe";
 import usePagination from "../pagination";
 
+import Joyride from "react-joyride";
+import stepEn from "../stepGuide/en/feed";
+import stepTh from "../stepGuide/th/feed";
+
 const Event = ({ currentPage, lang, setLang, setPage }) => {
   const [data, setData] = React.useState(null);
   const [sam, setSam] = React.useState([]);
@@ -68,6 +72,7 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
         {data != null && data[0].postId.includes("facebook.com") ? (
           <CardHeader
             title={<h3>More update of Kaofrang</h3>}
+            data-tour="feed"
             subheader={
               lang == "th"
                 ? "น้องข้างฟ่างเป็นยังไงบ้าง ไปดูโพสต์ล่าสุดของเธอกัน (อ้างอิงจาก Facebook: Kaofrang BNK48)"
@@ -105,7 +110,8 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
                   item
                   lg={8}
                   xs={12}
-                  data-aos={"zoom-in-right"}>
+                  data-aos={"zoom-in-right"}
+                  data-tour="feed">
                   <Card key={item.postId} className="mb-3">
                     <CardContent className="col-12">
                       <Iframe item={item} lang={lang} />
@@ -123,6 +129,11 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
                   />
                 </div>
               )}
+              <Joyride
+                steps={lang == "th" ? stepTh : stepEn}
+                continuous
+                run={true}
+              />
             </Grid>
           ) : (
             <Card>

@@ -1,24 +1,24 @@
 const steps = [
-    {
-      target: '[data-tour="home-1"]',
-      content: "Click 'Get Started' to navigate to let you know about her life."
-    },
-    {
-      target: '[data-tour="home-2"]',
-      content: "Or click this button when you want to go any pages by yourself."
-    },
-    {
-      target: '[data-tour="home-3"]',
-      content: "This site is default on Thai language. But don't worry, we also support in English language. You can keep try it!"
-    },
     // {
-    //     target: '[data-tour="profile-1"]',
-    //     content: "All about Kaofrang Yanisa or Kaofrang BNK48 is here!"
-    //   },
-    //   {
-    //     target: '[data-tour="profile-2"]',
-    //     content: "You can switch these tab to view another her lifestyle and job working."
-    //   },
+    //   target: '[data-tour="home-1"]',
+    //   content: "Click 'Get Started' to navigate to let you know about her life."
+    // },
+    // {
+    //   target: '[data-tour="home-2"]',
+    //   content: "Or click this button when you want to go any pages by yourself."
+    // },
+    // {
+    //   target: '[data-tour="home-3"]',
+    //   content: "This site is default on Thai language. But don't worry, we also support in English language. You can keep try it!"
+    // },
+    {
+        target: '[data-tour="profile-1"]',
+        content: "All about Kaofrang Yanisa or Kaofrang BNK48 is here!"
+      },
+      {
+        target: '[data-tour="profile-2"]',
+        content: "You can switch these tab to view another her lifestyle and job working."
+      },
     //   {
     //     target: '[data-tour="disco-1"]',
     //     content: "All about her discography of single or albums as well as various content that she has participated in the past."

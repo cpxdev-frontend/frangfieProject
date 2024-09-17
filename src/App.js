@@ -586,7 +586,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       ) : null
                     )}
 
-                    <Box sx={{ display: { xs: "initial", md: "none" } }}>
+                    <Box sx={{ display: { xs: "initial", lg: "none" } }}>
                       <Divider
                         sx={{
                           display:

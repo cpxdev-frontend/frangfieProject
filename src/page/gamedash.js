@@ -37,6 +37,10 @@ import {
 import { useHistory, useParams } from "react-router-dom";
 import { Chart } from "react-google-charts";
 
+import Joyride from "react-joyride";
+import stepEn from "../stepGuide/en/quizscore";
+import stepTh from "../stepGuide/th/quizscore";
+
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent);
 }
@@ -179,7 +183,7 @@ const GameApp = ({
               }
             />
             {data != null ? (
-              <Box>
+              <Box data-tour="quizscore">
                 <Chart
                   chartEvents={[
                     {
@@ -189,7 +193,7 @@ const GameApp = ({
                         const selection = chart.getSelection();
                         if (selection.length === 0) return;
                         const region = data[selection[0].row + 1];
-                        console.clear()
+                        console.clear();
                       },
                     },
                   ]}
@@ -316,6 +320,11 @@ const GameApp = ({
                     </Typography>
                   </>
                 )}
+                <Joyride
+                  steps={lang == "th" ? stepTh : stepEn}
+                  continuous
+                  run={true}
+                />
               </>
             ) : (
               <Skeleton height={100} />

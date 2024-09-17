@@ -13,9 +13,9 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 
-import Joyride from 'react-joyride';
-import stepEn from '../stepGuide/en/home'
-import stepTh from '../stepGuide/th/home'
+import Joyride from "react-joyride";
+import stepEn from "../stepGuide/en/home";
+import stepTh from "../stepGuide/th/home";
 
 const Home = ({
   currentPage,
@@ -27,6 +27,8 @@ const Home = ({
   setLangMod,
   launch,
 }) => {
+  const [index, setIndex] = React.useState(0);
+
   const history = useHistory();
   const [data, setData] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -57,7 +59,6 @@ const Home = ({
   return (
     <Fade in={open} timeout={300}>
       <div>
-      <Joyride steps={lang == 'th' ? stepTh : stepEn} stepIndex={0}/>
         <Fade in={open} timeout={1200}>
           <div className="video-container">
             <div
@@ -116,22 +117,32 @@ const Home = ({
                 }
               />
               <Button
-                className="ml-2 home-1"
+                className="ml-2"
+                data-tour="home-1"
                 variant="contained"
                 onClick={() => history.push("/aboutkf")}>
                 Get Started
               </Button>
               <Button
-                className="ml-2 home-2"
+                className="ml-2"
+                data-tour="home-2"
                 variant="outlined"
                 onClick={() => setMenu(true)}>
                 Go to Menu
               </Button>
               <br />
-              <Button className="ml-2 mt-3 home-3" onClick={() => setLangMod(true)}>
+              <Button
+                className="ml-2 mt-3"
+                data-tour="home-3"
+                onClick={() => setLangMod(true)}>
                 Choose Language
               </Button>
             </CardContent>
+            <Joyride
+              steps={lang == "th" ? stepTh : stepEn}
+              continuous
+              run={true}
+            />
           </Card>
         ) : (
           <Card className="text-container">

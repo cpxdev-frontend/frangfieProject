@@ -33,6 +33,10 @@ import moment from "moment";
 import { RefreshRounded } from "@mui/icons-material";
 import usePagination from "../pagination";
 
+import Joyride from "react-joyride";
+import stepEn from "../stepGuide/en/event";
+import stepTh from "../stepGuide/th/event";
+
 function compareTimestamps(timestamp1, timestamp2) {
   // Get the difference in milliseconds
   const difference = timestamp2 * 1000 - timestamp1 * 1000;
@@ -246,6 +250,7 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
               {_DATA.currentData().map((item, i) => (
                 <Card
                   key={item.newsId}
+                  data-tour="event"
                   className="mb-3"
                   data-aos="zoom-in-right">
                   <CardContent
@@ -524,6 +529,11 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                   />
                 </div>
               )}
+              <Joyride
+                steps={lang == "th" ? stepTh : stepEn}
+                continuous
+                run={true}
+              />
             </>
           ) : (
             <Card>

@@ -287,3 +287,7 @@ html>div[style] {
 .foot{
   border-radius: 0px !important;
 }
+
+.__floater__open{
+  z-index: 1100 !important;
+}

@@ -36,6 +36,10 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
 
+import Joyride from "react-joyride";
+import stepEn from "../stepGuide/en/gallery";
+import stepTh from "../stepGuide/th/gallery";
+
 const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
   const [data, setData] = React.useState(null);
   const [getData, setGetData] = React.useState(null);
@@ -65,15 +69,15 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
       },
       body: JSON.stringify({
         id: item.id,
-        title: item.title
+        title: item.title,
       }),
     };
 
-    setLoad(true)
+    setLoad(true);
     fetch(process.env.REACT_APP_APIE + "/kfsite/gallerylinkgen", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setLoad(false)
+        setLoad(false);
         if (redirect) {
           history.push("/gallery/" + result.encrypt);
         } else {
@@ -85,8 +89,8 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
               lang == "th"
                 ? "คัดลอกอัลบั้มลิงก์แล้ว"
                 : "Album link as been copied",
-            icon: 'success',
-          })
+            icon: "success",
+          });
         }
       })
       .catch((error) => console.log("error", error));
@@ -124,7 +128,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
           {data != null ? (
             <>
               {data.map((item) => (
-                <Card key={item.id} className="mb-3">
+                <Card key={item.id} className="mb-3" data-tour="gallery">
                   <CardContent>
                     <CardHeader
                       className="forceline"
@@ -179,6 +183,11 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
                   </CardContent>
                 </Card>
               ))}
+              <Joyride
+                steps={lang == "th" ? stepTh : stepEn}
+                continuous
+                run={true}
+              />
             </>
           ) : (
             <Card>
