@@ -43,6 +43,7 @@ import {
   setPage,
   setLaunch,
   setZone,
+  switchTutor,
 } from "./redux/action";
 import "moment/locale/th"; // without this line it didn't work
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -135,7 +136,7 @@ const isSupported = () =>
   "serviceWorker" in navigator &&
   "PushManager" in window;
 
-function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
+function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game, guide, switchTutor }) {
   const [betabypass, setBetaMode] = React.useState(false);
   const [bypassonclose, setOnClose] = React.useState(false);
   const [transit, setTran] = React.useState(false);
@@ -347,8 +348,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
-        className="text-center"
-      >
+        className="text-center">
         {lang == "th"
           ? "เว็บไซต์นี้ไม่รองรับการแสดงแบบฝังบนเว็บไซต์อื่น"
           : "This site is not support on iframe tag"}
@@ -365,8 +365,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-        }}
-      >
+        }}>
         <div className="col-12">
           <img
             src="https://niceillustrations.com/wp-content/uploads/2021/07/Connection-Lost-color-800px.png"
@@ -396,8 +395,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={true}
-          className="text-center"
-        >
+          className="text-center">
           <div className="row">
             <h5 className="col-12">
               {lang == "th"
@@ -429,8 +427,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={true}
-          className="text-center"
-        >
+          className="text-center">
           <h4>
             {lang == "th"
               ? "เราพร้อมมอบประสบการณ์ของการเยี่ยมชมจักรวาลของข้าวฟ่างแล้ว!"
@@ -443,8 +440,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
-        className="text-center"
-      >
+        className="text-center">
         {lang == "th"
           ? "เว็บไซต์นี้กำลังจะเปิดตัวในอีก " +
             timeLeft.days +
@@ -472,8 +468,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
     <div ref={scrollRef}>
       <div
         id="blockwhenland"
-        className="d-flex justify-content-center align-items-center text-center"
-      >
+        className="d-flex justify-content-center align-items-center text-center">
         <h5>
           <img
             src="https://cdn-icons-png.flaticon.com/512/6737/6737502.png"
@@ -494,15 +489,13 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
           location.pathname != "/" &&
           !game &&
           !currentPage.includes("404 Not Found")
-        }
-      >
+        }>
         <AppBar position="fixed" className="newmobileAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}
-              >
+                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
                 {location.pathname != "/" &&
                   !currentPage.includes("404 Not Found") && (
                     <Avatar
@@ -523,8 +516,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
                   maxWidth="xl"
-                  sx={{ display: { xs: "initial", xl: "none" } }}
-                >
+                  sx={{ display: { xs: "initial", xl: "none" } }}>
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
@@ -535,8 +527,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
+                          onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
                             sx={{
@@ -551,8 +542,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p"
-                          >
+                            component="p">
                             {page}
                           </Typography>
                         </MenuItem>
@@ -562,8 +552,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
+                          onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
                             sx={{
@@ -578,8 +567,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p"
-                          >
+                            component="p">
                             {page}
                           </Typography>
                         </MenuItem>
@@ -605,14 +593,20 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           display:
                             window.location.pathname == "/" ? "none" : "block",
                         }}
-                        fullWidth={true}
-                      >
+                        fullWidth={true}>
                         {langList.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
                         ))}
                       </TextField>
+                      <br />
+                      <FormControlLabel
+                        control={<Switch checked={guide} onChange={() => switchTutor()} />}
+                        label={
+                          lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"
+                        }
+                      />
                       <br />
                       <FormControlLabel
                         control={<Switch checked={noti} />}
@@ -646,8 +640,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       right: 20,
                     }}
                     onClick={handleOpenNavMenu}
-                    color="inherit"
-                  >
+                    color="inherit">
                     <MenuIcon />
                   </IconButton>
                 )}
@@ -660,8 +653,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
       <Slide
         direction="down"
         in={appbarx}
-        sx={{ display: { xs: "none", md: "initial" } }}
-      >
+        sx={{ display: { xs: "none", md: "initial" } }}>
         <AppBar position="fixed" className="newpcAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
@@ -683,15 +675,13 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   display: { xs: "none", lg: "flex" },
                   color: "inherit",
                   textDecoration: "none",
-                }}
-              >
+                }}>
                 <b>KorKaofrang</b>
               </Typography>
 
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}
-              >
+                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}>
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -699,8 +689,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
                   sx={{ display: { md: "none", xl: "initial" } }}
-                  color="inherit"
-                >
+                  color="inherit">
                   <MenuIcon />
                 </IconButton>
 
@@ -716,8 +705,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       right: 80,
                       top: 10,
                     }}
-                    color="inherit"
-                  >
+                    color="inherit">
                     <MenuIcon />
                   </IconButton>
                   <IconButton
@@ -727,8 +715,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       position: "fixed",
                       right: 20,
                       top: 10,
-                    }}
-                  >
+                    }}>
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -752,8 +739,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                     right: 20,
                     top: -2,
                   }}
-                  color="inherit"
-                >
+                  color="inherit">
                   <MenuIcon />
                 </IconButton>
                 <IconButton
@@ -763,8 +749,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                     position: "fixed",
                     right: 60,
                     top: 10,
-                  }}
-                >
+                  }}>
                   <Avatar
                     sx={{ width: 30, height: 30 }}
                     variant="rounded"
@@ -780,8 +765,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
                   maxWidth="xl"
-                  sx={{ display: { xs: "none", xl: "initial" } }}
-                >
+                  sx={{ display: { xs: "none", xl: "initial" } }}>
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
@@ -792,8 +776,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
+                          onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
                             sx={{
@@ -808,8 +791,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p"
-                          >
+                            component="p">
                             {page}
                           </Typography>
                         </MenuItem>
@@ -819,8 +801,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
+                          onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
                             sx={{
@@ -835,8 +816,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p"
-                          >
+                            component="p">
                             {page}
                           </Typography>
                         </MenuItem>
@@ -861,8 +841,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                           display:
                             window.location.pathname == "/" ? "none" : "block",
                         }}
-                        fullWidth={true}
-                      >
+                        fullWidth={true}>
                         {langList.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
@@ -870,6 +849,12 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                         ))}
                       </TextField>
                     </Box>
+                    <FormControlLabel
+                      control={<Switch checked={guide} onChange={() => switchTutor()} />}
+                      label={
+                        lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"
+                      }
+                    />
                     <FormControlLabel
                       control={<Switch checked={noti} />}
                       label={
@@ -905,8 +890,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   display: { xs: "flex", lg: "none" },
                   color: "inherit",
                   textDecoration: "none",
-                }}
-              >
+                }}>
                 <b>KorKaofrang</b>
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", xl: "flex" } }}>
@@ -930,8 +914,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                             ? "#fff"
                             : "#000",
                         display: "block",
-                      }}
-                    >
+                      }}>
                       {page}
                     </Button>
                   ) : pageSec[i] == "birthday" && birthdaycampain == true ? (
@@ -953,8 +936,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                             ? "#fff"
                             : "#000",
                         display: "block",
-                      }}
-                    >
+                      }}>
                       {page}
                     </Button>
                   ) : null
@@ -965,8 +947,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 <Tooltip title="Open settings">
                   <IconButton
                     onClick={() => setAnchorElUser(true)}
-                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}
-                  >
+                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}>
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -982,8 +963,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                 <Dialog
                   open={anchorElUser}
                   onClose={() => setAnchorElUser(false)}
-                  maxWidth="xl"
-                >
+                  maxWidth="xl">
                   <DialogTitle>
                     {lang == "th" ? "การตั้งค่าภาษา" : "Language Setting"}
                   </DialogTitle>
@@ -995,14 +975,20 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                       variant="filled"
                       onChange={(e) => setLang(e.target.value)}
                       sx={{ width: 180 }}
-                      fullWidth={true}
-                    >
+                      fullWidth={true}>
                       {langList.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
                       ))}
                     </TextField>
+                    <br />
+                    <FormControlLabel
+                      control={<Switch checked={guide} onChange={() => switchTutor()} />}
+                      label={
+                        lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"
+                      }
+                    />
                     <br />
                     <FormControlLabel
                       control={<Switch checked={noti} />}
@@ -1036,8 +1022,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
                   : 0,
               md: 0,
             },
-          }}
-        >
+          }}>
           {unlock ? (
             <BasicSwitch>
               <Route
@@ -1146,8 +1131,7 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game }) {
             borderTopRightRadius: 0,
             fontSize: 14,
             lineHeight: 1.2,
-          }}
-        >
+          }}>
           &copy; Copyright {new Date().getFullYear()}, CPXDevStudio
           <br />
           <small style={{ fontSize: 10 }}>
@@ -1168,6 +1152,7 @@ const mapStateToProps = (state) => ({
   launch: state.launch,
   currentPage: state.currentPage,
   game: state.game,
+  guide: state.guide,
   launch: state.launch,
 });
 const mapDispatchToProps = (dispatch) => ({
@@ -1177,5 +1162,6 @@ const mapDispatchToProps = (dispatch) => ({
   setLaunch: (val) => dispatch(setLaunch(val)),
   setPage: (val) => dispatch(setPage(val)),
   setZone: (val) => dispatch(setZone(val)),
+  switchTutor: (val) => dispatch(switchTutor(val)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -46,3 +46,9 @@ export function setLoad(val) {
       val: val
     };
   }
+
+  export function switchTutor(val) {
+    return {
+      type: 'SETTUTOR'
+    };
+  }

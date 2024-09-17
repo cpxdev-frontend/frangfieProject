@@ -26,6 +26,7 @@ const Home = ({
   setMenu,
   setLangMod,
   launch,
+  guide
 }) => {
   const [index, setIndex] = React.useState(0);
 
@@ -141,7 +142,7 @@ const Home = ({
             <Joyride
               steps={lang == "th" ? stepTh : stepEn}
               continuous
-              run={true}
+              run={guide}
             />
           </Card>
         ) : (
@@ -223,6 +224,7 @@ const mapStateToProps = (state) => ({
   dark: state.dark,
   lang: state.lang,
   launch: state.launch,
+  guide: state.guide,
   currentPage: state.currentPage,
 });
 const mapDispatchToProps = (dispatch) => ({
