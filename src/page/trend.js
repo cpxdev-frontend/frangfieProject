@@ -74,7 +74,7 @@ function comma(number) {
   return formattedNumber;
 }
 
-const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
+const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }) => {
   const [data, setData] = React.useState(null);
   const [fet, setFetch] = React.useState(false);
   const [unix, setUnix] = React.useState(launch);
@@ -142,7 +142,7 @@ const Trend = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
               <Joyride
                 steps={lang == "th" ? stepTh : stepEn}
                 continuous
-                run={true}
+                run={guide}
               />
               {data.length > 0 ? (
                 data.map((item, i) => (
@@ -492,6 +492,7 @@ const mapStateToProps = (state) => ({
   dark: state.dark,
   lang: state.lang,
   launch: state.launch,
+  guide: state.guide,
   currentPage: state.currentPage,
 });
 const mapDispatchToProps = (dispatch) => ({

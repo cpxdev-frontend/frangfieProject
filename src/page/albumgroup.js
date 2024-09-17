@@ -40,7 +40,7 @@ import Joyride from "react-joyride";
 import stepEn from "../stepGuide/en/gallery";
 import stepTh from "../stepGuide/th/gallery";
 
-const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
+const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }) => {
   const [data, setData] = React.useState(null);
   const [getData, setGetData] = React.useState(null);
   const [open, setOpen] = React.useState(false);
@@ -186,7 +186,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch }) => {
               <Joyride
                 steps={lang == "th" ? stepTh : stepEn}
                 continuous
-                run={true}
+                run={guide}
               />
             </>
           ) : (
@@ -294,6 +294,7 @@ const mapStateToProps = (state) => ({
   dark: state.dark,
   lang: state.lang,
   launch: state.launch,
+  guide: state.guide,
   currentPage: state.currentPage,
 });
 const mapDispatchToProps = (dispatch) => ({

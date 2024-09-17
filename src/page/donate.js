@@ -74,7 +74,7 @@ const moneyCurren = [
 mapboxgl.accessToken =
   "pk.eyJ1IjoiY3B4dGgyMDE3IiwiYSI6ImNsZHY0MzN6bTBjNzEzcXJmamJtN3BsZ3AifQ.mYNwWaYKsiLeYXngFDtaWQ";
 
-const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
+const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
   const [qrCode, setqrCode] = React.useState(
     generatePayload("004999166938497", {})
   );
@@ -446,7 +446,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch }) => {
           <Joyride
             steps={lang == "th" ? stepTh : stepEn}
             continuous
-            run={true}
+            run={guide}
           />
         )}
       </Box>
@@ -459,6 +459,7 @@ const mapStateToProps = (state) => ({
   dark: state.dark,
   lang: state.lang,
   launch: state.launch,
+  guide: state.guide,
   currentPage: state.currentPage,
 });
 const mapDispatchToProps = (dispatch) => ({

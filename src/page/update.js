@@ -26,7 +26,7 @@ import Joyride from "react-joyride";
 import stepEn from "../stepGuide/en/feed";
 import stepTh from "../stepGuide/th/feed";
 
-const Event = ({ currentPage, lang, setLang, setPage }) => {
+const Event = ({ currentPage, lang, setLang, setPage, guide }) => {
   const [data, setData] = React.useState(null);
   const [sam, setSam] = React.useState([]);
   const [pageset, setPagin] = React.useState(1);
@@ -132,7 +132,7 @@ const Event = ({ currentPage, lang, setLang, setPage }) => {
               <Joyride
                 steps={lang == "th" ? stepTh : stepEn}
                 continuous
-                run={true}
+                run={guide}
               />
             </Grid>
           ) : (
@@ -212,6 +212,7 @@ const mapStateToProps = (state) => ({
   load: state.load,
   dark: state.dark,
   lang: state.lang,
+  guide: state.guide,
   currentPage: state.currentPage,
 });
 const mapDispatchToProps = (dispatch) => ({

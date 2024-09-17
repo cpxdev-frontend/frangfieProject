@@ -63,6 +63,7 @@ const GameApp = ({
   setPage,
   setInGame,
   country,
+  guide,
   game,
 }) => {
   const { c } = useParams();
@@ -323,7 +324,7 @@ const GameApp = ({
                 <Joyride
                   steps={lang == "th" ? stepTh : stepEn}
                   continuous
-                  run={true}
+                  run={guide}
                 />
               </>
             ) : (
@@ -343,6 +344,7 @@ const mapStateToProps = (state) => ({
   currentPage: state.currentPage,
   game: state.game,
   country: state.country,
+  guide: state.guide,
   currentCountry: state.currentCountry,
 });
 const mapDispatchToProps = (dispatch) => ({

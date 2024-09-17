@@ -84,7 +84,7 @@ function compareTimestamps(timestamp1, timestamp2) {
   };
 }
 
-const About = ({ currentPage, lang, setLang, setPage }) => {
+const About = ({ currentPage, lang, setLang, setPage, guide }) => {
   const [data, setData] = React.useState(null);
   const [img, setImg] = React.useState(false);
   const [value, setValue] = React.useState(0);
@@ -340,7 +340,7 @@ const About = ({ currentPage, lang, setLang, setPage }) => {
               <Joyride
                 steps={lang == "th" ? stepTh : stepEn}
                 continuous
-                run={true}
+                run={guide}
               />
             </div>
           ) : (
@@ -434,6 +434,7 @@ const mapStateToProps = (state) => ({
   load: state.load,
   dark: state.dark,
   lang: state.lang,
+  guide: state.guide,
   currentPage: state.currentPage,
 });
 const mapDispatchToProps = (dispatch) => ({

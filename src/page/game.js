@@ -62,6 +62,7 @@ const GameApp = ({
   currentCountry,
   setPage,
   setInGame,
+  guide,
   game,
 }) => {
   const [gamemeet, setGame] = React.useState(0);
@@ -470,7 +471,7 @@ const GameApp = ({
             <Joyride
               steps={lang == "th" ? stepTh : stepEn}
               continuous
-              run={true}
+              run={guide}
             />
           )}
         </div>
@@ -676,6 +677,7 @@ const mapStateToProps = (state) => ({
   lang: state.lang,
   currentPage: state.currentPage,
   game: state.game,
+  guide: state.guide,
   currentCountry: state.currentCountry,
 });
 const mapDispatchToProps = (dispatch) => ({

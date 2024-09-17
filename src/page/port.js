@@ -40,7 +40,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Discography = ({ currentPage, lang, setLang, setPage }) => {
+const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
   const [width, setRealwidth] = React.useState(window.innerWidth);
   const [data1, setData1] = React.useState(null);
   const [data2, setData2] = React.useState(null);
@@ -439,7 +439,7 @@ const Discography = ({ currentPage, lang, setLang, setPage }) => {
             <Joyride
               steps={lang == "th" ? stepTh : stepEn}
               continuous
-              run={true}
+              run={guide}
             />
           )}
         </div>
@@ -513,6 +513,7 @@ const mapStateToProps = (state) => ({
   load: state.load,
   dark: state.dark,
   lang: state.lang,
+  guide: state.guide,
   currentPage: state.currentPage,
 });
 const mapDispatchToProps = (dispatch) => ({

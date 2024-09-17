@@ -50,7 +50,7 @@ import stepTh from "../stepGuide/th/follow";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiY3B4dGgyMDE3IiwiYSI6ImNsZHY0MzN6bTBjNzEzcXJmamJtN3BsZ3AifQ.mYNwWaYKsiLeYXngFDtaWQ";
 
-const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
+const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
   const [open, setOpen] = React.useState(false);
   React.useState(() => {
     setTimeout(() => {
@@ -328,7 +328,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch }) => {
           <Joyride
             steps={lang == "th" ? stepTh : stepEn}
             continuous
-            run={true}
+            run={guide}
           />
         )}
       </Box>
@@ -340,6 +340,7 @@ const mapStateToProps = (state) => ({
   load: state.load,
   dark: state.dark,
   lang: state.lang,
+  guide: state.guide,
   launch: state.launch,
   currentPage: state.currentPage,
 });
