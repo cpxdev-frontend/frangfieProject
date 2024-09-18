@@ -136,7 +136,17 @@ const isSupported = () =>
   "serviceWorker" in navigator &&
   "PushManager" in window;
 
-function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game, guide, switchTutor }) {
+function App({
+  currentPage,
+  lang,
+  setLang,
+  setLaunch,
+  setZone,
+  launch,
+  game,
+  guide,
+  switchTutor,
+}) {
   const [betabypass, setBetaMode] = React.useState(false);
   const [bypassonclose, setOnClose] = React.useState(false);
   const [transit, setTran] = React.useState(false);
@@ -602,20 +612,24 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game, gui
                       </TextField>
                       <br />
                       <FormControlLabel
-                        control={<Switch checked={guide} onChange={() => switchTutor()} />}
+                        control={
+                          <Switch
+                            checked={guide}
+                            onChange={() => switchTutor()}
+                          />
+                        }
                         label={
                           lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"
                         }
                       />
                       <br />
-                      <FormControlLabel
-                        control={<Switch checked={noti} />}
-                        label={
-                          lang == "th"
-                            ? "สถานะการแจ้งเตือน"
-                            : "Notification Status"
-                        }
-                      />
+                       <Typography>
+                      {lang == "th"
+                        ? "สถานะการแจ้งเตือน: "
+                        : "Notification Status: "} {lang == "th"
+                          ? (noti ? 'เปิดการแจ้งเตือนแล้ว' : 'ยังไม่ได้เปิดใช้งาน / ถูกปฏิเสธการเข้าถึง')
+                          : (noti ? 'Enabled' : 'Disabled / Blocked by Browser')}
+                    </Typography>
                     </Box>
                   </DialogContent>
                   <DialogActions>
@@ -850,19 +864,23 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game, gui
                       </TextField>
                     </Box>
                     <FormControlLabel
-                      control={<Switch checked={guide} onChange={() => switchTutor()} />}
+                      control={
+                        <Switch
+                          checked={guide}
+                          onChange={() => switchTutor()}
+                        />
+                      }
                       label={
                         lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"
                       }
                     />
-                    <FormControlLabel
-                      control={<Switch checked={noti} />}
-                      label={
-                        lang == "th"
-                          ? "สถานะการแจ้งเตือน"
-                          : "Notification Status"
-                      }
-                    />
+                    <Typography>
+                      {lang == "th"
+                        ? "สถานะการแจ้งเตือน: "
+                        : "Notification Status: "} {lang == "th"
+                          ? (noti ? 'เปิดการแจ้งเตือนแล้ว' : 'ยังไม่ได้เปิดใช้งาน / ถูกปฏิเสธการเข้าถึง')
+                          : (noti ? 'Enabled' : 'Disabled / Blocked by Browser')}
+                    </Typography>
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={handleCloseNavMenu}>
@@ -984,20 +1002,24 @@ function App({ currentPage, lang, setLang, setLaunch, setZone, launch, game, gui
                     </TextField>
                     <br />
                     <FormControlLabel
-                      control={<Switch checked={guide} onChange={() => switchTutor()} />}
+                      control={
+                        <Switch
+                          checked={guide}
+                          onChange={() => switchTutor()}
+                        />
+                      }
                       label={
                         lang == "th" ? "คำอธิบายการใช้งาน" : "Tutorial Guide"
                       }
                     />
                     <br />
-                    <FormControlLabel
-                      control={<Switch checked={noti} />}
-                      label={
-                        lang == "th"
-                          ? "สถานะการแจ้งเตือน"
-                          : "Notification Status"
-                      }
-                    />
+                    <Typography>
+                      {lang == "th"
+                        ? "สถานะการแจ้งเตือน: "
+                        : "Notification Status: "} {lang == "th"
+                          ? (noti ? 'เปิดการแจ้งเตือนแล้ว' : 'ยังไม่ได้เปิดใช้งาน / ถูกปฏิเสธการเข้าถึง')
+                          : (noti ? 'Enabled' : 'Disabled / Blocked by Browser')}
+                    </Typography>
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={() => setAnchorElUser(false)}>
