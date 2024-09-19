@@ -53,6 +53,12 @@ import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 import { SketchPicker } from "react-color";
 import ReactGA from "react-ga4";
 
+import Joyride from "react-joyride";
+import stepEn from "../stepGuide/en/mainbirth";
+import stepTh from "../stepGuide/th/mainbirth";
+import { editEn, moveEn, resizeEn } from "../stepGuide/en/birth";
+import { edit, move, resize } from "../stepGuide/th/birth";
+
 const Birth = ({
   currentPage,
   lang,
@@ -86,6 +92,7 @@ const Birth = ({
   const [editmodeimg, setEditmodeImg] = React.useState("");
   const [img, setAddImg] = React.useState([]);
 
+  const [t, setTutor] = React.useState(false);
   const [selectedcountry, setCountry] = React.useState("");
   const [load, setLoad] = React.useState(false);
   const [port, setPortrait] = React.useState(false);
@@ -110,8 +117,8 @@ const Birth = ({
     })
       .then((response) => response.json())
       .then((result) => {
-        setUp(result.response);
-        //setUp(true);
+        //setUp(result.response);
+        setUp(true);
       })
       .catch((error) => console.log("error", error));
 
@@ -308,6 +315,7 @@ const Birth = ({
     <Fade in={open} timeout={300}>
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
         <CardHeader
+          data-tour="birthmain-1"
           title={<h3>KorKaofrang Day Card</h3>}
           subheader={
             up
@@ -340,7 +348,7 @@ const Birth = ({
           }
           action={
             headedit ? null : (
-              <Box>
+              <Box data-tour="birthmain-5">
                 <Button
                   variant="contained"
                   onPointerUp={() =>
@@ -368,18 +376,27 @@ const Birth = ({
               : "Guide: You can double-click at text (except Title text) to edit which you want."}
           </h6>
         )}
+        {text.length > 0 && (
+          <DialogTitle
+            className="text-muted text-center"
+            sx={{ marginTop: -1, fontSize: 14 }}>
+            {lang == "th"
+              ? "คุณสามารถกดค้างที่ข้อความยาว (ยกเว้นไตเติ้ล) เพื่อย้ายตำแหน่งได้"
+              : "You can hold paragraph to move paragraph position"}
+          </DialogTitle>
+        )}
         <div
           className={
             port
               ? "container d-md-flex d-initial justify-content-center mt-3 p-5"
               : "container d-lg-flex d-initial justify-content-center mt-3 p-5"
           }
-          style={{ overflow: "scroll" }}>
+          style={{ overflow: t ? "hidden" : "scroll" }}>
           <Card
+            data-tour="birthmain-3"
             sx={{
               borderRadius: 5,
               backgroundColor: bg,
-              wordBreak: "break-all",
               minWidth: !port ? 1011 : 638,
               minHeight: !port ? 638 : 1011,
               width: !port ? 1011 : 638,
@@ -388,6 +405,7 @@ const Birth = ({
             ref={cardsuccess}>
             <CardContent>
               <CardHeader
+                data-tour="birthmain-2"
                 title={
                   <h3 style={{ color: headercolor, fontSize: port ? 28 : 33 }}>
                     {header}
@@ -424,6 +442,13 @@ const Birth = ({
                       <Dialog open={item.id == editmode}>
                         <DialogTitle>
                           {lang == "th" ? "แก้ไขข้อความ" : "Paragraph Editor"}
+                        </DialogTitle>
+                        <DialogTitle
+                          className="text-muted"
+                          sx={{ marginTop: -3, fontSize: 14 }}>
+                          {lang == "th"
+                            ? "คุณสามารถแก้ไขข้อความ และเลือกสีของข้อความได้ และกดปุ่มไอคอนเทปเพื่อบันทึกหรือถังขยะเพื่อลบข้อความนี้"
+                            : "Edit or change this parapraph text color here. Also click 'Save' icon to apply changed or click 'trash' icon to delete this paragraph."}
                         </DialogTitle>
                         <DialogContent>
                           {!load && (
@@ -480,7 +505,16 @@ const Birth = ({
                           />
                         </DialogContent>
                         <DialogActions>
-                          <Button onClick={() => setEditmode("")}>
+                          <Button
+                            onClick={() => {
+                              if (item.txt.length == 0) {
+                                setAddText([
+                                  ...text.slice(0, i),
+                                  ...text.slice(i + 1),
+                                ]);
+                              }
+                              setEditmode("");
+                            }}>
                             {lang == "th" ? "ปิด" : "Close"}
                           </Button>
                         </DialogActions>
@@ -559,6 +593,17 @@ const Birth = ({
                               }}>
                               <Delete />
                             </IconButton>
+                            <DialogTitle
+                              className="text-muted text-center"
+                              sx={{ marginTop: -1, fontSize: 14 }}>
+                              {lang == "th"
+                                ? editmodeimg != ""
+                                  ? "คลิกที่ไอคอนนี้จนขึ้นไอคอน 'ขยายรูป' และลากที่มุมของกรอบรูปเพื่อปรับขนาดรูปภาพตามที่ต้องการได้"
+                                  : "คลิกที่ไอคอนนี้จนขึ้นไอคอน 'แบมือ' และลากเพื่อย้ายข้อความยาวหรือรูปภาพได้"
+                                : editmodeimg != ""
+                                ? "Click this button to show 'Resize' icon then drag from image corner to adjust image sizes which you want."
+                                : "Click this button to show 'Plam Hand' icon then drag this text any direction to move this paragraph or image."}
+                            </DialogTitle>
                           </div>
                         )}
                         <CardMedia
@@ -584,7 +629,7 @@ const Birth = ({
             <Menu
               open={editor}
               anchorEl={anchorEl}
-              onClick={() => setAnchorEl(null)}>
+              onClick={() => (t ? null : setAnchorEl(null))}>
               <MenuItem onClick={() => setChangebg(true)}>
                 {lang == "th"
                   ? "เปลี่ยนสีการ์ด"
@@ -631,6 +676,7 @@ const Birth = ({
               </MenuItem>
             </Menu>
             <Fab
+              data-tour="birthmain-4"
               color="primary"
               sx={{
                 display: {
@@ -641,12 +687,31 @@ const Birth = ({
                 },
               }}
               onClick={(e) => {
-                setAnchorEl(e.currentTarget);
+                t ? setAnchorEl(null) : setAnchorEl(e.currentTarget);
               }}>
               <BorderColor />
             </Fab>
           </>
         )}
+
+        <Joyride
+          steps={lang == "th" ? stepTh : stepEn}
+          continuous
+          callback={(e) => {
+            console.log(e);
+            e.lifecycle == "tooltip" ? setTutor(true) : setTutor(false);
+          }}
+          run={!load ? true : false}
+          styles={{
+            options: {
+              arrowColor: "#fb61ee",
+              backgroundColor: "#f1cef2",
+              primaryColor: "#f526fc",
+              textColor: "#000",
+            },
+          }}
+        />
+
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={load}>
@@ -659,7 +724,7 @@ const Birth = ({
               ? "เปลี่ยนสีพื้นหลังการ์ด"
               : "Change Card Background Color"}
           </DialogTitle>
-          <DialogContent>
+          <DialogContent data-tour="birthmenu-1">
             <SketchPicker
               width="90%"
               color={bg}
@@ -676,6 +741,13 @@ const Birth = ({
         <Dialog open={headedit}>
           <DialogTitle>
             {lang == "th" ? "แก้ไขข้อความไตเติ้ล" : "Edit Title"}
+          </DialogTitle>
+          <DialogTitle
+            className="text-muted"
+            sx={{ marginTop: -3, fontSize: 14 }}>
+            {lang == "th"
+              ? "คุณสามารถแก้ไขข้อความ และเลือกสีของข้อความไตเติ้ลได้ โดยการเปลี่ยนแปลงจะมีผลทันที"
+              : "Edit Title or change Title text color here. All changed will be affected immediately."}
           </DialogTitle>
           <DialogContent>
             <Box className="mb-3">

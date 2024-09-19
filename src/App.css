@@ -291,3 +291,7 @@ html>div[style] {
 .__floater__open{
   z-index: 1100 !important;
 }
+button .react-joyride__beacon{
+  position: fixed !important;
+  z-index: 9000 !important;
+}
