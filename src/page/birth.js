@@ -68,7 +68,7 @@ const Birth = ({
   launch,
   leftmode,
   opacity,
-  country,
+  guide,
 }) => {
   const [headedit, setHeadedit] = React.useState(false);
   const [header, setHead] = React.useState("Kaofrang Birthday");
@@ -701,7 +701,7 @@ const Birth = ({
             console.log(e);
             e.lifecycle == "tooltip" ? setTutor(true) : setTutor(false);
           }}
-          run={!load ? true : false}
+          run={!load && guide ? true : false}
           styles={{
             options: {
               arrowColor: "#fb61ee",
@@ -781,6 +781,7 @@ const mapStateToProps = (state) => ({
   lang: state.lang,
   launch: state.launch,
   country: state.country,
+  guide: state.guide,
   currentPage: state.currentPage,
 });
 const mapDispatchToProps = (dispatch) => ({
