@@ -254,7 +254,7 @@ function App({
         : "ยังไม่ได้เปิดใช้งาน";
     } else {
       return noti == 2
-        ? "Access Denied / Blocked"
+        ? "Blocked"
         : noti == 1
         ? "Ready"
         : "Disabled";
