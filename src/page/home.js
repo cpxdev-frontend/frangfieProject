@@ -87,7 +87,7 @@ const Home = ({
                 transform: "translate(-50%,-50%)",
               }}
               loop
-              playsinline>
+              playsInline>
               <source
                 src="https://d3hhrps04devi8.cloudfront.net/kf/vdo.webm"
                 type="video/webm"

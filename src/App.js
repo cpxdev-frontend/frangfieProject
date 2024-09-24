@@ -155,7 +155,7 @@ function App({
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [birthdaycampain, setBirthday] = React.useState(false);
-  const [noti, setNoti] = React.useState(false);
+  const [noti, setNoti] = React.useState(0);
 
   const location = useLocation();
   const [opacity, setOpacity] = React.useState(1); // เริ่มต้น opacity เต็ม
@@ -164,27 +164,34 @@ function App({
   const targetTime = 1730448000;
 
   React.useEffect(() => {
-    if (noti == false && isSupported()) {
+    if (noti == 0 && isSupported()) {
       Notification.requestPermission()
         .then((permission) => {
-          console.log(permission);
-          setNoti(true);
+          if (permission == "denied") {
+            setNoti(2);
+          } else {
+            setNoti(1);
+          }
         })
         .catch((error) => {
-          setNoti(false);
+          setNoti(0);
         });
     }
   }, [noti]);
 
   React.useEffect(() => {
     if (isSupported()) {
-      Notification.requestPermission().then(function (result) {
-        if (result === "denied" || result === "default") {
-          setNoti(false);
-          return;
-        }
-        setNoti(true);
-      });
+      Notification.requestPermission()
+        .then((permission) => {
+          if (permission == "denied") {
+            setNoti(2);
+          } else {
+            setNoti(1);
+          }
+        })
+        .catch((error) => {
+          setNoti(0);
+        });
     }
   }, []);
 
@@ -237,6 +244,22 @@ function App({
       }
     };
   }
+
+  const setNotiStatus = () => {
+    if (lang == "th") {
+      return noti == 2
+        ? "ถูกปฏิเสธการเข้าถึง"
+        : noti == 1
+        ? "เปิดใช้งานแล้ว"
+        : "ยังไม่ได้เปิดใช้งาน";
+    } else {
+      return noti == 2
+        ? "Access Denied / Blocked"
+        : noti == 1
+        ? "Ready"
+        : "Disabled";
+    }
+  };
 
   const handleScroll = () => {
     scrollmot = false;
@@ -623,13 +646,12 @@ function App({
                         }
                       />
                       <br />
-                       <Typography>
-                      {lang == "th"
-                        ? "สถานะการแจ้งเตือน: "
-                        : "Notification Status: "} {lang == "th"
-                          ? (noti ? 'เปิดการแจ้งเตือนแล้ว' : 'ยังไม่ได้เปิดใช้งาน / ถูกปฏิเสธการเข้าถึง')
-                          : (noti ? 'Enabled' : 'Disabled / Blocked by Browser')}
-                    </Typography>
+                      <Typography>
+                        {lang == "th"
+                          ? "สถานะการแจ้งเตือน: "
+                          : "Notification Status: "}{" "}
+                        {setNotiStatus()}
+                      </Typography>
                     </Box>
                   </DialogContent>
                   <DialogActions>
@@ -877,9 +899,8 @@ function App({
                     <Typography>
                       {lang == "th"
                         ? "สถานะการแจ้งเตือน: "
-                        : "Notification Status: "} {lang == "th"
-                          ? (noti ? 'เปิดการแจ้งเตือนแล้ว' : 'ยังไม่ได้เปิดใช้งาน / ถูกปฏิเสธการเข้าถึง')
-                          : (noti ? 'Enabled' : 'Disabled / Blocked by Browser')}
+                        : "Notification Status: "}{" "}
+                      {setNotiStatus()}
                     </Typography>
                   </DialogContent>
                   <DialogActions>
@@ -1016,9 +1037,8 @@ function App({
                     <Typography>
                       {lang == "th"
                         ? "สถานะการแจ้งเตือน: "
-                        : "Notification Status: "} {lang == "th"
-                          ? (noti ? 'เปิดการแจ้งเตือนแล้ว' : 'ยังไม่ได้เปิดใช้งาน / ถูกปฏิเสธการเข้าถึง')
-                          : (noti ? 'Enabled' : 'Disabled / Blocked by Browser')}
+                        : "Notification Status: "}{" "}
+                      {setNotiStatus()}
                     </Typography>
                   </DialogContent>
                   <DialogActions>
