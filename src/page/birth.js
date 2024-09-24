@@ -296,7 +296,8 @@ const Birth = ({
       <Fade in={open} timeout={300}>
         <Box
           sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}
-          className="container">
+          className="container"
+        >
           <Card className="text-center">
             <CardContent>
               <h6 className="mt-3">
@@ -362,7 +363,8 @@ const Birth = ({
                               : "Let you can say something to Kaofrang.",
                           icon: "warning",
                         })
-                  }>
+                  }
+                >
                   {lang == "th" ? "ส่งออกเป็นรูปภาพ" : "Export to Image"}
                 </Button>
               </Box>
@@ -379,19 +381,22 @@ const Birth = ({
         {text.length > 0 && (
           <DialogTitle
             className="text-muted text-center"
-            sx={{ marginTop: -1, fontSize: 14 }}>
+            sx={{ marginTop: -1, fontSize: 14 }}
+          >
             {lang == "th"
               ? "คุณสามารถกดค้างที่ข้อความยาว (ยกเว้นไตเติ้ล) เพื่อย้ายตำแหน่งได้"
               : "You can hold paragraph to move paragraph position"}
           </DialogTitle>
         )}
+
         <div
           className={
             port
               ? "container d-md-flex d-initial justify-content-center mt-3 p-5"
               : "container d-lg-flex d-initial justify-content-center mt-3 p-5"
           }
-          style={{ overflow: t ? "hidden" : "scroll" }}>
+          style={{ overflow: t ? "hidden" : "scroll" }}
+        >
           <Card
             data-tour="birthmain-3"
             sx={{
@@ -402,7 +407,8 @@ const Birth = ({
               width: !port ? 1011 : 638,
               height: !port ? 638 : 1011,
             }}
-            ref={cardsuccess}>
+            ref={cardsuccess}
+          >
             <CardContent>
               <CardHeader
                 data-tour="birthmain-2"
@@ -436,7 +442,8 @@ const Birth = ({
                           color: item.color,
                         }}
                         onDoubleClick={() => setEditmode(item.id)}
-                        variant="div">
+                        variant="div"
+                      >
                         {RenderHTML(item.txt.replaceAll("\n", "<br/>"))}
                       </Typography>
                       <Dialog open={item.id == editmode}>
@@ -445,7 +452,8 @@ const Birth = ({
                         </DialogTitle>
                         <DialogTitle
                           className="text-muted"
-                          sx={{ marginTop: -3, fontSize: 14 }}>
+                          sx={{ marginTop: -3, fontSize: 14 }}
+                        >
                           {lang == "th"
                             ? "คุณสามารถแก้ไขข้อความ และเลือกสีของข้อความได้ และกดปุ่มไอคอนเทปเพื่อบันทึกหรือถังขยะเพื่อลบข้อความนี้"
                             : "Edit or change this parapraph text color here. Also click 'Save' icon to apply changed or click 'trash' icon to delete this paragraph."}
@@ -457,7 +465,8 @@ const Birth = ({
                                 color="dark"
                                 onClick={() =>
                                   item.txt.length > 0 && setEditmode("")
-                                }>
+                                }
+                              >
                                 <Save />
                               </IconButton>
                               <IconButton
@@ -483,7 +492,8 @@ const Birth = ({
                                       setEditmode("");
                                     }
                                   });
-                                }}>
+                                }}
+                              >
                                 <Delete />
                               </IconButton>
                             </div>
@@ -514,7 +524,8 @@ const Birth = ({
                                 ]);
                               }
                               setEditmode("");
-                            }}>
+                            }}
+                          >
                             {lang == "th" ? "ปิด" : "Close"}
                           </Button>
                         </DialogActions>
@@ -530,10 +541,13 @@ const Birth = ({
                         cursor: editmodeimg != "" ? "" : "grab",
                         width: "max-content",
                       }}
-                      key={item.id}>
+                      key={item.id}
+                    >
                       <Resizable
                         style={{
-                          border: load ? "" : "solid 1px #8a8a8a",
+                          border: !load
+                            ? "solid 1px #8a8a8a"
+                            : "solid 1px " + bg,
                           borderRadius: 5,
                         }}
                         defaultSize={{
@@ -556,56 +570,60 @@ const Birth = ({
                             item.h + d.width,
                             item.id
                           );
-                        }}>
-                        {!load && (
-                          <div className="col-12 text-right">
-                            <IconButton
-                              color="dark"
-                              onPointerUp={() => switchimg(item.id)}>
-                              {editmodeimg !== "" ? (
-                                <AspectRatio />
-                              ) : (
-                                <PanTool />
-                              )}
-                            </IconButton>
-                            <IconButton
-                              color="dark"
-                              onPointerUp={() => {
-                                Swal.fire({
-                                  title:
-                                    lang == "th"
-                                      ? "คุณต้องการลบรูปนี้หรือไม่"
-                                      : "Do you want to remove this image",
-                                  showDenyButton: true,
-                                  confirmButtonText:
-                                    lang == "th" ? "ยืนยัน" : "Confirm",
-                                  denyButtonText:
-                                    lang == "th" ? "แก้ไขต่อ" : "Stay edit",
-                                }).then((result) => {
-                                  /* Read more about isConfirmed, isDenied below */
-                                  if (result.isConfirmed) {
-                                    setAddImg([
-                                      ...img.slice(0, i),
-                                      ...img.slice(i + 1),
-                                    ]);
-                                  }
-                                });
-                              }}>
-                              <Delete />
-                            </IconButton>
-                            <DialogTitle
-                              className="text-muted text-center"
-                              sx={{ marginTop: -1, fontSize: 14 }}>
-                              {lang == "th"
-                                ? editmodeimg != ""
-                                  ? "คลิกที่ไอคอนนี้จนขึ้นไอคอน 'ขยายรูป' และลากที่มุมของกรอบรูปเพื่อปรับขนาดรูปภาพตามที่ต้องการได้"
-                                  : "คลิกที่ไอคอนนี้จนขึ้นไอคอน 'แบมือ' และลากเพื่อย้ายข้อความยาวหรือรูปภาพได้"
-                                : editmodeimg != ""
-                                ? "Click this button to show 'Resize' icon then drag from image corner to adjust image sizes which you want."
-                                : "Click this button to show 'Plam Hand' icon then drag this text any direction to move this paragraph or image."}
-                            </DialogTitle>
-                          </div>
-                        )}
+                        }}
+                      >
+                        <div className="col-12 text-right">
+                          <IconButton
+                            color="dark"
+                            sx={{ visibility: load ? "hidden" : "initial" }}
+                            onPointerUp={() => switchimg(item.id)}
+                          >
+                            {editmodeimg !== "" ? <AspectRatio /> : <PanTool />}
+                          </IconButton>
+                          <IconButton
+                            color="dark"
+                            sx={{ visibility: load ? "hidden" : "initial" }}
+                            onPointerUp={() => {
+                              Swal.fire({
+                                title:
+                                  lang == "th"
+                                    ? "คุณต้องการลบรูปนี้หรือไม่"
+                                    : "Do you want to remove this image",
+                                showDenyButton: true,
+                                confirmButtonText:
+                                  lang == "th" ? "ยืนยัน" : "Confirm",
+                                denyButtonText:
+                                  lang == "th" ? "แก้ไขต่อ" : "Stay edit",
+                              }).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                  setAddImg([
+                                    ...img.slice(0, i),
+                                    ...img.slice(i + 1),
+                                  ]);
+                                }
+                              });
+                            }}
+                          >
+                            <Delete />
+                          </IconButton>
+                        </div>
+                        <DialogTitle
+                          className="text-muted text-center"
+                          sx={{
+                            marginTop: -1,
+                            fontSize: 14,
+                            visibility: load ? "hidden" : "initial",
+                          }}
+                        >
+                          {lang == "th"
+                            ? editmodeimg != ""
+                              ? "คลิกที่ไอคอนนี้จนขึ้นไอคอน 'ขยายรูป' และลากที่มุมของกรอบรูปเพื่อปรับขนาดรูปภาพตามที่ต้องการได้"
+                              : "คลิกที่ไอคอนนี้จนขึ้นไอคอน 'แบมือ' และลากเพื่อย้ายข้อความยาวหรือรูปภาพได้"
+                            : editmodeimg != ""
+                            ? "Click this button to show 'Resize' icon then drag from image corner to adjust image sizes which you want."
+                            : "Click this button to show 'Plam Hand' icon then drag this text any direction to move this paragraph or image."}
+                        </DialogTitle>
                         <CardMedia
                           draggable={false}
                           sx={{
@@ -629,7 +647,8 @@ const Birth = ({
             <Menu
               open={editor}
               anchorEl={anchorEl}
-              onClick={() => (t ? null : setAnchorEl(null))}>
+              onClick={() => (t ? null : setAnchorEl(null))}
+            >
               <MenuItem onClick={() => setChangebg(true)}>
                 {lang == "th"
                   ? "เปลี่ยนสีการ์ด"
@@ -671,7 +690,8 @@ const Birth = ({
                   } else {
                     setPortrait(!port);
                   }
-                }}>
+                }}
+              >
                 {lang == "th" ? "สลับด้านของการ์ด" : "Rotate Card"}
               </MenuItem>
             </Menu>
@@ -688,7 +708,8 @@ const Birth = ({
               }}
               onClick={(e) => {
                 t ? setAnchorEl(null) : setAnchorEl(e.currentTarget);
-              }}>
+              }}
+            >
               <BorderColor />
             </Fab>
           </>
@@ -714,7 +735,8 @@ const Birth = ({
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}>
+          open={load}
+        >
           <CircularProgress />
         </Backdrop>
 
@@ -744,7 +766,8 @@ const Birth = ({
           </DialogTitle>
           <DialogTitle
             className="text-muted"
-            sx={{ marginTop: -3, fontSize: 14 }}>
+            sx={{ marginTop: -3, fontSize: 14 }}
+          >
             {lang == "th"
               ? "คุณสามารถแก้ไขข้อความ และเลือกสีของข้อความไตเติ้ลได้ โดยการเปลี่ยนแปลงจะมีผลทันที"
               : "Edit Title or change Title text color here. All changed will be affected immediately."}

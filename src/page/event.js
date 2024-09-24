@@ -210,8 +210,13 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
       .then((response) => response.json())
       .then((result) => {
         setGetData(undefined);
-        setData(result);
-        setSam(result);
+        const sortedInput1 = result.filter(x => x.timerange[1] > 0).sort((a, b) => a.timerange[0] - b.timerange[0]);
+        const sortedInput2 = result.filter(x => x.timerange[1] == 0).sort((a, b) => b.timerange[0] - a.timerange[0]);
+        const newresult = [];
+        sortedInput1.forEach((item) => newresult.push(item));
+        sortedInput2.forEach((item) => newresult.push(item));
+        setData(newresult);
+        setSam(newresult);
       })
       .catch((error) => console.log("error", error));
   }, []);
