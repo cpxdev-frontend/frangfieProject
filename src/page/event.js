@@ -42,19 +42,19 @@ function compareTimestamps(timestamp1, timestamp2) {
   const difference = timestamp2 * 1000 - timestamp1 * 1000;
 
   // Calculate days
-  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  const days = (difference / (1000 * 60 * 60 * 24)) > Math.floor(difference / (1000 * 60 * 60 * 24)) ? Math.floor(difference / (1000 * 60 * 60 * 24)) : Math.floor(difference / (1000 * 60 * 60 * 24)) - 1;
 
   // Get remaining milliseconds after removing days
   const remainingMilliseconds = difference % (1000 * 60 * 60 * 24);
 
   // Calculate hours
-  const hours = Math.floor(remainingMilliseconds / (1000 * 60 * 60));
+  const hours = (remainingMilliseconds / (1000 * 60 * 60)) > Math.floor(remainingMilliseconds / (1000 * 60 * 60)) ? Math.floor(remainingMilliseconds / (1000 * 60 * 60)) : Math.floor(remainingMilliseconds / (1000 * 60 * 60)) - 1;
 
   // Get remaining milliseconds after removing hours
   const remainingMinutes = remainingMilliseconds % (1000 * 60 * 60);
 
   // Calculate minutes
-  const minutes = Math.floor(remainingMinutes / (1000 * 60));
+  const minutes = (remainingMinutes / (1000 * 60)) > Math.round(remainingMinutes / (1000 * 60)) ? Math.round(remainingMinutes / (1000 * 60)) + 1 : Math.round(remainingMinutes / (1000 * 60));
 
   return {
     days,
@@ -89,20 +89,6 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
     }
     setPagin(p);
     _DATA.jump(p);
-  };
-
-  const RefreshDate = () => {
-    setFetch(false);
-    fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
-      .then((response) => response.json())
-      .then((result) => {
-        setLaunch(result.unix);
-        setUnix(result.unix);
-        setTimeout(() => {
-          setFetch(true);
-        }, 60000);
-      })
-      .catch((error) => console.log("error", error));
   };
 
   const getMap = (item) => {
@@ -196,15 +182,14 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
   };
 
   React.useEffect(() => {
-    console.log(getData);
-  }, [getData]);
+    setUnix(launch)
+  }, [launch])
 
   React.useEffect(() => {
     var requestOptions = {
       method: "POST",
     };
 
-    RefreshDate();
     setPage(lang == "th" ? "ข้อมูลกิจกรรม" : "Events of Kaofrang");
     fetch(process.env.REACT_APP_APIE + "/kfsite/listevent", requestOptions)
       .then((response) => response.json())
@@ -230,13 +215,6 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
             lang == "th"
               ? "ข้าวฟ่างมีงานอะไรบ้างนะในช่วงนี้"
               : "See all Kaofrang Yanisa or Kaofrang BNK48 events here."
-          }
-          action={
-            fet == true ? (
-              <IconButton onClick={() => RefreshDate()}>
-                <RefreshRounded />
-              </IconButton>
-            ) : null
           }
         />
         <div className="container mt-3">

@@ -155,6 +155,7 @@ function App({
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [birthdaycampain, setBirthday] = React.useState(false);
+  const [launchredis, setLaunchd] = React.useState(launch);
   const [noti, setNoti] = React.useState(0);
 
   const location = useLocation();
@@ -196,7 +197,7 @@ function App({
   }, []);
 
   function calculateTimeLeft() {
-    const difference = moment.unix(targetTime) - moment.unix(launch + adm);
+    const difference = moment.unix(targetTime) - moment.unix(launchredis + adm);
     let duration = moment.duration(difference);
     return {
       months: duration.months(),
@@ -210,12 +211,12 @@ function App({
   const [timeLeft, setTimeLeft] = React.useState(calculateTimeLeft());
 
   React.useEffect(() => {
-    if (moment.unix(targetTime) - moment.unix(launch + adm) <= 0) {
+    if (moment.unix(targetTime) - moment.unix(launchredis + adm) <= 0) {
       return;
     }
     setTimeLeft(calculateTimeLeft());
     const interval = setInterval(() => {
-      if (moment.unix(targetTime) - moment.unix(launch + adm) <= 0) {
+      if (moment.unix(targetTime) - moment.unix(launchredis + adm) <= 0) {
         clearInterval(interval);
         window.location.reload();
       } else {
@@ -226,7 +227,7 @@ function App({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [launch]);
+  }, [launchredis]);
 
   function debounce(func, wait) {
     let timeout;
@@ -259,6 +260,16 @@ function App({
         ? "Ready"
         : "Disabled";
     }
+  };
+
+  const fetchtime = () => {
+    fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
+        .then((response) => response.json())
+        .then((result) => {
+          console.log('server', result.unix)
+          setLaunch(result.unix);
+        })
+        .catch((error) => console.log("error", error));
   };
 
   const handleScroll = () => {
@@ -299,6 +310,7 @@ function App({
   React.useEffect(() => {
     AOS.init({ duration: 800 });
     setLaunch(moment().unix());
+    setLaunchd(moment().unix())
     fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {
       method: "POST",
     })
@@ -307,12 +319,16 @@ function App({
         setBirthday(result.response);
       })
       .catch((error) => console.log("error", error));
-    if (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null) {
+    if (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") !== null) {
       setUnlock(true);
       fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
         .then((response) => response.json())
         .then((result) => {
           setLaunch(result.unix);
+          setLaunchd(result.unix);
+          setInterval(() => {
+            fetchtime();
+          }, 5000);
         })
         .catch((error) => console.log("error", error));
       return;
@@ -321,6 +337,7 @@ function App({
       .then((response) => response.json())
       .then((result) => {
         setLaunch(result.unix);
+        setLaunchd(result.unix);
 
         if (
           result.unix >= targetTime ||
@@ -329,6 +346,9 @@ function App({
               "56f006fb7a76776e1e08eac264bd491aa1a066a1")
         ) {
           setUnlock(true);
+          setInterval(() => {
+            fetchtime();
+          }, 5000);
         } else {
           setUnlock(false);
         }
@@ -416,7 +436,7 @@ function App({
     );
   }
 
-  if (launch > targetTime - 1209600 && launch < targetTime) {
+  if (launchredis > targetTime - 1209600 && launchredis < targetTime) {
     if (
       timeLeft.months == 0 &&
       timeLeft.days == 0 &&
@@ -1195,7 +1215,6 @@ const mapStateToProps = (state) => ({
   currentPage: state.currentPage,
   game: state.game,
   guide: state.guide,
-  launch: state.launch,
 });
 const mapDispatchToProps = (dispatch) => ({
   setLoad: (val) => dispatch(setLoad(val)),
