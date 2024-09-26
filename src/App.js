@@ -23,6 +23,8 @@ import {
   LinearProgress,
   Switch,
   ButtonGroup,
+  ToggleButtonGroup,
+  ToggleButton,
   Backdrop,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -157,6 +159,7 @@ function App({
   const [birthdaycampain, setBirthday] = React.useState(false);
   const [launchredis, setLaunchd] = React.useState(launch);
   const [noti, setNoti] = React.useState(0);
+  const [locklang, setLockLang] = React.useState(false);
 
   const location = useLocation();
   const [opacity, setOpacity] = React.useState(1); // เริ่มต้น opacity เต็ม
@@ -222,7 +225,6 @@ function App({
       } else {
         adm += 1;
         setTimeLeft(calculateTimeLeft());
-        console.log("time trigger");
       }
     }, 1000);
 
@@ -254,22 +256,17 @@ function App({
         ? "เปิดใช้งานแล้ว"
         : "ยังไม่ได้เปิดใช้งาน";
     } else {
-      return noti == 2
-        ? "Blocked"
-        : noti == 1
-        ? "Ready"
-        : "Disabled";
+      return noti == 2 ? "Blocked" : noti == 1 ? "Ready" : "Disabled";
     }
   };
 
   const fetchtime = () => {
     fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
-        .then((response) => response.json())
-        .then((result) => {
-          console.log('server', result.unix)
-          setLaunch(result.unix);
-        })
-        .catch((error) => console.log("error", error));
+      .then((response) => response.json())
+      .then((result) => {
+        setLaunch(result.unix);
+      })
+      .catch((error) => console.log("error", error));
   };
 
   const handleScroll = () => {
@@ -310,7 +307,7 @@ function App({
   React.useEffect(() => {
     AOS.init({ duration: 800 });
     setLaunch(moment().unix());
-    setLaunchd(moment().unix())
+    setLaunchd(moment().unix());
     fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {
       method: "POST",
     })
@@ -374,6 +371,10 @@ function App({
       setPage(lang == "th" ? pagesTh : pagesEn);
       localStorage.setItem("kflang", lang);
     }
+    setLockLang(true)
+    setTimeout(() => {
+      setLockLang(false)
+    }, 3000);
   }, [lang]);
 
   React.useEffect(() => {
@@ -573,7 +574,7 @@ function App({
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
-                  <DialogContent>
+                  <DialogContent sx={{ width: { xs: "100%", sm: 340 } }}>
                     {pages.map((page, i) =>
                       pageSec[i] != "birthday" ? (
                         <MenuItem
@@ -627,7 +628,7 @@ function App({
                       ) : null
                     )}
 
-                    <Box sx={{ display: { xs: "initial", lg: "none" } }}>
+                    <Box sx={{ display: { xs: "initial", xl: "none" } }}>
                       <Divider
                         sx={{
                           display:
@@ -635,24 +636,23 @@ function App({
                         }}
                         className="border border-secondary mb-3 mt-2"
                       />
-                      <TextField
-                        select
-                        label="Change Language"
+                      <Typography>Change Language</Typography>
+                      <ToggleButtonGroup
+                        color="primary"
+                        className="mt-1"
                         value={lang}
-                        variant="filled"
-                        onChange={(e) => setLang(e.target.value)}
-                        sx={{
-                          width: 180,
-                          display:
-                            window.location.pathname == "/" ? "none" : "block",
-                        }}
-                        fullWidth={true}>
+                        disabled={locklang}
+                        exclusive
+                        onChange={(e) => e.target.value != lang && setLang(e.target.value)}>
                         {langList.map((option) => (
-                          <MenuItem key={option.value} value={option.value}>
+                          <ToggleButton
+                            sx={{ borderRadius: 1 }}
+                            value={option.value}
+                            key={option.value}>
                             {option.label}
-                          </MenuItem>
+                          </ToggleButton>
                         ))}
-                      </TextField>
+                      </ToggleButtonGroup>
                       <br />
                       <FormControlLabel
                         control={
@@ -825,7 +825,7 @@ function App({
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
-                  <DialogContent>
+                  <DialogContent sx={{ width: { xs: "100%", sm: 340 } }}>
                     {pages.map((page, i) =>
                       pageSec[i] != "birthday" ? (
                         <MenuItem
@@ -878,7 +878,7 @@ function App({
                         </MenuItem>
                       ) : null
                     )}
-                    <Box sx={{ display: { xs: "initial", lg: "none" } }}>
+                    <Box sx={{ display: { xs: "initial", xl: "none" } }}>
                       <Divider
                         sx={{
                           display:
@@ -886,25 +886,25 @@ function App({
                         }}
                         className="border border-secondary mb-3 mt-2"
                       />
-                      <TextField
-                        select
-                        label="Change Language"
+                      <Typography>Change Language</Typography>
+                      <ToggleButtonGroup
+                        color="primary"
+                        className="mt-1"
                         value={lang}
-                        variant="filled"
-                        onChange={(e) => setLang(e.target.value)}
-                        sx={{
-                          width: 180,
-                          display:
-                            window.location.pathname == "/" ? "none" : "block",
-                        }}
-                        fullWidth={true}>
+                        disabled={locklang}
+                        exclusive
+                        onChange={(e) => e.target.value != lang && setLang(e.target.value)}>
                         {langList.map((option) => (
-                          <MenuItem key={option.value} value={option.value}>
+                          <ToggleButton
+                            sx={{ borderRadius: 1 }}
+                            value={option.value}
+                            key={option.value}>
                             {option.label}
-                          </MenuItem>
+                          </ToggleButton>
                         ))}
-                      </TextField>
+                      </ToggleButtonGroup>
                     </Box>
+                    <br />
                     <FormControlLabel
                       control={
                         <Switch
@@ -1027,20 +1027,23 @@ function App({
                     {lang == "th" ? "การตั้งค่าภาษา" : "Language Setting"}
                   </DialogTitle>
                   <DialogContent>
-                    <TextField
-                      select
-                      label="Change Language"
+                    <Typography>Change Language</Typography>
+                    <ToggleButtonGroup
+                      color="primary"
+                      className="mt-1"
                       value={lang}
-                      variant="filled"
-                      onChange={(e) => setLang(e.target.value)}
-                      sx={{ width: 180 }}
-                      fullWidth={true}>
+                      disabled={locklang}
+                      exclusive
+                      onChange={(e) => e.target.value != lang && setLang(e.target.value)}>
                       {langList.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
+                        <ToggleButton
+                          sx={{ borderRadius: 1 }}
+                          value={option.value}
+                          key={option.value}>
                           {option.label}
-                        </MenuItem>
+                        </ToggleButton>
                       ))}
-                    </TextField>
+                    </ToggleButtonGroup>
                     <br />
                     <FormControlLabel
                       control={

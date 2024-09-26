@@ -295,3 +295,6 @@ button .react-joyride__beacon{
   position: fixed !important;
   z-index: 9000 !important;
 }
+.MuiToggleButton-root{
+  border-radius: 4px !important;
+}
