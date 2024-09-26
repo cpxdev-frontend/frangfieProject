@@ -118,7 +118,7 @@ const langList = [
   },
   {
     value: "en",
-    label: "English",
+    label: "ENG",
   },
 ];
 let scrollmot = false;
