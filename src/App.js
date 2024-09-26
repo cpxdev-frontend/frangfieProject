@@ -628,7 +628,7 @@ function App({
                       ) : null
                     )}
 
-                    <Box sx={{ display: { xs: "initial", xl: "none" } }}>
+                    <Box sx={{ display: window.location.pathname == "/" ? { xs: "none", xl: "initial" } : "initial" }}>
                       <Divider
                         sx={{
                           display:
