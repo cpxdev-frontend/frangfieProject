@@ -1,39 +1,46 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import store from './redux/store'
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import {
-  BrowserRouter
-} from "react-router-dom";
+import store from "./redux/store";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { BrowserRouter } from "react-router-dom";
+import { Auth0Provider } from "@auth0/auth0-react";
+
 const theme = createTheme({
   typography: {
-    fontFamily: 'misans',
+    fontFamily: "misans",
   },
   palette: {
     primary: {
-      main: '#fb61ee',
-      light: 'rgb(248, 195, 248)'
+      main: "#fb61ee",
+      light: "rgb(248, 195, 248)",
     },
     secondary: {
-      light: '#fff',
-      main: '#fb61ee',
-      contrastText: '#fff',
+      light: "#fff",
+      main: "#fb61ee",
+      contrastText: "#fff",
     },
-  }
+  },
 });
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-   <Provider store={store}>
-  <ThemeProvider theme={theme}>
-  <App/>
-  </ThemeProvider>
-  </Provider>
+    <Auth0Provider
+      domain="dev-d3z2gthipqxs3ba7.us.auth0.com"
+      clientId="yiu6OP37hDGjWt5ij1Y1ZAXKDOLM7Ex3"
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+      }}>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </Provider>
+    </Auth0Provider>
   </BrowserRouter>
 );
 

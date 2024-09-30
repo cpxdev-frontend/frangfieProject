@@ -71,6 +71,8 @@ import Follow from "./page/follow";
 import Birth from "./page/birth";
 import Err from "./page/error";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 const pageSec = [
   "",
   "aboutkf",
@@ -150,7 +152,8 @@ function App({
   switchTutor,
 }) {
   const [betabypass, setBetaMode] = React.useState(false);
-  const [bypassonclose, setOnClose] = React.useState(false);
+  const { loginWithPopup, user, isAuthenticated, getAccessTokenSilently, logout } =
+    useAuth0();
   const [transit, setTran] = React.useState(false);
   const [mainten, setOnMaintain] = React.useState(false);
 
@@ -198,6 +201,12 @@ function App({
         });
     }
   }, []);
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      getAccessTokenSilently();
+    }
+  }, [isAuthenticated]);
 
   function calculateTimeLeft() {
     const difference = moment.unix(targetTime) - moment.unix(launchredis + adm);
@@ -371,9 +380,9 @@ function App({
       setPage(lang == "th" ? pagesTh : pagesEn);
       localStorage.setItem("kflang", lang);
     }
-    setLockLang(true)
+    setLockLang(true);
     setTimeout(() => {
-      setLockLang(false)
+      setLockLang(false);
     }, 3000);
   }, [lang]);
 
@@ -628,7 +637,13 @@ function App({
                       ) : null
                     )}
 
-                    <Box sx={{ display: window.location.pathname == "/" ? { xs: "none", xl: "initial" } : "initial" }}>
+                    <Box
+                      sx={{
+                        display:
+                          window.location.pathname == "/"
+                            ? { xs: "none", xl: "initial" }
+                            : "initial",
+                      }}>
                       <Divider
                         sx={{
                           display:
@@ -643,7 +658,9 @@ function App({
                         value={lang}
                         disabled={locklang}
                         exclusive
-                        onChange={(e) => e.target.value != lang && setLang(e.target.value)}>
+                        onChange={(e) =>
+                          e.target.value != lang && setLang(e.target.value)
+                        }>
                         {langList.map((option) => (
                           <ToggleButton
                             sx={{ borderRadius: 1 }}
@@ -672,6 +689,16 @@ function App({
                           : "Notification Status: "}{" "}
                         {setNotiStatus()}
                       </Typography>
+                      {/* {isAuthenticated ? (
+                        <Typography onClick={() => logout()}>
+                          {lang == "th" ? "ยินดีต้อนรับคุณ " : "Good to back,"}{" "}
+                          {user.name}
+                        </Typography>
+                      ) : (
+                        <Button onClick={() => loginWithPopup()}>
+                          Log In
+                        </Button>
+                      )} */}
                     </Box>
                   </DialogContent>
                   <DialogActions>
@@ -893,7 +920,9 @@ function App({
                         value={lang}
                         disabled={locklang}
                         exclusive
-                        onChange={(e) => e.target.value != lang && setLang(e.target.value)}>
+                        onChange={(e) =>
+                          e.target.value != lang && setLang(e.target.value)
+                        }>
                         {langList.map((option) => (
                           <ToggleButton
                             sx={{ borderRadius: 1 }}
@@ -922,6 +951,16 @@ function App({
                         : "Notification Status: "}{" "}
                       {setNotiStatus()}
                     </Typography>
+                    {/* {isAuthenticated ? (
+                      <Typography onClick={() => logout()}>
+                        {lang == "th" ? "ยินดีต้อนรับคุณ " : "Good to back,"}{" "}
+                        {user.name}
+                      </Typography>
+                    ) : (
+                      <Button onClick={() => loginWithPopup()}>
+                        Log In
+                      </Button>
+                    )} */}
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={handleCloseNavMenu}>
@@ -1034,7 +1073,9 @@ function App({
                       value={lang}
                       disabled={locklang}
                       exclusive
-                      onChange={(e) => e.target.value != lang && setLang(e.target.value)}>
+                      onChange={(e) =>
+                        e.target.value != lang && setLang(e.target.value)
+                      }>
                       {langList.map((option) => (
                         <ToggleButton
                           sx={{ borderRadius: 1 }}
@@ -1063,6 +1104,16 @@ function App({
                         : "Notification Status: "}{" "}
                       {setNotiStatus()}
                     </Typography>
+                    {/* {isAuthenticated ? (
+                      <Typography onClick={() => logout()}>
+                        {lang == "th" ? "ยินดีต้อนรับคุณ " : "Good to back,"}{" "}
+                        {user.name}
+                      </Typography>
+                    ) : (
+                      <Button onClick={() => loginWithPopup()}>
+                        Log In
+                      </Button>
+                    )} */}
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={() => setAnchorElUser(false)}>
