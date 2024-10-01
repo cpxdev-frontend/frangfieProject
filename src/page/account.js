@@ -94,7 +94,7 @@ const Acct = ({
       .then((response) => response.json())
       .then((result) => {
         setLoad(false);
-        console.log(result);
+        alert(JSON.stringify(result));
         if (result.status) {
           setGetData2(true);
         } else {
@@ -195,14 +195,11 @@ const Acct = ({
                   <Button
                     size="small"
                     onClick={() =>
-                    //   localStorage.getItem(
-                    //     "1967fe1d511c1de55dc3379b515df6f2"
-                    //   ) != null
-                    //     ? setCheckevent(
-                    //         "83ADFB165B70679A85A1513BD56A1FA8042D1154B7DEE5CF70FF687613C353559580D635DCDF71BE8282CAD41AEDB0F8"
-                    //       )
-                    //     : setGetData(true)
-                    setGetData(true)
+                      window.location.href.includes('localhost')
+                        ? setCheckevent(
+                            "83ADFB165B70679A85A1513BD56A1FA8042D1154B7DEE5CF70FF687613C353559580D635DCDF71BE8282CAD41AEDB0F8"
+                          )
+                        : setGetData(true)
                     }>
                     {lang == "th"
                       ? "สแกนเพื่อเข้าร่วมกิจกรรม"
