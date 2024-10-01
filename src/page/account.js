@@ -271,7 +271,7 @@ const Acct = ({
                 container: "scanner",
               }}
               components={{ audio: false }}
-              onScan={(result) => setCheckevent(result.rawValue)}
+              onScan={(result) => setCheckevent(result[0].rawValue)}
               onError={null}
             />
           </DialogContent>
