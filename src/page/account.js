@@ -85,7 +85,7 @@ const Acct = ({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        encId: code.rawValue,
+        encId: code,
         userId: user.email,
         provider: user.sub,
       }),
@@ -95,7 +95,6 @@ const Acct = ({
       .then((response) => response.json())
       .then((result) => {
         setLoad(false);
-        alert(JSON.stringify(result))
         if (result.status) {
           setEventDetail(result.res);
           setGetData2(true);
@@ -271,7 +270,7 @@ const Acct = ({
                 container: "scanner",
               }}
               components={{ audio: false }}
-              onScan={(result) => setCheckevent(result)}
+              onScan={(result) => setCheckevent(result.rawValue)}
               onError={null}
             />
           </DialogContent>
