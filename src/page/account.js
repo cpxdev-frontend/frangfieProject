@@ -61,6 +61,7 @@ const Acct = ({
 }) => {
   const [data, setData] = React.useState(null);
   const [getData, setGetData] = React.useState(false);
+  const [getData2, setGetData2] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const history = useHistory();
   const [load, setLoad] = React.useState(false);
@@ -76,6 +77,69 @@ const Acct = ({
   const setCheckevent = (code) => {
     setLoad(true);
     setGetData(false);
+
+    var requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        encId: code,
+        userId: user.email,
+        provider: user.sub,
+      }),
+    };
+
+    fetch(process.env.REACT_APP_APIE + "/kfsite/checkevent", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setLoad(false);
+        console.log(result);
+        if (result.status) {
+          setGetData2(true);
+        } else {
+          switch (result.error) {
+            case 1: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "กิจกรรมนี้ยังไม่ถึงเวลาให้ลงทะเบียน"
+                    : "This event is not yet to ready to join.",
+                icon: "warning",
+              });
+              break;
+            }
+            case 2: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "กิจกรรมนี้สิ้นสุดการเข้าร่วมแล้ว"
+                    : "This event is already done.",
+                icon: "warning",
+              });
+              break;
+            }
+            case 3: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "ไม่พบกิจกรรมนี้ในระบบ"
+                    : "This event is not found.",
+                icon: "warning",
+              });
+              break;
+            }
+            default: {
+              Swal.fire({
+                title: result.message,
+                icon: "error",
+              });
+              break;
+            }
+          }
+        }
+      })
+      .catch((error) => console.log("error", error));
     console.log(code);
   };
 
@@ -86,10 +150,6 @@ const Acct = ({
   }, [currentPage]);
 
   React.useEffect(() => {
-    var requestOptions = {
-      method: "POST",
-    };
-
     setPage("KorKao ID");
 
     setData(user);
@@ -132,7 +192,17 @@ const Acct = ({
                   />
                 </CardContent>
                 <CardActions sx={{ display: { xs: "block", md: "none" } }}>
-                  <Button size="small" onClick={() => setGetData(true)}>
+                  <Button
+                    size="small"
+                    onClick={() =>
+                      localStorage.getItem(
+                        "1967fe1d511c1de55dc3379b515df6f2"
+                      ) != null
+                        ? setCheckevent(
+                            "83ADFB165B70679A85A1513BD56A1FA8042D1154B7DEE5CF70FF687613C353559580D635DCDF71BE8282CAD41AEDB0F8"
+                          )
+                        : setGetData(true)
+                    }>
                     {lang == "th"
                       ? "สแกนเพื่อเข้าร่วมกิจกรรม"
                       : "Scan to join event"}
@@ -191,7 +261,7 @@ const Acct = ({
             </Card>
           )}
         </div>
-        <Dialog open={getData} fullScreen maxWidth="xl">
+        <Dialog open={getData} maxWidth="xl">
           <DialogTitle id="alert-dialog-title">
             {lang == "th" ? "สแกนโค้ดกิจกรรม" : "Scan Event QR Code"}
           </DialogTitle>
@@ -200,6 +270,7 @@ const Acct = ({
               classNames={{
                 container: "scanner",
               }}
+              components={{ audio: false }}
               onScan={(result) => setCheckevent(result)}
               onError={null}
             />
@@ -213,6 +284,25 @@ const Acct = ({
             </Button>
           </DialogActions>
         </Dialog>
+
+        <Dialog open={getData2} maxWidth="xl">
+          <DialogTitle id="alert-dialog-title">
+            {lang == "th" ? "สแกนโค้ดกิจกรรม" : "Scan Event QR Code"}
+          </DialogTitle>
+          <DialogContent></DialogContent>
+          <DialogActions>
+            <Button onClick={() => {}}>
+              {lang == "th" ? "เข้าร่วมกิจกรรม" : "Join this event"}
+            </Button>
+            <Button
+              onClick={() => {
+                setGetData2(false);
+              }}>
+              {lang == "th" ? "ปิด" : "Close"}
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={load}>
