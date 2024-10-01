@@ -196,7 +196,7 @@ const Acct = ({
             {lang == "th" ? "สแกนโค้ดกิจกรรม" : "Scan Event QR Code"}
           </DialogTitle>
           <DialogContent>
-            <Scanner onScan={(result) => setCheckevent(result)} paused={!getData} onError={null} />
+            <Scanner onScan={(result) => setCheckevent(result)} onError={null} />
           </DialogContent>
           <DialogActions>
             <Button
