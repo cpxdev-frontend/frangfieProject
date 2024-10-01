@@ -91,6 +91,7 @@ const Acct = ({
       }),
     };
 
+    alert(code)
     fetch(process.env.REACT_APP_APIE + "/kfsite/checkevent", requestOptions)
       .then((response) => response.json())
       .then((result) => {
