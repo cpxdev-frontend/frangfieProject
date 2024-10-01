@@ -114,10 +114,11 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
   React.useEffect(() => {
     if (lang != "th") {
       fetch(
-        "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@" +
-          moment().format("YYYY.M") +
-          "/v1/currencies/thb.json?time=" +
-          moment().unix(),
+        // "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@" +
+        //   moment().format("YYYY.M") +
+        //   "/v1/currencies/thb.json?time=" +
+        //   moment().unix(),
+        'https://latest.currency-api.pages.dev/v1/currencies/thb.json',
         {
           method: "get",
         }

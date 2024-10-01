@@ -71,6 +71,7 @@ import Feed from "./page/update";
 import Donate from "./page/donate";
 import Follow from "./page/follow";
 import Birth from "./page/birth";
+import Account from "./page/account";
 import Err from "./page/error";
 
 import { useAuth0 } from "@auth0/auth0-react";
@@ -174,6 +175,7 @@ function App({
   const location = useLocation();
   const [opacity, setOpacity] = React.useState(1); // เริ่มต้น opacity เต็ม
   const scrollRef = React.useRef(null); // เก็บ reference ของ element ที่ scroll
+  const history = useHistory();
 
   const targetTime = 1730448000;
 
@@ -212,6 +214,7 @@ function App({
   React.useEffect(() => {
     if (isAuthenticated) {
       getAccessTokenSilently();
+      console.log("view user", user);
     }
   }, [isAuthenticated]);
 
@@ -418,8 +421,7 @@ function App({
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
-        className="text-center"
-      >
+        className="text-center">
         {lang == "th"
           ? "เว็บไซต์นี้ไม่รองรับการแสดงแบบฝังบนเว็บไซต์อื่น"
           : "This site is not support on iframe tag"}
@@ -436,8 +438,7 @@ function App({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-        }}
-      >
+        }}>
         <div className="col-12">
           <img
             src="https://niceillustrations.com/wp-content/uploads/2021/07/Connection-Lost-color-800px.png"
@@ -467,8 +468,7 @@ function App({
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={true}
-          className="text-center"
-        >
+          className="text-center">
           <div className="row">
             <h5 className="col-12">
               {lang == "th"
@@ -500,8 +500,7 @@ function App({
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={true}
-          className="text-center"
-        >
+          className="text-center">
           <h4>
             {lang == "th"
               ? "เราพร้อมมอบประสบการณ์ของการเยี่ยมชมจักรวาลของข้าวฟ่างแล้ว!"
@@ -514,8 +513,7 @@ function App({
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
-        className="text-center"
-      >
+        className="text-center">
         {lang == "th"
           ? "เว็บไซต์นี้กำลังจะเปิดตัวในอีก " +
             timeLeft.days +
@@ -543,8 +541,7 @@ function App({
     <div ref={scrollRef}>
       <div
         id="blockwhenland"
-        className="d-flex justify-content-center align-items-center text-center"
-      >
+        className="d-flex justify-content-center align-items-center text-center">
         <h5>
           <img
             src="https://cdn-icons-png.flaticon.com/512/6737/6737502.png"
@@ -565,15 +562,13 @@ function App({
           location.pathname != "/" &&
           !game &&
           !currentPage.includes("404 Not Found")
-        }
-      >
+        }>
         <AppBar position="fixed" className="newmobileAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}
-              >
+                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
                 {location.pathname != "/" &&
                   !currentPage.includes("404 Not Found") && (
                     <Avatar
@@ -594,8 +589,7 @@ function App({
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
                   maxWidth="xl"
-                  sx={{ display: { xs: "initial", xl: "none" } }}
-                >
+                  sx={{ display: { xs: "initial", xl: "none" } }}>
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
@@ -606,8 +600,7 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
+                          onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
                             sx={{
@@ -622,8 +615,7 @@ function App({
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p"
-                          >
+                            component="p">
                             {page}
                           </Typography>
                         </MenuItem>
@@ -633,8 +625,7 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
+                          onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
                             sx={{
@@ -649,8 +640,7 @@ function App({
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p"
-                          >
+                            component="p">
                             {page}
                           </Typography>
                         </MenuItem>
@@ -664,14 +654,31 @@ function App({
                             {lang == "th"
                               ? "ยินดีต้อนรับคุณ "
                               : "Welcome back, "}{" "}
-                            {user.name}
+                            {user.given_name != null
+                              ? user.given_name
+                              : user.name}
                           </Typography>
                         </CardContent>
                       )}
                       {isAuthenticated ? (
                         <CardActions>
-                          <Button onClick={() => {}}>View Profile</Button>
-                          <Button onClick={() => logout()}>Sign-out</Button>
+                          <Button
+                            onClick={() => {
+                              history.push("/account");
+                              handleCloseNavMenu();
+                            }}>
+                            View Profile
+                          </Button>
+                          <Button
+                            onClick={() =>
+                              logout({
+                                logoutParams: {
+                                  returnTo: window.location.origin,
+                                },
+                              })
+                            }>
+                            Sign-out
+                          </Button>
                         </CardActions>
                       ) : (
                         <CardActions>
@@ -687,8 +694,7 @@ function App({
                           window.location.pathname == "/"
                             ? { xs: "none", xl: "initial" }
                             : "initial",
-                      }}
-                    >
+                      }}>
                       <Typography>Change Language</Typography>
                       <ToggleButtonGroup
                         color="primary"
@@ -698,14 +704,12 @@ function App({
                         exclusive
                         onChange={(e) =>
                           e.target.value != lang && setLang(e.target.value)
-                        }
-                      >
+                        }>
                         {langList.map((option) => (
                           <ToggleButton
                             sx={{ borderRadius: 1 }}
                             value={option.value}
-                            key={option.value}
-                          >
+                            key={option.value}>
                             {option.label}
                           </ToggleButton>
                         ))}
@@ -753,8 +757,7 @@ function App({
                       right: 20,
                     }}
                     onClick={handleOpenNavMenu}
-                    color="inherit"
-                  >
+                    color="inherit">
                     <MenuIcon />
                   </IconButton>
                 )}
@@ -767,8 +770,7 @@ function App({
       <Slide
         direction="down"
         in={appbarx}
-        sx={{ display: { xs: "none", md: "initial" } }}
-      >
+        sx={{ display: { xs: "none", md: "initial" } }}>
         <AppBar position="fixed" className="newpcAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
@@ -790,15 +792,13 @@ function App({
                   display: { xs: "none", lg: "flex" },
                   color: "inherit",
                   textDecoration: "none",
-                }}
-              >
+                }}>
                 <b>KorKaofrang</b>
               </Typography>
 
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}
-              >
+                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}>
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -806,8 +806,7 @@ function App({
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
                   sx={{ display: { md: "none", xl: "initial" } }}
-                  color="inherit"
-                >
+                  color="inherit">
                   <MenuIcon />
                 </IconButton>
 
@@ -823,8 +822,7 @@ function App({
                       right: 80,
                       top: 10,
                     }}
-                    color="inherit"
-                  >
+                    color="inherit">
                     <MenuIcon />
                   </IconButton>
                   <IconButton
@@ -834,8 +832,7 @@ function App({
                       position: "fixed",
                       right: 20,
                       top: 10,
-                    }}
-                  >
+                    }}>
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -859,8 +856,7 @@ function App({
                     right: 20,
                     top: -2,
                   }}
-                  color="inherit"
-                >
+                  color="inherit">
                   <MenuIcon />
                 </IconButton>
                 <IconButton
@@ -870,8 +866,7 @@ function App({
                     position: "fixed",
                     right: 60,
                     top: 10,
-                  }}
-                >
+                  }}>
                   <Avatar
                     sx={{ width: 30, height: 30 }}
                     variant="rounded"
@@ -887,8 +882,7 @@ function App({
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
                   maxWidth="xl"
-                  sx={{ display: { xs: "none", xl: "initial" } }}
-                >
+                  sx={{ display: { xs: "none", xl: "initial" } }}>
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
@@ -899,8 +893,7 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
+                          onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
                             sx={{
@@ -915,8 +908,7 @@ function App({
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p"
-                          >
+                            component="p">
                             {page}
                           </Typography>
                         </MenuItem>
@@ -926,8 +918,7 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
+                          onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
                             sx={{
@@ -942,8 +933,7 @@ function App({
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p"
-                          >
+                            component="p">
                             {page}
                           </Typography>
                         </MenuItem>
@@ -956,14 +946,31 @@ function App({
                             {lang == "th"
                               ? "ยินดีต้อนรับคุณ "
                               : "Welcome back, "}{" "}
-                            {user.name}
+                            {user.given_name != null
+                              ? user.given_name
+                              : user.name}
                           </Typography>
                         </CardContent>
                       )}
                       {isAuthenticated ? (
                         <CardActions>
-                          <Button onClick={() => {}}>View Profile</Button>
-                          <Button onClick={() => logout()}>Sign-out</Button>
+                          <Button
+                            onClick={() => {
+                              history.push("/account");
+                              handleCloseNavMenu();
+                            }}>
+                            View Profile
+                          </Button>
+                          <Button
+                            onClick={() =>
+                              logout({
+                                logoutParams: {
+                                  returnTo: window.location.origin,
+                                },
+                              })
+                            }>
+                            Sign-out
+                          </Button>
                         </CardActions>
                       ) : (
                         <CardActions>
@@ -990,14 +997,12 @@ function App({
                         exclusive
                         onChange={(e) =>
                           e.target.value != lang && setLang(e.target.value)
-                        }
-                      >
+                        }>
                         {langList.map((option) => (
                           <ToggleButton
                             sx={{ borderRadius: 1 }}
                             value={option.value}
-                            key={option.value}
-                          >
+                            key={option.value}>
                             {option.label}
                           </ToggleButton>
                         ))}
@@ -1048,8 +1053,7 @@ function App({
                   display: { xs: "flex", lg: "none" },
                   color: "inherit",
                   textDecoration: "none",
-                }}
-              >
+                }}>
                 <b>KorKaofrang</b>
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", xl: "flex" } }}>
@@ -1073,8 +1077,7 @@ function App({
                             ? "#fff"
                             : "#000",
                         display: "block",
-                      }}
-                    >
+                      }}>
                       {page}
                     </Button>
                   ) : pageSec[i] == "birthday" && birthdaycampain == true ? (
@@ -1096,8 +1099,7 @@ function App({
                             ? "#fff"
                             : "#000",
                         display: "block",
-                      }}
-                    >
+                      }}>
                       {page}
                     </Button>
                   ) : null
@@ -1108,8 +1110,7 @@ function App({
                 <Tooltip title="Open settings">
                   <IconButton
                     onClick={() => setAnchorElUser(true)}
-                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}
-                  >
+                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}>
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -1125,35 +1126,56 @@ function App({
                 <Dialog
                   open={anchorElUser}
                   onClose={() => setAnchorElUser(false)}
-                  maxWidth="xl"
-                >
+                  maxWidth="xl">
                   <DialogTitle>
                     {lang == "th" ? "การตั้งค่า" : "Setting"}
                   </DialogTitle>
-                    <Card className="m-4" sx={{display: location.pathname == '/' || location.pathname == '/404' ? 'none' : 'initial'}}>
-                      {isAuthenticated && (
-                        <CardContent>
-                          <Typography>
-                            {lang == "th"
-                              ? "ยินดีต้อนรับคุณ "
-                              : "Welcome back, "}{" "}
-                            {user.name}
-                          </Typography>
-                        </CardContent>
-                      )}
-                      {isAuthenticated ? (
-                        <CardActions>
-                          <Button onClick={() => {}}>View Profile</Button>
-                          <Button onClick={() => logout()}>Sign-out</Button>
-                        </CardActions>
-                      ) : (
-                        <CardActions>
-                          <Button onClick={() => loginWithPopup()}>
-                            Become or Log-in to KorKao ID
-                          </Button>
-                        </CardActions>
-                      )}
-                    </Card>
+                  <Card
+                    className="m-4"
+                    sx={{
+                      display:
+                        location.pathname == "/" || location.pathname == "/404"
+                          ? "none"
+                          : "initial",
+                    }}>
+                    {isAuthenticated && (
+                      <CardContent>
+                        <Typography>
+                          {lang == "th" ? "ยินดีต้อนรับคุณ " : "Welcome back, "}{" "}
+                          {user.given_name != null
+                            ? user.given_name
+                            : user.name}
+                        </Typography>
+                      </CardContent>
+                    )}
+                    {isAuthenticated ? (
+                      <CardActions>
+                        <Button
+                          onClick={() => {
+                            history.push("/account");
+                            handleCloseNavMenu();
+                          }}>
+                          View Profile
+                        </Button>
+                        <Button
+                          onClick={() =>
+                            logout({
+                              logoutParams: {
+                                returnTo: window.location.origin,
+                              },
+                            })
+                          }>
+                          Sign-out
+                        </Button>
+                      </CardActions>
+                    ) : (
+                      <CardActions>
+                        <Button onClick={() => loginWithPopup()}>
+                          Become or Log-in to KorKao ID
+                        </Button>
+                      </CardActions>
+                    )}
+                  </Card>
                   <DialogContent>
                     <Typography>Change Language</Typography>
                     <ToggleButtonGroup
@@ -1164,14 +1186,12 @@ function App({
                       exclusive
                       onChange={(e) =>
                         e.target.value != lang && setLang(e.target.value)
-                      }
-                    >
+                      }>
                       {langList.map((option) => (
                         <ToggleButton
                           sx={{ borderRadius: 1 }}
                           value={option.value}
-                          key={option.value}
-                        >
+                          key={option.value}>
                           {option.label}
                         </ToggleButton>
                       ))}
@@ -1219,8 +1239,7 @@ function App({
                   : 0,
               md: 0,
             },
-          }}
-        >
+          }}>
           {unlock ? (
             <BasicSwitch>
               <Route
@@ -1292,6 +1311,13 @@ function App({
                 path="/donation"
                 render={() => <Donate />}
               />
+              {isAuthenticated && (
+                <Route
+                  data-aos="fade-in"
+                  path="/account"
+                  render={() => <Account />}
+                />
+              )}
               <Route
                 exact
                 data-aos="fade-in"
@@ -1329,8 +1355,7 @@ function App({
             borderTopRightRadius: 0,
             fontSize: 14,
             lineHeight: 1.2,
-          }}
-        >
+          }}>
           &copy; Copyright {new Date().getFullYear()}, CPXDevStudio
           <br />
           <small style={{ fontSize: 10 }}>
