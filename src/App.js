@@ -715,7 +715,7 @@ function App({
                     ) : (
                       <Skeleton
                         variant="rounded"
-                        className="bg-m"
+                        className="bg-m mt-3 mb-3"
                         sx={{ height: 100 }}
                       />
                     )}
@@ -1024,7 +1024,7 @@ function App({
                     ) : (
                       <Skeleton
                         variant="rounded"
-                        className="bg-m"
+                        className="bg-m mt-3 mb-3"
                         sx={{ height: 100 }}
                       />
                     )}
