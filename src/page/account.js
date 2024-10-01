@@ -84,7 +84,7 @@ const Acct = ({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        encId: code,
+        encId: code.rawValue,
         userId: user.email,
         provider: user.sub,
       }),
