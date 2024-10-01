@@ -94,7 +94,6 @@ const Acct = ({
       .then((response) => response.json())
       .then((result) => {
         setLoad(false);
-        alert(JSON.stringify(code));
         if (result.status) {
           setGetData2(true);
         } else {
