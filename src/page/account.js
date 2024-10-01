@@ -60,6 +60,7 @@ const Acct = ({
   guide,
 }) => {
   const [data, setData] = React.useState(null);
+  const [event, setEventDetail] = React.useState(null);
   const [getData, setGetData] = React.useState(false);
   const [getData2, setGetData2] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -94,7 +95,9 @@ const Acct = ({
       .then((response) => response.json())
       .then((result) => {
         setLoad(false);
+        alert(JSON.stringify(result))
         if (result.status) {
+          setEventDetail(result.res);
           setGetData2(true);
         } else {
           switch (result.error) {
@@ -194,7 +197,7 @@ const Acct = ({
                   <Button
                     size="small"
                     onClick={() =>
-                      window.location.href.includes('localhost')
+                      window.location.href.includes("localhost")
                         ? setCheckevent(
                             "83ADFB165B70679A85A1513BD56A1FA8042D1154B7DEE5CF70FF687613C353559580D635DCDF71BE8282CAD41AEDB0F8"
                           )
