@@ -298,3 +298,17 @@ button .react-joyride__beacon{
 .MuiToggleButton-root{
   border-radius: 4px !important;
 }
+
+
+.scanner {
+  aspect-ratio: 1;
+}
+
+.scanner video {
+  object-fit: cover;
+}
+
+.scanner svg {
+  max-width: 100%;
+  max-height: 100%;
+}

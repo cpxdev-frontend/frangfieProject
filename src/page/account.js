@@ -74,9 +74,9 @@ const Acct = ({
   } = useAuth0();
 
   const setCheckevent = (code) => {
-    setLoad(true)
-    setGetData(false)
-    console.log(code)
+    setLoad(true);
+    setGetData(false);
+    console.log(code);
   };
 
   React.useState(() => {
@@ -196,7 +196,13 @@ const Acct = ({
             {lang == "th" ? "สแกนโค้ดกิจกรรม" : "Scan Event QR Code"}
           </DialogTitle>
           <DialogContent>
-            <Scanner onScan={(result) => setCheckevent(result)} onError={null} />
+            <Scanner
+              classNames={{
+                container: "scanner",
+              }}
+              onScan={(result) => setCheckevent(result)}
+              onError={null}
+            />
           </DialogContent>
           <DialogActions>
             <Button
