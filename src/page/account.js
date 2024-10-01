@@ -153,8 +153,10 @@ const Acct = ({
   React.useEffect(() => {
     setPage("KorKao ID");
 
-    setData(user);
-  }, []);
+    if (isAuthenticated) {
+      setData(user);
+    }
+  }, [isAuthenticated]);
 
   return (
     <Fade in={open} timeout={300}>
