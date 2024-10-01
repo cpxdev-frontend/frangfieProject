@@ -9,7 +9,7 @@ import {
   Grid,
   Avatar,
   Box,
-  Tabs,
+  Divider,
   Fade,
   Typography,
   CircularProgress,
@@ -91,13 +91,12 @@ const Acct = ({
       }),
     };
 
-    alert(code)
     fetch(process.env.REACT_APP_APIE + "/kfsite/checkevent", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setLoad(false);
         if (result.status) {
-          setEventDetail(result.res);
+          setEventDetail(result);
           setGetData2(true);
         } else {
           switch (result.error) {
@@ -195,7 +194,6 @@ const Acct = ({
                 </CardContent>
                 <CardActions sx={{ display: { xs: "block", md: "none" } }}>
                   <Button
-                    size="small"
                     onClick={() =>
                       window.location.href.includes("localhost")
                         ? setCheckevent(
@@ -286,21 +284,40 @@ const Acct = ({
         </Dialog>
 
         <Dialog open={getData2} maxWidth="xl">
-          <DialogTitle id="alert-dialog-title">
-            {lang == "th" ? "สแกนโค้ดกิจกรรม" : "Scan Event QR Code"}
-          </DialogTitle>
-          <DialogContent></DialogContent>
-          <DialogActions>
-            <Button onClick={() => {}}>
-              {lang == "th" ? "เข้าร่วมกิจกรรม" : "Join this event"}
-            </Button>
-            <Button
-              onClick={() => {
-                setGetData2(false);
-              }}>
-              {lang == "th" ? "ปิด" : "Close"}
-            </Button>
-          </DialogActions>
+          {event != null && (
+            <>
+              <DialogTitle id="alert-dialog-title">
+                <CardHeader
+                  title={event.res.title}
+                  subheader={
+                    lang == "th"
+                      ? "มีผู้เข้าร่วมกิจกรรมแล้ว " + event.part + " คน"
+                      : event.part + " persons participating in this event."
+                  }
+                />
+              </DialogTitle>
+              <DialogContent>
+                <Typography>{event.res.desc[lang]}</Typography>
+                <Divider className="mt-4" />
+                <Typography className="mt-2">
+                  {lang == "th"
+                    ? "การเข้าถึงข้อมูลส่วนบุคคล: ทางผู้พัฒนาต้องการเข้าถึงข้อมูล ได้แก่ ที่อยู่อีเมลและชื่อผู้ใช้ โดยมีวัตุถุประสงค์เพื่อนำไปใช้ในกิจกรรมที่เกี่ยวข้องกับกิจกรรมนี้ และจะมีผลจนถึงวันและเวลาที่สิ้นสุดกิจกรรมนี้ และผู้พัฒนาจะลบข้อมูลที่เก็บไว้ออกจากระบบ"
+                    : "Privacy Info Access Information: The developer requires access to information including email addresses and usernames. The objective is to be used in activities related to this activity. and will remain in effect until the day and time this activity ends. and the developer will delete the stored data from the system."}
+                </Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => {}}>
+                  {lang == "th" ? "เข้าร่วมกิจกรรม" : "Join this event"}
+                </Button>
+                <Button
+                  onClick={() => {
+                    setGetData2(false);
+                  }}>
+                  {lang == "th" ? "ปิด" : "Close"}
+                </Button>
+              </DialogActions>
+            </>
+          )}
         </Dialog>
 
         <Backdrop
