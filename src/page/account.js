@@ -75,6 +75,7 @@ const Acct = ({
 
   const setCheckevent = (code) => {
     setLoad(true)
+    setGetData(false)
     console.log(code)
   };
 
@@ -195,7 +196,7 @@ const Acct = ({
             {lang == "th" ? "สแกนโค้ดกิจกรรม" : "Scan Event QR Code"}
           </DialogTitle>
           <DialogContent>
-            <Scanner styles={{container: {height: '80%'}}} onScan={(result) => setCheckevent(result)} paused={!getData} onError={null} />
+            <Scanner onScan={(result) => setCheckevent(result)} paused={!getData} onError={null} />
           </DialogContent>
           <DialogActions>
             <Button
