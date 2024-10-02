@@ -449,12 +449,11 @@ const Acct = ({
                 />
                 <CardActionArea
                   className="mt-2 text-muted"
+                  SX={{ fontSize: 16 }}
                   onClick={() => window.open(event.res.locationMap, "_blank")}>
-                  <small>
-                    {lang == "th"
-                      ? "สถานที่: " + event.res.locationTitle
-                      : "Location: " + event.res.locationTitle}
-                  </small>
+                  {lang == "th"
+                    ? "สถานที่: " + event.res.locationTitle
+                    : "Location: " + event.res.locationTitle}
                 </CardActionArea>
                 <Divider className="mt-3" />
               </DialogTitle>
