@@ -62,7 +62,7 @@ const Acct = ({
   const [data, setData] = React.useState(null);
   const [event, setEventDetail] = React.useState(null);
   const [getData, setGetData] = React.useState(false);
-  const [getData2, setGetData2] = React.useState(false);
+  const [getData2, setGetData2] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const history = useHistory();
   const [load, setLoad] = React.useState(false);
@@ -97,7 +97,7 @@ const Acct = ({
         setLoad(false);
         if (result.status) {
           setEventDetail(result);
-          setGetData2(true);
+          setGetData2(code);
         } else {
           switch (result.error) {
             case 1: {
@@ -130,6 +130,16 @@ const Acct = ({
               });
               break;
             }
+            case 4: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "คุณเคยเข้าร่วมกิจกรรมนี้แล้ว"
+                    : "You are already joined this event.",
+                icon: "warning",
+              });
+              break;
+            }
             default: {
               Swal.fire({
                 title: result.message,
@@ -142,6 +152,92 @@ const Acct = ({
       })
       .catch((error) => console.log("error", error));
     console.log(code);
+  };
+
+  const joinevent = () => {
+    setLoad(true);
+    const eventId = getData2;
+    setGetData2(null);
+    setEventDetail(null);
+
+    var requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        encId: eventId,
+        userId: user.email,
+        userName: user.given_name != null ? user.given_name : user.name,
+        provider: user.sub,
+      }),
+    };
+
+    fetch(process.env.REACT_APP_APIE + "/kfsite/joinevent", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setLoad(false);
+        if (result.status) {
+          Swal.fire({
+            title:
+              lang == "th"
+                ? "คุณเข้าร่วมกิจกรรมเรียบร้อยแล้ว"
+                : "You are joining this event now! Please enjoy our activities.",
+            icon: "success",
+          });
+        } else {
+          switch (result.error) {
+            case 1: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "กิจกรรมนี้ยังไม่ถึงเวลาให้ลงทะเบียน"
+                    : "This event is not yet to ready to join.",
+                icon: "warning",
+              });
+              break;
+            }
+            case 2: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "กิจกรรมนี้สิ้นสุดการเข้าร่วมแล้ว"
+                    : "This event is already done.",
+                icon: "warning",
+              });
+              break;
+            }
+            case 3: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "ไม่พบกิจกรรมนี้ในระบบ"
+                    : "This event is not found.",
+                icon: "warning",
+              });
+              break;
+            }
+            case 4: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "คุณเคยเข้าร่วมกิจกรรมนี้แล้ว"
+                    : "You are already joined this event.",
+                icon: "warning",
+              });
+              break;
+            }
+            default: {
+              Swal.fire({
+                title: result.message,
+                icon: "error",
+              });
+              break;
+            }
+          }
+        }
+      })
+      .catch((error) => console.log("error", error));
   };
 
   React.useState(() => {
@@ -172,13 +268,26 @@ const Acct = ({
                       <Avatar
                         sx={{ width: 80, height: 80 }}
                         src={user.picture}
-                        className="mr-2"
+                        className="mr-md-2 mr-0"
                         aria-label="recipe"></Avatar>
                     }
                     title={user.name}
                     subheader={"ID: " + user.email}
                     action={
-                      <IconButton aria-label="google">
+                      <IconButton
+                        aria-label="google"
+                        onClick={() =>
+                          window.open(
+                            user.sub.includes("google")
+                              ? "https://myaccount.google.com/"
+                              : user.sub.includes("windowslive")
+                              ? "https://account.microsoft.com"
+                              : user.sub.includes("spotify")
+                              ? "https://www.spotify.com/account/overview"
+                              : null,
+                            "_blank"
+                          )
+                        }>
                         <FontAwesomeIcon
                           icon={
                             user.sub.includes("google")
@@ -285,7 +394,7 @@ const Acct = ({
           </DialogActions>
         </Dialog>
 
-        <Dialog open={getData2} maxWidth="xl">
+        <Dialog open={getData2 != null} maxWidth="xl">
           {event != null && (
             <>
               <DialogTitle id="alert-dialog-title">
@@ -297,8 +406,29 @@ const Acct = ({
                       : event.part + " persons participating in this event."
                   }
                 />
+                <Chip
+                  className="ml-md-3 ml-1"
+                  label={
+                    lang == "th"
+                      ? "เข้าร่วมได้จนถึงวันที่ " +
+                        moment
+                          .unix(event.res.end)
+                          .local()
+                          .lang(lang)
+                          .format("DD MMMM YYYY เวลา HH:mm")
+                      : "You can join this event until " +
+                        moment
+                          .unix(event.res.end)
+                          .local()
+                          .lang(lang)
+                          .format("DD MMMM YYYY HH:mm")
+                  }
+                  color="primary"
+                  variant="outlined"
+                />
+                <Divider className="mt-3" />
               </DialogTitle>
-              <DialogContent>
+              <DialogContent className="m-md-3 m-1">
                 <Typography>{event.res.desc[lang]}</Typography>
                 <Divider className="mt-4" />
                 <Typography className="mt-2">
@@ -306,14 +436,19 @@ const Acct = ({
                     ? "การเข้าถึงข้อมูลส่วนบุคคล: ทางผู้พัฒนาต้องการเข้าถึงข้อมูล ได้แก่ ที่อยู่อีเมลและชื่อผู้ใช้ โดยมีวัตุถุประสงค์เพื่อนำไปใช้ในกิจกรรมที่เกี่ยวข้องกับกิจกรรมนี้ และจะมีผลจนถึงวันและเวลาที่สิ้นสุดกิจกรรมนี้ และผู้พัฒนาจะลบข้อมูลที่เก็บไว้ออกจากระบบ"
                     : "Privacy Info Access Information: The developer requires access to information including email addresses and usernames. The objective is to be used in activities related to this activity. and will remain in effect until the day and time this activity ends. and the developer will delete the stored data from the system."}
                 </Typography>
+                <Typography className="mt-2">
+                  {lang == "th"
+                    ? "1 ไอดีผู้ใช้สามารถเข้าร่วมกิจกรรมได้ 1 คนเท่านั้น หากยืนยันเข้าร่วมแล้วจะไม่สามารถยกเลิก หรือเข้าร่วมงานซ้ำในภายหลังได้"
+                    : "You can join this event 1 ID per 1 person. You cannot join this event repeatly or cancel joined event anyway."}
+                </Typography>
               </DialogContent>
               <DialogActions>
-                <Button onClick={() => {}}>
+                <Button onClick={() => joinevent()}>
                   {lang == "th" ? "เข้าร่วมกิจกรรม" : "Join this event"}
                 </Button>
                 <Button
                   onClick={() => {
-                    setGetData2(false);
+                    setGetData2(null);
                   }}>
                   {lang == "th" ? "ปิด" : "Close"}
                 </Button>
