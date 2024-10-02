@@ -6,7 +6,7 @@ import {
   LinearProgress,
   CardHeader,
   Button,
-  Grid,
+  CardMedia,
   Avatar,
   Box,
   Divider,
@@ -22,9 +22,8 @@ import {
   CardActions,
   Backdrop,
   DialogActions,
+  CardActionArea,
 } from "@mui/material";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import CollectionsIcon from "@mui/icons-material/Collections";
 import {
   setLoad,
   setLang,
@@ -426,9 +425,24 @@ const Acct = ({
                   color="primary"
                   variant="outlined"
                 />
+                <CardActionArea
+                  className="mt-2 text-muted"
+                  onClick={() => window.open(event.res.locationMap, "_blank")}>
+                  {lang == "th"
+                    ? "สถานที่: " + event.res.locationTitle
+                    : "Location: " + event.res.locationTitle}
+                </CardActionArea>
                 <Divider className="mt-3" />
               </DialogTitle>
               <DialogContent className="m-md-3 m-1">
+                {event.res.src != "" && (
+                  <CardMedia
+                    component="img"
+                    height="300"
+                    image={event.res.src}
+                    alt="eventimg"
+                  />
+                )}
                 <Typography>{event.res.desc[lang]}</Typography>
                 <Divider className="mt-4" />
                 <Typography className="mt-2">
