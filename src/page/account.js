@@ -449,7 +449,7 @@ const Acct = ({
                 />
                 <CardActionArea
                   className="mt-2 text-muted"
-                  sx={{ fontSize: 16 }}
+                  sx={{ fontSize: 14 }}
                   onClick={() => window.open(event.res.locationMap, "_blank")}>
                   {lang == "th"
                     ? "สถานที่: " + event.res.locationTitle
