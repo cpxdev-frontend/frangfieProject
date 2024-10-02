@@ -422,7 +422,7 @@ const Acct = ({
                           .lang(lang)
                           .format("DD MMMM YYYY HH:mm")
                   }
-                  sx={{ display: { xs: "none", md: "initial" } }}
+                  sx={{ display: { xs: "none", md: "block" } }}
                   color="primary"
                   variant="outlined"
                 />
@@ -443,7 +443,7 @@ const Acct = ({
                           .lang(lang)
                           .format("DD/MM/YYYY HH:mm")
                   }
-                  sx={{ display: { xs: "initial", md: "none" } }}
+                  sx={{ display: { xs: "block", md: "none" } }}
                   color="primary"
                   variant="outlined"
                 />
