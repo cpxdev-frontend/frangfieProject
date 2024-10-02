@@ -422,7 +422,7 @@ const Acct = ({
                           .lang(lang)
                           .format("DD MMMM YYYY HH:mm")
                   }
-                  sx={{ display: { xs: "none", md: "block" } }}
+                  sx={{ display: { xs: "none", md: "flex" } }}
                   color="primary"
                   variant="outlined"
                 />
@@ -443,13 +443,13 @@ const Acct = ({
                           .lang(lang)
                           .format("DD/MM/YYYY HH:mm")
                   }
-                  sx={{ display: { xs: "block", md: "none" } }}
+                  sx={{ display: { xs: "flex", md: "none" } }}
                   color="primary"
                   variant="outlined"
                 />
                 <CardActionArea
                   className="mt-2 text-muted"
-                  SX={{ fontSize: 16 }}
+                  sx={{ fontSize: 16 }}
                   onClick={() => window.open(event.res.locationMap, "_blank")}>
                   {lang == "th"
                     ? "สถานที่: " + event.res.locationTitle
