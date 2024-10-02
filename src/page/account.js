@@ -422,15 +422,39 @@ const Acct = ({
                           .lang(lang)
                           .format("DD MMMM YYYY HH:mm")
                   }
+                  sx={{ display: { xs: "none", md: "initial" } }}
+                  color="primary"
+                  variant="outlined"
+                />
+                <Chip
+                  className="ml-md-3 ml-1"
+                  label={
+                    lang == "th"
+                      ? "เข้าร่วมได้จนถึง " +
+                        moment
+                          .unix(event.res.end)
+                          .local()
+                          .lang(lang)
+                          .format("DD/MM/YYYY เวลา HH:mm")
+                      : "Join until " +
+                        moment
+                          .unix(event.res.end)
+                          .local()
+                          .lang(lang)
+                          .format("DD/MM/YYYY HH:mm")
+                  }
+                  sx={{ display: { xs: "initial", md: "none" } }}
                   color="primary"
                   variant="outlined"
                 />
                 <CardActionArea
                   className="mt-2 text-muted"
                   onClick={() => window.open(event.res.locationMap, "_blank")}>
-                  {lang == "th"
-                    ? "สถานที่: " + event.res.locationTitle
-                    : "Location: " + event.res.locationTitle}
+                  <small>
+                    {lang == "th"
+                      ? "สถานที่: " + event.res.locationTitle
+                      : "Location: " + event.res.locationTitle}
+                  </small>
                 </CardActionArea>
                 <Divider className="mt-3" />
               </DialogTitle>
