@@ -22,6 +22,7 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
+import Swal from "sweetalert2";
 import {
   setLoad,
   setLang,
@@ -42,19 +43,30 @@ function compareTimestamps(timestamp1, timestamp2) {
   const difference = timestamp2 * 1000 - timestamp1 * 1000;
 
   // Calculate days
-  const days = (difference / (1000 * 60 * 60 * 24)) > Math.floor(difference / (1000 * 60 * 60 * 24)) ? Math.floor(difference / (1000 * 60 * 60 * 24)) : Math.floor(difference / (1000 * 60 * 60 * 24)) - 1;
+  const days =
+    difference / (1000 * 60 * 60 * 24) >
+    Math.floor(difference / (1000 * 60 * 60 * 24))
+      ? Math.floor(difference / (1000 * 60 * 60 * 24))
+      : Math.floor(difference / (1000 * 60 * 60 * 24)) - 1;
 
   // Get remaining milliseconds after removing days
   const remainingMilliseconds = difference % (1000 * 60 * 60 * 24);
 
   // Calculate hours
-  const hours = (remainingMilliseconds / (1000 * 60 * 60)) > Math.floor(remainingMilliseconds / (1000 * 60 * 60)) ? Math.floor(remainingMilliseconds / (1000 * 60 * 60)) : Math.floor(remainingMilliseconds / (1000 * 60 * 60)) - 1;
+  const hours =
+    remainingMilliseconds / (1000 * 60 * 60) >
+    Math.floor(remainingMilliseconds / (1000 * 60 * 60))
+      ? Math.floor(remainingMilliseconds / (1000 * 60 * 60))
+      : Math.floor(remainingMilliseconds / (1000 * 60 * 60)) - 1;
 
   // Get remaining milliseconds after removing hours
   const remainingMinutes = remainingMilliseconds % (1000 * 60 * 60);
 
   // Calculate minutes
-  const minutes = (remainingMinutes / (1000 * 60)) > Math.round(remainingMinutes / (1000 * 60)) ? Math.round(remainingMinutes / (1000 * 60)) + 1 : Math.round(remainingMinutes / (1000 * 60));
+  const minutes =
+    remainingMinutes / (1000 * 60) > Math.round(remainingMinutes / (1000 * 60))
+      ? Math.round(remainingMinutes / (1000 * 60)) + 1
+      : Math.round(remainingMinutes / (1000 * 60));
 
   return {
     days,
@@ -63,7 +75,15 @@ function compareTimestamps(timestamp1, timestamp2) {
   };
 }
 
-const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }) => {
+const Event = ({
+  currentPage,
+  lang,
+  setLang,
+  setLaunch,
+  setPage,
+  launch,
+  guide,
+}) => {
   const [data, setData] = React.useState(null);
   const [sam, setSam] = React.useState([]);
   const [getData, setGetData] = React.useState(null);
@@ -182,8 +202,8 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
   };
 
   React.useEffect(() => {
-    setUnix(launch)
-  }, [launch])
+    setUnix(launch);
+  }, [launch]);
 
   React.useEffect(() => {
     var requestOptions = {
@@ -195,8 +215,12 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
       .then((response) => response.json())
       .then((result) => {
         setGetData(undefined);
-        const sortedInput1 = result.filter(x => x.timerange[1] > 0).sort((a, b) => a.timerange[0] - b.timerange[0]);
-        const sortedInput2 = result.filter(x => x.timerange[1] == 0).sort((a, b) => b.timerange[0] - a.timerange[0]);
+        const sortedInput1 = result
+          .filter((x) => x.timerange[1] > 0)
+          .sort((a, b) => a.timerange[0] - b.timerange[0]);
+        const sortedInput2 = result
+          .filter((x) => x.timerange[1] == 0)
+          .sort((a, b) => b.timerange[0] - a.timerange[0]);
         const newresult = [];
         sortedInput1.forEach((item) => newresult.push(item));
         sortedInput2.forEach((item) => newresult.push(item));
@@ -331,7 +355,7 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
                       )}
                     <hr />
                     <Grid container spacing={2}>
-                      <Grid item lg={5} xs={12}>
+                      <Grid item md={5} xs={12}>
                         <Avatar
                           src={item.src}
                           variant="rounded"
@@ -341,7 +365,33 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
                           }}
                         />
                       </Grid>
-                      <Grid item lg={7} xs={12}>
+                      <Grid item md={7} xs={12}>
+                        {item.video != "" && (
+                          <Chip
+                            sx={{
+                              display: "inline-block",
+                              marginBottom: 3,
+                              padding: 0,
+                              paddingTop: ".4rem",
+                              cursor: 'pointer'
+                            }}
+                            label={
+                              lang == "th"
+                                ? "คลิกที่นี่เพื่อดูวีดีโอ"
+                                : "Click here to watch video"
+                            }
+                            onClick={() => {
+                              Swal.fire({
+                                title:
+                                  lang == "th"
+                                    ? "ตัวอย่างกิจกรรม " + item.title
+                                    : "Event teaser of " + item.title,
+                                html: '<iframe width="100%" height="300" src="' + item.video+'" frameborder="0"></iframe>',
+                              });
+                            }}
+                            color="primary"
+                          />
+                        )}
                         <h6 className="text-muted">
                           {lang == "th" ? "ประเภทกิจกรรม" : "Event Type"}:{" "}
                           {checkeventtype(item)}
@@ -518,10 +568,10 @@ const Event = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
                 run={guide}
                 styles={{
                   options: {
-                    arrowColor: '#fb61ee',
-                    backgroundColor: '#f1cef2',
-                    primaryColor: '#f526fc',
-                    textColor: '#000'
+                    arrowColor: "#fb61ee",
+                    backgroundColor: "#f1cef2",
+                    primaryColor: "#f526fc",
+                    textColor: "#000",
                   },
                 }}
               />

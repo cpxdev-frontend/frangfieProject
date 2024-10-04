@@ -719,7 +719,7 @@ function App({
                       <Skeleton
                         variant="rounded"
                         className="bg-m mt-3 mb-3"
-                        sx={{ height: 80, width: "100%" }}
+                        sx={{ height: 80, width: "100vw" }}
                       />
                     )}
                     <Box
@@ -1028,7 +1028,7 @@ function App({
                       <Skeleton
                         variant="rounded"
                         className="bg-m mt-3 mb-3"
-                        sx={{ height: 80, width: "100%" }}
+                        sx={{ height: 80, width: "100vw" }}
                       />
                     )}
                     <Box sx={{ display: { xs: "initial", xl: "none" } }}>
@@ -1235,7 +1235,7 @@ function App({
                     <Skeleton
                       variant="rounded"
                       className="bg-m m-4"
-                      sx={{ height: 80, width: "100%" }}
+                      sx={{ height: 80, width: "100vw" }}
                     />
                   )}
                   <DialogContent>
