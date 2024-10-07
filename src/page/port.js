@@ -26,6 +26,7 @@ import {
   Divider,
   DialogContent,
 } from "@mui/material";
+import '../iframenormal.css'
 import CloseIcon from "@mui/icons-material/Close";
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 import moment from "moment";
@@ -519,9 +520,11 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                   sx={{
                     width: "100%",
                     height: "70vh",
+                    position: 'initial',
+                    left: 0
                   }}
                   component="iframe"
-                  image={
+                  src={
                     "https://youtube.com/embed/" +
                     clip.snippet.resourceId.videoId
                   }
