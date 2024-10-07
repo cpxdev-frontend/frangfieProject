@@ -40,6 +40,24 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+function convertUrlsAndHashtagsToLinks(text) {
+  // Regular expressions to match URLs and hashtags
+  const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)/g;
+  const hashtagRegex = /#([A-Zกa-z\u0E00-\u0E7F\w0-9_]+)/g;
+
+  // Replace URLs with clickable links
+  text = text.replace(urlRegex, function(match) {
+    return '<a class="App-link" href="' + match + '" target="_blank">' + match + '</a>';
+  });
+
+  // Replace hashtags with clickable links
+  text = text.replace(hashtagRegex, function(match, hashtag) {
+    return '<a class="App-link" href="https://x.com/hashtag/' + hashtag + '?src=hashtag_click&f=live" target="_blank">' + match + '</a>';
+  });
+
+  return text;
+}
+
 const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
   const [width, setRealwidth] = React.useState(window.innerWidth);
   const [data1, setData1] = React.useState(null);
@@ -147,7 +165,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
               <Box
                 className="ml-1"
                 data-aos="zoom-in-down"
-                sx={{ display: { sm: "initial", xs: "none" } }}
+                sx={{ display: { md: "initial", xs: "none" } }}
               >
                 <MobileCarousel
                   autoPlay
@@ -215,7 +233,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
               <Box
                 className="ml-1"
                 ref={music}
-                sx={{ display: { sm: "none", xs: "initial" } }}
+                sx={{ display: { md: "none", xs: "initial" } }}
               >
                 {data1.length > PER_PAGE && (
                   <div className="col-md-12 d-flex justify-content-center mb-3">
@@ -519,7 +537,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                     dangerouslySetInnerHTML={{
                       __html:
                         (lang == "th" ? "รายละเอียด: " : "Description: ") +
-                        clip.snippet.description.replace(/\n/g, "<br />"),
+                        convertUrlsAndHashtagsToLinks(clip.snippet.description.replace(/\n/g, "<br />")),
                     }}
                   ></Typography>
                 </Card>
