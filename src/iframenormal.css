@@ -2,4 +2,5 @@
 .MuiCardMedia-media{
     position: relative !important;
     left: 0 !important;
+    border-radius: 5px !important;
   }
