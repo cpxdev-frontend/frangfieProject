@@ -519,7 +519,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                   data-aos="zoom-in-down"
                   sx={{
                     width: "100%",
-                    height: "70vh",
+                    height: {md:"70vh", xs: "50vh"},
                     position: 'initial',
                     left: 0
                   }}
