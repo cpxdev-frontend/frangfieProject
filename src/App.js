@@ -582,7 +582,7 @@ function App({
     <div ref={scrollRef}>
       <Confetti
         numberOfPieces={birthdayEff ? (window.innerWidth > 700 ? Math.floor(window.innerWidth / 8) : 60) : 0}
-        initialVelocityY={1000}
+        initialVelocityY={800}
         style={{ position: "fixed" }}
       />
       <div
