@@ -593,7 +593,7 @@ function App({
               : 60
             : 0
         }
-        initialVelocityY={800}
+        initialVelocityY={1200}
         style={{ position: "fixed" }}
       />
       <div
