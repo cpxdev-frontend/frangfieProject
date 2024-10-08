@@ -148,7 +148,7 @@ const Trend = ({
               Swal.fire({
                 title:
                   lang == "th"
-                    ? "เทรนใกล้เริ่มแล้ว ไว้มาใหม่นะ"
+                    ? "เทรนใกล้เริ่มแล้ว กรุณารอสักครู่"
                     : "Trend almost ready soon. Please come back later",
                 icon: "warning",
               });
