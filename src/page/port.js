@@ -68,7 +68,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
   const [ix, setIx] = React.useState(0);
   const [pageset1, setPagin1] = React.useState(1);
   const [pageset2, setPagin2] = React.useState(1);
-  const PER_PAGE = 5;
+  const PER_PAGE = 8;
   const [clip, setClip] = React.useState(null);
 
   const music = React.useRef(null);
