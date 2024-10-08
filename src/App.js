@@ -586,6 +586,7 @@ function App({
   return (
     <div ref={scrollRef}>
       <Confetti
+        numberOfPieces={birthdayEff ? 200 : 0}
         initialVelocityY={1200}
         style={{ position: "fixed" }}
       />
