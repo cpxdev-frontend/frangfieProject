@@ -20,9 +20,10 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions,
-  IconButton,
+  CircularProgress,
+  Backdrop,
 } from "@mui/material";
+import Swal from "sweetalert2";
 import {
   setLoad,
   setLang,
@@ -98,6 +99,7 @@ const Trend = ({
   const [fet, setFetch] = React.useState(false);
   const [unix, setUnix] = React.useState(launch);
   const [open, setOpen] = React.useState(false);
+  const [load, setLoad] = React.useState(false);
   React.useState(() => {
     setTimeout(() => {
       setOpen(true);
@@ -124,6 +126,52 @@ const Trend = ({
       })
       .catch((error) => console.log("error", error));
   }, []);
+
+  const startTrendData = (trend) => {
+    var requestOptions = {
+      method: "POST",
+    };
+
+    setLoad(true)
+    fetch(
+      process.env.REACT_APP_APIE + "/kfsite/trend?trendid=" + trend,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setLoad(false)
+        if (result.status) {
+          window.location.href = result.url
+        } else {
+          if (result.icon == "warning") {
+            if (result.code == 2) {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "เทรนใกล้เริ่มแล้ว ไว้มาใหม่นะ"
+                    : "Trend almost ready soon. Please come back later",
+                icon: "warning",
+              });
+            } else {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "เทรนนี้สิ้นสุดแล้ว กรุณาติดตามกิจกรรมใหม่ได้ในครั้งต่อไป"
+                    : "Trend is ended. Thank you for coming.",
+                icon: "warning",
+              });
+            }
+          } else {
+            Swal.fire({
+              title:
+                result.code,
+              icon: result.icon,
+            });
+          }
+        }
+      })
+      .catch((error) => console.log("error", error));
+  }
 
   return (
     <Fade in={open} timeout={300}>
@@ -388,45 +436,18 @@ const Trend = ({
                             </small>
                           )}
                           <br />
-                          {unix < item.start ? (
-                            <Button
-                              variant="outlined"
-                              onClick={() => {
-                                ReactGA.event({
-                                  category: "User",
-                                  action: "Trend link copied",
-                                });
-                                navigator.clipboard.writeText(
-                                  "https://cpxstatusservice.azurewebsites.net/kaofrangfie/trend/" +
-                                    item.trendId
-                                );
-                                alert(
-                                  lang == "th"
-                                    ? "คัดลอกลิงก์แล้ว"
-                                    : "Copied link to clipboard"
-                                );
-                              }}
-                              className="mt-3">
-                              {lang == "th" ? "คัดลอกลิงก์" : "Copy Link"}
-                            </Button>
-                          ) : (
-                            <Button
+                          <Button
                               variant="outlined"
                               onClick={() => {
                                 ReactGA.event({
                                   category: "User",
                                   action: "Trend link access",
                                 });
-                                window.open(
-                                  "https://cpxstatusservice.azurewebsites.net/kaofrangfie/trend/" +
-                                    item.trendId,
-                                  "_blank"
-                                );
+                                startTrendData(item.trendId);
                               }}
                               className="mt-3">
                               {lang == "th" ? "เริ่มเทรน" : "Start Trend"}
                             </Button>
-                          )}
                         </Grid>
                       </Grid>
                     </CardContent>
@@ -491,6 +512,12 @@ const Trend = ({
             </Card>
           )}
         </div>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={load}
+        >
+          <CircularProgress />
+        </Backdrop>
       </Box>
     </Fade>
   );
