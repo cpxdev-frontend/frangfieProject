@@ -1112,6 +1112,7 @@ function App({
                     <Button
                       key={page}
                       data-aos="fade-in"
+                      data-aos-offset="200"
                       data-aos-duration="1000"
                       component={Link}
                       to={"/" + pageSec[i]}
@@ -1136,6 +1137,9 @@ function App({
                   ) : pageSec[i] == "birthday" && birthdaycampain == true ? (
                     <Button
                       key={page}
+                      data-aos="fade-in"
+                      data-aos-offset="200"
+                      data-aos-duration="1000"
                       component={Link}
                       to={"/" + pageSec[i]}
                       size="medium"
