@@ -112,15 +112,15 @@ const Birth = ({
   }, [text, img]);
 
   const RefreshDate = () => {
-    // fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {
-    //   method: "post",
-    // })
-    //   .then((response) => response.json())
-    //   .then((result) => {
-    //     setUp(result.response);
-    //     // setUp(true);
-    //   })
-    //   .catch((error) => console.log("error", error));
+    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {
+      method: "post",
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        setUp(result.response);
+        // setUp(true);
+      })
+      .catch((error) => console.log("error", error));
 
     fetch("https://speed.cloudflare.com/meta")
       .then((response) => response.json())
