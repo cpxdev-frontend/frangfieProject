@@ -370,7 +370,7 @@ function App({
           BirthdayEffect();
           setInterval(() => {
             fetchtime();
-          }, 5000);
+          }, 10000);
         })
         .catch((error) => console.log("error", error));
       return;

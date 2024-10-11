@@ -39,6 +39,7 @@ import {
   faMicrosoft,
   faSpotify,
 } from "@fortawesome/free-brands-svg-icons";
+import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useAuth0 } from "@auth0/auth0-react";
@@ -65,6 +66,9 @@ const Acct = ({
   const [open, setOpen] = React.useState(false);
   const history = useHistory();
   const [load, setLoad] = React.useState(false);
+  const [point, setPoint] = React.useState(null);
+  const [viewPoint, setPointView] = React.useState(false);
+  const [pointHis, setHis] = React.useState(null);
 
   const {
     loginWithPopup,
@@ -226,6 +230,16 @@ const Acct = ({
               });
               break;
             }
+            case 5: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "กรุณาสะสมคะแนนเพื่อเข้าร่วมกิจกรรมนี้"
+                    : "Please earn more point to join events",
+                icon: "warning",
+              });
+              break;
+            }
             default: {
               Swal.fire({
                 title: result.message,
@@ -250,6 +264,24 @@ const Acct = ({
 
     if (isAuthenticated) {
       setData(user);
+      var requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.email,
+        }),
+      };
+
+      fetch(process.env.REACT_APP_APIE + "/kfsite/getPoint", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.status) {
+            setPoint(result.point);
+          }
+        })
+        .catch((error) => console.log("error", error));
     }
   }, [isAuthenticated]);
 
@@ -301,21 +333,41 @@ const Acct = ({
                       </IconButton>
                     }
                   />
+                  <CardActionArea
+                    onClick={() => {
+                      point != null && setPointView(true);
+                    }}>
+                    <Typography className="ml-3">
+                      {point != null ? (
+                        lang == "th" ? (
+                          "KorKao Point ของคุณ: " + point + " คะแนน"
+                        ) : (
+                          "KorKao Point: " + point + " point(s)"
+                        )
+                      ) : (
+                        <Skeleton variant="text" />
+                      )}
+                      <FontAwesomeIcon
+                        className="ml-2"
+                        icon={point != null ? faQuestionCircle : null}
+                      />
+                    </Typography>
+                  </CardActionArea>
+                  <CardActions sx={{ display: { xs: "block", md: "none" } }}>
+                    <Button
+                      onClick={() =>
+                        window.location.href.includes("localhost")
+                          ? setCheckevent(
+                              "B9CEFA4286CD4D0398DCED46D64A495468BB7EBAA9AF324613D7C42FF8A6721A1094F7BD4CB0B3AC8030EDCBB493CBC4"
+                            )
+                          : setGetData(true)
+                      }>
+                      {lang == "th"
+                        ? "สแกนเพื่อเข้าร่วมกิจกรรม"
+                        : "Scan to join event"}
+                    </Button>
+                  </CardActions>
                 </CardContent>
-                <CardActions sx={{ display: { xs: "block", md: "none" } }}>
-                  <Button
-                    onClick={() =>
-                      window.location.href.includes("localhost")
-                        ? setCheckevent(
-                            "B9CEFA4286CD4D0398DCED46D64A495468BB7EBAA9AF324613D7C42FF8A6721A1094F7BD4CB0B3AC8030EDCBB493CBC4"
-                          )
-                        : setGetData(true)
-                    }>
-                    {lang == "th"
-                      ? "สแกนเพื่อเข้าร่วมกิจกรรม"
-                      : "Scan to join event"}
-                  </Button>
-                </CardActions>
               </Card>
 
               {/* <Joyride
@@ -484,6 +536,41 @@ const Acct = ({
               </DialogActions>
             </>
           )}
+        </Dialog>
+
+        <Dialog open={viewPoint} maxWidth="xl">
+          <>
+            <DialogTitle id="alert-dialog-title">
+              <CardHeader
+                title={
+                  lang == "th"
+                    ? "KorKao Point คืออะไร"
+                    : "What is the KorKao Point?"
+                }
+              />
+              <Divider className="mt-3" />
+            </DialogTitle>
+            <DialogContent className="m-md-3 m-1">
+              <Typography className="mt-2">
+                {lang == "th"
+                  ? "KorKao Point เป็นระบบการสะสม และคะแนนสำหรับใช้เข้าร่วมกิจกรรมหรือลุ้นรับรางวัลเป็น BNK48 Merchandise หรือของรางวัลสุดพิเศษสำหรับชาวด้อมกอข้าวของข้าวฟ่าง ที่จะเกิดขึ้นในอนาคต"
+                  : "KorKao Point is an earning and redeem points for use to participate in activities or win prizes like BNK48 Merchandise or special prizes for KorKao fans that will occur in the future."}
+              </Typography>
+              <Typography className="mt-2">
+                {lang == "th"
+                  ? "หมายเหตุ: คุณจำเป็นต้องมีอย่างน้อย 1 คะแนนเพื่อเข้าร่วมกิจกรรมหรือรับสิทธิ์ในแต่ละครั้งเพื่อไว้ในการยืนยันการเป็นสมาชิก แม้ว่ากิจกรรมนั้นจะไม่จำเป็นต้องแลกคะแนนก็ตาม"
+                  : "Note: You need to have at least 1 point to participate in each activity or redeem your chance to lucky draw to verify your membership. Even if the activity does not require the exchange of points."}
+              </Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={() => {
+                  setPointView(false);
+                }}>
+                {lang == "th" ? "ปิด" : "Close"}
+              </Button>
+            </DialogActions>
+          </>
         </Dialog>
 
         <Backdrop
