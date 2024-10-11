@@ -54,12 +54,17 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/Joe12387/detectIncognito@main/dist/es5/detectIncognito.min.js"></script>
     <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function (OneSignal) {
-        await OneSignal.init({
-          appId: "ee3a1e37-1129-4034-84fe-636371edaa24",
-        });
+      detectIncognito().then((result) => {
+        if (result.isPrivate == false) {
+          window.OneSignalDeferred = window.OneSignalDeferred || [];
+          OneSignalDeferred.push(async function (OneSignal) {
+            await OneSignal.init({
+              appId: "ee3a1e37-1129-4034-84fe-636371edaa24",
+            });
+          });
+        }
       });
     </script>
   <script>
