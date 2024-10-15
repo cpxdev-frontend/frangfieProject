@@ -20,7 +20,6 @@ import {
   LinearProgress,
   ListItemText,
 } from "@mui/material";
-import "sweetalert2/dist/sweetalert2.min.css";
 import Swal from "sweetalert2";
 import { InfoOutlined } from "@mui/icons-material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
