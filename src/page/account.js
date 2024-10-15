@@ -516,7 +516,7 @@ const Acct = ({
                   subheader={
                     lang == "th"
                       ? "มีผู้เข้าร่วมกิจกรรมแล้ว " + event.part + " คน"
-                      : event.part + " persons participating in this event."
+                      : "There are already " + event.part + " participants in this event."
                   }
                 />
                 <Chip
@@ -576,13 +576,13 @@ const Acct = ({
                 <Divider className="mt-4" />
                 <Typography className="mt-2">
                   {lang == "th"
-                    ? "การเข้าถึงข้อมูลส่วนบุคคล: ทางผู้พัฒนาต้องการเข้าถึงข้อมูล ได้แก่ ที่อยู่อีเมลและชื่อผู้ใช้ โดยมีวัตุถุประสงค์เพื่อนำไปใช้ในกิจกรรมที่เกี่ยวข้องกับกิจกรรมนี้ และจะมีผลจนถึงวันและเวลาที่สิ้นสุดกิจกรรมนี้ และผู้พัฒนาจะลบข้อมูลที่เก็บไว้ออกจากระบบ"
-                    : "Privacy Info Access Information: The developer requires access to information including email addresses and usernames. The objective is to be used in activities related to this activity. and will remain in effect until the day and time this activity ends. and the developer will delete the stored data from the system."}
+                    ? "การเข้าถึงข้อมูลส่วนบุคคล: ทางผู้พัฒนาต้องการเข้าถึงข้อมูล ได้แก่ ที่อยู่อีเมลและชื่อผู้ใช้ โดยมีวัตถุประสงค์เพื่อนำไปใช้ในการเข้าร่วมกิจกรรมต่างๆ ที่เกี่ยวข้องกับกิจกรรมนี้ และจะมีผลจนถึงวันและเวลาที่สิ้นสุดกิจกรรมนี้ และผู้พัฒนาจะลบข้อมูลที่เก็บไว้ออกจากระบบ"
+                    : "Privacy Info Access Information: The developers require access to information, including email addresses and usernames, for the purpose of participation in various activities related to this event. This will remain in effect until the date and time of the conclusion of this event, after which the developers will delete the stored data from the system."}
                 </Typography>
                 <Typography className="mt-2">
                   {lang == "th"
                     ? "1 ไอดีผู้ใช้สามารถเข้าร่วมกิจกรรมได้ 1 คนเท่านั้น หากยืนยันเข้าร่วมแล้วจะไม่สามารถยกเลิก หรือเข้าร่วมงานซ้ำในภายหลังได้"
-                    : "You can join this event 1 ID per 1 person. You cannot join this event repeatly or cancel joined event anyway."}
+                    : "One user ID can participate in the event only once. Once confirmed for participation, it will not be possible to cancel or participate in the event again in the future."}
                 </Typography>
               </DialogContent>
               <DialogActions>
