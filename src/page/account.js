@@ -484,15 +484,16 @@ const Acct = ({
               onScan={(result) => setCheckevent(result[0].rawValue)}
               onError={null}
             />
-            <BarcodeScannerComponent
-              style={{ display: "none" }}
-              width={500}
-              height={500}
-              onUpdate={(err, result) => {
-                if (result) setCheckevent(result.text);
-                else return;
-              }}
-            />
+            <Box sx={{ display: "none" }}>
+              <BarcodeScannerComponent
+                width={500}
+                height={500}
+                onUpdate={(err, result) => {
+                  if (result) setCheckevent(result.text);
+                  else return;
+                }}
+              />
+            </Box>
           </DialogContent>
           <DialogActions>
             <Button
