@@ -481,10 +481,11 @@ const Acct = ({
                 container: "scanner",
               }}
               components={{ audio: false }}
+              formats={['qr_code']}
               onScan={(result) => setCheckevent(result[0].rawValue)}
               onError={null}
             />
-            <Box sx={{ display: "none" }}>
+            {/* <Box sx={{ display: "none" }}>
               <BarcodeScannerComponent
                 width={500}
                 height={500}
@@ -493,7 +494,7 @@ const Acct = ({
                   else return;
                 }}
               />
-            </Box>
+            </Box> */}
           </DialogContent>
           <DialogActions>
             <Button
