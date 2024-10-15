@@ -53,7 +53,6 @@ import {
 import "moment/locale/th"; // without this line it didn't work
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { ReactFloatingBalloons } from "react-floating-balloons";
 import moment from "moment";
 import { detectIncognito } from "detectincognitojs";
 import ReactGA from "react-ga4";
