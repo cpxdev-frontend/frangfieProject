@@ -481,6 +481,7 @@ const Acct = ({
                 container: "scanner",
               }}
               components={{ audio: false }}
+              scanDelay={-10000}
               formats={['qr_code']}
               onScan={(result) => setCheckevent(result[0].rawValue)}
               onError={null}
