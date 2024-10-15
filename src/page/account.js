@@ -240,6 +240,19 @@ const Acct = ({
               });
               break;
             }
+            case 6: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "คะแนนสะสมของคุณไม่เพียงพอในการเข้าร่วมกิจกรรมนี้"
+                    : "Your KorKao Points is not enough to join this event.",
+                icon: "warning",
+                footer: lang == "th"
+                ? "หมายเหตุ: คุณต้องใช้ " + result.point + " คะแนนเพื่อเข้าร่วม"
+                : "Notes: You need to use " + result.point + " KorKao Points to join.",
+              });
+              break;
+            }
             default: {
               Swal.fire({
                 title: result.message,
