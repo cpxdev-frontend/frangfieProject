@@ -476,15 +476,16 @@ const Acct = ({
             {lang == "th" ? "สแกนโค้ดกิจกรรม" : "Scan Event QR Code"}
           </DialogTitle>
           <DialogContent>
-            {/* <Scanner
+            <Scanner
               classNames={{
                 container: "scanner",
               }}
               components={{ audio: false }}
               onScan={(result) => setCheckevent(result[0].rawValue)}
               onError={null}
-            /> */}
+            />
             <BarcodeScannerComponent
+              style={{ display: "none" }}
               width={500}
               height={500}
               onUpdate={(err, result) => {
