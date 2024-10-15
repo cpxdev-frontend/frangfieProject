@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import Html5QrcodePlugin from './qrcodePlugin'
 import {
   Card,
   CardContent,
@@ -50,7 +49,7 @@ import stepEn from "../stepGuide/en/gallery";
 import stepTh from "../stepGuide/th/gallery";
 
 import { Scanner } from "@yudiel/react-qr-scanner";
-import { Html5QrcodeScanner } from "html5-qrcode";
+import BarcodeScannerComponent from "react-qr-barcode-scanner";
 
 const Acct = ({
   currentPage,
@@ -485,12 +484,13 @@ const Acct = ({
               onScan={(result) => setCheckevent(result[0].rawValue)}
               onError={null}
             /> */}
-            <Html5QrcodePlugin
-              // style={{ display: "none" }}
-              fps={10}
-              qrbox={400}
-              disableFlip={false}
-              qrCodeSuccessCallback={(decodedText, decodedResult) => setCheckevent(decodedText)}
+            <BarcodeScannerComponent
+              width={500}
+              height={500}
+              onUpdate={(err, result) => {
+                if (result) setCheckevent(result.text);
+                else return;
+              }}
             />
           </DialogContent>
           <DialogActions>

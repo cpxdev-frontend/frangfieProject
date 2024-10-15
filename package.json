@@ -51,6 +51,7 @@
     "react-onesignal": "^3.0.1",
     "react-owl-carousel": "^2.3.3",
     "react-photoswipe-gallery": "^3.0.2",
+    "react-qr-barcode-scanner": "^2.0.0",
     "react-qr-code": "^2.0.15",
     "react-qrcode-logo": "^3.0.0",
     "react-redux": "^8.0.5",
