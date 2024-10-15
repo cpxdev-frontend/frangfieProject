@@ -621,7 +621,7 @@ const Acct = ({
               <Typography className="mt-2">
                 {lang == "th"
                   ? "หมายเหตุ: คุณจำเป็นต้องมีอย่างน้อย 1 คะแนนเพื่อเข้าร่วมกิจกรรมหรือรับสิทธิ์ในแต่ละครั้งเพื่อไว้ในการยืนยันการเป็นสมาชิก แม้ว่ากิจกรรมนั้นจะไม่จำเป็นต้องแลกคะแนนก็ตาม"
-                  : "Note: You need to have at least 1 point to participate in each activity or redeem your chance to lucky draw to verify your membership. Even if the activity does not require the exchange of points."}
+                  : "Note: You must have at least 1 point to participate in the event or to qualify each time for membership verification, even if the event does not require points for redemption."}
               </Typography>
             </DialogContent>
             <DialogActions>
