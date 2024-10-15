@@ -30,6 +30,7 @@
     "fslightbox-react": "^1.7.6",
     "get-age": "^1.0.1",
     "html-to-image": "^1.11.11",
+    "html5-qrcode": "^2.3.8",
     "lightbox.js-react": "^1.1.0",
     "lightgallery": "^2.7.2",
     "mapbox-gl": "^2.14.1",

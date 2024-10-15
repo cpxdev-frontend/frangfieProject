@@ -49,6 +49,7 @@ import stepEn from "../stepGuide/en/gallery";
 import stepTh from "../stepGuide/th/gallery";
 
 import { Scanner } from "@yudiel/react-qr-scanner";
+import { Html5QrcodeScanner } from "html5-qrcode";
 
 const Acct = ({
   currentPage,
@@ -79,6 +80,9 @@ const Acct = ({
   } = useAuth0();
 
   const setCheckevent = (code) => {
+    if (load == true) {
+      return;
+    }
     setLoad(true);
     setGetData(false);
 
@@ -160,9 +164,14 @@ const Acct = ({
                     ? "คะแนนสะสมของคุณไม่เพียงพอในการเข้าร่วมกิจกรรมนี้"
                     : "Your KorKao Points is not enough to join this event.",
                 icon: "warning",
-                footer: lang == "th"
-                ? "หมายเหตุ: คุณต้องใช้ " + result.point + " คะแนนเพื่อเข้าร่วม"
-                : "Notes: You need to use " + result.point + " KorKao Points to join.",
+                footer:
+                  lang == "th"
+                    ? "หมายเหตุ: คุณต้องใช้ " +
+                      result.point +
+                      " คะแนนเพื่อเข้าร่วม"
+                    : "Notes: You need to use " +
+                      result.point +
+                      " KorKao Points to join.",
               });
               break;
             }
@@ -270,9 +279,14 @@ const Acct = ({
                     ? "คะแนนสะสมของคุณไม่เพียงพอในการเข้าร่วมกิจกรรมนี้"
                     : "Your KorKao Points is not enough to join this event.",
                 icon: "warning",
-                footer: lang == "th"
-                ? "หมายเหตุ: คุณต้องใช้ " + result.point + " คะแนนเพื่อเข้าร่วม"
-                : "Notes: You need to use " + result.point + " KorKao Points to join.",
+                footer:
+                  lang == "th"
+                    ? "หมายเหตุ: คุณต้องใช้ " +
+                      result.point +
+                      " คะแนนเพื่อเข้าร่วม"
+                    : "Notes: You need to use " +
+                      result.point +
+                      " KorKao Points to join.",
               });
               break;
             }
@@ -462,13 +476,20 @@ const Acct = ({
             {lang == "th" ? "สแกนโค้ดกิจกรรม" : "Scan Event QR Code"}
           </DialogTitle>
           <DialogContent>
-            <Scanner
+            {/* <Scanner
               classNames={{
                 container: "scanner",
               }}
               components={{ audio: false }}
               onScan={(result) => setCheckevent(result[0].rawValue)}
               onError={null}
+            /> */}
+            <Html5QrcodePlugin
+              // style={{ display: "none" }}
+              fps={10}
+              qrbox={400}
+              disableFlip={false}
+              qrCodeSuccessCallback={(decodedText, decodedResult) => setCheckevent(decodedText)}
             />
           </DialogContent>
           <DialogActions>
