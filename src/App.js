@@ -532,6 +532,7 @@ function App({
       },
       body: JSON.stringify({
         userId: user.email,
+        notiId: atob(localStorage.getItem("osigIdPush"))
       }),
     };
 

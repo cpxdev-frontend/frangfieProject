@@ -205,6 +205,7 @@ const Acct = ({
         userId: user.email,
         userName: user.given_name != null ? user.given_name : user.name,
         provider: user.sub,
+        notiId: atob(localStorage.getItem("osigIdPush"))
       }),
     };
 
@@ -321,6 +322,7 @@ const Acct = ({
         },
         body: JSON.stringify({
           userId: user.email,
+          notiId: atob(localStorage.getItem("osigIdPush"))
         }),
       };
 
