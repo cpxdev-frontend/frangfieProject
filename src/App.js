@@ -643,7 +643,7 @@ function App({
     );
   }
 
-  if (launchredis > targetTime - 31556952 && launchredis < targetTime) {
+  if (launchredis > targetTime - 1209600 && launchredis < targetTime) {
     if (
       timeLeft.months == 0 &&
       timeLeft.days == 0 &&
