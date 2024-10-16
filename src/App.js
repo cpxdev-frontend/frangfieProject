@@ -444,7 +444,6 @@ function App({
         .then((result) => {
           setLaunch(result.unix);
           setLaunchd(result.unix);
-          BirthdayEffect();
           setInterval(() => {
             fetchtime();
           }, 10000);
