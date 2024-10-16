@@ -679,7 +679,11 @@ function App({
             Your browser does not support the video tag.
           </video>
           <Backdrop
-            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            sx={{
+              color: "#000",
+              zIndex: (theme) => theme.zIndex.drawer + 1,
+              backgroundColor: "rgb(248, 195, 248)",
+            }}
             open={onvideo}
             className="text-center">
             <div className="row">
@@ -724,9 +728,9 @@ function App({
       );
     }
     return (
-      <div>
+      <div className="video-container">
         <video
-          className="d-none d-lg-block vdo overflow-hidden"
+          className="vdo overflow-hidden"
           disablePictureInPicture
           controlsList="nodownload nofullscreen noremoteplayback"
           muted
@@ -751,7 +755,11 @@ function App({
           Your browser does not support the video tag.
         </video>
         <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          sx={{
+            color: "#000",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+            backgroundColor: "rgb(248, 195, 248)",
+          }}
           open={onvideo}
           className="text-center">
           {lang == "th"
