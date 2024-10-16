@@ -168,6 +168,8 @@ function App({
   const [transit, setTran] = React.useState(false);
   const [mainten, setOnMaintain] = React.useState(false);
 
+  const [onvideo, setPreviewVideo] = React.useState(false);
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [birthdaycampain, setBirthday] = React.useState(false);
@@ -533,24 +535,27 @@ function App({
       }),
     };
 
-    fetch(
-      process.env.REACT_APP_APIE + "/kfsite/receiveairdrop",
-      requestOptions
-    )
+    fetch(process.env.REACT_APP_APIE + "/kfsite/receiveairdrop", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setLoad(false)
+        setLoad(false);
         if (result.status) {
           Swal.fire({
-            title: lang == 'th' ? 'คุณได้รับ ' + result.earned + ' KorKao Points' : 'You are earned ' + result.earned + ' KorKao Points',
+            title:
+              lang == "th"
+                ? "คุณได้รับ " + result.earned + " KorKao Points"
+                : "You are earned " + result.earned + " KorKao Points",
             icon: "success",
-            footer: lang == 'th' ? 'คุณสามารถกลับมารับ AirDrop ได้ใหม่ในวันพรุ่งนี้': 'You can come back to received AirDrop in tomorrow.'
+            footer:
+              lang == "th"
+                ? "คุณสามารถกลับมารับ AirDrop ได้ใหม่ในวันพรุ่งนี้"
+                : "You can come back to received AirDrop in tomorrow.",
           });
         } else {
           Swal.fire({
             title: "Something went wrong",
             text: result.message,
-            icon: "error"
+            icon: "error",
           });
         }
       })
@@ -580,8 +585,7 @@ function App({
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
-        className="text-center"
-      >
+        className="text-center">
         {lang == "th"
           ? "เว็บไซต์นี้ไม่รองรับการแสดงแบบฝังบนเว็บไซต์อื่น"
           : "This site is not support on iframe tag"}
@@ -598,8 +602,7 @@ function App({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-        }}
-      >
+        }}>
         <div className="col-12">
           <img
             src="https://niceillustrations.com/wp-content/uploads/2021/07/Connection-Lost-color-800px.png"
@@ -626,8 +629,7 @@ function App({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-        }}
-      >
+        }}>
         <div className="col-12">
           <img
             src="https://niceillustrations.com/wp-content/uploads/2022/03/Police.png"
@@ -641,7 +643,7 @@ function App({
     );
   }
 
-  if (launchredis > targetTime - 1209600 && launchredis < targetTime) {
+  if (launchredis > targetTime - 31556952 && launchredis < targetTime) {
     if (
       timeLeft.months == 0 &&
       timeLeft.days == 0 &&
@@ -650,29 +652,55 @@ function App({
       timeLeft.seconds > 0
     ) {
       return (
-        <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={true}
-          className="text-center"
-        >
-          <div className="row">
-            <h5 className="col-12">
-              {lang == "th"
-                ? "คุณกำลังเข้าสู่เว็บไซต์นี้ในอีก " +
-                  timeLeft.seconds +
-                  " วินาที"
-                : "We are almost ready in " + timeLeft.seconds + " seconds"}
-            </h5>
-            <div className="col-12">
-              <LinearProgress
-                className="d-initial"
-                variant="determinate"
-                sx={{ height: 5, width: "100%" }}
-                value={((60 - (timeLeft.seconds - 1)) / 60) * 100}
-              />
+        <div className="video-container">
+          <video
+            className="vdo overflow-hidden"
+            disablePictureInPicture
+            controlsList="nodownload nofullscreen noremoteplayback"
+            muted
+            autoPlay
+            style={{
+              pointerEvents: "none",
+              scrollbarWidth: "none",
+              top: "50%",
+              left: "50%",
+              minWidth: "100%",
+              minHeight: "100%",
+              width: "auto",
+              height: "auto",
+              transform: "translate(-50%,-50%)",
+            }}
+            onEnded={() => setPreviewVideo(true)}
+            playsInline>
+            <source
+              src="https://d3hhrps04devi8.cloudfront.net/kf/korkaopre.mp4"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={onvideo}
+            className="text-center">
+            <div className="row">
+              <h5 className="col-12">
+                {lang == "th"
+                  ? "คุณกำลังเข้าสู่เว็บไซต์นี้ในอีก " +
+                    timeLeft.seconds +
+                    " วินาที"
+                  : "We are almost ready in " + timeLeft.seconds + " seconds"}
+              </h5>
+              <div className="col-12">
+                <LinearProgress
+                  className="d-initial"
+                  variant="determinate"
+                  sx={{ height: 5, width: "100%" }}
+                  value={((60 - (timeLeft.seconds - 1)) / 60) * 100}
+                />
+              </div>
             </div>
-          </div>
-        </Backdrop>
+          </Backdrop>
+        </div>
       );
     }
     if (
@@ -686,8 +714,7 @@ function App({
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={true}
-          className="text-center"
-        >
+          className="text-center">
           <h4>
             {lang == "th"
               ? "เราพร้อมมอบประสบการณ์ของการเยี่ยมชมจักรวาลของข้าวฟ่างแล้ว!"
@@ -697,31 +724,57 @@ function App({
       );
     }
     return (
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={true}
-        className="text-center"
-      >
-        {lang == "th"
-          ? "เว็บไซต์นี้กำลังจะเปิดตัวในอีก " +
-            timeLeft.days +
-            " วัน " +
-            timeLeft.hours +
-            " ชั่วโมง " +
-            timeLeft.minutes +
-            " นาที " +
-            timeLeft.seconds +
-            " วินาที"
-          : "This website is soon in " +
-            timeLeft.days +
-            " days " +
-            timeLeft.hours +
-            " hours " +
-            timeLeft.minutes +
-            " minutes " +
-            timeLeft.seconds +
-            " seconds"}
-      </Backdrop>
+      <div>
+        <video
+          className="d-none d-lg-block vdo overflow-hidden"
+          disablePictureInPicture
+          controlsList="nodownload nofullscreen noremoteplayback"
+          muted
+          autoPlay
+          style={{
+            pointerEvents: "none",
+            scrollbarWidth: "none",
+            top: "50%",
+            left: "50%",
+            minWidth: "100%",
+            minHeight: "100%",
+            width: "auto",
+            height: "auto",
+            transform: "translate(-50%,-50%)",
+          }}
+          onEnded={() => setPreviewVideo(true)}
+          playsInline>
+          <source
+            src="https://d3hhrps04devi8.cloudfront.net/kf/korkaopre.mp4"
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={onvideo}
+          className="text-center">
+          {lang == "th"
+            ? "เว็บไซต์นี้กำลังจะเปิดตัวในอีก " +
+              timeLeft.days +
+              " วัน " +
+              timeLeft.hours +
+              " ชั่วโมง " +
+              timeLeft.minutes +
+              " นาที " +
+              timeLeft.seconds +
+              " วินาที"
+            : "This website is soon in " +
+              timeLeft.days +
+              " days " +
+              timeLeft.hours +
+              " hours " +
+              timeLeft.minutes +
+              " minutes " +
+              timeLeft.seconds +
+              " seconds"}
+        </Backdrop>
+      </div>
     );
   }
 
@@ -734,8 +787,7 @@ function App({
       />
       <div
         id="blockwhenland"
-        className="d-flex justify-content-center align-items-center text-center"
-      >
+        className="d-flex justify-content-center align-items-center text-center">
         <h5>
           <img
             src="https://cdn-icons-png.flaticon.com/512/6737/6737502.png"
@@ -756,15 +808,13 @@ function App({
           location.pathname != "/" &&
           !game &&
           !currentPage.includes("404 Not Found")
-        }
-      >
+        }>
         <AppBar position="fixed" className="newmobileAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}
-              >
+                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
                 {location.pathname != "/" &&
                   !currentPage.includes("404 Not Found") && (
                     <Avatar
@@ -785,8 +835,7 @@ function App({
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
                   maxWidth="xl"
-                  sx={{ display: { xs: "initial", xl: "none" } }}
-                >
+                  sx={{ display: { xs: "initial", xl: "none" } }}>
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
@@ -797,8 +846,7 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
+                          onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
                             sx={{
@@ -813,8 +861,7 @@ function App({
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p"
-                          >
+                            component="p">
                             {page}
                           </Typography>
                         </MenuItem>
@@ -824,8 +871,7 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
+                          onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
                             sx={{
@@ -840,8 +886,7 @@ function App({
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p"
-                          >
+                            component="p">
                             {page}
                           </Typography>
                         </MenuItem>
@@ -868,8 +913,7 @@ function App({
                               onClick={() => {
                                 history.push("/account");
                                 handleCloseNavMenu();
-                              }}
-                            >
+                              }}>
                               View Profile
                             </Button>
                             <Button onClick={() => getout()}>Sign-out</Button>
@@ -895,8 +939,7 @@ function App({
                           window.location.pathname == "/"
                             ? { xs: "none", xl: "initial" }
                             : "initial",
-                      }}
-                    >
+                      }}>
                       <Typography>Change Language</Typography>
                       <ToggleButtonGroup
                         color="primary"
@@ -906,14 +949,12 @@ function App({
                         exclusive
                         onChange={(e) =>
                           e.target.value != lang && setLang(e.target.value)
-                        }
-                      >
+                        }>
                         {langList.map((option) => (
                           <ToggleButton
                             sx={{ borderRadius: 1 }}
                             value={option.value}
-                            key={option.value}
-                          >
+                            key={option.value}>
                             {option.label}
                           </ToggleButton>
                         ))}
@@ -961,8 +1002,7 @@ function App({
                       right: 20,
                     }}
                     onClick={handleOpenNavMenu}
-                    color="inherit"
-                  >
+                    color="inherit">
                     <MenuIcon />
                   </IconButton>
                 )}
@@ -975,8 +1015,7 @@ function App({
       <Slide
         direction="down"
         in={appbarx}
-        sx={{ display: { xs: "none", md: "initial" } }}
-      >
+        sx={{ display: { xs: "none", md: "initial" } }}>
         <AppBar position="fixed" className="newpcAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
@@ -998,15 +1037,13 @@ function App({
                   display: { xs: "none", lg: "flex" },
                   color: "inherit",
                   textDecoration: "none",
-                }}
-              >
+                }}>
                 <b>KorKaofrang</b>
               </Typography>
 
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}
-              >
+                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}>
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -1014,8 +1051,7 @@ function App({
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
                   sx={{ display: { md: "none", xl: "initial" } }}
-                  color="inherit"
-                >
+                  color="inherit">
                   <MenuIcon />
                 </IconButton>
 
@@ -1031,8 +1067,7 @@ function App({
                       right: 80,
                       top: 10,
                     }}
-                    color="inherit"
-                  >
+                    color="inherit">
                     <MenuIcon />
                   </IconButton>
                   <IconButton
@@ -1042,8 +1077,7 @@ function App({
                       position: "fixed",
                       right: 20,
                       top: 10,
-                    }}
-                  >
+                    }}>
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -1067,8 +1101,7 @@ function App({
                     right: 20,
                     top: -2,
                   }}
-                  color="inherit"
-                >
+                  color="inherit">
                   <MenuIcon />
                 </IconButton>
                 <IconButton
@@ -1078,8 +1111,7 @@ function App({
                     position: "fixed",
                     right: 60,
                     top: 10,
-                  }}
-                >
+                  }}>
                   <Avatar
                     sx={{ width: 30, height: 30 }}
                     variant="rounded"
@@ -1095,8 +1127,7 @@ function App({
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
                   maxWidth="xl"
-                  sx={{ display: { xs: "none", xl: "initial" } }}
-                >
+                  sx={{ display: { xs: "none", xl: "initial" } }}>
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
@@ -1107,8 +1138,7 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
+                          onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
                             sx={{
@@ -1123,8 +1153,7 @@ function App({
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p"
-                          >
+                            component="p">
                             {page}
                           </Typography>
                         </MenuItem>
@@ -1134,8 +1163,7 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}
-                        >
+                          onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
                             sx={{
@@ -1150,8 +1178,7 @@ function App({
                                   ? "#fb61ee"
                                   : "#000",
                             }}
-                            component="p"
-                          >
+                            component="p">
                             {page}
                           </Typography>
                         </MenuItem>
@@ -1177,8 +1204,7 @@ function App({
                               onClick={() => {
                                 history.push("/account");
                                 handleCloseNavMenu();
-                              }}
-                            >
+                              }}>
                               View Profile
                             </Button>
                             <Button onClick={() => getout()}>Sign-out</Button>
@@ -1215,14 +1241,12 @@ function App({
                         exclusive
                         onChange={(e) =>
                           e.target.value != lang && setLang(e.target.value)
-                        }
-                      >
+                        }>
                         {langList.map((option) => (
                           <ToggleButton
                             sx={{ borderRadius: 1 }}
                             value={option.value}
-                            key={option.value}
-                          >
+                            key={option.value}>
                             {option.label}
                           </ToggleButton>
                         ))}
@@ -1273,8 +1297,7 @@ function App({
                   display: { xs: "flex", lg: "none" },
                   color: "inherit",
                   textDecoration: "none",
-                }}
-              >
+                }}>
                 <b>KorKaofrang</b>
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", xl: "flex" } }}>
@@ -1299,8 +1322,7 @@ function App({
                             : "#000",
                         fontSize: lang == "th" ? 14 : 12,
                         display: "block",
-                      }}
-                    >
+                      }}>
                       {page}
                     </Button>
                   ) : pageSec[i] == "birthday" && birthdaycampain == true ? (
@@ -1323,8 +1345,7 @@ function App({
                             : "#000",
                         fontSize: lang == "th" ? 14 : 12,
                         display: "block",
-                      }}
-                    >
+                      }}>
                       {page}
                     </Button>
                   ) : null
@@ -1335,8 +1356,7 @@ function App({
                 <Tooltip title="Open settings">
                   <IconButton
                     onClick={() => setAnchorElUser(true)}
-                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}
-                  >
+                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}>
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -1352,8 +1372,7 @@ function App({
                 <Dialog
                   open={anchorElUser}
                   onClose={() => setAnchorElUser(false)}
-                  maxWidth="xl"
-                >
+                  maxWidth="xl">
                   <DialogTitle>
                     {lang == "th" ? "การตั้งค่า" : "Setting"}
                   </DialogTitle>
@@ -1366,8 +1385,7 @@ function App({
                           location.pathname == "/404"
                             ? "none"
                             : "initial",
-                      }}
-                    >
+                      }}>
                       {isAuthenticated && (
                         <CardContent>
                           <Typography>
@@ -1386,8 +1404,7 @@ function App({
                             onClick={() => {
                               history.push("/account");
                               handleCloseNavMenu();
-                            }}
-                          >
+                            }}>
                             View Profile
                           </Button>
                           <Button onClick={() => getout()}>Sign-out</Button>
@@ -1417,14 +1434,12 @@ function App({
                       exclusive
                       onChange={(e) =>
                         e.target.value != lang && setLang(e.target.value)
-                      }
-                    >
+                      }>
                       {langList.map((option) => (
                         <ToggleButton
                           sx={{ borderRadius: 1 }}
                           value={option.value}
-                          key={option.value}
-                        >
+                          key={option.value}>
                           {option.label}
                         </ToggleButton>
                       ))}
@@ -1473,8 +1488,7 @@ function App({
                   : 0,
               md: 0,
             },
-          }}
-        >
+          }}>
           {unlock ? (
             <BasicSwitch>
               <Route
@@ -1591,8 +1605,7 @@ function App({
             borderTopRightRadius: 0,
             fontSize: 14,
             lineHeight: 1.2,
-          }}
-        >
+          }}>
           &copy; Copyright {new Date().getFullYear()}, CPXDevStudio
           <br />
           <small style={{ fontSize: 10 }}>
@@ -1605,8 +1618,7 @@ function App({
 
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={load}
-      >
+        open={load}>
         <CircularProgress />
       </Backdrop>
     </div>
