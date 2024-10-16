@@ -64,43 +64,11 @@
             await OneSignal.init({
               appId: "ee3a1e37-1129-4034-84fe-636371edaa24",
             });
+            await OneSignal.idsAvailable((idsAvailable) => { 
+                console.log(idsAvailable.playerId);
+                console.log(idsAvailable.pushToken);
+            });
           });
-
-          function getUserInfo() {
-            Promise.all([
-              OneSignal.Notifications.permission,
-              OneSignal.User.PushSubscription.id,
-              OneSignal.User.PushSubscription.token,
-              OneSignal.User.PushSubscription.optedIn,
-              OneSignal.context.serviceWorkerManager.getActiveState(),
-            ])
-              .then(
-                ([
-                  isSubscribed,
-                  subscriptionId,
-                  pushToken,
-                  optedIn,
-                  serviceWorkerActive,
-                ]) => {
-                  console.log('What is the current URL of this page?', location.href);
-                  console.log(
-                    "Is a service worker registered and active? (should be false on Safari, otherwise should be 'OneSignal Worker')?",
-                    serviceWorkerActive
-                  );
-                  console.log('')
-                  console.log('Are you subscribed, in the browser?', isSubscribed)
-                  console.log('Are you opted-in, in OneSignal?' , optedIn);
-                  console.log('');
-                  console.log('What is your OneSignal Subscription ID?', subscriptionId);
-                  console.log('What is your Push Token?', pushToken);
-                  
-                }
-              )
-              .catch(e => {
-                console.error('Issue determining whether push is enabled:', e);
-              });
-          }
-          getUserInfo();
         }
       });
     </script>
