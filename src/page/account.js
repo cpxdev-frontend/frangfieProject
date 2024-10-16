@@ -221,6 +221,7 @@ const Acct = ({
                 : "You are joining this event now! Please enjoy our activities.",
             icon: "success",
           });
+          fetchpoint();
         } else {
           switch (result.error) {
             case 1: {
@@ -310,9 +311,7 @@ const Acct = ({
     }, 50);
   }, [currentPage]);
 
-  React.useEffect(() => {
-    setPage("KorKao ID");
-
+  const fetchpoint = () => {
     if (isAuthenticated) {
       setData(user);
       var requestOptions = {
@@ -326,6 +325,7 @@ const Acct = ({
         }),
       };
 
+      setPoint(null);
       fetch(process.env.REACT_APP_APIE + "/kfsite/getPoint", requestOptions)
         .then((response) => response.json())
         .then((result) => {
@@ -335,6 +335,11 @@ const Acct = ({
         })
         .catch((error) => console.log("error", error));
     }
+  }
+
+  React.useEffect(() => {
+    setPage("KorKao ID");
+    fetchpoint()
   }, [isAuthenticated]);
 
   return (
