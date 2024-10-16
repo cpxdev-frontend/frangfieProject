@@ -64,9 +64,13 @@
             await OneSignal.init({
               appId: "ee3a1e37-1129-4034-84fe-636371edaa24",
             });
-            OneSignal.getUserId(function(userId) {
-                console.log('user id', userId); // doesn't get this far                
+            OneSignal.on('subscriptionChange', function (isSubscribed) {
+              OneSignal.push(function() {
+                OneSignal.getUserId(function(userId) {
+                  console.log("OneSignal User ID:", userId);
+                });
               });
+            });
           });
         }
       });
