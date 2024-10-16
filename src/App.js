@@ -654,7 +654,7 @@ function App({
       return (
         <div className="video-container">
           <video
-            className="vdo overflow-hidden"
+            className="overflow-hidden"
             disablePictureInPicture
             controlsList="nodownload nofullscreen noremoteplayback"
             muted
@@ -664,7 +664,7 @@ function App({
               scrollbarWidth: "none",
               top: "50%",
               left: "50%",
-              minWidth: "100%",
+              maxWidth: "100%",
               minHeight: "100%",
               width: "auto",
               height: "auto",
@@ -730,7 +730,7 @@ function App({
     return (
       <div className="video-container">
         <video
-          className="vdo overflow-hidden"
+          className="overflow-hidden"
           disablePictureInPicture
           controlsList="nodownload nofullscreen noremoteplayback"
           muted
@@ -740,7 +740,7 @@ function App({
             scrollbarWidth: "none",
             top: "50%",
             left: "50%",
-            minWidth: "100%",
+            maxWidth: "100%",
             minHeight: "100%",
             width: "auto",
             height: "auto",
