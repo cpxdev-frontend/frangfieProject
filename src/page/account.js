@@ -581,6 +581,27 @@ const Acct = ({
                     alt="eventimg"
                   />
                 )}
+                {point < event.res.pointused ? (
+                  <Typography className="mt-2 mb-2 text-info">
+                    {lang == "th"
+                      ? "หมายเหตุ: คะแนนของคุณไม่เพียงพอในการเข้าร่วมกิจกรรม คุณต้องมีอย่างน้อย " +
+                        event.res.pointused +
+                        " คะแนน"
+                      : "Notes: Your KorKao Points are not enough to join this event. You should have at least " +
+                        event.res.pointused +
+                        " KorKao Points."}
+                  </Typography>
+                ) : (
+                  <Typography className="mt-2 mb-2 text-info">
+                    {lang == "th"
+                      ? "หมายเหตุ: คะแนนที่ใช้สำหรับเข้าร่วมกิจกรรม " +
+                        event.res.pointused +
+                        " คะแนน"
+                      : "Notes: Redeemed Points of this event " +
+                        event.res.pointused +
+                        " KorKao Points."}
+                  </Typography>
+                )}
                 <Typography>{event.res.desc[lang]}</Typography>
                 <Divider className="mt-4" />
                 <Typography className="mt-2">
@@ -593,27 +614,6 @@ const Acct = ({
                     ? "1 ไอดีผู้ใช้สามารถเข้าร่วมกิจกรรมได้ 1 คนเท่านั้น หากยืนยันเข้าร่วมแล้วจะไม่สามารถยกเลิก หรือเข้าร่วมงานซ้ำในภายหลังได้"
                     : "One user ID can participate in the event only once. Once confirmed for participation, it will not be possible to cancel or participate in the event again in the future."}
                 </Typography>
-                {point < event.res.pointused ? (
-                  <Typography className="mt-2 text-info">
-                    {lang == "th"
-                      ? "หมายเหตุ: คะแนนของคุณไม่เพียงพอในการเข้าร่วมกิจกรรม คุณต้องมีอย่างน้อย " +
-                        event.res.pointused +
-                        " คะแนน"
-                      : "Notes: Your KorKao Points are not enough to join this event. You should have at least " +
-                        event.res.pointused +
-                        " KorKao Points."}
-                  </Typography>
-                ) : (
-                  <Typography className="mt-2 text-info">
-                    {lang == "th"
-                      ? "หมายเหตุ: คะแนนที่ใช้สำหรับเข้าร่วมกิจกรรม " +
-                        event.res.pointused +
-                        " คะแนน"
-                      : "Notes: Redeemed Points of this event " +
-                        event.res.pointused +
-                        " KorKao Points."}
-                  </Typography>
-                )}
               </DialogContent>
               <DialogActions>
                 {point >= event.res.pointused && (
