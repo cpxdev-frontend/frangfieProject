@@ -532,7 +532,7 @@ function App({
       },
       body: JSON.stringify({
         userId: user.email,
-        notiId: atob(localStorage.getItem("osigIdPush"))
+        notiId: atob(localStorage.getItem("osigIdPush")),
       }),
     };
 
@@ -647,10 +647,10 @@ function App({
   if (launchredis > targetTime - 1209600 && launchredis < targetTime) {
     if (
       timeLeft.months == 0 &&
-      timeLeft.days == 0 &&
+      timeLeft.days == 5 &&
       timeLeft.hours == 0 &&
       timeLeft.minutes == 0 &&
-      timeLeft.seconds > 0
+      timeLeft.seconds <= 60
     ) {
       return (
         <div className="video-container">
@@ -688,6 +688,13 @@ function App({
             open={onvideo}
             className="text-center">
             <div className="row">
+              <div className="col-12">
+                <img
+                  src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
+                  width="150"
+                  className="mb-5"
+                />
+              </div>
               <h5 className="col-12">
                 {lang == "th"
                   ? "คุณกำลังเข้าสู่เว็บไซต์นี้ในอีก " +
@@ -720,11 +727,19 @@ function App({
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={true}
           className="text-center">
-          <h4>
-            {lang == "th"
-              ? "เราพร้อมมอบประสบการณ์ของการเยี่ยมชมจักรวาลของข้าวฟ่างแล้ว!"
-              : "You are ready to move through The KorKaofrang Universe!"}
-          </h4>
+          <div>
+            <img
+              src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
+              width="150"
+              className="mb-3"
+            />
+            <br />
+            <h4>
+              {lang == "th"
+                ? "เราพร้อมมอบประสบการณ์ของการเยี่ยมชมจักรวาลของข้าวฟ่างแล้ว!"
+                : "You are ready to move through The KorKaofrang Universe!"}
+            </h4>
+          </div>
         </Backdrop>
       );
     }
@@ -758,30 +773,78 @@ function App({
         <Backdrop
           sx={{
             color: "#000",
+            pointerEvents: "initial",
             zIndex: (theme) => theme.zIndex.drawer + 1,
             backgroundColor: "rgb(248, 195, 248)",
           }}
           open={onvideo}
           className="text-center">
-          {lang == "th"
-            ? "เว็บไซต์นี้กำลังจะเปิดตัวในอีก " +
-              timeLeft.days +
-              " วัน " +
-              timeLeft.hours +
-              " ชั่วโมง " +
-              timeLeft.minutes +
-              " นาที " +
-              timeLeft.seconds +
-              " วินาที"
-            : "This website is soon in " +
-              timeLeft.days +
-              " days " +
-              timeLeft.hours +
-              " hours " +
-              timeLeft.minutes +
-              " minutes " +
-              timeLeft.seconds +
-              " seconds"}
+          <div>
+            <img
+              src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
+              width="150"
+              className="mb-3"
+            />
+            <br />
+            {lang == "th"
+              ? "เว็บไซต์นี้กำลังจะเปิดตัวในอีก " +
+                timeLeft.days +
+                " วัน " +
+                timeLeft.hours +
+                " ชั่วโมง " +
+                timeLeft.minutes +
+                " นาที " +
+                timeLeft.seconds +
+                " วินาที"
+              : "This website is soon in " +
+                timeLeft.days +
+                " days " +
+                timeLeft.hours +
+                " hours " +
+                timeLeft.minutes +
+                " minutes " +
+                timeLeft.seconds +
+                " seconds"}
+            <br />
+            <ToggleButtonGroup
+              color="primary"
+              className="mt-5"
+              value={lang}
+              disabled={locklang}
+              exclusive
+              onChange={(e) =>
+                e.target.value != lang && setLang(e.target.value)
+              }>
+              {langList.map((option) => (
+                <ToggleButton
+                  sx={{ borderRadius: 1 }}
+                  value={option.value}
+                  key={option.value}>
+                  {option.label}
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
+            <br />
+            <Button
+              className="ml-2 mt-1"
+              onClick={() => {
+                let person = prompt(
+                  "Enter your passkey hash to ready for testing."
+                );
+                if (
+                  person != null &&
+                  person === "1967fe1d511c1de55dc3379b515df6f2"
+                ) {
+                  localStorage.setItem(
+                    "1967fe1d511c1de55dc3379b515df6f2",
+                    "56f006fb7a76776e1e08eac264bd491aa1a066a1"
+                  );
+                  window.location.reload();
+                }
+              }}>
+              Developer mode
+            </Button>
+          </div>
         </Backdrop>
       </div>
     );
