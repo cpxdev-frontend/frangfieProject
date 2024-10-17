@@ -205,7 +205,7 @@ const Acct = ({
         userId: user.email,
         userName: user.given_name != null ? user.given_name : user.name,
         provider: user.sub,
-        notiId: atob(localStorage.getItem("osigIdPush"))
+        notiId: atob(localStorage.getItem("osigIdPush")),
       }),
     };
 
@@ -321,7 +321,7 @@ const Acct = ({
         },
         body: JSON.stringify({
           userId: user.email,
-          notiId: atob(localStorage.getItem("osigIdPush"))
+          notiId: atob(localStorage.getItem("osigIdPush")),
         }),
       };
 
@@ -335,11 +335,11 @@ const Acct = ({
         })
         .catch((error) => console.log("error", error));
     }
-  }
+  };
 
   React.useEffect(() => {
     setPage("KorKao ID");
-    fetchpoint()
+    fetchpoint();
   }, [isAuthenticated]);
 
   return (
@@ -489,7 +489,7 @@ const Acct = ({
               }}
               components={{ audio: false }}
               scanDelay={-10000}
-              formats={['qr_code']}
+              formats={["qr_code"]}
               onScan={(result) => setCheckevent(result[0].rawValue)}
               onError={null}
             />
@@ -523,7 +523,9 @@ const Acct = ({
                   subheader={
                     lang == "th"
                       ? "มีผู้เข้าร่วมกิจกรรมแล้ว " + event.part + " คน"
-                      : "There are already " + event.part + " participants in this event."
+                      : "There are already " +
+                        event.part +
+                        " participants in this event."
                   }
                 />
                 <Chip
@@ -591,11 +593,34 @@ const Acct = ({
                     ? "1 ไอดีผู้ใช้สามารถเข้าร่วมกิจกรรมได้ 1 คนเท่านั้น หากยืนยันเข้าร่วมแล้วจะไม่สามารถยกเลิก หรือเข้าร่วมงานซ้ำในภายหลังได้"
                     : "One user ID can participate in the event only once. Once confirmed for participation, it will not be possible to cancel or participate in the event again in the future."}
                 </Typography>
+                {point < event.res.pointused ? (
+                  <Typography className="mt-2 text-info">
+                    {lang == "th"
+                      ? "หมายเหตุ: คะแนนของคุณไม่เพียงพอในการเข้าร่วมกิจกรรม คุณต้องมีอย่างน้อย " +
+                        event.res.pointused +
+                        " คะแนน"
+                      : "Notes: Your KorKao Points are not enough to join this event. You should have at least " +
+                        event.res.pointused +
+                        " KorKao Points."}
+                  </Typography>
+                ) : (
+                  <Typography className="mt-2 text-info">
+                    {lang == "th"
+                      ? "หมายเหตุ: คะแนนที่ใช้สำหรับเข้าร่วมกิจกรรม " +
+                        event.res.pointused +
+                        " คะแนน"
+                      : "Notes: Redeemed Points of this event " +
+                        event.res.pointused +
+                        " KorKao Points."}
+                  </Typography>
+                )}
               </DialogContent>
               <DialogActions>
-                <Button onClick={() => joinevent()}>
-                  {lang == "th" ? "เข้าร่วมกิจกรรม" : "Join this event"}
-                </Button>
+                {point >= event.res.pointused && (
+                  <Button onClick={() => joinevent()}>
+                    {lang == "th" ? "เข้าร่วมกิจกรรม" : "Join this event"}
+                  </Button>
+                )}
                 <Button
                   onClick={() => {
                     setGetData2(null);
