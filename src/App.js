@@ -644,7 +644,11 @@ function App({
     );
   }
 
-  if (launchredis > targetTime - 1209600 && launchredis < targetTime) {
+  if (
+    localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") == null &&
+    launchredis > targetTime - 1209600 &&
+    launchredis < targetTime
+  ) {
     if (
       timeLeft.months == 0 &&
       timeLeft.days == 5 &&
@@ -1685,6 +1689,10 @@ function App({
             (iAM). These member images and all events poster is objective for
             Kaofrang BNK48 and other BNK48 members supporting only.
           </small>
+          <br/>
+          <a style={{ fontSize: 11, cursor: 'pointer' }} className="App-link" onClick={() => window.open('https://bsky.app/profile/cpxdevbot.bsky.social', '_blank')}>
+            Check latest system update
+          </a>
         </Card>
       </footer>
 
