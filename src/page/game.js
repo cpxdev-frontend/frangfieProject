@@ -35,6 +35,7 @@ import {
 } from "../redux/action";
 import { useHistory } from "react-router-dom";
 import ReactGA from "react-ga4";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import Joyride from "react-joyride";
 import stepEn from "../stepGuide/en/quiz";
@@ -75,6 +76,14 @@ const GameApp = ({
   const [ip, setIP] = React.useState("");
   const [session, setSession] = React.useState("");
   const his = useHistory();
+  const {
+    loginWithPopup,
+    user,
+    isAuthenticated,
+    isLoading,
+    getAccessTokenSilently,
+    logout,
+  } = useAuth0();
 
   const [time, setTime] = React.useState(0);
 
@@ -289,6 +298,7 @@ const GameApp = ({
           quizFrom: quesList.length,
           quizDuration: Math.floor((time % 6000) / 100),
           sessionId: session,
+          userId: isAuthenticated ? user.email : null
         }),
       })
         .then((response) => response.json())
