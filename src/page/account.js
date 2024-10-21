@@ -609,11 +609,19 @@ const Acct = ({
                     ? "การเข้าถึงข้อมูลส่วนบุคคล: ทางผู้พัฒนาต้องการเข้าถึงข้อมูล ได้แก่ ที่อยู่อีเมลและชื่อผู้ใช้ โดยมีวัตถุประสงค์เพื่อนำไปใช้ในการเข้าร่วมกิจกรรมต่างๆ ที่เกี่ยวข้องกับกิจกรรมนี้ และจะมีผลจนถึงวันและเวลาที่สิ้นสุดกิจกรรมนี้ และผู้พัฒนาจะลบข้อมูลที่เก็บไว้ออกจากระบบ"
                     : "Privacy Info Access Information: The developers require access to information, including email addresses and usernames, for the purpose of participation in various activities related to this event. This will remain in effect until the date and time of the conclusion of this event, after which the developers will delete the stored data from the system."}
                 </Typography>
-                <Typography className="mt-2">
-                  {lang == "th"
-                    ? "1 ไอดีผู้ใช้สามารถเข้าร่วมกิจกรรมได้ 1 คนเท่านั้น หากยืนยันเข้าร่วมแล้วจะไม่สามารถยกเลิก หรือเข้าร่วมงานซ้ำในภายหลังได้"
-                    : "One user ID can participate in the event only once. Once confirmed for participation, it will not be possible to cancel or participate in the event again in the future."}
-                </Typography>
+                {event.res.isJoinagain ? (
+                  <Typography className="mt-2">
+                    {lang == "th"
+                      ? "กิจกรรมนี้สามารถเข้าร่วมได้มากกว่า 1 ครั้ง จนกว่าจะสิ้นสุดแคมเปญ"
+                      : "This event can join more than one times. And until end of campain."}
+                  </Typography>
+                ) : (
+                  <Typography className="mt-2">
+                    {lang == "th"
+                      ? "1 ไอดีผู้ใช้สามารถเข้าร่วมกิจกรรมได้ 1 คนเท่านั้น หากยืนยันเข้าร่วมแล้วจะไม่สามารถยกเลิก หรือเข้าร่วมงานซ้ำในภายหลังได้"
+                      : "One user ID can participate in the event only once. Once confirmed for participation, it will not be possible to cancel or participate in the event again in the future."}
+                  </Typography>
+                )}
               </DialogContent>
               <DialogActions>
                 {point >= event.res.pointused && (
