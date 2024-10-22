@@ -375,16 +375,42 @@ const Acct = ({
 
   if (isLoading) {
     return (
-      <Card>
-        <CardContent>
-          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "2rem" }} />
-          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
-          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
-          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
-          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
-          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
-        </CardContent>
-      </Card>
+      <div className="container mt-3">
+        <Card>
+          <CardContent>
+            <Skeleton
+              variant="text"
+              className="bg-m"
+              sx={{ fontSize: "2rem" }}
+            />
+            <Skeleton
+              variant="text"
+              className="bg-m"
+              sx={{ fontSize: "1rem" }}
+            />
+            <Skeleton
+              variant="text"
+              className="bg-m"
+              sx={{ fontSize: "1rem" }}
+            />
+            <Skeleton
+              variant="text"
+              className="bg-m"
+              sx={{ fontSize: "1rem" }}
+            />
+            <Skeleton
+              variant="text"
+              className="bg-m"
+              sx={{ fontSize: "1rem" }}
+            />
+            <Skeleton
+              variant="text"
+              className="bg-m"
+              sx={{ fontSize: "1rem" }}
+            />
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
