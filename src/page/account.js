@@ -97,6 +97,7 @@ const Acct = ({
     loginWithPopup,
     user,
     isAuthenticated,
+    isLoading,
     getAccessTokenSilently,
     logout,
   } = useAuth0();
@@ -372,16 +373,36 @@ const Acct = ({
     fetchpoint();
   }, [isAuthenticated]);
 
+  if (isLoading) {
+    return (
+      <Card>
+        <CardContent>
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "2rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+          <Skeleton variant="text" className="bg-m" sx={{ fontSize: "1rem" }} />
+        </CardContent>
+      </Card>
+    );
+  }
+
   if (!isAuthenticated) {
     return (
       <Fade in={open} timeout={300}>
         <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
           <CardHeader
             title={<h3>Benefit of KorKao ID</h3>}
-            subheader={lang == "th" ? "สิทธิประโยชน์ของ KorKao ID" : "All you should know about KorKao ID"}
+            subheader={
+              lang == "th"
+                ? "สิทธิประโยชน์ของ KorKao ID"
+                : "All you should know about KorKao ID"
+            }
             action={
               <Button variant="outlined" onClick={() => loginWithPopup()}>
-                <KeyIcon />&nbsp;{lang == "th" ? "เข้าสู่ระบบ" : "Login now!"}
+                <KeyIcon />
+                &nbsp;{lang == "th" ? "เข้าสู่ระบบ" : "Login now!"}
               </Button>
             }
           />
