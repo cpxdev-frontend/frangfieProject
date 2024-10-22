@@ -171,7 +171,7 @@ const GameApp = ({
     <Fade in={open} timeout={300}>
       <div
         className="d-flex justify-content-center"
-        style={{ marginBottom: 150 }}>
+        style={{ marginBottom: 200 }}>
         <Card sx={{ marginTop: "8%", width: { xs: "90%", md: "70%" } }}>
           <CardContent>
             <CardHeader

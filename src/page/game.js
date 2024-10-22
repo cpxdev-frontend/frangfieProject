@@ -388,7 +388,7 @@ const GameApp = ({
         <div
           data-aos="fade-in"
           className="d-flex justify-content-center"
-          style={{ marginBottom: 100 }}>
+          style={{ marginBottom: 200 }}>
           <Card
             data-tour="quiz"
             sx={{
@@ -513,7 +513,7 @@ const GameApp = ({
             />
             {aver != null ? (
               <>
-                <LinearProgress
+                {/* <LinearProgress
                   sx={{
                     width: "100%",
                     height: 5,
@@ -521,7 +521,7 @@ const GameApp = ({
                   variant="buffer"
                   value={(correct / 10) * 100}
                   valueBuffer={(aver.average / 10) * 100}
-                />
+                /> */}
                 <Typography className="ml-3 mt-3" data-aos="zoom-in-down">
                   {lang == "th"
                     ? "คะแนนเฉลี่ยจากผู้เล่นทั่วโลก " +

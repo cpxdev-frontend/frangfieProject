@@ -23,6 +23,17 @@ import {
   Backdrop,
   DialogActions,
   CardActionArea,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  TableContainer,
+  TableBody,
+  Paper,
+  Table,
+  TableRow,
+  TableHead,
+  TableCell,
 } from "@mui/material";
 import {
   setLoad,
@@ -31,6 +42,11 @@ import {
   setPage,
   setLaunch,
 } from "../redux/action";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
+import CardMembershipIcon from "@mui/icons-material/CardMembership";
+import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
+import LockIcon from "@mui/icons-material/Lock";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
@@ -220,6 +236,14 @@ const Acct = ({
                 ? "คุณเข้าร่วมกิจกรรมเรียบร้อยแล้ว"
                 : "You are joining this event now! Please enjoy our activities.",
             icon: "success",
+            footer:
+              lang == "th"
+                ? "รหัสอ้างอิงของคุณคือ " +
+                  result.refCode +
+                  " กรุณาเก็บไว้เพื่ออ้างอิงในการยืนยันสิทธิ์"
+                : "Your reference code is " +
+                  result.refCode +
+                  ". Please keep it to confirm your joined event rights.",
           });
           fetchpoint();
         } else {
@@ -427,6 +451,217 @@ const Acct = ({
                 </CardContent>
               </Card>
 
+              <Card sx={{ marginTop: 5, width: "100%" }}>
+                <CardContent>
+                  <CardHeader
+                    title={
+                      lang == "th" ? "KorKao ID คืออะไร" : "What is KorKao ID"
+                    }
+                  />
+                  <Typography>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    {lang == "th"
+                      ? "KorKao ID เป็นระบบสมาชิกสำหรับแฟนด้อมของข้าวฟ่างที่จะยกระดับการเข้าร่วมกิจกรรมให้มีความพิเศษมากยิ่งขึ้น รวมทั้งการเข้าถึงฟีเจอร์พิเศษที่ทางผู้พัฒนาและบ้านกอฟ่างได้ร่วมมือกันสำหรับสมาชิกเท่านั้น"
+                      : "KorKao ID is membership system for Kaofrang Yanisa or Kaofrang BNK48's fanclub to enhance participation in activities to make it special for them. Including access to special features that the developer and Kaofrang BNK48 Thailand Fanclub have collaborated on exclusively for membership."}
+                  </Typography>
+                  <List
+                    sx={{
+                      width: "100%",
+                      bgcolor: "background.paper",
+                    }}>
+                    <ListItem className="mb-5">
+                      <ListItemAvatar>
+                        <Avatar className="iconchoice">
+                          <CardMembershipIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={
+                          lang == "th"
+                            ? "ผู้ใช้งานแบบไหนสามารถเข้าใช้งาน KorKao ID"
+                            : "Who can use KorKao ID"
+                        }
+                        secondary={
+                          lang == "th"
+                            ? "คุณสามารถเข้าใช้งาน KorKao ID ได้โดยไม่มีข้อจำกัดเรื่องเพศหรืออายุใดๆ อย่างไรก็ตามเราขอแนะนำให้เป็นผู้ที่มีอายุเกิน 15 ปีเป็นต้นไป เนื่องจากอาจมีกิจกรรมที่จะต้องลุ้นรางวัลด้วย หากคุณอายุต่ำกว่านั้นอาจต้องได้รับความยินยอมจากผู้ปกครองของคุณด้วย"
+                            : "You can access KorKao ID without any restrictions regarding gender or age. However, we recommend that users be 15 years old and above, as there may be activities that involve prize draws. If you are younger than that, you may need to obtain consent from your parent."
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar className="iconchoice">
+                          <MilitaryTechIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={
+                          lang == "th"
+                            ? "สิทธิประโยชน์ของ KorKao ID ที่จะได้รับมีอะไรบ้าง"
+                            : "How are the KorKao ID benefits."
+                        }
+                      />
+                    </ListItem>
+                    <TableContainer component={Paper} className="mb-5">
+                      <Table aria-label="simple table">
+                        <caption>
+                          *{" "}
+                          {lang == "th"
+                            ? "กรณีถ้ามีสุ่มจับฉลากลุ้นรางวัล ผู้ใช้งานทั่วไปจะไม่ได้รับสิทธิประโยชน์ตรงนี้"
+                            : "For drawing prize events are excepted with generally users."}
+                        </caption>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>
+                              {lang == "th"
+                                ? "ฟีเจอร์ไฮไลท์ในเว็บไซต์นี้"
+                                : "Highlight features of KorKao FanSite"}
+                            </TableCell>
+                            <TableCell align="right">
+                              {lang == "th"
+                                ? "ผู้ใช้งานทั่วไป"
+                                : "Generally Users"}
+                            </TableCell>
+                            <TableCell align="right">
+                              KorKao ID Membership
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}>
+                            <TableCell component="th" scope="row">
+                              {lang == "th"
+                                ? "ดูโปรไฟล์ของน้องหรือ เพลงและคอนเทนต์ต่างๆของน้องข้าวฟ่าง"
+                                : "Visit all basic of Kaofrang's profile, discography and special contents."}
+                            </TableCell>
+                            <TableCell align="right">
+                              <CheckCircleOutlineIcon />
+                            </TableCell>
+                            <TableCell align="right">
+                              <CheckCircleOutlineIcon />
+                            </TableCell>
+                          </TableRow>
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}>
+                            <TableCell component="th" scope="row">
+                              {lang == "th"
+                                ? "ดูกิจกรรมของข้าวฟ่างและเปิดการแจ้งเตือนกิจกรรมแบบเรียลไทม์"
+                                : "View Kaofrang's events and activities. And also enable push notification."}
+                            </TableCell>
+                            <TableCell align="right">
+                              <CheckCircleOutlineIcon />
+                            </TableCell>
+                            <TableCell align="right">
+                              <CheckCircleOutlineIcon />
+                            </TableCell>
+                          </TableRow>
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}>
+                            <TableCell component="th" scope="row">
+                              {lang == "th"
+                                ? "เล่นมินิเกมส์พร้อมกับดูคะแนนเฉลี่ยจากผู้เล่นทั่วโลก"
+                                : "Play KorKao's Quiz Game and see average scores from around the world."}
+                            </TableCell>
+                            <TableCell align="right">
+                              <CheckCircleOutlineIcon />
+                            </TableCell>
+                            <TableCell align="right">
+                              <CheckCircleOutlineIcon />
+                            </TableCell>
+                          </TableRow>
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}>
+                            <TableCell component="th" scope="row">
+                              {lang == "th"
+                                ? "การเข้าร่วมกิจกรรมที่จัดขึ้นโดยบ้านกอข้าว"
+                                : "Join special event of KorKao team."}
+                            </TableCell>
+                            <TableCell align="right">
+                              * <CheckCircleOutlineIcon />
+                            </TableCell>
+                            <TableCell align="right">
+                              <CheckCircleOutlineIcon />
+                            </TableCell>
+                          </TableRow>
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}>
+                            <TableCell component="th" scope="row">
+                              {lang == "th"
+                                ? "ดูคะแนนและประวัติการเล่นมินิเกมส์ของคุณได้สูงสุด 1 ปี"
+                                : "View your score and game histories up to one year."}
+                            </TableCell>
+                            <TableCell align="right">
+                              <DoNotDisturbOnIcon />
+                            </TableCell>
+                            <TableCell align="right">
+                              <CheckCircleOutlineIcon />
+                            </TableCell>
+                          </TableRow>
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}>
+                            <TableCell component="th" scope="row">
+                              {lang == "th"
+                                ? "การสะสมคะแนนเพื่อลุ้นของรางวัล หรือการเข้าร่วมกิจกรรมที่ต้องใช้คะแนน (KorKao Points)"
+                                : "All activities or events which you need to use KorKao Points. and earn points from AirDrop"}
+                            </TableCell>
+                            <TableCell align="right">
+                              <DoNotDisturbOnIcon />
+                            </TableCell>
+                            <TableCell align="right">
+                              <CheckCircleOutlineIcon />
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar className="iconchoice">
+                          <LockIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={
+                          lang == "th"
+                            ? "ทางผู้พัฒนาเข้าถึงข้อมูลส่วนบุคคลอย่างไรบ้าง"
+                            : "How is our developer access your personal data?"
+                        }
+                        secondary={
+                          lang == "th"
+                            ? "ผู้พัฒนาต้องการเข้าถึงข้อมูลส่วนบุคคลได้แก่ชื่อผู้ใช้ ที่อยู่อีเมล และ Provider ที่คุณเข้าใช้ โดยที่เราจะเรียกใช้ข้อมูลของคุณเมื่อคุณยินยอมการเข้าร่วมกิจกรรมนั้นๆ และจะนำข้อมูลดังกล่าวไปใช้ในวัตถุประสงค์ที่เกี่ยวข้องกับกิจกรรมนั้น หลังจากนั้นเราจะลบข้อมูลผู้เข้าร่วมกิจกรรมทั้งหมดเป็นเวลาภายใน 30 วันนับจากวันที่ปิดกิจกรรมนั้นๆ นอกจากนี้ คุณสามารถเข้าไปที่หน้าจัดการบัญชีผู้ใช้ของคุณบนเว็บไซต์ Provider ที่คุณเข้าใช้งานเพื่อก้ไขข้อมูลของคุณได้ โดยที่ทางผู้พัฒนาจะไม่มีสิทธิ์การเข้าถึงการแก้ไขข้อมูลส่วนบุคคลของคุณแต่อย่างใด"
+                            : "The developer needs to access personal information such as your username, email address, and the provider you are using. We will only retrieve your information when you consent to participate in that activity, and this data will be used for purposes related to that activity. Afterward, all participant data will be deleted within 30 days from the closure of the activity. Additionally, you can visit your account management page on the provider's website to modify your information, and the developer will not have the right to modify your personal data in any way."
+                        }
+                      />
+                    </ListItem>
+                  </List>
+                </CardContent>
+              </Card>
+
               {/* <Joyride
                 steps={lang == "th" ? stepTh : stepEn}
                 continuous
@@ -613,7 +848,7 @@ const Acct = ({
                   <Typography className="mt-2">
                     {lang == "th"
                       ? "กิจกรรมนี้สามารถเข้าร่วมได้มากกว่า 1 ครั้ง จนกว่าจะสิ้นสุดแคมเปญ"
-                      : "This event can join more than one times. And until end of campain."}
+                      : "This event can be joined multiple times until the end of the campaign."}
                   </Typography>
                 ) : (
                   <Typography className="mt-2">

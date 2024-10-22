@@ -69,6 +69,10 @@ body {
   }
 }
 
+.iconchoice{
+  background-color: #fb61ee !important;
+}
+
 .img {
   background-size: cover;
   background-position: center;

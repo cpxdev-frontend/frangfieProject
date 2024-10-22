@@ -227,7 +227,18 @@ function App({
 
   React.useEffect(() => {
     if (localStorage.getItem("yuser") != null) {
-      getAccessTokenSilently();
+      try {
+        getAccessTokenSilently();
+      } catch {
+        Swal.fire({
+          title: "Login session is expired",
+          icon: 'error',
+          text: 'Please sign-in to KorKao ID again.',
+        }).then((r) => {
+          getout();
+        });
+        return;
+      }
       var m = setInterval(() => {
         if (isLoading == false) {
           clearInterval(m);
@@ -269,9 +280,19 @@ function App({
       console.log("view user", user);
     } else {
       if (isAuthenticated) {
-        getAccessTokenSilently();
+        try {
+          getAccessTokenSilently();
+        } catch {
+          Swal.fire({
+            title: "Login session is expired",
+            icon: 'error',
+            text: 'Please sign-in to KorKao ID again.',
+          }).then((r) => {
+            getout();
+          });
+          return;
+        }
         localStorage.setItem("yuser", "");
-        console.log("view user", user);
         var requestOptions = {
           method: "POST",
           headers: {
