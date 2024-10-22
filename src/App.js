@@ -232,8 +232,8 @@ function App({
       } catch {
         Swal.fire({
           title: "Login session is expired",
-          icon: 'error',
-          text: 'Please sign-in to KorKao ID again.',
+          icon: "error",
+          text: "Please sign-in to KorKao ID again.",
         }).then((r) => {
           getout();
         });
@@ -285,8 +285,8 @@ function App({
         } catch {
           Swal.fire({
             title: "Login session is expired",
-            icon: 'error',
-            text: 'Please sign-in to KorKao ID again.',
+            icon: "error",
+            text: "Please sign-in to KorKao ID again.",
           }).then((r) => {
             getout();
           });
@@ -585,9 +585,9 @@ function App({
   };
 
   const getout = () => {
-    setTimeout(() => {
-      localStorage.removeItem("yuser");
-    }, 400);
+    localStorage.removeItem("yuser");
+    // setTimeout(() => {
+    // }, 400);
     logout({
       logoutParams: {
         returnTo: window.location.origin,
@@ -1019,6 +1019,13 @@ function App({
                           <CardActions>
                             <Button onClick={() => loginWithPopup()}>
                               Become or Log-in to KorKao ID
+                            </Button>
+                            <Button
+                              onClick={() => {
+                                history.push("/account");
+                                handleCloseNavMenu();
+                              }}>
+                              View Benefits
                             </Button>
                           </CardActions>
                         )}
@@ -1657,13 +1664,18 @@ function App({
                 path="/donation"
                 render={() => <Donate />}
               />
-              {localStorage.getItem("yuser") != null && (
+              {/* {localStorage.getItem("yuser") != null && (
                 <Route
                   data-aos="fade-in"
                   path="/account"
                   render={() => <Account />}
                 />
-              )}
+              )} */}
+              <Route
+                data-aos="fade-in"
+                path="/account"
+                render={() => <Account />}
+              />
               <Route
                 exact
                 data-aos="fade-in"
@@ -1710,8 +1722,16 @@ function App({
             (iAM). These member images and all events poster is objective for
             Kaofrang BNK48 and other BNK48 members supporting only.
           </small>
-          <br/>
-          <a style={{ fontSize: 11, cursor: 'pointer' }} className="App-link" onClick={() => window.open('https://bsky.app/profile/cpxdevbot.bsky.social', '_blank')}>
+          <br />
+          <a
+            style={{ fontSize: 11, cursor: "pointer" }}
+            className="App-link"
+            onClick={() =>
+              window.open(
+                "https://bsky.app/profile/cpxdevbot.bsky.social",
+                "_blank"
+              )
+            }>
             Check latest system update
           </a>
         </Card>

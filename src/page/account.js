@@ -42,11 +42,17 @@ import {
   setPage,
   setLaunch,
 } from "../redux/action";
+
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 import LockIcon from "@mui/icons-material/Lock";
+import KeyIcon from "@mui/icons-material/Key";
+import StarsIcon from "@mui/icons-material/Stars";
+import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
 import moment from "moment";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
@@ -366,6 +372,338 @@ const Acct = ({
     fetchpoint();
   }, [isAuthenticated]);
 
+  if (!isAuthenticated) {
+    return (
+      <Fade in={open} timeout={300}>
+        <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
+          <CardHeader
+            title={<h3>Benefit of KorKao ID</h3>}
+            subheader={lang == "th" ? "สิทธิประโยชน์ของ KorKao ID" : "All you should know about KorKao ID"}
+            action={
+              <Button variant="outlined" onClick={() => loginWithPopup()}>
+                <KeyIcon />&nbsp;{lang == "th" ? "เข้าสู่ระบบ" : "Login now!"}
+              </Button>
+            }
+          />
+          <div className="container mt-3">
+            <Card sx={{ marginTop: 5, width: "100%" }}>
+              <CardContent>
+                <CardHeader
+                  title={
+                    lang == "th" ? "KorKao ID คืออะไร" : "What is KorKao ID"
+                  }
+                />
+                <Typography>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {lang == "th"
+                    ? "KorKao ID เป็นระบบสมาชิกสำหรับแฟนด้อมของข้าวฟ่างที่จะยกระดับการเข้าร่วมกิจกรรมให้มีความพิเศษมากยิ่งขึ้น รวมทั้งการเข้าถึงฟีเจอร์พิเศษที่ทางผู้พัฒนาและบ้านกอฟ่างได้ร่วมมือกันสำหรับสมาชิกเท่านั้น"
+                    : "KorKao ID is membership system for Kaofrang Yanisa or Kaofrang BNK48's fanclub to enhance participation in activities to make it special for them. Including access to special features that the developer and Kaofrang BNK48 Thailand Fanclub have collaborated on exclusively for membership."}
+                </Typography>
+                <List
+                  className="mt-5"
+                  sx={{
+                    width: "100%",
+                    bgcolor: "background.paper",
+                  }}>
+                  <ListItem className="mb-5">
+                    <ListItemAvatar>
+                      <Avatar className="iconchoice">
+                        <CardMembershipIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        lang == "th"
+                          ? "ผู้ใช้งานแบบไหนสามารถเข้าใช้งาน KorKao ID"
+                          : "Who can use KorKao ID?"
+                      }
+                      secondary={
+                        lang == "th"
+                          ? "คุณสามารถเข้าใช้งาน KorKao ID ได้โดยไม่มีข้อจำกัดเรื่องเพศหรืออายุใดๆ อย่างไรก็ตามเราขอแนะนำให้เป็นผู้ที่มีอายุเกิน 15 ปีเป็นต้นไป เนื่องจากอาจมีกิจกรรมที่จะต้องลุ้นรางวัลด้วย หากคุณอายุต่ำกว่านั้นอาจต้องได้รับความยินยอมจากผู้ปกครองของคุณด้วย"
+                          : "You can access KorKao ID without any restrictions regarding gender or age. However, we recommend that users be 15 years old and above, as there may be activities that involve prize draws. If you are younger than that, you may need to obtain consent from your parent."
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar className="iconchoice">
+                        <MilitaryTechIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        lang == "th"
+                          ? "สิทธิประโยชน์ของ KorKao ID ที่จะได้รับมีอะไรบ้าง"
+                          : "How are the KorKao ID benefits?"
+                      }
+                    />
+                  </ListItem>
+                  <TableContainer component={Paper} className="mb-5">
+                    <Table aria-label="simple table">
+                      <caption>
+                        *{" "}
+                        {lang == "th"
+                          ? "กรณีถ้ามีสุ่มจับฉลากลุ้นรางวัล ผู้ใช้งานทั่วไปจะไม่ได้รับสิทธิประโยชน์ตรงนี้"
+                          : "For drawing prize events are excepted with generally users."}
+                      </caption>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>
+                            {lang == "th"
+                              ? "ฟีเจอร์ไฮไลท์ในเว็บไซต์นี้"
+                              : "Highlight features of KorKao FanSite"}
+                          </TableCell>
+                          <TableCell align="right">
+                            {lang == "th"
+                              ? "ผู้ใช้งานทั่วไป"
+                              : "Generally Users"}
+                          </TableCell>
+                          <TableCell align="right">
+                            KorKao ID Membership
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": {
+                              border: 0,
+                            },
+                          }}>
+                          <TableCell component="th" scope="row">
+                            {lang == "th"
+                              ? "ดูโปรไฟล์ของน้องหรือ เพลงและคอนเทนต์ต่างๆของน้องข้าวฟ่าง"
+                              : "Visit all basic of Kaofrang's profile, discography and special contents."}
+                          </TableCell>
+                          <TableCell align="right">
+                            <CheckCircleOutlineIcon />
+                          </TableCell>
+                          <TableCell align="right">
+                            <CheckCircleOutlineIcon />
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": {
+                              border: 0,
+                            },
+                          }}>
+                          <TableCell component="th" scope="row">
+                            {lang == "th"
+                              ? "ดูกิจกรรมของข้าวฟ่างและเปิดการแจ้งเตือนกิจกรรมแบบเรียลไทม์"
+                              : "View Kaofrang's events and activities. And also enable push notification."}
+                          </TableCell>
+                          <TableCell align="right">
+                            <CheckCircleOutlineIcon />
+                          </TableCell>
+                          <TableCell align="right">
+                            <CheckCircleOutlineIcon />
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": {
+                              border: 0,
+                            },
+                          }}>
+                          <TableCell component="th" scope="row">
+                            {lang == "th"
+                              ? "เล่นมินิเกมส์พร้อมกับดูคะแนนเฉลี่ยจากผู้เล่นทั่วโลก"
+                              : "Play KorKao's Quiz Game and see average scores from around the world."}
+                          </TableCell>
+                          <TableCell align="right">
+                            <CheckCircleOutlineIcon />
+                          </TableCell>
+                          <TableCell align="right">
+                            <CheckCircleOutlineIcon />
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": {
+                              border: 0,
+                            },
+                          }}>
+                          <TableCell component="th" scope="row">
+                            {lang == "th"
+                              ? "การเข้าร่วมกิจกรรมที่จัดขึ้นโดยบ้านกอข้าว"
+                              : "Join special event of KorKao team."}
+                          </TableCell>
+                          <TableCell align="right">
+                            * <CheckCircleOutlineIcon />
+                          </TableCell>
+                          <TableCell align="right">
+                            <CheckCircleOutlineIcon />
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": {
+                              border: 0,
+                            },
+                          }}>
+                          <TableCell component="th" scope="row">
+                            {lang == "th"
+                              ? "ดูคะแนนและประวัติการเล่นมินิเกมส์ของคุณได้สูงสุด 1 ปี"
+                              : "View your score and game histories up to one year."}
+                          </TableCell>
+                          <TableCell align="right">
+                            <DoNotDisturbOnIcon />
+                          </TableCell>
+                          <TableCell align="right">
+                            <CheckCircleOutlineIcon />
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": {
+                              border: 0,
+                            },
+                          }}>
+                          <TableCell component="th" scope="row">
+                            {lang == "th"
+                              ? "การสะสมคะแนนเพื่อลุ้นของรางวัล หรือการเข้าร่วมกิจกรรมที่ต้องใช้คะแนน (KorKao Points)"
+                              : "All activities or events which you need to use KorKao Points. and earn points from AirDrop"}
+                          </TableCell>
+                          <TableCell align="right">
+                            <DoNotDisturbOnIcon />
+                          </TableCell>
+                          <TableCell align="right">
+                            <CheckCircleOutlineIcon />
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  <ListItem className="mb-5">
+                    <ListItemAvatar>
+                      <Avatar className="iconchoice">
+                        <LockIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        lang == "th"
+                          ? "ทางผู้พัฒนาเข้าถึงข้อมูลส่วนบุคคลอย่างไรบ้าง"
+                          : "How is our developer access your personal data?"
+                      }
+                      secondary={
+                        lang == "th"
+                          ? "ผู้พัฒนาต้องการเข้าถึงข้อมูลส่วนบุคคลได้แก่ชื่อผู้ใช้ ที่อยู่อีเมล และ Provider ที่คุณเข้าใช้ โดยที่เราจะเรียกใช้ข้อมูลของคุณเมื่อคุณยินยอมการเข้าร่วมกิจกรรมนั้นๆ และจะนำข้อมูลดังกล่าวไปใช้ในวัตถุประสงค์ที่เกี่ยวข้องกับกิจกรรมนั้น หลังจากนั้นเราจะลบข้อมูลผู้เข้าร่วมกิจกรรมทั้งหมดเป็นเวลาภายใน 30 วันนับจากวันที่ปิดกิจกรรมนั้นๆ นอกจากนี้ คุณสามารถเข้าไปที่หน้าจัดการบัญชีผู้ใช้ของคุณบนเว็บไซต์ Provider ที่คุณเข้าใช้งานเพื่อก้ไขข้อมูลของคุณได้ โดยที่ทางผู้พัฒนาจะไม่มีสิทธิ์การเข้าถึงการแก้ไขข้อมูลส่วนบุคคลของคุณแต่อย่างใด"
+                          : "The developer needs to access personal information such as your username, email address, and the provider you are using. We will only retrieve your information when you consent to participate in that activity, and this data will be used for purposes related to that activity. Afterward, all participant data will be deleted within 30 days from the closure of the activity. Additionally, you can visit your account management page on the provider's website to modify your information, and the developer will not have the right to modify your personal data in any way."
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar className="iconchoice">
+                        <KeyIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        lang == "th"
+                          ? "การเข้าสู่ระบบหรือสมัครสมาชิกต้องทำอย่างไร"
+                          : "How I can login or register to KorKao ID?"
+                      }
+                      secondary={
+                        lang == "th"
+                          ? "คุณสามารถเลือกเข้าสู่ระบบได้จาก 1 ใน 3 Provider ที่เราเปิดบริการ ได้แก่ Google, Microsoft และ Spotify หากคุณมีบัญชีอย่างน้อยหนึ่งในสามผู้ให้บริการนี้ คุณสามารถเข้าสู่ระบบ KorKao ID และใช้งานได้ทันทีโดยไม่ต้องกรอกข้อมูลใดๆ และสมาชิกใหม่จะได้รับ 1 KorKao Points ทันทีเมื่อมีการเข้าใช้งานครั้งแรก"
+                          : "You can log in using one of the three providers we offer: Google, Microsoft, or Spotify. If you have an account with at least one of these three providers, you can log into KorKao ID and start using it immediately without entering any information. Additionally, new members will receive 1 KorKao Point upon their first login."
+                      }
+                    />
+                  </ListItem>
+                </List>
+              </CardContent>
+            </Card>
+
+            <Card sx={{ marginTop: 5, width: "100%" }}>
+              <CardContent>
+                <CardHeader
+                  title={
+                    lang == "th"
+                      ? "KorKao Points คืออะไร"
+                      : "What is KorKao Points"
+                  }
+                />
+                <Typography>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {lang == "th"
+                    ? "KorKao Points เป็นระบบจัดการคะแนนสะสมในเว็บ KorKao FanSite ซึ่งทำงานร่วมกับระบบ KorKao ID เพื่อให้สมาชิกได้มีโอกาสเข้าถึงฟีเจอร์ต่างๆ"
+                    : "KorKao ID is membership system for Kaofrang Yanisa or Kaofrang BNK48's fanclub to enhance participation in activities to make it special for them. Including access to special features that the developer and Kaofrang BNK48 Thailand Fanclub have collaborated on exclusively for membership."}
+                </Typography>
+                <List
+                  className="mt-5"
+                  sx={{
+                    width: "100%",
+                    bgcolor: "background.paper",
+                  }}>
+                  <ListItem className="mb-5">
+                    <ListItemAvatar>
+                      <Avatar className="iconchoice">
+                        <StarsIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        lang == "th"
+                          ? "เราสามารถสะสม KorKao Points ได้ผ่านทางช่องทางใดบ้าง"
+                          : "Through what channels can we collect KorKao Points?"
+                      }
+                      secondary={
+                        lang == "th"
+                          ? "คุณสามารถสะสมคะแนนได้จากกล่องสุ่มรายวัน (Daily AirDrop) โดยคุณมีโอกาสได้รับคะแนนสูงสุด 20 คะแนนเข้าบัญชีของคุณ ตัดรอบในทุกๆ เวลา 0:00 AM (ตามไทม์โซน UTC) รวมทั้งจะมีช่องทางในการสะสมคะแนนที่กำลังจะเกิดขึ้นในอนาคต"
+                          : "You can collect KorKao Points from the Daily AirDrop, where you have a chance to receive up to 20 points to your account. The cutoff time is every day at 0:00 AM (UTC time zone), and there will also be upcoming ways to earn points in the future."
+                      }
+                    />
+                  </ListItem>
+                  <ListItem className="mb-5">
+                    <ListItemAvatar>
+                      <Avatar className="iconchoice">
+                        <SwapHorizontalCircleIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        lang == "th"
+                          ? "เราสามารถนำ KorKao Points ไปทำอะไรได้บ้าง"
+                          : "How do we use KorKao Points?"
+                      }
+                      secondary={
+                        lang == "th"
+                          ? "คุณสามารถนำ KorKao Points ไปใช้เข้าร่วมกิจกรรมของบ้านกอข้าวที่ได้จัดขึ้น หรือลุ้นรับหรือแลกของรางวัลที่เป็นเฉพาะข้าวฟ่าง เช่น BNK48 Merchandise ที่เป็นลายข้าวฟ่าง เป็นต้น"
+                          : "You can use KorKao Points to join exclusive events from KorKao team. Or to drawing chance to get prize of exclusive merchandises like Kaofrang BNK48's Merchandise."
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar className="iconchoice">
+                        <ErrorOutlineIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        lang == "th"
+                          ? "ทำไมกิจกรรมที่ไม่จำเป็นต้องใช้คะแนนเพื่อเข้าร่วม ถึงไม่สามารถเข้าร่วมได้หากไม่มีคะแนน"
+                          : "Why I cannot join events that don't need to use any KorKao Points when KorKao Points is zero?"
+                      }
+                      secondary={
+                        lang == "th"
+                          ? "ระบบจำเป็นต้องมีการยืนยันสถานะของผู้ใช้ KorKao ID นั้นว่าสามารถเข้าร่วมกิจกรรมได้หรือไม่ โดยคุณจำเป็นต้องมีอย่างน้อย 1 KorKao Points เพื่อเข้าร่วมในทุกกิจกรรม โดยที่คะแนนของคุณจะถูกใช้ก็ต่อเมื่อกิจกรรมนั้นมีการกำหนดจำนวนคะแนนที่ต้องใช้เท่านั้น"
+                          : "The developer needs to access personal information such as your username, email address, and the provider you are using. We will only retrieve your information when you consent to participate in that activity, and this data will be used for purposes related to that activity. Afterward, all participant data will be deleted within 30 days from the closure of the activity. Additionally, you can visit your account management page on the provider's website to modify your information, and the developer will not have the right to modify your personal data in any way."
+                      }
+                    />
+                  </ListItem>
+                </List>
+              </CardContent>
+            </Card>
+          </div>
+        </Box>
+      </Fade>
+    );
+  }
+
   return (
     <Fade in={open} timeout={300}>
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
@@ -465,6 +803,7 @@ const Acct = ({
                       : "KorKao ID is membership system for Kaofrang Yanisa or Kaofrang BNK48's fanclub to enhance participation in activities to make it special for them. Including access to special features that the developer and Kaofrang BNK48 Thailand Fanclub have collaborated on exclusively for membership."}
                   </Typography>
                   <List
+                    className="mt-5"
                     sx={{
                       width: "100%",
                       bgcolor: "background.paper",
@@ -479,7 +818,7 @@ const Acct = ({
                         primary={
                           lang == "th"
                             ? "ผู้ใช้งานแบบไหนสามารถเข้าใช้งาน KorKao ID"
-                            : "Who can use KorKao ID"
+                            : "Who can use KorKao ID?"
                         }
                         secondary={
                           lang == "th"
@@ -498,7 +837,7 @@ const Acct = ({
                         primary={
                           lang == "th"
                             ? "สิทธิประโยชน์ของ KorKao ID ที่จะได้รับมีอะไรบ้าง"
-                            : "How are the KorKao ID benefits."
+                            : "How are the KorKao ID benefits?"
                         }
                       />
                     </ListItem>
@@ -639,7 +978,7 @@ const Acct = ({
                         </TableBody>
                       </Table>
                     </TableContainer>
-                    <ListItem>
+                    <ListItem className="mb-5">
                       <ListItemAvatar>
                         <Avatar className="iconchoice">
                           <LockIcon />
@@ -654,6 +993,107 @@ const Acct = ({
                         secondary={
                           lang == "th"
                             ? "ผู้พัฒนาต้องการเข้าถึงข้อมูลส่วนบุคคลได้แก่ชื่อผู้ใช้ ที่อยู่อีเมล และ Provider ที่คุณเข้าใช้ โดยที่เราจะเรียกใช้ข้อมูลของคุณเมื่อคุณยินยอมการเข้าร่วมกิจกรรมนั้นๆ และจะนำข้อมูลดังกล่าวไปใช้ในวัตถุประสงค์ที่เกี่ยวข้องกับกิจกรรมนั้น หลังจากนั้นเราจะลบข้อมูลผู้เข้าร่วมกิจกรรมทั้งหมดเป็นเวลาภายใน 30 วันนับจากวันที่ปิดกิจกรรมนั้นๆ นอกจากนี้ คุณสามารถเข้าไปที่หน้าจัดการบัญชีผู้ใช้ของคุณบนเว็บไซต์ Provider ที่คุณเข้าใช้งานเพื่อก้ไขข้อมูลของคุณได้ โดยที่ทางผู้พัฒนาจะไม่มีสิทธิ์การเข้าถึงการแก้ไขข้อมูลส่วนบุคคลของคุณแต่อย่างใด"
+                            : "The developer needs to access personal information such as your username, email address, and the provider you are using. We will only retrieve your information when you consent to participate in that activity, and this data will be used for purposes related to that activity. Afterward, all participant data will be deleted within 30 days from the closure of the activity. Additionally, you can visit your account management page on the provider's website to modify your information, and the developer will not have the right to modify your personal data in any way."
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar className="iconchoice">
+                          <KeyIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={
+                          lang == "th"
+                            ? "การเข้าสู่ระบบหรือสมัครสมาชิกต้องทำอย่างไร"
+                            : "How I can login or register to KorKao ID?"
+                        }
+                        secondary={
+                          lang == "th"
+                            ? "คุณสามารถเลือกเข้าสู่ระบบได้จาก 1 ใน 3 Provider ที่เราเปิดบริการ ได้แก่ Google, Microsoft และ Spotify หากคุณมีบัญชีอย่างน้อยหนึ่งในสามผู้ให้บริการนี้ คุณสามารถเข้าสู่ระบบ KorKao ID และใช้งานได้ทันทีโดยไม่ต้องกรอกข้อมูลใดๆ และสมาชิกใหม่จะได้รับ 1 KorKao Points ทันทีเมื่อมีการเข้าใช้งานครั้งแรก"
+                            : "You can log in using one of the three providers we offer: Google, Microsoft, or Spotify. If you have an account with at least one of these three providers, you can log into KorKao ID and start using it immediately without entering any information. Additionally, new members will receive 1 KorKao Point upon their first login."
+                        }
+                      />
+                    </ListItem>
+                  </List>
+                </CardContent>
+              </Card>
+
+              <Card sx={{ marginTop: 5, width: "100%" }}>
+                <CardContent>
+                  <CardHeader
+                    title={
+                      lang == "th"
+                        ? "KorKao Points คืออะไร"
+                        : "What is KorKao Points"
+                    }
+                  />
+                  <Typography>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    {lang == "th"
+                      ? "KorKao Points เป็นระบบจัดการคะแนนสะสมในเว็บ KorKao FanSite ซึ่งทำงานร่วมกับระบบ KorKao ID เพื่อให้สมาชิกได้มีโอกาสเข้าถึงฟีเจอร์ต่างๆ"
+                      : "KorKao ID is membership system for Kaofrang Yanisa or Kaofrang BNK48's fanclub to enhance participation in activities to make it special for them. Including access to special features that the developer and Kaofrang BNK48 Thailand Fanclub have collaborated on exclusively for membership."}
+                  </Typography>
+                  <List
+                    className="mt-5"
+                    sx={{
+                      width: "100%",
+                      bgcolor: "background.paper",
+                    }}>
+                    <ListItem className="mb-5">
+                      <ListItemAvatar>
+                        <Avatar className="iconchoice">
+                          <StarsIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={
+                          lang == "th"
+                            ? "เราสามารถสะสม KorKao Points ได้ผ่านทางช่องทางใดบ้าง"
+                            : "Through what channels can we collect KorKao Points?"
+                        }
+                        secondary={
+                          lang == "th"
+                            ? "คุณสามารถสะสมคะแนนได้จากกล่องสุ่มรายวัน (Daily AirDrop) โดยคุณมีโอกาสได้รับคะแนนสูงสุด 20 คะแนนเข้าบัญชีของคุณ ตัดรอบในทุกๆ เวลา 0:00 AM (ตามไทม์โซน UTC) รวมทั้งจะมีช่องทางในการสะสมคะแนนที่กำลังจะเกิดขึ้นในอนาคต"
+                            : "You can collect KorKao Points from the Daily AirDrop, where you have a chance to receive up to 20 points to your account. The cutoff time is every day at 0:00 AM (UTC time zone), and there will also be upcoming ways to earn points in the future."
+                        }
+                      />
+                    </ListItem>
+                    <ListItem className="mb-5">
+                      <ListItemAvatar>
+                        <Avatar className="iconchoice">
+                          <SwapHorizontalCircleIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={
+                          lang == "th"
+                            ? "เราสามารถนำ KorKao Points ไปทำอะไรได้บ้าง"
+                            : "How do we use KorKao Points?"
+                        }
+                        secondary={
+                          lang == "th"
+                            ? "คุณสามารถนำ KorKao Points ไปใช้เข้าร่วมกิจกรรมของบ้านกอข้าวที่ได้จัดขึ้น หรือลุ้นรับหรือแลกของรางวัลที่เป็นเฉพาะข้าวฟ่าง เช่น BNK48 Merchandise ที่เป็นลายข้าวฟ่าง เป็นต้น"
+                            : "You can use KorKao Points to join exclusive events from KorKao team. Or to drawing chance to get prize of exclusive merchandises like Kaofrang BNK48's Merchandise."
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar className="iconchoice">
+                          <ErrorOutlineIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={
+                          lang == "th"
+                            ? "ทำไมกิจกรรมที่ไม่จำเป็นต้องใช้คะแนนเพื่อเข้าร่วม ถึงไม่สามารถเข้าร่วมได้หากไม่มีคะแนน"
+                            : "Why I cannot join events that don't need to use any KorKao Points when KorKao Points is zero?"
+                        }
+                        secondary={
+                          lang == "th"
+                            ? "ระบบจำเป็นต้องมีการยืนยันสถานะของผู้ใช้ KorKao ID นั้นว่าสามารถเข้าร่วมกิจกรรมได้หรือไม่ โดยคุณจำเป็นต้องมีอย่างน้อย 1 KorKao Points เพื่อเข้าร่วมในทุกกิจกรรม โดยที่คะแนนของคุณจะถูกใช้ก็ต่อเมื่อกิจกรรมนั้นมีการกำหนดจำนวนคะแนนที่ต้องใช้เท่านั้น"
                             : "The developer needs to access personal information such as your username, email address, and the provider you are using. We will only retrieve your information when you consent to participate in that activity, and this data will be used for purposes related to that activity. Afterward, all participant data will be deleted within 30 days from the closure of the activity. Additionally, you can visit your account management page on the provider's website to modify your information, and the developer will not have the right to modify your personal data in any way."
                         }
                       />
