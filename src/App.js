@@ -101,7 +101,7 @@ const pagesEn = [
   "Events of Frang",
   "Social Feeds",
   "Quiz",
-  "Follow KorKaofrang",
+  "Follow KorKao",
   "Donate",
 ];
 const pagesTh = [
@@ -768,7 +768,7 @@ function App({
             <h4>
               {lang == "th"
                 ? "เราพร้อมมอบประสบการณ์ของการเยี่ยมชมจักรวาลของข้าวฟ่างแล้ว!"
-                : "You are ready to move through The KorKaofrang Universe!"}
+                : "You are ready to move through The KorKao Universe!"}
             </h4>
           </div>
         </Backdrop>
@@ -1169,7 +1169,7 @@ function App({
                   textDecoration: "none",
                 }}
               >
-                <b>KorKaofrang</b>
+                <b>KorKao</b>
               </Typography>
 
               <Box
@@ -1452,7 +1452,7 @@ function App({
                   textDecoration: "none",
                 }}
               >
-                <b>KorKaofrang</b>
+                <b>KorKao</b>
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", xl: "flex" } }}>
                 {pages.map((page, i) =>

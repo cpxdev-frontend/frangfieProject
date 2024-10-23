@@ -121,7 +121,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
           subheader={
             lang == "th"
               ? "จักรวาลคลังรูปของข้าวฟ่างโดยหัวใจคนรักข้าวฟ่าง ให้บริการโดยกูเกิ้ลไดรฟ์"
-              : "The universe of Kaofrang's Gallery by KorKaofrang Team Support. Provided by Google Drive"
+              : "The universe of Kaofrang's Gallery by KorKao Team Support. Provided by Google Drive"
           }
         />
         <div className="container mt-3">

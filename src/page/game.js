@@ -401,7 +401,7 @@ const GameApp = ({
                 subheader={
                   lang == "th"
                     ? "คำถามพิชิตสุดยอดกองฟ่างของข้าวฟ่าง"
-                    : "KorKaofrang Fandom Quiz"
+                    : "KorKao Fandom Quiz"
                 }
               />
               <List>
