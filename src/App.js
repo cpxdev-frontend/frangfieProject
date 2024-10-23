@@ -219,7 +219,7 @@ function App({
     }
     detectIncognito().then((result) => {
       if (result.isPrivate) {
-        document.title = "InPrivate is not support | KorKaofrang Site";
+        document.title = "InPrivate is not support | KorKao FanSite";
       }
       setIncong(result.isPrivate);
     });
@@ -414,7 +414,7 @@ function App({
       .then((response) => response.text())
       .then((result) => {})
       .catch((error) => {
-        document.title = "System Maintenance | KorKaofrang Site";
+        document.title = "System Maintenance | KorKao FanSite";
         setOnMaintain(true);
       });
   }, []);
@@ -535,7 +535,7 @@ function App({
   }, []);
 
   React.useEffect(() => {
-    document.title = currentPage + " | KorKaofrang Site";
+    document.title = currentPage + " | KorKao FanSite";
     window.scrollTo(0, 0);
   }, [currentPage]);
 
