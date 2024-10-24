@@ -389,10 +389,10 @@ function App({
   };
 
   const fetchtime = () => {
-    fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
-      .then((response) => response.json())
+    fetch("https://cpxdevweb.onrender.com/kfsite/gettime", {})
+      .then((response) => response.text())
       .then((result) => {
-        setLaunch(result.unix);
+        setLaunch(parseInt(result));
       })
       .catch((error) => console.log("error", error));
   };
@@ -462,11 +462,11 @@ function App({
       .catch((error) => console.log("error", error));
     if (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") !== null) {
       setUnlock(true);
-      fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
-        .then((response) => response.json())
+      fetch("https://cpxdevweb.onrender.com/kfsite/gettime", {})
+        .then((response) => response.text())
         .then((result) => {
-          setLaunch(result.unix);
-          setLaunchd(result.unix);
+          setLaunch(parseInt(result));
+          setLaunchd(parseInt(result));
           setInterval(() => {
             fetchtime();
           }, 10000);
@@ -474,15 +474,15 @@ function App({
         .catch((error) => console.log("error", error));
       return;
     }
-    fetch("https://cpxdevnode.onrender.com/auth/getunix", {})
-      .then((response) => response.json())
+    fetch("https://cpxdevweb.onrender.com/kfsite/gettime", {})
+      .then((response) => response.text())
       .then((result) => {
-        setLaunch(result.unix);
-        setLaunchd(result.unix);
+        setLaunch(parseInt(result));
+        setLaunchd(parseInt(result));
         if (
-          moment.unix(result.unix).local().format("M-D") == "11-14" ||
-          moment.unix(result.unix).local().format("M-D") == "11-15" ||
-          moment.unix(result.unix).local().format("M-D") == "11-16"
+          moment.unix(parseInt(result)).local().format("M-D") == "11-14" ||
+          moment.unix(parseInt(result)).local().format("M-D") == "11-15" ||
+          moment.unix(parseInt(result)).local().format("M-D") == "11-16"
         ) {
           BirthdayEffect();
         }
