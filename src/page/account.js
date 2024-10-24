@@ -365,6 +365,19 @@ const Acct = ({
           }
         })
         .catch((error) => console.log("error", error));
+      fetch(
+        process.env.REACT_APP_APIE + "/kfsite/getPointTransaction",
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.status) {
+            setHis(result.points);
+          }
+        })
+        .catch((error) => console.log("error", error));
+    } else {
+      setHis(null);
     }
   };
 
@@ -488,7 +501,7 @@ const Acct = ({
                     />
                   </ListItem>
                   <TableContainer component={Paper} className="mb-5">
-                    <Table aria-label="simple table">
+                    <Table sx={{ minWidth: 650 }}>
                       <caption>
                         *{" "}
                         {lang == "th"
@@ -891,7 +904,7 @@ const Acct = ({
                       />
                     </ListItem>
                     <TableContainer component={Paper} className="mb-5">
-                      <Table aria-label="simple table">
+                      <Table sx={{ minWidth: 650 }}>
                         <caption>
                           *{" "}
                           {lang == "th"
@@ -1387,6 +1400,87 @@ const Acct = ({
                   ? "หมายเหตุ: คุณจำเป็นต้องมีอย่างน้อย 1 คะแนนเพื่อเข้าร่วมกิจกรรมหรือรับสิทธิ์ในแต่ละครั้งเพื่อไว้ในการยืนยันการเป็นสมาชิก แม้ว่ากิจกรรมนั้นจะไม่จำเป็นต้องแลกคะแนนก็ตาม"
                   : "Note: You must have at least 1 point to participate in the event or to qualify each time for membership verification, even if the event does not require points for redemption."}
               </Typography>
+              <TableContainer component={Paper} className="mt-5">
+                <CardHeader
+                  title={
+                    lang == "th" ? "ประวัติการใช้งาน" : "KorKao Points History"
+                  }
+                />
+                <Table sx={{ minWidth: 650 }}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        {lang == "th" ? "สถานะอัปเดตล่าสุด" : "Latest update"}
+                      </TableCell>
+                      <TableCell>
+                        {lang == "th"
+                          ? "รายละเอียด"
+                          : "Activity Detail"}
+                      </TableCell>
+                      <TableCell align="right">{lang == "th"
+                          ? "สถานะการเปลี่ยนแปลง"
+                          : "Points Update Status"}</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {pointHis != null ? (
+                      pointHis.map((row) => (
+                        <TableRow
+                          key={row.activDate}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}>
+                          <TableCell component="th" scope="row">
+                            {moment(row.activDate)
+                              .lang(lang)
+                              .local()
+                              .format("DD MMMM YYYY HH:mm:ss")}
+                          </TableCell>
+                          <TableCell align="left">{row.remark}</TableCell>
+                          <TableCell align="right">
+                            {row.pointActivity}
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <Card>
+                        <CardContent>
+                          <Skeleton
+                            variant="text"
+                            className="bg-m"
+                            sx={{ fontSize: "2rem" }}
+                          />
+                          <Skeleton
+                            variant="text"
+                            className="bg-m"
+                            sx={{ fontSize: "1rem" }}
+                          />
+                          <Skeleton
+                            variant="text"
+                            className="bg-m"
+                            sx={{ fontSize: "1rem" }}
+                          />
+                          <Skeleton
+                            variant="text"
+                            className="bg-m"
+                            sx={{ fontSize: "1rem" }}
+                          />
+                          <Skeleton
+                            variant="text"
+                            className="bg-m"
+                            sx={{ fontSize: "1rem" }}
+                          />
+                          <Skeleton
+                            variant="text"
+                            className="bg-m"
+                            sx={{ fontSize: "1rem" }}
+                          />
+                        </CardContent>
+                      </Card>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </DialogContent>
             <DialogActions>
               <Button
