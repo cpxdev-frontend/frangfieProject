@@ -106,7 +106,7 @@ const Home = ({
                       color: "#fb61ee",
                       textShadow: "2px 2px 2px #fae6f9",
                     }}>
-                    Welcome to KorKaofrang Fansite
+                    Welcome to KorKao FanSite
                   </h3>
                 }
                 subheader={
@@ -163,7 +163,7 @@ const Home = ({
                       color: "#fb61ee",
                       textShadow: "2px 2px 2px #fae6f9",
                     }}>
-                    Welcome to KorKaofrang Fansite
+                    Welcome to KorKao FanSite
                   </h3>
                 }
                 subheader={
