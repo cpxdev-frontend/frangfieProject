@@ -375,42 +375,44 @@ const Acct = ({
 
   if (isLoading) {
     return (
-      <div className="container mt-3">
-        <Card>
-          <CardContent>
-            <Skeleton
-              variant="text"
-              className="bg-m"
-              sx={{ fontSize: "2rem" }}
-            />
-            <Skeleton
-              variant="text"
-              className="bg-m"
-              sx={{ fontSize: "1rem" }}
-            />
-            <Skeleton
-              variant="text"
-              className="bg-m"
-              sx={{ fontSize: "1rem" }}
-            />
-            <Skeleton
-              variant="text"
-              className="bg-m"
-              sx={{ fontSize: "1rem" }}
-            />
-            <Skeleton
-              variant="text"
-              className="bg-m"
-              sx={{ fontSize: "1rem" }}
-            />
-            <Skeleton
-              variant="text"
-              className="bg-m"
-              sx={{ fontSize: "1rem" }}
-            />
-          </CardContent>
-        </Card>
-      </div>
+      <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
+        <div className="container mt-3">
+          <Card>
+            <CardContent>
+              <Skeleton
+                variant="text"
+                className="bg-m"
+                sx={{ fontSize: "2rem" }}
+              />
+              <Skeleton
+                variant="text"
+                className="bg-m"
+                sx={{ fontSize: "1rem" }}
+              />
+              <Skeleton
+                variant="text"
+                className="bg-m"
+                sx={{ fontSize: "1rem" }}
+              />
+              <Skeleton
+                variant="text"
+                className="bg-m"
+                sx={{ fontSize: "1rem" }}
+              />
+              <Skeleton
+                variant="text"
+                className="bg-m"
+                sx={{ fontSize: "1rem" }}
+              />
+              <Skeleton
+                variant="text"
+                className="bg-m"
+                sx={{ fontSize: "1rem" }}
+              />
+            </CardContent>
+          </Card>
+        </div>
+      </Box>
     );
   }
 
