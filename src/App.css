@@ -219,6 +219,10 @@ body {
   z-index: 2147483647 !important;
   width: 100vw !important;
 }
+.airdropcontain{
+  z-index: 12147483647 !important;
+  width: 100vw !important;
+}
 
 .txtPost>img {
   width: 100% !important;
