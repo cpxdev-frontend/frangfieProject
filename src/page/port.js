@@ -156,7 +156,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
 
   React.useEffect(() => {
     if (clip != null && navigator.connection != undefined) {
-      if (navigator.connection.downlink <= 6) {
+      if (navigator.connection.downlink < 5) {
         Swal.fire({
           title: 'This content maybe consume your data usage.',
           text:
