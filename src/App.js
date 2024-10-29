@@ -29,6 +29,7 @@ import {
   ToggleButton,
   Backdrop,
   CircularProgress,
+  Grow
 } from "@mui/material";
 import Confetti from "react-confetti";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -139,6 +140,10 @@ function isInIframe() {
 }
 
 let adm = 0;
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Grow ref={ref} {...props} />;
+});
 
 const isSupported = () =>
   "Notification" in window &&
@@ -936,6 +941,8 @@ function App({
 
                 <Dialog
                   open={anchorElNav}
+                  TransitionComponent={Transition}
+                  transitionDuration={400}
                   onClose={handleCloseNavMenu}
                   maxWidth="xl"
                   sx={{ display: { xs: "initial", xl: "none" } }}>
@@ -1040,7 +1047,7 @@ function App({
                       <Skeleton
                         variant="rounded"
                         className="bg-m mt-3 mb-3"
-                        sx={{ height: 80, width: "fit-content(100%)" }}
+                        sx={{ height: 80, width: 270 }}
                       />
                     )}
                     <Box
@@ -1236,6 +1243,8 @@ function App({
                 <Dialog
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
+                  TransitionComponent={Transition}
+                  transitionDuration={400}
                   maxWidth="xl"
                   sx={{ display: { xs: "none", xl: "initial" } }}>
                   <DialogTitle>
@@ -1338,7 +1347,7 @@ function App({
                       <Skeleton
                         variant="rounded"
                         className="bg-m mt-3 mb-3"
-                        sx={{ height: 80, width: "fit-content(100%)" }}
+                        sx={{ height: 80, width: 270 }}
                       />
                     )}
                     <Box sx={{ display: { xs: "initial", xl: "none" } }}>
@@ -1488,6 +1497,8 @@ function App({
 
                 <Dialog
                   open={anchorElUser}
+                  TransitionComponent={Transition}
+                  transitionDuration={400}
                   onClose={() => setAnchorElUser(false)}
                   maxWidth="xl">
                   <DialogTitle>
@@ -1545,7 +1556,7 @@ function App({
                     <Skeleton
                       variant="rounded"
                       className="bg-m m-4"
-                      sx={{ height: 80, width: "fit-content(100%)" }}
+                      sx={{ height: 80, width: 270 }}
                     />
                   )}
                   <DialogContent>
