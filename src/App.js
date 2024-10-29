@@ -608,7 +608,7 @@ function App({
   };
 
   const handleCloseNavMenu = () => {
-    if (isLoading) {
+    if (isLoading && localStorage.getItem('yuser') == null) {
       return;
     }
     setAnchorElNav(null);
