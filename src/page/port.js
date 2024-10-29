@@ -26,12 +26,13 @@ import {
   Divider,
   DialogContent,
 } from "@mui/material";
-import '../iframenormal.css'
+import "../iframenormal.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 import moment from "moment";
 import { Carousel as MobileCarousel } from "react-responsive-carousel";
 import usePagination from "../pagination";
+import Swal from "sweetalert2";
 
 import Joyride from "react-joyride";
 import stepEn from "../stepGuide/en/disco";
@@ -43,17 +44,30 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function convertUrlsAndHashtagsToLinks(text) {
   // Regular expressions to match URLs and hashtags
-  const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)/g;
+  const urlRegex =
+    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)/g;
   const hashtagRegex = /#([A-Zกa-z\u0E00-\u0E7F\w0-9_]+)/g;
 
   // Replace URLs with clickable links
-  text = text.replace(urlRegex, function(match) {
-    return '<a class="App-link" href="' + match + '" target="_blank">' + match + '</a>';
+  text = text.replace(urlRegex, function (match) {
+    return (
+      '<a class="App-link" href="' +
+      match +
+      '" target="_blank">' +
+      match +
+      "</a>"
+    );
   });
 
   // Replace hashtags with clickable links
-  text = text.replace(hashtagRegex, function(match, hashtag) {
-    return '<a class="App-link" href="https://x.com/hashtag/' + hashtag + '?src=hashtag_click&f=live" target="_blank">' + match + '</a>';
+  text = text.replace(hashtagRegex, function (match, hashtag) {
+    return (
+      '<a class="App-link" href="https://x.com/hashtag/' +
+      hashtag +
+      '?src=hashtag_click&f=live" target="_blank">' +
+      match +
+      "</a>"
+    );
   });
 
   return text;
@@ -140,6 +154,21 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
       .catch((error) => console.log("error", error));
   }, []);
 
+  React.useEffect(() => {
+    if (clip != null && navigator.connection != undefined) {
+      if (navigator.connection.downlink <= 6) {
+        Swal.fire({
+          title: 'This content maybe consume your data usage.',
+          text:
+            lang == "th"
+              ? "การรับชมคลิปคอนเทนต์จำเป็นต้องใช้ความเร็วอินเทอร์เน็ตมากขึ้นเพื่อการรับชมที่ลื่นไหลขึ้น"
+              : "Watching content videos requires a higher internet speed for smoother.",
+          icon: "warning",
+        });
+      }
+    }
+  }, [clip]);
+
   return (
     <Fade in={open} timeout={300}>
       <Box sx={{ marginTop: { xs: 0, md: 15 }, marginBottom: 15 }}>
@@ -166,8 +195,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
               <Box
                 className="ml-1"
                 data-aos="zoom-in-down"
-                sx={{ display: { md: "initial", xs: "none" } }}
-              >
+                sx={{ display: { md: "initial", xs: "none" } }}>
                 <MobileCarousel
                   autoPlay
                   centerMode
@@ -186,16 +214,14 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                   swipeable={true}
                   showStatus={false}
                   interval={8000}
-                  onChange={(e) => setIx(e)}
-                >
+                  onChange={(e) => setIx(e)}>
                   {data1.length > 0 &&
                     data1.map((item, i) => (
                       <Card
                         key={"home-" + item.track.id}
                         data-tempid={item.track.id}
                         className="m-2"
-                        sx={{ backgroundColor: "transperent" }}
-                      >
+                        sx={{ backgroundColor: "transperent" }}>
                         <CardActionArea className="cro-container">
                           <CardMedia
                             src={item.track.album.images[0].url}
@@ -217,8 +243,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                                       item.track.external_urls.spotify,
                                       "_blank"
                                     )
-                                  }
-                                >
+                                  }>
                                   {lang == "th"
                                     ? "ฟังเพลงนี้บน Spotify"
                                     : "Listening on Spotify"}
@@ -234,8 +259,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
               <Box
                 className="ml-1"
                 ref={music}
-                sx={{ display: { md: "none", xs: "initial" } }}
-              >
+                sx={{ display: { md: "none", xs: "initial" } }}>
                 {data1.length > PER_PAGE && (
                   <div className="col-md-12 d-flex justify-content-center mb-3">
                     <Pagination
@@ -253,8 +277,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                       key={"home-" + item.track.id}
                       data-tempid={item.track.id}
                       className="m-3"
-                      sx={{ backgroundColor: "transperent" }}
-                    >
+                      sx={{ backgroundColor: "transperent" }}>
                       <CardActionArea className="cro-container">
                         <CardMedia
                           src={item.track.album.images[0].url}
@@ -275,8 +298,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                                   item.track.external_urls.spotify,
                                   "_blank"
                                 )
-                              }
-                            >
+                              }>
                               {lang == "th"
                                 ? "ฟังเพลงนี้บน Spotify"
                                 : "Listening on Spotify"}
@@ -363,8 +385,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                   component={Grid}
                   className="mb-3 ml-3 ml-lg-0"
                   container
-                  key={item.snippet.resourceId.videoId}
-                >
+                  key={item.snippet.resourceId.videoId}>
                   <Grid xs={12}>
                     <CardMedia
                       sx={{ width: "100%" }}
@@ -376,14 +397,12 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                   <Grid
                     item
                     md
-                    sx={{ display: "flex", flexDirection: "column" }}
-                  >
+                    sx={{ display: "flex", flexDirection: "column" }}>
                     <CardContent sx={{ flex: "1 0 auto" }}>
                       <Typography
                         component="div"
                         variant="h5"
-                        sx={{ fontSize: 22 }}
-                      >
+                        sx={{ fontSize: 22 }}>
                         <b>{item.snippet.title}</b>
                       </Typography>
                       <small className="text-muted">
@@ -395,8 +414,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                         <Button
                           variant="outlined"
                           className="text-success border-success m-1"
-                          onClick={() => setClip(item)}
-                        >
+                          onClick={() => setClip(item)}>
                           {lang == "th" ? "รับชมคลิป" : "View Content"}
                         </Button>
                         <Button
@@ -408,8 +426,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                                 item.snippet.videoOwnerChannelId,
                               "_blank"
                             )
-                          }
-                        >
+                          }>
                           {lang == "th"
                             ? "รับชมรายการอื่น"
                             : "View other contents"}
@@ -488,8 +505,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
           PaperProps={{
             sx: { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 },
           }}
-          TransitionComponent={Transition}
-        >
+          TransitionComponent={Transition}>
           {clip != null && (
             <>
               <AppBar sx={{ position: "relative" }}>
@@ -508,8 +524,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                     edge="end"
                     color="inherit"
                     onClick={() => setClip(null)}
-                    aria-label="close"
-                  >
+                    aria-label="close">
                     <CloseIcon />
                   </IconButton>
                 </Toolbar>
@@ -519,9 +534,9 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                   data-aos="zoom-in-down"
                   sx={{
                     width: "100%",
-                    height: {md:"70vh", xs: "50vh"},
-                    position: 'initial',
-                    left: 0
+                    height: { md: "70vh", xs: "50vh" },
+                    position: "initial",
+                    left: 0,
                   }}
                   component="iframe"
                   src={
@@ -540,9 +555,10 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                     dangerouslySetInnerHTML={{
                       __html:
                         (lang == "th" ? "รายละเอียด: " : "Description: ") +
-                        convertUrlsAndHashtagsToLinks(clip.snippet.description.replace(/\n/g, "<br />")),
-                    }}
-                  ></Typography>
+                        convertUrlsAndHashtagsToLinks(
+                          clip.snippet.description.replace(/\n/g, "<br />")
+                        ),
+                    }}></Typography>
                 </Card>
               </DialogContent>
             </>

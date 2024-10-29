@@ -228,6 +228,7 @@ function App({
       }
       setIncong(result.isPrivate);
     });
+    console.log(navigator.connection);
   }, []);
 
   React.useEffect(() => {
