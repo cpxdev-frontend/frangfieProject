@@ -683,6 +683,7 @@ function App({
     launchredis < targetTime
   ) {
     ReactGA.initialize("G-HGFSHDZZMC");
+    document.title = "Lobby Room | KorKao FanSite";
     ReactGA.send({ hitType: "pageview", page: window.location.pathname, title: "lobby room" });
     if (
       timeLeft.months == 0 &&
