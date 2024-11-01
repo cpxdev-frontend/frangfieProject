@@ -472,48 +472,7 @@ function App({
         setBirthday(result.response);
       })
       .catch((error) => console.log("error", error));
-    if (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") !== null) {
-      setUnlock(true);
-      fetch("https://cpxdevweb.onrender.com/kfsite/gettime", {})
-        .then((response) => response.text())
-        .then((result) => {
-          setLaunch(parseInt(result));
-          setLaunchd(parseInt(result));
-          setInterval(() => {
-            fetchtime();
-          }, 10000);
-        })
-        .catch((error) => console.log("error", error));
-      return;
-    }
-    fetch("https://cpxdevweb.onrender.com/kfsite/gettime", {})
-      .then((response) => response.text())
-      .then((result) => {
-        setLaunch(parseInt(result));
-        setLaunchd(parseInt(result));
-        if (
-          moment.unix(parseInt(result)).local().format("M-D") == "11-14" ||
-          moment.unix(parseInt(result)).local().format("M-D") == "11-15" ||
-          moment.unix(parseInt(result)).local().format("M-D") == "11-16"
-        ) {
-          BirthdayEffect();
-        }
-
-        if (
-          result.unix >= targetTime ||
-          (localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") != null &&
-            localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") ==
-              "56f006fb7a76776e1e08eac264bd491aa1a066a1")
-        ) {
-          setUnlock(true);
-          setInterval(() => {
-            fetchtime();
-          }, 5000);
-        } else {
-          setUnlock(false);
-        }
-      })
-      .catch((error) => console.log("error", error));
+    setUnlock(true)
   }, []);
 
   const [pages, setPage] = React.useState(lang == "th" ? pagesTh : pagesEn);
