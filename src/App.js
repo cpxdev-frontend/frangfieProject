@@ -1628,7 +1628,6 @@ function App({
               md: 0,
             },
           }}>
-          {unlock ? (
             <BasicSwitch>
               <Route
                 exact
@@ -1722,22 +1721,6 @@ function App({
                 )}
               />
             </BasicSwitch>
-          ) : (
-            <BasicSwitch>
-              <Route
-                exact
-                render={() => (
-                  <Home
-                    data-aos="fade-in"
-                    timeready={targetTime}
-                    quickmode={betabypass}
-                    setMenu={(v) => setAnchorElNav(v)}
-                    setLangMod={() => setAnchorElUser(true)}
-                  />
-                )}
-              />
-            </BasicSwitch>
-          )}
         </Box>
       </Fade>
 
