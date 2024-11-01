@@ -682,6 +682,8 @@ function App({
     launchredis > targetTime - 1209600 &&
     launchredis < targetTime
   ) {
+    ReactGA.initialize("G-HGFSHDZZMC");
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname, title: "lobby room" });
     if (
       timeLeft.months == 0 &&
       timeLeft.days == 5 &&
