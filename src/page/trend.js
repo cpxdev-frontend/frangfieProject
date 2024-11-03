@@ -101,6 +101,7 @@ const Trend = ({
   const [unix, setUnix] = React.useState(launch);
   const [open, setOpen] = React.useState(false);
   const [load, setLoad] = React.useState(false);
+  const [tid, setTid] = React.useState(null);
   React.useState(() => {
     setTimeout(() => {
       setOpen(true);
@@ -129,6 +130,7 @@ const Trend = ({
   }, []);
 
   const startTrendData = (trend, w) => {
+    alert(trend)
     var requestOptions = {
       method: "POST",
     };
@@ -448,7 +450,7 @@ const Trend = ({
                                 category: "User",
                                 action: "Trend link access",
                               });
-                              // startTrendData(item.trendId);
+                              setTid(item.trendId);
                               setAnchorEl(e.currentTarget)
                             }}
                             className="mt-3"
@@ -457,6 +459,18 @@ const Trend = ({
                           </Button>
                         </Grid>
                       </Grid>
+                    <Menu
+                      open={editor}
+                      anchorEl={anchorEl}
+                      onClick={() => setAnchorEl(null)}
+                    >
+                      <MenuItem onClick={() => startTrendData(tid, 'x')}>
+                        X (Twitter)
+                      </MenuItem>
+                      <MenuItem onClick={() => startTrendData(tid, 'face')}>
+                        Facebook
+                      </MenuItem>
+                    </Menu>
                     </CardContent>
                     {/* {!(
                   checktime(item).prepare == 0 && checktime(item).launch == 0
@@ -470,18 +484,6 @@ const Trend = ({
                       valueBuffer={checktime(item).prepare}
                     />
                   )} */}
-                    <Menu
-                      open={editor}
-                      anchorEl={anchorEl}
-                      onClick={() => setAnchorEl(null)}
-                    >
-                      <MenuItem onClick={() => startTrendData(item.trendId, 'x')}>
-                        X (Twitter)
-                      </MenuItem>
-                      <MenuItem onClick={() => startTrendData(item.trendId, 'face')}>
-                        Facebook
-                      </MenuItem>
-                    </Menu>
                   </Card>
                 ))
               ) : (
