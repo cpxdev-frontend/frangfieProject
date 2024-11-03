@@ -17,8 +17,8 @@ import {
   Chip,
   Skeleton,
   Fade,
-  DialogTitle,
-  DialogContent,
+  Menu,
+  MenuItem,
   DialogContentText,
   CircularProgress,
   Backdrop,
@@ -96,7 +96,8 @@ const Trend = ({
   guide,
 }) => {
   const [data, setData] = React.useState(null);
-  const [fet, setFetch] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const editor = Boolean(anchorEl);
   const [unix, setUnix] = React.useState(launch);
   const [open, setOpen] = React.useState(false);
   const [load, setLoad] = React.useState(false);
@@ -127,21 +128,21 @@ const Trend = ({
       .catch((error) => console.log("error", error));
   }, []);
 
-  const startTrendData = (trend) => {
+  const startTrendData = (trend, w) => {
     var requestOptions = {
       method: "POST",
     };
 
-    setLoad(true)
+    setLoad(true);
     fetch(
-      process.env.REACT_APP_APIE + "/kfsite/trend?trendid=" + trend,
+      process.env.REACT_APP_APIE + "/kfsite/trend?way=" + w + "&trendid=" + trend,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        setLoad(false)
+        setLoad(false);
         if (result.status) {
-          window.location.href = result.url
+          window.open(result.url, '_blank');
         } else {
           if (result.icon == "warning") {
             if (result.code == 2) {
@@ -163,15 +164,14 @@ const Trend = ({
             }
           } else {
             Swal.fire({
-              title:
-                result.code,
+              title: result.code,
               icon: result.icon,
             });
           }
         }
       })
       .catch((error) => console.log("error", error));
-  }
+  };
 
   return (
     <Fade in={open} timeout={300}>
@@ -207,11 +207,13 @@ const Trend = ({
                     key={item.trendId}
                     className="mb-3"
                     data-aos-delay="600"
-                    data-aos="zoom-in-right">
+                    data-aos="zoom-in-right"
+                  >
                     <CardContent
                       sx={{
                         opacity: item.end > 0 && launch >= item.end ? 0.4 : 1,
-                      }}>
+                      }}
+                    >
                       <CardHeader
                         className="pl-0 pb-0"
                         title={<h4>{item.title}</h4>}
@@ -391,7 +393,8 @@ const Trend = ({
                           </p>
                           <p
                             className="mt-4"
-                            style={{ wordWrap: "break-word" }}>
+                            style={{ wordWrap: "break-word" }}
+                          >
                             {lang == "th" ? "แท็กที่ใช้" : "Available Tags"}:
                             {unix >= item.start && (
                               <Box
@@ -400,7 +403,8 @@ const Trend = ({
                                     item.tags > 3
                                       ? "initial"
                                       : { xs: "initial", lg: "none" },
-                                }}>
+                                }}
+                              >
                                 <br />
                               </Box>
                             )}
@@ -413,7 +417,8 @@ const Trend = ({
                                     "?src=hashtag_click&f=live"
                                   }
                                   className="ml-1"
-                                  target="_blank">
+                                  target="_blank"
+                                >
                                   #{txt}
                                 </a>
                               ))
@@ -437,17 +442,19 @@ const Trend = ({
                           )}
                           <br />
                           <Button
-                              variant="outlined"
-                              onClick={() => {
-                                ReactGA.event({
-                                  category: "User",
-                                  action: "Trend link access",
-                                });
-                                startTrendData(item.trendId);
-                              }}
-                              className="mt-3">
-                              {lang == "th" ? "เริ่มเทรน" : "Start Trend"}
-                            </Button>
+                            variant="outlined"
+                            onClick={(e) => {
+                              ReactGA.event({
+                                category: "User",
+                                action: "Trend link access",
+                              });
+                              // startTrendData(item.trendId);
+                              setAnchorEl(e.currentTarget)
+                            }}
+                            className="mt-3"
+                          >
+                            {lang == "th" ? "เริ่มเทรน" : "Start Trend"}
+                          </Button>
                         </Grid>
                       </Grid>
                     </CardContent>
@@ -463,6 +470,18 @@ const Trend = ({
                       valueBuffer={checktime(item).prepare}
                     />
                   )} */}
+                    <Menu
+                      open={editor}
+                      anchorEl={anchorEl}
+                      onClick={() => setAnchorEl(null)}
+                    >
+                      <MenuItem onClick={() => startTrendData(item.trendId, 'x')}>
+                        X (Twitter)
+                      </MenuItem>
+                      <MenuItem onClick={() => startTrendData(item.trendId, 'face')}>
+                        Facebook
+                      </MenuItem>
+                    </Menu>
                   </Card>
                 ))
               ) : (
