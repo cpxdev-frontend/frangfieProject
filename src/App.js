@@ -1112,6 +1112,7 @@ function App({
               <Typography
                 variant="h6"
                 noWrap
+                className="webheadfont"
                 sx={{
                   mr: 2,
                   display: { xs: "none", lg: "flex" },
@@ -1381,6 +1382,7 @@ function App({
               <Typography
                 variant="h6"
                 noWrap
+                className="webheadfont"
                 sx={{
                   mr: 2,
                   display: { xs: "flex", lg: "none" },

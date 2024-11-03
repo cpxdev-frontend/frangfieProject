@@ -11,7 +11,8 @@ import { Auth0Provider } from "@auth0/auth0-react";
 
 const theme = createTheme({
   typography: {
-    fontFamily: "misans",
+    // fontFamily: "misans",
+    fontFamily: "Anuphan",
   },
   palette: {
     primary: {

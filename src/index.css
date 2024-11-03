@@ -1,5 +1,12 @@
-body {
+/* body {
   font-family: 'misans';
+} */
+body {
+  font-family: "Anuphan" !important;
+}
+
+.webheadfont {
+  /* font-family: "Twinkle Star" !important; */
 }
 
 code {
