@@ -130,7 +130,6 @@ const Trend = ({
   }, []);
 
   const startTrendData = (trend, w) => {
-    alert(trend)
     var requestOptions = {
       method: "POST",
     };
