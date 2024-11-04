@@ -206,7 +206,7 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                     </p>
                     <p>
                       {lang == "th" ? "สังกัดศิลปิน" : "Music label"}:{" "}
-                      {data.musicLabel[lang]}
+                      {data.musicLabel[lang].join(", ")}
                     </p>
                   </Grid>
                   <Grid xs={12} className="mt-3 pt-3">
