@@ -986,6 +986,7 @@ function App({
                               onClick={() => {
                                 history.push("/account");
                                 handleCloseNavMenu();
+                                setAnchorElUser(false);
                               }}>
                               View Profile
                             </Button>
@@ -1287,6 +1288,7 @@ function App({
                               onClick={() => {
                                 history.push("/account");
                                 handleCloseNavMenu();
+                                setAnchorElUser(false);
                               }}>
                               View Profile
                             </Button>
@@ -1497,6 +1499,7 @@ function App({
                             onClick={() => {
                               history.push("/account");
                               handleCloseNavMenu();
+                              setAnchorElUser(false);
                             }}>
                             View Profile
                           </Button>
