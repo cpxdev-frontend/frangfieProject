@@ -121,7 +121,7 @@ const Acct = ({
       }),
     };
 
-    fetch(process.env.REACT_APP_APIE + "/kfsite/checkevent", requestOptions)
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/checkevent", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setLoad(false);
@@ -357,7 +357,7 @@ const Acct = ({
       };
 
       setPoint(null);
-      fetch(process.env.REACT_APP_APIE + "/kfsite/getPoint", requestOptions)
+      fetch(process.env.REACT_APP_APIE_2 + "/kfsite/getPoint", requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result.status) {

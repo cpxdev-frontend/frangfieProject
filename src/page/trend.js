@@ -119,7 +119,7 @@ const Trend = ({
 
     setPage(lang == "th" ? "ดันเทรน" : "Trend for Kaofrang");
     fetch(
-      process.env.REACT_APP_APIE + "/kfsite/tagboost?data=kf",
+      process.env.REACT_APP_APIE_2 + "/kfsite/tagboost?data=kf",
       requestOptions
     )
       .then((response) => response.json())

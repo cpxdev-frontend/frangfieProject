@@ -103,7 +103,7 @@ const Album = ({ currentPage, lang, setLang, setLaunch, setPage, launch, guide }
 
     setPage(lang == "th" ? "คลังรูปของข้าวฟ่าง" : "Gallery of Kaofrang");
     fetch(
-      process.env.REACT_APP_APIE + "/kfsite/getgalleryevent",
+      process.env.REACT_APP_APIE_2 + "/kfsite/getgalleryevent",
       requestOptions
     )
       .then((response) => response.json())

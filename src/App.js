@@ -259,7 +259,7 @@ function App({
           };
 
           fetch(
-            process.env.REACT_APP_APIE + "/kfsite/getairdrop",
+            process.env.REACT_APP_APIE_2 + "/kfsite/getairdrop",
             requestOptions
           )
             .then((response) => response.json())
@@ -312,7 +312,7 @@ function App({
           }),
         };
 
-        fetch(process.env.REACT_APP_APIE + "/kfsite/getairdrop", requestOptions)
+        fetch(process.env.REACT_APP_APIE_2 + "/kfsite/getairdrop", requestOptions)
           .then((response) => response.json())
           .then((result) => {
             if (result.status) {
@@ -464,7 +464,7 @@ function App({
     AOS.init({ duration: 800 });
     setLaunch(moment().unix());
     setLaunchd(moment().unix());
-    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus?ok=kf", {
       method: "POST",
     })
       .then((response) => response.json())
