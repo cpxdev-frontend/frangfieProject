@@ -8,13 +8,13 @@ import {
   Grid,
   CardActions,
   Box,
-  Tabs,
+  Backdrop,
   Tab,
   Typography,
   ListItemButton,
   List,
   ListItem,
-  Chip,
+  CircularProgress,
   Skeleton,
   CardMedia,
   LinearProgress,
@@ -73,6 +73,7 @@ const GameApp = ({
   const [ques, setQues] = React.useState(0);
   const [checked, setCheck] = React.useState(false);
   const [startLoad, setLoad] = React.useState(false);
+  const [airLoad, setLoadAir] = React.useState(false);
   const [ip, setIP] = React.useState("");
   const [session, setSession] = React.useState("");
   const his = useHistory();
@@ -263,6 +264,49 @@ const GameApp = ({
       .catch((error) => console.log("error", error));
   };
 
+  const getAirdrop = () => {
+    setLoadAir(true);
+    var requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user.email,
+        notiId: atob(localStorage.getItem("osigIdPush")),
+      }),
+    };
+
+    fetch(
+      process.env.REACT_APP_APIE + "/kfsite/receiveairdropfromgame",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setLoadAir(false);
+        if (result.status) {
+          Swal.fire({
+            title:
+              lang == "th"
+                ? "คุณได้รับ " + result.earned + " KorKao Points"
+                : "You are earned " + result.earned + " KorKao Points",
+            icon: "success",
+            footer:
+              lang == "th"
+                ? "คุณสามารถกลับมารับ AirDrop ได้ใหม่ในวันพรุ่งนี้"
+                : "You can come back to received AirDrop in tomorrow.",
+          });
+        } else {
+          Swal.fire({
+            title: "Something went wrong",
+            text: result.message,
+            icon: "error",
+          });
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+
   const SelectGame = (key, select) => {
     if (checked || readyans == false) {
       return;
@@ -298,7 +342,7 @@ const GameApp = ({
           quizFrom: quesList.length,
           quizDuration: Math.floor((time % 6000) / 100),
           sessionId: session,
-          userId: isAuthenticated ? user.email : null
+          userId: isAuthenticated ? user.email : null,
         }),
       })
         .then((response) => response.json())
@@ -315,6 +359,27 @@ const GameApp = ({
             setGame(2);
             setSelected(0);
             setInGame(false);
+            if (result.isAirdrop) {
+              Swal.fire({
+                title: "You are WIN!",
+                allowOutsideClick: false,
+                showDenyButton: true,
+                footer:
+                  lang == "th"
+                    ? "เนื่องจากคุณตอบคำถามได้มากกว่าผู้เล่นโดยเฉลี่ยทั่วโลก คุณจึงได้สิทธิ์การลุ้น AirDrop จากเรา (สูงสุด 5 ครั้งต่อ 12 ชั่วโมง นับจากวันและเวลาที่เล่นล่าสุด)"
+                    : "Because you have answered more questions than the average global player, you have earned the right to participate in our AirDrop. (Up to 5 times per 12 hours, starting from your last gameplay.)",
+                customClass: {
+                  container: "airdropcontain",
+                },
+                confirmButtonText:
+                  lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
+                html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
+              }).then((r) => {
+                if (r.isConfirmed) {
+                  getAirdrop();
+                }
+              });
+            }
           }, 4000);
         })
         .catch((error) => console.log("error", error));
@@ -483,10 +548,10 @@ const GameApp = ({
               run={guide}
               styles={{
                 options: {
-                  arrowColor: '#fb61ee',
-                  backgroundColor: '#f1cef2',
-                  primaryColor: '#f526fc',
-                  textColor: '#000'
+                  arrowColor: "#fb61ee",
+                  backgroundColor: "#f1cef2",
+                  primaryColor: "#f526fc",
+                  textColor: "#000",
                 },
               }}
             />
@@ -684,6 +749,11 @@ const GameApp = ({
             </Card>
           )
       )}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={airLoad}>
+        <CircularProgress />
+      </Backdrop>
     </div>
   );
 };
