@@ -29,7 +29,7 @@ import {
   ToggleButton,
   Backdrop,
   CircularProgress,
-  Grow
+  Grow,
 } from "@mui/material";
 import Confetti from "react-confetti";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -312,7 +312,10 @@ function App({
           }),
         };
 
-        fetch(process.env.REACT_APP_APIE_2 + "/kfsite/getairdrop", requestOptions)
+        fetch(
+          process.env.REACT_APP_APIE_2 + "/kfsite/getairdrop",
+          requestOptions
+        )
           .then((response) => response.json())
           .then((result) => {
             if (result.status) {
@@ -472,7 +475,7 @@ function App({
         setBirthday(result.response);
       })
       .catch((error) => console.log("error", error));
-    setUnlock(true)
+    setUnlock(true);
   }, []);
 
   const [pages, setPage] = React.useState(lang == "th" ? pagesTh : pagesEn);
@@ -567,7 +570,7 @@ function App({
   };
 
   const handleCloseNavMenu = () => {
-    if (isLoading && localStorage.getItem('yuser') == null) {
+    if (isLoading && localStorage.getItem("yuser") == null) {
       return;
     }
     setAnchorElNav(null);
@@ -643,7 +646,11 @@ function App({
   ) {
     ReactGA.initialize("G-HGFSHDZZMC");
     document.title = "Lobby Room | KorKao FanSite";
-    ReactGA.send({ hitType: "pageview", page: window.location.pathname, title: "lobby room" });
+    ReactGA.send({
+      hitType: "pageview",
+      page: window.location.pathname,
+      title: "lobby room",
+    });
     if (
       timeLeft.months == 0 &&
       timeLeft.days == 5 &&
@@ -909,7 +916,18 @@ function App({
                   onClose={handleCloseNavMenu}
                   maxWidth="xl"
                   sx={{ display: { xs: "initial", xl: "none" } }}>
-                  <DialogTitle>
+                  <DialogTitle
+                    sx={{
+                      display: { xs: "initial", lg: "none", xl: "initial" },
+                    }}>
+                    {lang == "th"
+                      ? "เมนูหลักและการตั้งค่า"
+                      : "Main Menu and Settings"}
+                  </DialogTitle>
+                  <DialogTitle
+                    sx={{
+                      display: { xs: "none", lg: "initial", xl: "none" },
+                    }}>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
                   <DialogContent sx={{ width: { xs: "100%", sm: 340 } }}>
@@ -1017,12 +1035,20 @@ function App({
                     <Box
                       sx={{
                         display:
-                          window.location.pathname == "/"
-                            ? { xs: "none", xl: "initial" }
-                            : "initial",
+                          window.location.pathname != "/"
+                            ? "initial"
+                            : { xs: "none", xl: "initial" },
                       }}>
-                      <Typography>Change Language</Typography>
+                      <Typography
+                        sx={{
+                          display: { xs: "block", lg: "none", xl: "block" },
+                        }}>
+                        Change Language
+                      </Typography>
                       <ToggleButtonGroup
+                        sx={{
+                          display: { xs: "initial", lg: "none", xl: "initial" },
+                        }}
                         color="primary"
                         className="mt-1"
                         value={lang}
@@ -1042,6 +1068,9 @@ function App({
                       </ToggleButtonGroup>
                       <br />
                       <FormControlLabel
+                        sx={{
+                          display: { xs: "initial", lg: "none", xl: "initial" },
+                        }}
                         control={
                           <Switch
                             checked={guide}
@@ -1053,7 +1082,10 @@ function App({
                         }
                       />
                       <br />
-                      <Typography>
+                      <Typography
+                        sx={{
+                          display: { xs: "block", lg: "none", xl: "block" },
+                        }}>
                         {lang == "th"
                           ? "สถานะการแจ้งเตือน: "
                           : "Notification Status: "}{" "}
@@ -1479,7 +1511,11 @@ function App({
                           location.pathname == "/" ||
                           location.pathname == "/404"
                             ? "none"
-                            : "initial",
+                            : {
+                                xs: "initial",
+                                lg: "none",
+                                xl: "initial",
+                              },
                       }}>
                       {isAuthenticated && (
                         <CardContent>
@@ -1592,99 +1628,91 @@ function App({
               md: 0,
             },
           }}>
-            <BasicSwitch>
-              <Route
-                exact
-                path="/"
-                render={() => (
-                  <Home
-                    data-aos="fade-in"
-                    timeready={targetTime}
-                    quickmode={betabypass}
-                    setMenu={(v) => setAnchorElNav(v)}
-                    setLangMod={() => setAnchorElUser(true)}
-                  />
-                )}
-              />
-              <Route
-                data-aos="fade-in"
-                path="/aboutkf"
-                render={() => <About />}
-              />
-              <Route
-                data-aos="fade-in"
-                path="/gallery/:id"
-                render={() => <Gallery />}
-              />
-              <Route
-                data-aos="fade-in"
-                path="/gallery"
-                render={() => <Album />}
-              />
-              <Route
-                data-aos="fade-in"
-                path="/discography"
-                render={() => <Disco />}
-              />
-              <Route
-                data-aos="fade-in"
-                path="/events"
-                render={() => <Event />}
-              />
-              <Route
-                data-aos="fade-in"
-                path="/trend"
-                render={() => <Trend />}
-              />
-              <Route
-                data-aos="fade-in"
-                path="/birthday"
-                render={() => <Birth leftmode={false} opacity={opacity} />}
-              />
-              <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
-              <Route
-                data-aos="fade-in"
-                path="/quizgame"
-                render={() => <Game />}
-              />
-              <Route
-                data-aos="fade-in"
-                path="/quizgameresult/:c"
-                render={() => <GameD />}
-              />
-              <Route
-                data-aos="fade-in"
-                path="/follow"
-                render={() => <Follow />}
-              />
-              <Route
-                data-aos="fade-in"
-                path="/donation"
-                render={() => <Donate />}
-              />
-              {/* {localStorage.getItem("yuser") != null && (
+          <BasicSwitch>
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <Home
+                  data-aos="fade-in"
+                  timeready={targetTime}
+                  quickmode={betabypass}
+                  setMenu={(v) => setAnchorElNav(v)}
+                  setLangMod={() => setAnchorElUser(true)}
+                />
+              )}
+            />
+            <Route
+              data-aos="fade-in"
+              path="/aboutkf"
+              render={() => <About />}
+            />
+            <Route
+              data-aos="fade-in"
+              path="/gallery/:id"
+              render={() => <Gallery />}
+            />
+            <Route
+              data-aos="fade-in"
+              path="/gallery"
+              render={() => <Album />}
+            />
+            <Route
+              data-aos="fade-in"
+              path="/discography"
+              render={() => <Disco />}
+            />
+            <Route data-aos="fade-in" path="/events" render={() => <Event />} />
+            <Route data-aos="fade-in" path="/trend" render={() => <Trend />} />
+            <Route
+              data-aos="fade-in"
+              path="/birthday"
+              render={() => <Birth leftmode={false} opacity={opacity} />}
+            />
+            <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
+            <Route
+              data-aos="fade-in"
+              path="/quizgame"
+              render={() => <Game />}
+            />
+            <Route
+              data-aos="fade-in"
+              path="/quizgameresult/:c"
+              render={() => <GameD />}
+            />
+            <Route
+              data-aos="fade-in"
+              path="/follow"
+              render={() => <Follow />}
+            />
+            <Route
+              data-aos="fade-in"
+              path="/donation"
+              render={() => <Donate />}
+            />
+            {/* {localStorage.getItem("yuser") != null && (
                 <Route
                   data-aos="fade-in"
                   path="/account"
                   render={() => <Account />}
                 />
               )} */}
-              <Route
-                data-aos="fade-in"
-                path="/account"
-                render={() => <Account />}
-              />
-              <Route
-                exact
-                data-aos="fade-in"
-                render={() => (
-                  <Err
-                    setMenu={(v) => setAnchorElNav(v)}
-                    setLangMod={() => setAnchorElUser(true)}
-                  />
-                )}
-              />
-            </BasicSwitch>
+            <Route
+              data-aos="fade-in"
+              path="/account"
+              render={() => <Account />}
+            />
+            <Route
+              exact
+              data-aos="fade-in"
+              render={() => (
+                <Err
+                  setMenu={(v) => setAnchorElNav(v)}
+                  setLangMod={() => setAnchorElUser(true)}
+                />
+              )}
+            />
+          </BasicSwitch>
         </Box>
       </Fade>
 

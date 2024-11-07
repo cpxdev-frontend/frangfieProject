@@ -320,3 +320,6 @@ button .react-joyride__beacon{
   max-width: 100%;
   max-height: 70%;
 }
+.MuiListItemText-root > p > p{
+  color: #555555 !important;
+}
