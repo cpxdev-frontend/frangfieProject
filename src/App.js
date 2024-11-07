@@ -427,7 +427,11 @@ function App({
     window.addEventListener("scroll", debounce(handleScroll, 200));
     fetch(process.env.REACT_APP_APIE + "/home/status", {})
       .then((response) => response.text())
-      .then((result) => {})
+      .then((result) => {
+        setInterval(() => {
+          fetchtime();
+        }, 5000);
+      })
       .catch((error) => {
         document.title = "System Maintenance | KorKao FanSite";
         setOnMaintain(true);

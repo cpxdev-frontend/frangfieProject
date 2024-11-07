@@ -40,6 +40,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Joyride from "react-joyride";
 import stepEn from "../stepGuide/en/quiz";
 import stepTh from "../stepGuide/th/quiz";
+import moment from "moment";
 
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -58,7 +59,7 @@ function secondsToMinSec(totalSeconds) {
 const GameApp = ({
   currentPage,
   lang,
-  setLang,
+  launch,
   currentCountry,
   setPage,
   setInGame,
@@ -285,17 +286,45 @@ const GameApp = ({
       .then((result) => {
         setLoadAir(false);
         if (result.status) {
-          Swal.fire({
-            title:
-              lang == "th"
-                ? "คุณได้รับ " + result.earned + " KorKao Points"
-                : "You are earned " + result.earned + " KorKao Points",
-            icon: "success",
-            footer:
-              lang == "th"
-                ? "คุณสามารถกลับมารับ AirDrop ได้ใหม่ในวันพรุ่งนี้"
-                : "You can come back to received AirDrop in tomorrow.",
-          });
+          if (result.timeused > 0) {
+            Swal.fire({
+              title:
+                lang == "th"
+                  ? "คุณได้รับ " + result.earned + " KorKao Points"
+                  : "You are earned " + result.earned + " KorKao Points",
+              icon: "success",
+              footer:
+                lang == "th"
+                  ? "คุณยังเหลือสิทธิ์การรับ AirDrop อีก " +
+                    result.timeused +
+                    " ครั้ง"
+                  : "You still have " +
+                    result.timeused +
+                    " AirDrop claims left.",
+            });
+          } else {
+            Swal.fire({
+              title:
+                lang == "th"
+                  ? "คุณได้รับ " + result.earned + " KorKao Points"
+                  : "You are earned " + result.earned + " KorKao Points",
+              icon: "success",
+              footer:
+                lang == "th"
+                  ? "คุณรับ AirDrop ครบจำนวนครั้งที่กำหนดแล้ว คุณสามารถกลับมาเล่นและรับ AirDrop ใหม่อีกครั้งตั้งแต่วันที่ " +
+                    moment
+                      .unix(launch + 43205)
+                      .lang(lang)
+                      .format("DD MMMM YYYY เวลา HH:mm") +
+                    " เป็นต้นไป"
+                  : "You have reached the maximum number of AirDrop claims. You can come back to play and receive AirDrop again starting from " +
+                    moment
+                      .unix(launch + 43205)
+                      .lang(lang)
+                      .format("MMMM DD, YYYY at HH:mm") +
+                    " onward.",
+            });
+          }
         } else {
           Swal.fire({
             title: "Something went wrong",
@@ -647,7 +676,7 @@ const GameApp = ({
   return (
     <div
       className="d-flex justify-content-center"
-      style={{ marginBottom: 100 }}>
+      style={{ marginBottom: 130 }}>
       {quesList.map(
         (item, i) =>
           i === ques && (
@@ -761,6 +790,7 @@ const mapStateToProps = (state) => ({
   load: state.load,
   dark: state.dark,
   lang: state.lang,
+  launch: state.launch,
   currentPage: state.currentPage,
   game: state.game,
   guide: state.guide,
