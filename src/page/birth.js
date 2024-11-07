@@ -112,7 +112,7 @@ const Birth = ({
   }, [text, img]);
 
   const RefreshDate = () => {
-    fetch(process.env.REACT_APP_APIE + "/kfsite/birthdayStatus?ok=kf", {
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus?ok=kf", {
       method: "post",
     })
       .then((response) => response.json())

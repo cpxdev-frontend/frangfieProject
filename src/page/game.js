@@ -157,7 +157,7 @@ const GameApp = ({
       }),
     };
 
-    fetch(process.env.REACT_APP_APIE + "/kfsite/kffetchquiz", requestOptions)
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/kffetchquiz", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result.status) {

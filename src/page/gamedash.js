@@ -148,7 +148,7 @@ const GameApp = ({
         setAver(result);
       })
       .catch((error) => console.log("error", error));
-    fetch(process.env.REACT_APP_APIE + "/kfsite/kflistall", {
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/kflistall", {
       method: "post",
     })
       .then((response) => response.json())

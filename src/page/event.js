@@ -211,7 +211,7 @@ const Event = ({
     };
 
     setPage(lang == "th" ? "ข้อมูลกิจกรรม" : "Events of Kaofrang");
-    fetch(process.env.REACT_APP_APIE + "/kfsite/listevent", requestOptions)
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/listevent", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setGetData(undefined);

@@ -145,7 +145,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
 
     window.addEventListener("resize", handleWindowResize);
     setData2(null);
-    fetch(process.env.REACT_APP_APIE + "/kfsite/kfytplay", requestOptions)
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/kfytplay", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setData2(result.items);
