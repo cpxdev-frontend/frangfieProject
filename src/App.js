@@ -404,7 +404,7 @@ function App({
   };
 
   const fetchtime = () => {
-    fetch("https://cpxdevweb.onrender.com/kfsite/gettime", {})
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/gettime", {})
       .then((response) => response.text())
       .then((result) => {
         setLaunch(parseInt(result));
@@ -477,6 +477,9 @@ function App({
       .then((response) => response.json())
       .then((result) => {
         setBirthday(result.response);
+        if (result.response) {
+          BirthdayEffect();
+        }
       })
       .catch((error) => console.log("error", error));
     setUnlock(true);
