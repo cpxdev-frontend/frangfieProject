@@ -363,7 +363,6 @@ const GameApp = ({
               Swal.fire({
                 title: "You are WIN!",
                 allowOutsideClick: false,
-                showDenyButton: true,
                 footer:
                   lang == "th"
                     ? "เนื่องจากคุณตอบคำถามได้มากกว่าผู้เล่นโดยเฉลี่ยทั่วโลก คุณจึงได้สิทธิ์การลุ้น AirDrop จากเรา (สูงสุด 5 ครั้งต่อ 12 ชั่วโมง นับจากวันและเวลาที่เล่นล่าสุด)"
@@ -565,7 +564,7 @@ const GameApp = ({
       <div
         className="d-flex justify-content-center"
         style={{ marginBottom: 100 }}>
-        <Card sx={{ marginTop: "30vh", width: { xs: "90%", md: "70%" } }}>
+        <Card sx={{ marginTop: "10vh", width: { xs: "90%", md: "70%" } }}>
           <CardContent>
             <CardHeader
               title="Result"
@@ -637,6 +636,11 @@ const GameApp = ({
             </Button>
           </CardContent>
         </Card>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={airLoad}>
+          <CircularProgress />
+        </Backdrop>
       </div>
     );
   }
@@ -749,11 +753,6 @@ const GameApp = ({
             </Card>
           )
       )}
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={airLoad}>
-        <CircularProgress />
-      </Backdrop>
     </div>
   );
 };
