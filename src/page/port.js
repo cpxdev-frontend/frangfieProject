@@ -158,11 +158,11 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
     if (clip != null && navigator.connection != undefined) {
       if (navigator.connection.downlink < 3 || navigator.connection.rtt >= 800) {
         Swal.fire({
-          title: 'This content maybe consume your data usage.',
+          title: 'This content may require a faster internet connection.',
           text:
             lang == "th"
-              ? "การรับชมคลิปคอนเทนต์จำเป็นต้องใช้ความเร็วอินเทอร์เน็ตมากขึ้นเพื่อการรับชมที่ลื่นไหลขึ้น"
-              : "Watching content videos requires a higher internet speed for smoother.",
+              ? "การรับชมคลิปคอนเทนต์จำเป็นต้องใช้อินเทอร์เน็ตความเร็วสูงมากกว่านี้เพื่อการรับชมที่ลื่นไหลขึ้น"
+              : "Watching content videos requires a higher internet speed for smoother video contents.",
           icon: "warning",
         });
       }
