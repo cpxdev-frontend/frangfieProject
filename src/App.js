@@ -233,7 +233,7 @@ function App({
 
   React.useEffect(() => {
     if (localStorage.getItem("yuser") != null) {
-      if (isAuthenticated) {
+      if (!isAuthenticated) {
         try {
           getAccessTokenSilently();
         } catch {
@@ -288,15 +288,6 @@ function App({
           }
         }, 100);
         console.log("view user", user);
-      } else {
-        Swal.fire({
-          title: "Login session is expired",
-          icon: "error",
-          text: "Please sign-in to KorKao ID again.",
-        }).then((r) => {
-          getout();
-        });
-        return;
       }
     } else {
       if (isAuthenticated) {
