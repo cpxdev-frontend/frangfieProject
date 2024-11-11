@@ -241,30 +241,6 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                     secondary="กอข้าวของKaofrangBNK48"
                   />
                 </ListItemButton>
-                <ListItemButton
-                  component="a"
-                  href="https://instagram.com/kaofrangbnk48.thfc"
-                  target="_blank"
-                  data-aos="fade-right"
-                  data-aos-delay={
-                    window.innerWidth > 800 && window.innerHeight > 800
-                      ? "1500"
-                      : "0"
-                  }>
-                  <ListItemAvatar>
-                    <Avatar
-                      sx={{
-                        background:
-                          "linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)",
-                      }}>
-                      <FontAwesomeIcon icon={faInstagram} />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Instagram Account"
-                    secondary="kaofrangbnk48.thfc"
-                  />
-                </ListItemButton>
                 {/* <ListItemButton
               component="a"
               href="https://tiktok.com/@kaofrang.bnk48official"
@@ -287,7 +263,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   data-aos="fade-right"
                   data-aos-delay={
                     window.innerWidth > 800 && window.innerHeight > 800
-                      ? "2000"
+                      ? "1500"
                       : "0"
                   }>
                   <ListItemAvatar>
@@ -307,7 +283,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   data-aos="fade-right"
                   data-aos-delay={
                     window.innerWidth > 800 && window.innerHeight > 800
-                      ? "2500"
+                      ? "2000"
                       : "0"
                   }>
                   <ListItemAvatar>
