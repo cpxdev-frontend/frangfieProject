@@ -108,7 +108,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   href="https://instagram.com/kaofrang.bnk48official"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerHeight > 800 ? "500" : "0"}>
+                  data-aos-delay={window.innerHeight > 700 ? "500" : "0"}>
                   <ListItemAvatar>
                     <Avatar
                       sx={{
@@ -128,7 +128,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   href="https://tiktok.com/@kaofrang.bnk48official"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerHeight > 800 ? "1000" : "0"}>
+                  data-aos-delay={window.innerHeight > 700 ? "1000" : "0"}>
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#000", color: "#fff" }}>
                       <FontAwesomeIcon icon={faTiktok} />
@@ -144,7 +144,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   href="https://www.bnk48.com/index.php?page=listMembers&memberId=86"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerHeight > 800 ? "1500" : "0"}>
+                  data-aos-delay={window.innerHeight > 700 ? "1500" : "0"}>
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#CB96C2" }}>
                       <FontAwesomeIcon icon={faGlobe} />
@@ -160,7 +160,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   href="https://app.bnk48.com/members/bnk48/kaofrang"
                   target="_blank"
                   data-aos="fade-right"
-                  data-aos-delay={window.innerHeight > 800 ? "2000" : "0"}>
+                  data-aos-delay={window.innerHeight > 700 ? "2000" : "0"}>
                   <ListItemAvatar>
                     <Avatar sx={{ backgroundColor: "#8AAEB5" }}>
                       <FontAwesomeIcon icon={faMobileAlt} />
@@ -207,7 +207,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   target="_blank"
                   data-aos="fade-right"
                   data-aos-delay={
-                    window.innerWidth > 800 && window.innerHeight > 800
+                    window.innerWidth > 800 && window.innerHeight > 700
                       ? "500"
                       : "0"
                   }>
@@ -227,7 +227,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   target="_blank"
                   data-aos="fade-right"
                   data-aos-delay={
-                    window.innerWidth > 800 && window.innerHeight > 800
+                    window.innerWidth > 800 && window.innerHeight > 700
                       ? "1000"
                       : "0"
                   }>
@@ -262,7 +262,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   target="_blank"
                   data-aos="fade-right"
                   data-aos-delay={
-                    window.innerWidth > 800 && window.innerHeight > 800
+                    window.innerWidth > 800 && window.innerHeight > 700
                       ? "1500"
                       : "0"
                   }>
@@ -282,7 +282,7 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                   target="_blank"
                   data-aos="fade-right"
                   data-aos-delay={
-                    window.innerWidth > 800 && window.innerHeight > 800
+                    window.innerWidth > 800 && window.innerHeight > 700
                       ? "2000"
                       : "0"
                   }>
