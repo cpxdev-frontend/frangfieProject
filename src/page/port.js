@@ -9,7 +9,7 @@ import {
   Grid,
   CardActions,
   Box,
-  Tabs,
+  Chip,
   Tab,
   Typography,
   CardMedia,
@@ -26,6 +26,7 @@ import {
   Divider,
   DialogContent,
 } from "@mui/material";
+import CountUp from "react-countup";
 import "../iframenormal.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
@@ -84,6 +85,7 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
   const [pageset2, setPagin2] = React.useState(1);
   const PER_PAGE = 8;
   const [clip, setClip] = React.useState(null);
+  const [view, setView] = React.useState(null);
 
   const music = React.useRef(null);
   const content = React.useRef(null);
@@ -155,10 +157,34 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
   }, []);
 
   React.useEffect(() => {
+    if (clip != null) {
+      var requestOptions = {
+        method: "POST",
+      };
+
+      setTimeout(() => {
+        fetch(
+          process.env.REACT_APP_APIE_2 +
+            "/kfsite/ytviewCount?id=" +
+            clip.snippet.resourceId.videoId,
+          requestOptions
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            setView(parseInt(result));
+          })
+          .catch((error) => console.log("error", error));
+      }, 400);
+    } else {
+      setView(null);
+    }
     if (clip != null && navigator.connection != undefined) {
-      if (navigator.connection.downlink < 3 || navigator.connection.rtt >= 800) {
+      if (
+        navigator.connection.downlink < 3 ||
+        navigator.connection.rtt >= 800
+      ) {
         Swal.fire({
-          title: 'This content may require a faster internet connection.',
+          title: "This content may require a faster internet connection.",
           text:
             lang == "th"
               ? "การรับชมคลิปคอนเทนต์จำเป็นต้องใช้อินเทอร์เน็ตความเร็วสูงมากกว่านี้เพื่อการรับชมที่ลื่นไหลขึ้น"
@@ -547,6 +573,25 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                 />
                 <Divider />
                 <Card component={CardContent} className="mt-3">
+                  {view != null ? (
+                    <Chip
+                      color="primary"
+                      className="mb-2"
+                      variant="outlined"
+                      label={
+                        <Box sx={{ fontWeight: "bold" }}>
+                          <CountUp end={view} onEnd={() => {}} duration={3} />{" "}
+                          Views on Youtube
+                        </Box>
+                      }></Chip>
+                  ) : (
+                    <Skeleton
+                      variant="text"
+                      className="bg-m w-100"
+                      sx={{ fontSize: "2rem" }}
+                    />
+                  )}
+                  <br />
                   <Typography
                     data-aos="fade-in"
                     variant="p"

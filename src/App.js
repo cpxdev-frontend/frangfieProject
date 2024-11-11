@@ -233,9 +233,62 @@ function App({
 
   React.useEffect(() => {
     if (localStorage.getItem("yuser") != null) {
-      try {
-        getAccessTokenSilently();
-      } catch {
+      if (isAuthenticated) {
+        try {
+          getAccessTokenSilently();
+        } catch {
+          Swal.fire({
+            title: "Login session is expired",
+            icon: "error",
+            text: "Please sign-in to KorKao ID again.",
+          }).then((r) => {
+            getout();
+          });
+          return;
+        }
+        var m = setInterval(() => {
+          if (isLoading == false) {
+            clearInterval(m);
+            var requestOptions = {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                userId: user.email,
+              }),
+            };
+  
+            fetch(
+              process.env.REACT_APP_APIE_2 + "/kfsite/getairdrop",
+              requestOptions
+            )
+              .then((response) => response.json())
+              .then((result) => {
+                if (result.status) {
+                  Swal.fire({
+                    title: "Daily AirDrop is coming!",
+                    allowOutsideClick: false,
+                    showDenyButton: true,
+                    customClass: {
+                      container: "airdropcontain",
+                    },
+                    confirmButtonText:
+                      lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
+                    denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
+                    html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
+                  }).then((r) => {
+                    if (r.isConfirmed) {
+                      getAirdrop();
+                    }
+                  });
+                }
+              })
+              .catch((error) => console.log("error", error));
+          }
+        }, 100);
+        console.log("view user", user);
+      } else {
         Swal.fire({
           title: "Login session is expired",
           icon: "error",
@@ -245,48 +298,6 @@ function App({
         });
         return;
       }
-      var m = setInterval(() => {
-        if (isLoading == false) {
-          clearInterval(m);
-          var requestOptions = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              userId: user.email,
-            }),
-          };
-
-          fetch(
-            process.env.REACT_APP_APIE_2 + "/kfsite/getairdrop",
-            requestOptions
-          )
-            .then((response) => response.json())
-            .then((result) => {
-              if (result.status) {
-                Swal.fire({
-                  title: "Daily AirDrop is coming!",
-                  allowOutsideClick: false,
-                  showDenyButton: true,
-                  customClass: {
-                    container: "airdropcontain",
-                  },
-                  confirmButtonText:
-                    lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
-                  denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
-                  html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
-                }).then((r) => {
-                  if (r.isConfirmed) {
-                    getAirdrop();
-                  }
-                });
-              }
-            })
-            .catch((error) => console.log("error", error));
-        }
-      }, 100);
-      console.log("view user", user);
     } else {
       if (isAuthenticated) {
         try {
