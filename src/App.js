@@ -477,6 +477,13 @@ function App({
       .then((response) => response.json())
       .then((result) => {
         setBirthday(result.response);
+      })
+      .catch((error) => console.log("error", error));
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus", {
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((result) => {
         if (result.response) {
           BirthdayEffect();
         }
