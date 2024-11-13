@@ -258,7 +258,7 @@ function App({
                 userId: user.email,
               }),
             };
-  
+
             fetch(
               process.env.REACT_APP_APIE_2 + "/kfsite/getairdrop",
               requestOptions
@@ -288,6 +288,42 @@ function App({
           }
         }, 100);
         console.log("view user", user);
+      } else {
+        var requestOptions = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: user.email,
+          }),
+        };
+        fetch(
+          process.env.REACT_APP_APIE_2 + "/kfsite/getairdrop",
+          requestOptions
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            if (result.status) {
+              Swal.fire({
+                title: "Daily AirDrop is coming!",
+                confirmButtonText:
+                  lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
+                customClass: {
+                  container: "airdropcontain",
+                },
+                denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
+                showDenyButton: true,
+                allowOutsideClick: false,
+                html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
+              }).then((r) => {
+                if (r.isConfirmed) {
+                  getAirdrop();
+                }
+              });
+            }
+          })
+          .catch((error) => console.log("error", error));
       }
     } else {
       if (isAuthenticated) {
