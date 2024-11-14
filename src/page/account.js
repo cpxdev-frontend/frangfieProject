@@ -34,6 +34,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
+  styled,
 } from "@mui/material";
 import {
   setLoad,
@@ -53,6 +54,7 @@ import StarsIcon from "@mui/icons-material/Stars";
 import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
+import QrScanner from "qr-scanner";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
@@ -73,6 +75,25 @@ import stepTh from "../stepGuide/th/gallery";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
+
+function reader(file, callback) {
+  const fr = new FileReader();
+  fr.onload = () => callback(null, fr.result);
+  fr.onerror = (err) => callback(err);
+  fr.readAsDataURL(file);
+}
+
 const Acct = ({
   currentPage,
   lang,
@@ -92,6 +113,10 @@ const Acct = ({
   const [point, setPoint] = React.useState(null);
   const [viewPoint, setPointView] = React.useState(false);
   const [pointHis, setHis] = React.useState(null);
+
+  const [edonate, setEdonate] = React.useState(false);
+  const [slipFile, setFile] = React.useState(null);
+  const [base, setBase] = React.useState(null);
 
   const {
     loginWithPopup,
@@ -380,6 +405,13 @@ const Acct = ({
       setHis(null);
     }
   };
+
+  React.useEffect(() => {
+    if (edonate == false) {
+      setFile(null);
+      setBase(null);
+    }
+  }, [edonate]);
 
   React.useEffect(() => {
     setPage("KorKao ID");
@@ -834,8 +866,9 @@ const Acct = ({
                       />
                     </Typography>
                   </CardActionArea>
-                  <CardActions sx={{ display: { xs: "block", md: "none" } }}>
+                  <CardActions>
                     <Button
+                      sx={{ display: { xs: "block", md: "none" } }}
                       onClick={() =>
                         window.location.href.includes("localhost")
                           ? setCheckevent(
@@ -846,6 +879,11 @@ const Acct = ({
                       {lang == "th"
                         ? "สแกนเพื่อเข้าร่วมกิจกรรม"
                         : "Scan to join event"}
+                    </Button>
+                    <Button onClick={() => setEdonate(true)}>
+                      {lang == "th"
+                        ? "รับ KorKao Points จากสลิปโดเนท"
+                        : "E-Donate to KorKao Points"}
                     </Button>
                   </CardActions>
                 </CardContent>
@@ -1413,13 +1451,13 @@ const Acct = ({
                         {lang == "th" ? "สถานะอัปเดตล่าสุด" : "Latest update"}
                       </TableCell>
                       <TableCell>
-                        {lang == "th"
-                          ? "รายละเอียด"
-                          : "Activity Detail"}
+                        {lang == "th" ? "รายละเอียด" : "Activity Detail"}
                       </TableCell>
-                      <TableCell align="right">{lang == "th"
+                      <TableCell align="right">
+                        {lang == "th"
                           ? "สถานะการเปลี่ยนแปลง"
-                          : "Points Update Status"}</TableCell>
+                          : "Points Update Status"}
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -1488,6 +1526,87 @@ const Acct = ({
                   setPointView(false);
                 }}>
                 {lang == "th" ? "ปิด" : "Close"}
+              </Button>
+            </DialogActions>
+          </>
+        </Dialog>
+
+        <Dialog open={edonate} maxWidth="xl">
+          <>
+            <DialogTitle id="alert-dialog-title">
+              <CardHeader
+                title={
+                  lang == "th"
+                    ? "สลิปโดเนทของคุณมีค่า สามารถนำมาและเปลี่ยนเป็น KorKao Points ใช้ร่วมกิจกรรมสุดพิเศษได้"
+                    : "KorKao E-Donate to KorKao Points Project"
+                }
+              />
+              <Divider className="mt-3" />
+            </DialogTitle>
+            <DialogContent className="m-md-3 m-1">
+              <Typography className="mt-2">
+                1. การโดเนทหรือสนับสนุนโปรเจคต่างๆกับบ้านกอข้าวทุกๆ 80 บาท
+                จะได้รับ 1 KorKao Points (ยอดโดเนทส่วนเกินที่ไม่ถึง 80
+                บาทจะไม่ได้นำไปคำนวน)
+              </Typography>
+              <Typography className="mt-2">
+                2.
+                ฟีเจอร์นี้รองรับเฉพาะการทำธุกรรมผ่านแอปธนาคารที่อยู่ในประเทศไทยเท่านั้น
+              </Typography>
+              <Typography className="mt-2">
+                2. สลิปของคุณจะต้องเป็นสลิปที่โอนเข้า<b>บัญชีธนาคารกสิกรไทย</b>{" "}
+                ภายใต้ชื่อบัญชี{" "}
+                <b>นายคมกฤษ ถาวรชีวัน และ นาย อนุชิต ชาอุรัมย์</b> เท่านั้น
+              </Typography>
+              <Typography className="mt-2">
+                3. สลิปจากการโดเนทจะต้องมีอายุไม่เกิน 7
+                วันนับจากวันเวลาที่บันทึกข้อมูลขึ้นเว็บไซต์นี้
+              </Typography>
+              <Typography className="mt-2">
+                4. สามารถอัปโหลดสลิปได้เพียง 1 ครั้งต่อวันต่อ 1 KorKao ID
+                เท่านั้น (กรณีดำเนินการสำเร็จหรือพบว่ายอดโดเนทไม่ถึงที่กำหนด)
+              </Typography>
+              <Button
+                component="label"
+                className="mt-3"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}>
+                เลือกสลิปในคลังรูปภาพ
+                <VisuallyHiddenInput
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  onChange={(event) => {
+                    reader(event.target.files[0], (err, res) => {
+                      setBase(res);
+                    });
+                    QrScanner.scanImage(event.target.files[0])
+                      .then((result) => setFile(result))
+                      .catch((error) => {
+                        setBase(null);
+                        Swal.fire({
+                          title: "ไม่พบ Micro QR จากรูปที่คุณเลือก",
+                          icon: "warning",
+                        });
+                      });
+                  }}
+                />
+              </Button>
+              {slipFile != null && (
+                <Typography className="mt-4" sx={{ wordBreak: "break-all" }}>
+                  Transaction Code: {slipFile}
+                </Typography>
+              )}
+            </DialogContent>
+            <DialogActions>
+              {slipFile != null && (
+                <Button onClick={() => {}}>อัปโหลดข้อมูล</Button>
+              )}
+              <Button
+                onClick={() => {
+                  setEdonate(false);
+                }}>
+                ปิด
               </Button>
             </DialogActions>
           </>
