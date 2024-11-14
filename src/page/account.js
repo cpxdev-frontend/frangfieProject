@@ -1594,7 +1594,7 @@ const Acct = ({
               </Button>
               {slipFile != null && (
                 <Typography className="mt-4" sx={{ wordBreak: "break-all" }}>
-                  Transaction Code: {slipFile}
+                   QR Code Detected: {slipFile}
                 </Typography>
               )}
             </DialogContent>
