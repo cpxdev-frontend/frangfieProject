@@ -937,7 +937,7 @@ function App({
 
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ zIndex: 1200, marginTop: 30 }}
+        sx={{ zIndex: 1200, marginTop: 10 }}
         open={point}>
         <Alert
           onClick={() => setDonatePoint(false)}

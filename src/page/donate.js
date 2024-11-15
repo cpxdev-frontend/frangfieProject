@@ -202,7 +202,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={point}
-          sx={{ zIndex: 1200, marginTop: 30 }}
+          sx={{ zIndex: 1200, marginTop: 10 }}
           onClick={() => His.push("/account?action=korkaoslip")}
           onClose={() => setDonatePoint(false)}>
           <Alert
