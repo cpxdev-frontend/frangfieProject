@@ -13,8 +13,8 @@ import {
   Tab,
   Typography,
   List,
-  ListItemButton,
-  ListItemAvatar,
+  Alert,
+  Snackbar,
   Skeleton,
   Backdrop,
   CircularProgress,
@@ -26,11 +26,13 @@ import {
 import Swal from "sweetalert2";
 import moment from "moment";
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
+import { useHistory } from "react-router-dom";
 
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { QRCode } from "react-qrcode-logo";
 import ReactGA from "react-ga4";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import Joyride from "react-joyride";
 import stepEn from "../stepGuide/en/donate";
@@ -75,6 +77,15 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiY3B4dGgyMDE3IiwiYSI6ImNsZHY0MzN6bTBjNzEzcXJmamJtN3BsZ3AifQ.mYNwWaYKsiLeYXngFDtaWQ";
 
 const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
+  const His = useHistory();
+  const {
+    loginWithPopup,
+    user,
+    isAuthenticated,
+    isLoading,
+    getAccessTokenSilently,
+    logout,
+  } = useAuth0();
   const [qrCode, setqrCode] = React.useState(
     generatePayload("004999166938497", {})
   );
@@ -89,6 +100,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
   const [exc, setExch] = React.useState([]);
   const [excDate, setExchd] = React.useState("");
   const [setexc, setSelctedExc] = React.useState("-");
+  const [point, setDonatePoint] = React.useState(false);
 
   React.useState(() => {
     setTimeout(() => {
@@ -118,7 +130,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
         //   moment().format("YYYY.M") +
         //   "/v1/currencies/thb.json?time=" +
         //   moment().unix(),
-        'https://latest.currency-api.pages.dev/v1/currencies/thb.json',
+        "https://latest.currency-api.pages.dev/v1/currencies/thb.json",
         {
           method: "get",
         }
@@ -159,6 +171,11 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
           link.click();
           setPrint(false);
           setLoad(false);
+          if (!isLoading && isAuthenticated) {
+            setTimeout(() => {
+              setDonatePoint(true);
+            }, 5000);
+          }
           if (change == false && mem == false) {
             mem = true;
             setTimeout(() => {
@@ -182,6 +199,20 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
   return (
     <Fade in={open} timeout={300}>
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={point}
+          sx={{ zIndex: 1200 }}
+          onClick={() => His.push("/account?action=korkaoslip")}
+          onClose={() => setDonatePoint(false)}>
+          <Alert
+            severity="primary"
+            variant="filled"
+            sx={{ width: "100%", color: "#fff" }}>
+            คุณสามารถนำสลิปที่ได้จากการโดเนทมาและเป็น KorKao Points ได้ที่นี่
+          </Alert>
+        </Snackbar>
+
         <CardHeader
           title={<h3>Fight for Kaofrang</h3>}
           data-tour="donate-1"
@@ -450,10 +481,10 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
             run={guide}
             styles={{
               options: {
-                arrowColor: '#fb61ee',
-                backgroundColor: '#f1cef2',
-                primaryColor: '#f526fc',
-                textColor: '#000'
+                arrowColor: "#fb61ee",
+                backgroundColor: "#f1cef2",
+                primaryColor: "#f526fc",
+                textColor: "#000",
               },
             }}
           />

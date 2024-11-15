@@ -416,6 +416,17 @@ const Acct = ({
   React.useEffect(() => {
     setPage("KorKao ID");
     fetchpoint();
+    if (!isLoading && isAuthenticated) {
+      var url = new URL(window.location.href);
+      var c = url.searchParams.get("action");
+      if (c != null && c == "korkaoslip") {
+        setEdonate(true);
+      }
+      const params = new URLSearchParams(url.search);
+      params.delete('action');
+      params.toString() === '' ? url.search = '' : url.search = '?' + params.toString();
+      window.history.replaceState({}, '', url.toString());
+    }
   }, [isAuthenticated]);
 
   if (isLoading) {
@@ -1594,7 +1605,7 @@ const Acct = ({
               </Button>
               {slipFile != null && (
                 <Typography className="mt-4" sx={{ wordBreak: "break-all" }}>
-                   QR Code Detected: {slipFile}
+                  QR Code Detected: {slipFile}
                 </Typography>
               )}
             </DialogContent>

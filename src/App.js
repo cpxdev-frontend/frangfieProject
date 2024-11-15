@@ -15,6 +15,8 @@ import {
   Slide,
   Tooltip,
   TextField,
+  Snackbar,
+  Alert,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -31,6 +33,7 @@ import {
   CircularProgress,
   Grow,
 } from "@mui/material";
+import CakeIcon from "@mui/icons-material/Cake";
 import Confetti from "react-confetti";
 import MenuIcon from "@mui/icons-material/Menu";
 import AOS from "aos";
@@ -189,6 +192,7 @@ function App({
   const [opacity, setOpacity] = React.useState(1); // เริ่มต้น opacity เต็ม
   const scrollRef = React.useRef(null); // เก็บ reference ของ element ที่ scroll
   const history = useHistory();
+  const [point, setDonatePoint] = React.useState(false);
 
   const targetTime = 1730448000;
 
@@ -524,6 +528,7 @@ function App({
       .then((result) => {
         if (result.response) {
           BirthdayEffect();
+          setDonatePoint(true);
         }
       })
       .catch((error) => console.log("error", error));
@@ -929,6 +934,24 @@ function App({
             : "This screen size is not support on this device. Please rotate your device screen."}
         </h5>
       </div>
+
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ zIndex: 1200 }}
+        open={point}>
+        <Alert
+          onClick={() => setDonatePoint(false)}
+          icon={<CakeIcon />}
+          severity="primary"
+          variant="filled"
+          sx={{ width: "100%", color: "#fff", cursor: "pointer" }}>
+          {lang == "th"
+            ? "ร่วมอวยพรวันเกิดข้าวฟ่างในวัย " +
+              (new Date().getFullYear() - 2002) +
+              " ปีไปด้วยกัน"
+            : "Happy Birthday to Kaofrang Yanisa in today."}
+        </Alert>
+      </Snackbar>
 
       {/* Mobile */}
       <Fade
