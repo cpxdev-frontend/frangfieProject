@@ -208,7 +208,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
           <Alert
             severity="primary"
             variant="filled"
-            sx={{ width: "100%", color: "#fff" }}>
+            sx={{ width: "100%", color: "#fff", cursor: "pointer" }}>
             คุณสามารถนำสลิปที่ได้จากการโดเนทมาและเป็น KorKao Points ได้ที่นี่
           </Alert>
         </Snackbar>

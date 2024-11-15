@@ -513,14 +513,14 @@ function App({
     AOS.init({ duration: 800 });
     setLaunch(moment().unix());
     setLaunchd(moment().unix());
-    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus?ok=kf", {
-      method: "POST",
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        setBirthday(result.response);
-      })
-      .catch((error) => console.log("error", error));
+    // fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus?ok=kf", {
+    //   method: "POST",
+    // })
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //     setBirthday(result.response);
+    //   })
+    //   .catch((error) => console.log("error", error));
     fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus", {
       method: "POST",
     })
@@ -692,223 +692,6 @@ function App({
         <div className="col-12">
           <h5>Please move out from Incognito Browser (InPrivate Browser)</h5>
         </div>
-      </div>
-    );
-  }
-
-  if (
-    localStorage.getItem("1967fe1d511c1de55dc3379b515df6f2") == null &&
-    launchredis > targetTime - 1209600 &&
-    launchredis < targetTime
-  ) {
-    ReactGA.initialize("G-HGFSHDZZMC");
-    document.title = "Lobby Room | KorKao FanSite";
-    ReactGA.send({
-      hitType: "pageview",
-      page: window.location.pathname,
-      title: "lobby room",
-    });
-    if (
-      timeLeft.months == 0 &&
-      timeLeft.days == 5 &&
-      timeLeft.hours == 0 &&
-      timeLeft.minutes == 0 &&
-      timeLeft.seconds <= 60
-    ) {
-      return (
-        <div className="video-container">
-          <video
-            className="overflow-hidden"
-            disablePictureInPicture
-            controlsList="nodownload nofullscreen noremoteplayback"
-            muted
-            autoPlay
-            style={{
-              pointerEvents: "none",
-              scrollbarWidth: "none",
-              top: "50%",
-              left: "50%",
-              maxWidth: "100%",
-              minHeight: "100%",
-              width: "auto",
-              height: "auto",
-              transform: "translate(-50%,-50%)",
-            }}
-            onEnded={() => setPreviewVideo(true)}
-            playsInline>
-            <source
-              src="https://d3hhrps04devi8.cloudfront.net/kf/korkaopre.mp4"
-              type="video/mp4"
-            />
-            Your browser does not support the video tag.
-          </video>
-          <Backdrop
-            sx={{
-              color: "#000",
-              zIndex: (theme) => theme.zIndex.drawer + 1,
-              backgroundColor: "rgb(248, 195, 248)",
-            }}
-            open={onvideo}
-            className="text-center">
-            <div className="row">
-              <div className="col-12">
-                <img
-                  src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
-                  width="150"
-                  className="mb-5"
-                />
-              </div>
-              <h5 className="col-12">
-                {lang == "th"
-                  ? "คุณกำลังเข้าสู่เว็บไซต์นี้ในอีก " +
-                    timeLeft.seconds +
-                    " วินาที"
-                  : "We are almost ready in " + timeLeft.seconds + " seconds"}
-              </h5>
-              <div className="col-12">
-                <LinearProgress
-                  className="d-initial"
-                  variant="determinate"
-                  sx={{ height: 5, width: "100%" }}
-                  value={((60 - (timeLeft.seconds - 1)) / 60) * 100}
-                />
-              </div>
-            </div>
-          </Backdrop>
-        </div>
-      );
-    }
-    if (
-      timeLeft.months == 0 &&
-      timeLeft.days == 0 &&
-      timeLeft.hours == 0 &&
-      timeLeft.minutes == 0 &&
-      timeLeft.seconds == 0
-    ) {
-      return (
-        <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={true}
-          className="text-center">
-          <div>
-            <img
-              src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
-              width="150"
-              className="mb-3"
-            />
-            <br />
-            <h4>
-              {lang == "th"
-                ? "เราพร้อมมอบประสบการณ์ของการเยี่ยมชมจักรวาลของข้าวฟ่างแล้ว!"
-                : "You are ready to move through The KorKao Universe!"}
-            </h4>
-          </div>
-        </Backdrop>
-      );
-    }
-    return (
-      <div className="video-container">
-        <video
-          className="overflow-hidden"
-          disablePictureInPicture
-          controlsList="nodownload nofullscreen noremoteplayback"
-          muted
-          autoPlay
-          style={{
-            pointerEvents: "none",
-            scrollbarWidth: "none",
-            top: "50%",
-            left: "50%",
-            maxWidth: "100%",
-            minHeight: "100%",
-            width: "auto",
-            height: "auto",
-            transform: "translate(-50%,-50%)",
-          }}
-          onEnded={() => setPreviewVideo(true)}
-          playsInline>
-          <source
-            src="https://d3hhrps04devi8.cloudfront.net/kf/korkaopre.mp4"
-            type="video/mp4"
-          />
-          Your browser does not support the video tag.
-        </video>
-        <Backdrop
-          sx={{
-            color: "#000",
-            pointerEvents: "initial",
-            zIndex: (theme) => theme.zIndex.drawer + 1,
-            backgroundColor: "rgb(248, 195, 248)",
-          }}
-          open={onvideo}
-          className="text-center">
-          <div>
-            <img
-              src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
-              width="150"
-              className="mb-3"
-            />
-            <br />
-            {lang == "th"
-              ? "เว็บไซต์นี้กำลังจะเปิดตัวในอีก " +
-                timeLeft.days +
-                " วัน " +
-                timeLeft.hours +
-                " ชั่วโมง " +
-                timeLeft.minutes +
-                " นาที " +
-                timeLeft.seconds +
-                " วินาที"
-              : "This website is soon in " +
-                timeLeft.days +
-                " days " +
-                timeLeft.hours +
-                " hours " +
-                timeLeft.minutes +
-                " minutes " +
-                timeLeft.seconds +
-                " seconds"}
-            <br />
-            <ToggleButtonGroup
-              color="primary"
-              className="mt-5"
-              value={lang}
-              disabled={locklang}
-              exclusive
-              onChange={(e) =>
-                e.target.value != lang && setLang(e.target.value)
-              }>
-              {langList.map((option) => (
-                <ToggleButton
-                  sx={{ borderRadius: 1 }}
-                  value={option.value}
-                  key={option.value}>
-                  {option.label}
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
-            <br />
-            <Button
-              className="ml-2 mt-1"
-              onClick={() => {
-                let person = prompt(
-                  "Enter your passkey hash to ready for testing."
-                );
-                if (
-                  person != null &&
-                  person === "1967fe1d511c1de55dc3379b515df6f2"
-                ) {
-                  localStorage.setItem(
-                    "1967fe1d511c1de55dc3379b515df6f2",
-                    "56f006fb7a76776e1e08eac264bd491aa1a066a1"
-                  );
-                  window.location.reload();
-                }
-              }}>
-              Developer mode
-            </Button>
-          </div>
-        </Backdrop>
       </div>
     );
   }
@@ -1739,11 +1522,11 @@ function App({
             />
             <Route data-aos="fade-in" path="/events" render={() => <Event />} />
             <Route data-aos="fade-in" path="/trend" render={() => <Trend />} />
-            <Route
+            {/* <Route
               data-aos="fade-in"
               path="/birthday"
               render={() => <Birth leftmode={false} opacity={opacity} />}
-            />
+            /> */}
             <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
             <Route
               data-aos="fade-in"
