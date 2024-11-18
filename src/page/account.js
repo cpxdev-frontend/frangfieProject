@@ -442,7 +442,7 @@ const Acct = ({
         notiId: atob(localStorage.getItem("osigIdPush")),
       }),
     };
-
+    setEdonate(false)
     setLoad(true);
     fetch(process.env.REACT_APP_APIE_2 + "/kfsite/exchangedonation", requestOptions)
       .then((response) => response.json())
@@ -456,9 +456,10 @@ const Acct = ({
           });
           fetchpoint();
         } else {
+          setEdonate(false)
           Swal.fire({
             title: result.message,
-            icon: "error",
+            icon: "warning",
           });
         }
       })
