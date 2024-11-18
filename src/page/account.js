@@ -429,6 +429,42 @@ const Acct = ({
     }
   }, [isAuthenticated]);
 
+  const QRDonate = () => {
+    var requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user.email,
+        provider: user.sub,
+        qrRef: slipFile,
+        notiId: atob(localStorage.getItem("osigIdPush")),
+      }),
+    };
+
+    setLoad(true);
+    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/exchangedonation", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setLoad(false);
+        if (result.status) {
+          Swal.fire({
+            title: 'คุณได้รับคะแนนเพิ่มแล้ว ขอบคุณสำหรับการสนับสนุนน้องข้าวฟ่าง',
+            message: 'KorKao Points ที่ได้รับ ' + result.earned + ' คะแนน',
+            icon: "success",
+          });
+          fetchpoint();
+        } else {
+          Swal.fire({
+            title: result.message,
+            icon: "error",
+          });
+        }
+      })
+      .catch((error) => console.log("error", error));
+  }
+
   if (isLoading) {
     return (
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
@@ -1611,7 +1647,7 @@ const Acct = ({
             </DialogContent>
             <DialogActions>
               {slipFile != null && (
-                <Button onClick={() => {}}>อัปโหลดข้อมูล</Button>
+                <Button onClick={() => QRDonate()}>อัปโหลดข้อมูล</Button>
               )}
               <Button
                 onClick={() => {
