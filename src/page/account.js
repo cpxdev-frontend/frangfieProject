@@ -456,7 +456,6 @@ const Acct = ({
           });
           fetchpoint();
         } else {
-          setEdonate(false)
           Swal.fire({
             title: result.message,
             icon: "warning",
