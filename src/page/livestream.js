@@ -148,7 +148,7 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
         }, 10);
       })
       .catch((error) => console.log("error", error));
-  }
+  };
 
   React.useEffect(() => {
     if (clip != null) {
@@ -186,39 +186,100 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
           data-tour="disco-1"
           subheader={
             lang == "th"
-                    ? "กิจกรรมถ่ายทอดสดกิจกรรมของน้องข้าวฟ่าง (อ้างอิงจาก Youtube)"
-                    : "All LIVE streaming contents (First performance or Press Performance) of Kaofrang Yanisa or Kaofrang BNK48 (From Youtube)"
+              ? "กิจกรรมถ่ายทอดสดกิจกรรมของน้องข้าวฟ่าง (อ้างอิงจาก Youtube)"
+              : "All LIVE streaming contents (First performance or Press Performance) of Kaofrang Yanisa or Kaofrang BNK48 (From Youtube)"
           }
         />
         <div className="container">
           <div className="mt-5" />
           {data2 != null ? (
             <Grid container spacing={2} ref={content} data-tour="disco-3">
-              {data2.length > PER_PAGE && (
-                <div className="col-md-12 d-flex justify-content-center mb-3">
-                  <Pagination
-                    count={count2}
-                    size="large"
-                    page={pageset2}
-                    onChange={handleChange2}
-                  />
-                </div>
-              )}
-              {_DATA2.currentData().map((item, i) => (
+              {data1.length > 0 ? (
+                <>
+                  {data2.length > PER_PAGE && (
+                    <div className="col-md-12 d-flex justify-content-center mb-3">
+                      <Pagination
+                        count={count2}
+                        size="large"
+                        page={pageset2}
+                        onChange={handleChange2}
+                      />
+                    </div>
+                  )}
+                  {_DATA2.currentData().map((item, i) => (
+                    <Card
+                      data-aos="fade-right"
+                      component={Grid}
+                      className="mb-3 ml-3 ml-lg-0"
+                      container
+                      key={item.snippet.resourceId.videoId}>
+                      <Grid xs={12}>
+                        <CardMedia
+                          sx={{ width: "100%" }}
+                          component="img"
+                          image={item.snippet.thumbnails.maxres.url}
+                          alt={item.snippet.title}
+                        />
+                      </Grid>
+                      <Grid
+                        item
+                        md
+                        sx={{ display: "flex", flexDirection: "column" }}>
+                        <CardContent sx={{ flex: "1 0 auto" }}>
+                          <Typography
+                            component="div"
+                            variant="h5"
+                            sx={{ fontSize: 22 }}>
+                            <b>{item.snippet.title}</b>
+                          </Typography>
+                          <small className="text-muted">
+                            {lang == "th" ? "อัปโหลดโดย " : "Uploaded by "}{" "}
+                            {item.snippet.videoOwnerChannelTitle}
+                          </small>
+                          <hr />
+                          <CardActionArea className="mt-5">
+                            <Button
+                              variant="outlined"
+                              className="text-success border-success m-1"
+                              onClick={() => setClip(item)}>
+                              {lang == "th" ? "รับชมคลิป" : "View Content"}
+                            </Button>
+                            <Button
+                              variant="outlined"
+                              className="text-primary border-primary m-1"
+                              onClick={() =>
+                                window.open(
+                                  "https://youtube.com/channel/" +
+                                    item.snippet.videoOwnerChannelId,
+                                  "_blank"
+                                )
+                              }>
+                              {lang == "th"
+                                ? "รับชมรายการอื่น"
+                                : "View other contents"}
+                            </Button>
+                          </CardActionArea>
+                        </CardContent>
+                      </Grid>
+                    </Card>
+                  ))}
+                  {data2.length > PER_PAGE && (
+                    <div className="col-md-12 d-flex justify-content-center mb-3">
+                      <Pagination
+                        count={count2}
+                        size="large"
+                        page={pageset2}
+                        onChange={handleChange2}
+                      />
+                    </div>
+                  )}
+                </>
+              ) : (
                 <Card
                   data-aos="fade-right"
                   component={Grid}
-                  className="mb-3 ml-3 ml-lg-0"
-                  container
-                  key={item.snippet.resourceId.videoId}>
-                  <Grid xs={12}>
-                    <CardMedia
-                      sx={{ width: "100%" }}
-                      component="img"
-                      image={item.snippet.thumbnails.maxres.url}
-                      alt={item.snippet.title}
-                    />
-                  </Grid>
+                  className="mb-3 text-center ml-3 ml-lg-0"
+                  container>
                   <Grid
                     item
                     md
@@ -227,49 +288,12 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
                       <Typography
                         component="div"
                         variant="h5"
-                        sx={{ fontSize: 22 }}>
-                        <b>{item.snippet.title}</b>
+                        sx={{ fontSize: 17 }}>
+                        <b>{lang == "th" ? "ยังไม่พบรายการสดในขณะนี้" : "LIVE streaming contents are not found"}</b>
                       </Typography>
-                      <small className="text-muted">
-                        {lang == "th" ? "อัปโหลดโดย " : "Uploaded by "}{" "}
-                        {item.snippet.videoOwnerChannelTitle}
-                      </small>
-                      <hr />
-                      <CardActionArea className="mt-5">
-                        <Button
-                          variant="outlined"
-                          className="text-success border-success m-1"
-                          onClick={() => setClip(item)}>
-                          {lang == "th" ? "รับชมคลิป" : "View Content"}
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          className="text-primary border-primary m-1"
-                          onClick={() =>
-                            window.open(
-                              "https://youtube.com/channel/" +
-                                item.snippet.videoOwnerChannelId,
-                              "_blank"
-                            )
-                          }>
-                          {lang == "th"
-                            ? "รับชมรายการอื่น"
-                            : "View other contents"}
-                        </Button>
-                      </CardActionArea>
                     </CardContent>
                   </Grid>
                 </Card>
-              ))}
-              {data2.length > PER_PAGE && (
-                <div className="col-md-12 d-flex justify-content-center mb-3">
-                  <Pagination
-                    count={count2}
-                    size="large"
-                    page={pageset2}
-                    onChange={handleChange2}
-                  />
-                </div>
               )}
             </Grid>
           ) : (
