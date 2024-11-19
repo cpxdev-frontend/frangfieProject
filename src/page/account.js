@@ -146,7 +146,12 @@ const Acct = ({
       }),
     };
 
-    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/checkevent", requestOptions)
+    fetch(
+      (Math.floor(Math.random() * 10) + 1 < 5
+        ? process.env.REACT_APP_APIE_1
+        : process.env.REACT_APP_APIE_2) + "/kfsite/checkevent",
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => {
         setLoad(false);
@@ -257,7 +262,12 @@ const Acct = ({
       }),
     };
 
-    fetch(process.env.REACT_APP_APIE + "/kfsite/joinevent", requestOptions)
+    fetch(
+      (Math.floor(Math.random() * 10) + 1 < 5
+        ? process.env.REACT_APP_APIE_1
+        : process.env.REACT_APP_APIE_2) + "/kfsite/joinevent",
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => {
         setLoad(false);
@@ -423,9 +433,11 @@ const Acct = ({
         setEdonate(true);
       }
       const params = new URLSearchParams(url.search);
-      params.delete('action');
-      params.toString() === '' ? url.search = '' : url.search = '?' + params.toString();
-      window.history.replaceState({}, '', url.toString());
+      params.delete("action");
+      params.toString() === ""
+        ? (url.search = "")
+        : (url.search = "?" + params.toString());
+      window.history.replaceState({}, "", url.toString());
     }
   }, [isAuthenticated]);
 
@@ -442,16 +454,20 @@ const Acct = ({
         notiId: atob(localStorage.getItem("osigIdPush")),
       }),
     };
-    setEdonate(false)
+    setEdonate(false);
     setLoad(true);
-    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/exchangedonation", requestOptions)
+    fetch(
+      process.env.REACT_APP_APIE_2 + "/kfsite/exchangedonation",
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => {
         setLoad(false);
         if (result.status) {
           Swal.fire({
-            title: 'คุณได้รับคะแนนเพิ่มแล้ว ขอบคุณสำหรับการสนับสนุนน้องข้าวฟ่าง',
-            message: 'KorKao Points ที่ได้รับ ' + result.earned + ' คะแนน',
+            title:
+              "คุณได้รับคะแนนเพิ่มแล้ว ขอบคุณสำหรับการสนับสนุนน้องข้าวฟ่าง",
+            message: "KorKao Points ที่ได้รับ " + result.earned + " คะแนน",
             icon: "success",
           });
           fetchpoint();
@@ -463,7 +479,7 @@ const Acct = ({
         }
       })
       .catch((error) => console.log("error", error));
-  }
+  };
 
   if (isLoading) {
     return (

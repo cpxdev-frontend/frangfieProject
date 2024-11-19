@@ -267,7 +267,9 @@ function App({
             };
 
             fetch(
-              process.env.REACT_APP_APIE_2 + "/kfsite/getairdrop",
+              (Math.floor(Math.random() * 10) + 1 < 5
+                ? process.env.REACT_APP_APIE_1
+                : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
               requestOptions
             )
               .then((response) => response.json())
@@ -306,7 +308,9 @@ function App({
           }),
         };
         fetch(
-          process.env.REACT_APP_APIE_2 + "/kfsite/getairdrop",
+          (Math.floor(Math.random() * 10) + 1 < 5
+            ? process.env.REACT_APP_APIE_1
+            : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
           requestOptions
         )
           .then((response) => response.json())
@@ -358,7 +362,9 @@ function App({
         };
 
         fetch(
-          process.env.REACT_APP_APIE_2 + "/kfsite/getairdrop",
+          (Math.floor(Math.random() * 10) + 1 < 5
+            ? process.env.REACT_APP_APIE_1
+            : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
           requestOptions
         )
           .then((response) => response.json())
@@ -1525,11 +1531,7 @@ function App({
             />
             <Route data-aos="fade-in" path="/events" render={() => <Event />} />
             <Route data-aos="fade-in" path="/trend" render={() => <Trend />} />
-            <Route
-              data-aos="fade-in"
-              path="/live"
-              render={() => <LIVE />}
-            />
+            <Route data-aos="fade-in" path="/live" render={() => <LIVE />} />
             <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
             <Route
               data-aos="fade-in"
