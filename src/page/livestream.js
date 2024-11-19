@@ -130,24 +130,33 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
       .catch((error) => console.log("error", error));
   }, []);
 
+  const fetchlive = () => {
+    var requestOptions = {
+      method: "POST",
+    };
+    fetch(
+      process.env.REACT_APP_APIE_2 +
+        "/kfsite/ytviewCount?islive=true&id=" +
+        clip.snippet.resourceId.videoId,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setView(0);
+        setTimeout(() => {
+          setView(parseInt(result));
+        }, 10);
+      })
+      .catch((error) => console.log("error", error));
+  }
+
   React.useEffect(() => {
     if (clip != null) {
-      var requestOptions = {
-        method: "POST",
-      };
-
       setTimeout(() => {
-        fetch(
-          process.env.REACT_APP_APIE_2 +
-            "/kfsite/ytviewCount?id=" +
-            clip.snippet.resourceId.videoId,
-          requestOptions
-        )
-          .then((response) => response.json())
-          .then((result) => {
-            setView(parseInt(result));
-          })
-          .catch((error) => console.log("error", error));
+        fetchlive();
+        setInterval(() => {
+          fetchlive();
+        }, 60000);
       }, 400);
     } else {
       setView(null);
