@@ -76,7 +76,7 @@ import GameD from "./page/gamedash";
 import Feed from "./page/update";
 import Donate from "./page/donate";
 import Follow from "./page/follow";
-import Birth from "./page/birth";
+import LIVE from "./page/livestream";
 import Account from "./page/account";
 import Err from "./page/error";
 
@@ -86,6 +86,7 @@ const pageSec = [
   "",
   "aboutkf",
   "discography",
+  "live",
   "birthday",
   "trend",
   "gallery",
@@ -99,6 +100,7 @@ const pagesEn = [
   "Home",
   "About Kaofrang",
   "Discography",
+  "LIVE Contents",
   "KF.Day Trend",
   "Trend Boost",
   "Gallery",
@@ -112,6 +114,7 @@ const pagesTh = [
   "หน้าหลัก",
   "เกี่ยวกับข้าวฟ่าง",
   "ผลงาน",
+  "กิจกรรมสด",
   "กิจกรรมอวยพรวันเกิด",
   "ปั่นเทรน",
   "คลังรูป",
@@ -1522,11 +1525,11 @@ function App({
             />
             <Route data-aos="fade-in" path="/events" render={() => <Event />} />
             <Route data-aos="fade-in" path="/trend" render={() => <Trend />} />
-            {/* <Route
+            <Route
               data-aos="fade-in"
-              path="/birthday"
-              render={() => <Birth leftmode={false} opacity={opacity} />}
-            /> */}
+              path="/live"
+              render={() => <LIVE />}
+            />
             <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
             <Route
               data-aos="fade-in"
