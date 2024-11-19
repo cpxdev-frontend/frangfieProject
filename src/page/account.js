@@ -457,7 +457,9 @@ const Acct = ({
     setEdonate(false);
     setLoad(true);
     fetch(
-      process.env.REACT_APP_APIE_2 + "/kfsite/exchangedonation",
+      (Math.floor(Math.random() * 10) + 1 < 5
+        ? process.env.REACT_APP_APIE_1
+        : process.env.REACT_APP_APIE_2) + "/kfsite/exchangedonation",
       requestOptions
     )
       .then((response) => response.json())
