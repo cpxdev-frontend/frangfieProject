@@ -111,7 +111,7 @@ const GalleryMod = ({
 
     thumb = false;
     fetch(
-      process.env.REACT_APP_APIE + "/kfsite/getgalleryeach?id=" + id,
+      process.env.REACT_APP_APIE_2 + "/kfsite/getgalleryeach?id=" + id,
       requestOptions
     )
       .then((response) => response.json())
