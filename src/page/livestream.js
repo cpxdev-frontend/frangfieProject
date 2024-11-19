@@ -194,7 +194,7 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
           <div className="mt-5" />
           {data2 != null ? (
             <Grid container spacing={2} ref={content} data-tour="disco-3">
-              {data1.length > 0 ? (
+              {data2.length > 0 ? (
                 <>
                   {data2.length > PER_PAGE && (
                     <div className="col-md-12 d-flex justify-content-center mb-3">
@@ -276,7 +276,6 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
                 </>
               ) : (
                 <Card
-                  data-aos="fade-right"
                   component={Grid}
                   className="mb-3 text-center ml-3 ml-lg-0"
                   container>
