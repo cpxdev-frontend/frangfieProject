@@ -148,7 +148,7 @@ const Acct = ({
 
     fetch(
       (Math.floor(Math.random() * 10) + 1 < 5
-        ? process.env.REACT_APP_APIE_1
+        ? process.env.REACT_APP_APIE
         : process.env.REACT_APP_APIE_2) + "/kfsite/checkevent",
       requestOptions
     )
@@ -264,7 +264,7 @@ const Acct = ({
 
     fetch(
       (Math.floor(Math.random() * 10) + 1 < 5
-        ? process.env.REACT_APP_APIE_1
+        ? process.env.REACT_APP_APIE
         : process.env.REACT_APP_APIE_2) + "/kfsite/joinevent",
       requestOptions
     )
@@ -458,7 +458,7 @@ const Acct = ({
     setLoad(true);
     fetch(
       (Math.floor(Math.random() * 10) + 1 < 5
-        ? process.env.REACT_APP_APIE_1
+        ? process.env.REACT_APP_APIE
         : process.env.REACT_APP_APIE_2) + "/kfsite/exchangedonation",
       requestOptions
     )
