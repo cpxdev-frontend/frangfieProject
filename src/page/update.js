@@ -89,7 +89,9 @@ const Event = ({ currentPage, lang, setLang, setPage, guide }) => {
             }
           />
         )}
+          
         <div className="container mt-3">
+        {/* <iframe width='340' height="300" src='https://www.facebook.com/v18.0/plugins/page.php?href=https://www.facebook.com/bnk48official.kaofrang&show_posts=true' /> */}
           {data != null ? (
             <Grid
               container
