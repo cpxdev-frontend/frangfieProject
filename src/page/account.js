@@ -1157,7 +1157,7 @@ const Acct = ({
                       />
                     </Typography>
                   </CardActionArea>
-                  <CardActions>
+                  <CardActions sx={{ display: { xs: "none", md: "initial" } }}>
                     <Button
                       sx={{ display: { xs: "block", md: "none" } }}
                       onClick={() =>
@@ -1194,6 +1194,43 @@ const Acct = ({
                         : "Transfer KorKao Points"}
                     </Button>
                   </CardActions>
+                  <CardContent sx={{ display: { xs: "block", md: "none" } }}>
+                    <Button
+                      sx={{ display: { xs: "block", md: "none" } }}
+                      onClick={() =>
+                        window.location.href.includes("localhost")
+                          ? setCheckevent(
+                              "B9CEFA4286CD4D0398DCED46D64A495468BB7EBAA9AF324613D7C42FF8A6721A1094F7BD4CB0B3AC8030EDCBB493CBC4"
+                            )
+                          : setGetData(true)
+                      }>
+                      {lang == "th"
+                        ? "สแกนเพื่อเข้าร่วมกิจกรรม"
+                        : "Scan to join event"}
+                    </Button>
+                    <Button onClick={() => setEdonate(true)}>
+                      {lang == "th"
+                        ? "รับ KorKao Points จากสลิปโดเนท"
+                        : "E-Donate to KorKao Points"}
+                    </Button>
+                    <Button
+                      disabled={true}
+                      onClick={() => {
+                        setTransModel(true);
+                        setTrans({
+                          sessionId: "",
+                          userId: user.email,
+                          target: "",
+                          amount: 0,
+                          expired: "",
+                          scale: 0,
+                        });
+                      }}>
+                      {lang == "th"
+                        ? "โอน KorKao Points ให้ผู้อื่น"
+                        : "Transfer KorKao Points"}
+                    </Button>
+                  </CardContent>
                 </CardContent>
               </Card>
 
