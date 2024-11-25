@@ -39,7 +39,7 @@
 }
 
 body {
-  font-family: 'misans';
+  font-family: "misans";
   background-color: #fad6f8;
 }
 
@@ -48,7 +48,7 @@ body {
   pointer-events: none;
 }
 
-.video-container>video {
+.video-container > video {
   position: fixed;
   overflow: hidden;
   top: 0;
@@ -58,18 +58,18 @@ body {
 }
 
 .map-container {
-  width: '100%';
+  width: "100%";
   height: 700px;
 }
 
 @media only screen and (max-width: 700px) {
   .map-container {
-    width: '100%';
+    width: "100%";
     height: 400px;
   }
 }
 
-.iconchoice{
+.iconchoice {
   background-color: #fb61ee !important;
 }
 
@@ -107,7 +107,7 @@ body {
 }
 
 .overlaytext {
-  color: #fff
+  color: #fff;
 }
 
 @media only screen and (max-width: 900px) {
@@ -127,7 +127,7 @@ body {
 
 @media only screen and (max-width: 800px) {
   .overlaytext {
-    color: #ffffff
+    color: #ffffff;
   }
 }
 
@@ -148,7 +148,7 @@ body {
     width: 100%;
     height: 100vh;
     pointer-events: none;
-    background-color: rgb(248, 195, 248)
+    background-color: rgb(248, 195, 248);
   }
 }
 
@@ -189,11 +189,10 @@ body {
 }
 
 .shake {
-  animation: shake 0.7s cubic-bezier(.215, .81, .365, .89) both;
+  animation: shake 0.7s cubic-bezier(0.215, 0.81, 0.365, 0.89) both;
 }
 
 @keyframes shake {
-
   0%,
   100% {
     transform: translateX(0);
@@ -219,16 +218,16 @@ body {
   z-index: 2147483647 !important;
   width: 100vw !important;
 }
-.airdropcontain{
+.airdropcontain {
   z-index: 12147483647 !important;
   width: 100vw !important;
 }
 
-.txtPost>img {
+.txtPost > img {
   width: 100% !important;
 }
 
-html>div[style] {
+html > div[style] {
   display: none !important;
 }
 
@@ -243,20 +242,31 @@ html>div[style] {
 }
 
 .newpcAppbar {
-  position: 'fixed';
+  position: "fixed";
   top: 0;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  background: linear-gradient(180deg, #fb61ee 0%, rgba(247, 138, 238, 0.89) 40%, rgba(247, 153, 239, 0.514) 80%, #ffffff00 100%) !important;
+  background: linear-gradient(
+    180deg,
+    #fb61ee 0%,
+    rgba(247, 138, 238, 0.89) 40%,
+    rgba(247, 153, 239, 0.514) 80%,
+    #ffffff00 100%
+  ) !important;
   box-shadow: none !important;
 }
 
 .newmobileAppbar {
-  position: 'fixed';
+  position: "fixed";
   top: 0;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  background: linear-gradient(180deg, #fb61ee 0%, rgba(247, 138, 238, 0.89) 30%, rgba(250, 97, 237, 0) 100%) !important;
+  background: linear-gradient(
+    180deg,
+    #fb61ee 0%,
+    rgba(247, 138, 238, 0.89) 30%,
+    rgba(250, 97, 237, 0) 100%
+  ) !important;
   box-shadow: none !important;
 }
 
@@ -283,30 +293,32 @@ html>div[style] {
   white-space: normal;
   word-break: break-all;
 }
-.MuiButtonBase-root{
+.MuiButtonBase-root {
   border-radius: 15px !important;
 }
-.MuiList-root, .MuiCard-root {
+.MuiList-root,
+.MuiCard-root {
   border-radius: 20px !important;
 }
-.MuiInputBase-root, .MuiDialog-paper, .galleryitem {
+.MuiInputBase-root,
+.MuiDialog-paper,
+.galleryitem {
   border-radius: 10px !important;
 }
-.foot{
+.foot {
   border-radius: 0px !important;
 }
 
-.__floater__open{
+.__floater__open {
   z-index: 1100 !important;
 }
-button .react-joyride__beacon{
+button .react-joyride__beacon {
   position: fixed !important;
   z-index: 9000 !important;
 }
-.MuiToggleButton-root{
+.MuiToggleButton-root {
   border-radius: 4px !important;
 }
-
 
 .scanner {
   aspect-ratio: 1;
@@ -320,6 +332,12 @@ button .react-joyride__beacon{
   max-width: 100%;
   max-height: 70%;
 }
-.MuiListItemText-root > p > p{
+.MuiListItemText-root > p > p {
   color: #555555 !important;
+}
+.MuiSlider-root {
+  pointer-events: none !important;
+}
+.MuiSlider-thumb {
+  pointer-events: all !important;
 }

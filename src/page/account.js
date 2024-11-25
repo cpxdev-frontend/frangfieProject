@@ -26,6 +26,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  TextField,
   ListItemAvatar,
   TableContainer,
   TableBody,
@@ -34,6 +35,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
+  Slider,
   styled,
 } from "@mui/material";
 import {
@@ -117,6 +119,18 @@ const Acct = ({
   const [edonate, setEdonate] = React.useState(false);
   const [slipFile, setFile] = React.useState(null);
   const [base, setBase] = React.useState(null);
+
+  const [transModel, setTransModel] = React.useState(false);
+  const [transReady, setTransReady] = React.useState(false);
+  const [trans, setTrans] = React.useState({
+    sessionId: "",
+    userId: "",
+    target: "",
+    amount: 0,
+    expired: "",
+    scale: 0,
+  });
+  const [transbot, setTransbot] = React.useState(false);
 
   const {
     loginWithPopup,
@@ -440,6 +454,218 @@ const Acct = ({
       window.history.replaceState({}, "", url.toString());
     }
   }, [isAuthenticated]);
+
+  const verifyEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const ev = emailRegex.test(trans.target);
+    if (!ev) {
+      Swal.fire({
+        title:
+          lang == "th"
+            ? "กรุณาตรวจสอบรูปแบบอีเมล์และลองอีกครั้ง"
+            : "Please check email format then try again.",
+        icon: "warning",
+      });
+      return;
+    }
+    if (trans.target == trans.userId) {
+      Swal.fire({
+        title:
+          lang == "th"
+            ? "คุณไม่สามารถโอน Points ไปยังไอดีเหมือนกันได้"
+            : "You cannot use same KorKao ID to transfer your Korkao Points",
+        icon: "warning",
+      });
+      return;
+    }
+
+    var requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user.email,
+        targetId: trans.target,
+      }),
+    };
+    setTransModel(false);
+    setLoad(true);
+    fetch(
+      (Math.floor(Math.random() * 10) + 1 < 5
+        ? process.env.REACT_APP_APIE
+        : process.env.REACT_APP_APIE_2) + "/kfsite/checkUserforTransfer",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setLoad(false);
+        setTransModel(true);
+        if (result.status) {
+          setTransReady(true);
+          setTrans({
+            ...trans,
+            sessionId: result.sessionId,
+            expired: result.expired,
+            scale: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
+          });
+        } else {
+          switch (result.error) {
+            case 0: {
+              Swal.fire({
+                title:
+                  lang == "th" ? "ไม่พบผู้ใช้งาน" : "This user is not found.",
+                icon: "warning",
+              });
+              break;
+            }
+            case 1: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "คุณได้ถูกระงับการโอนคะแนนชั่วคราวจนถึงวันที่ " +
+                      moment(result.expired)
+                        .local()
+                        .format("DD MMMM YYYY เวลา HH:mm")
+                    : "You are banned from transfer KorKao Points until " +
+                      moment(result.expired)
+                        .local()
+                        .format("DD MMMM YYYY HH:mm"),
+                icon: "warning",
+              });
+              break;
+            }
+            case 2: {
+              Swal.fire({
+                title:
+                  lang == "th" ? "ไม่พบผู้ใช้งาน" : "This user is not found.",
+                icon: "warning",
+              });
+              break;
+            }
+            case 3: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "กรุณาตรวจสอบคะแนนของคุณก่อนโอน"
+                    : "Check your KorKao Points before tarnsfer.",
+                icon: "warning",
+              });
+              break;
+            }
+            default: {
+              Swal.fire({
+                title: result.message,
+                icon: "error",
+              });
+              break;
+            }
+          }
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  const transHandle = () => {
+    var requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sessionId: trans.sessionId,
+        amount: trans.amount,
+        notiId: atob(localStorage.getItem("osigIdPush")),
+      }),
+    };
+    setTransModel(false);
+    setLoad(true);
+    fetch(
+      (Math.floor(Math.random() * 10) + 1 < 5
+        ? process.env.REACT_APP_APIE
+        : process.env.REACT_APP_APIE_2) + "/kfsite/gettransfer",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setLoad(false);
+        setTransReady(false);
+        setTransbot(false);
+        const email = trans.target;
+        setTrans({
+          sessionId: "",
+          userId: user.email,
+          target: "",
+          amount: 0,
+          expired: "",
+          scale: 0,
+        });
+        if (result.status) {
+          Swal.fire({
+            title:
+              lang == "th"
+                ? "โอนคะแนนไปยัง KorKao ID: " + email + " แล้ว"
+                : "Transfer KorKao Points to KorKao ID: " +
+                  email +
+                  " successfully.",
+            icon: "success",
+          });
+          fetchpoint();
+        } else {
+          switch (result.error) {
+            case 1: {
+              Swal.fire({
+                title: lang == "th" ? "เซสชั่นหมดอายุแล้ว" : "Session expired.",
+                icon: "warning",
+              });
+              break;
+            }
+            case 2: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "คุณได้ถูกระงับการโอนคะแนนชั่วคราวจนถึงวันที่ " +
+                      moment(result.expired)
+                        .local()
+                        .format("DD MMMM YYYY เวลา HH:mm")
+                    : "You are banned from transfer KorKao Points until " +
+                      moment(result.expired)
+                        .local()
+                        .format("DD MMMM YYYY HH:mm"),
+                icon: "warning",
+              });
+              break;
+            }
+            case 3: {
+              Swal.fire({
+                title:
+                  lang == "th" ? "ไม่พบผู้ใช้งาน" : "This user is not found.",
+                icon: "warning",
+              });
+              break;
+            }
+            case 4: {
+              Swal.fire({
+                title:
+                  lang == "th"
+                    ? "คะแนนน้อยเกินไป"
+                    : "KorKao Points is less than limit.",
+                icon: "warning",
+              });
+              break;
+            }
+            default: {
+              Swal.fire({
+                title: result.message,
+                icon: "error",
+              });
+              break;
+            }
+          }
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
 
   const QRDonate = () => {
     var requestOptions = {
@@ -949,6 +1175,23 @@ const Acct = ({
                       {lang == "th"
                         ? "รับ KorKao Points จากสลิปโดเนท"
                         : "E-Donate to KorKao Points"}
+                    </Button>
+                    <Button
+                      disabled={true}
+                      onClick={() => {
+                        setTransModel(true);
+                        setTrans({
+                          sessionId: "",
+                          userId: user.email,
+                          target: "",
+                          amount: 0,
+                          expired: "",
+                          scale: 0,
+                        });
+                      }}>
+                      {lang == "th"
+                        ? "โอน KorKao Points ให้ผู้อื่น"
+                        : "Transfer KorKao Points"}
                     </Button>
                   </CardActions>
                 </CardContent>
@@ -1546,40 +1789,42 @@ const Acct = ({
                         </TableRow>
                       ))
                     ) : (
-                      <Card>
-                        <CardContent>
-                          <Skeleton
-                            variant="text"
-                            className="bg-m"
-                            sx={{ fontSize: "2rem" }}
-                          />
-                          <Skeleton
-                            variant="text"
-                            className="bg-m"
-                            sx={{ fontSize: "1rem" }}
-                          />
-                          <Skeleton
-                            variant="text"
-                            className="bg-m"
-                            sx={{ fontSize: "1rem" }}
-                          />
-                          <Skeleton
-                            variant="text"
-                            className="bg-m"
-                            sx={{ fontSize: "1rem" }}
-                          />
-                          <Skeleton
-                            variant="text"
-                            className="bg-m"
-                            sx={{ fontSize: "1rem" }}
-                          />
-                          <Skeleton
-                            variant="text"
-                            className="bg-m"
-                            sx={{ fontSize: "1rem" }}
-                          />
-                        </CardContent>
-                      </Card>
+                      <TableCell colSpan={3}>
+                        <Card>
+                          <CardContent>
+                            <Skeleton
+                              variant="text"
+                              className="bg-m"
+                              sx={{ fontSize: "2rem" }}
+                            />
+                            <Skeleton
+                              variant="text"
+                              className="bg-m"
+                              sx={{ fontSize: "1rem" }}
+                            />
+                            <Skeleton
+                              variant="text"
+                              className="bg-m"
+                              sx={{ fontSize: "1rem" }}
+                            />
+                            <Skeleton
+                              variant="text"
+                              className="bg-m"
+                              sx={{ fontSize: "1rem" }}
+                            />
+                            <Skeleton
+                              variant="text"
+                              className="bg-m"
+                              sx={{ fontSize: "1rem" }}
+                            />
+                            <Skeleton
+                              variant="text"
+                              className="bg-m"
+                              sx={{ fontSize: "1rem" }}
+                            />
+                          </CardContent>
+                        </Card>
+                      </TableCell>
                     )}
                   </TableBody>
                 </Table>
@@ -1672,6 +1917,140 @@ const Acct = ({
                   setEdonate(false);
                 }}>
                 ปิด
+              </Button>
+            </DialogActions>
+          </>
+        </Dialog>
+
+        <Dialog open={transModel} maxWidth="xl">
+          <>
+            <DialogTitle id="alert-dialog-title">
+              <CardHeader
+                title={
+                  lang == "th"
+                    ? "การโอน KorKao Points"
+                    : "Transfer KorKao Points"
+                }
+              />
+              <Divider className="mt-3" />
+            </DialogTitle>
+            <DialogContent className="m-md-3 m-1">
+              <Typography className="mt-2">
+                {lang == "th"
+                  ? "คุณสามารถโอน KorKao Points ให้ผู้อื่นได้แล้ว โดยไม่มีขั้นต่ำ ทั้งนี้ เราไม่สนับสนุนให้นำไปใช้ในเชิงการค้าเช่นนำ KorKao Points ไปแลกเปลี่ยนเป็นเงินสดหรือ BNK Token หรือนำเงินสดหรือ BNK Token เพื่อแลกเปลี่ยนเป็น  KorKao Points ทั้งสิ้น หากตรวจพบการกระทำดังกล่าว ทีมงานของสงวนสิทธิ์ในการระงับการโอนชั่วคราวหรือถาวรได้ตามเหตุสมควร"
+                  : "You can now transfer KorKao Points to others without any minimum limit. However, we do not support using them for commercial purposes, such as exchanging KorKao Points for cash or BNK Token, or exchanging cash or BNK Token for KorKao Points. If such actions are detected, the team reserves the right to suspend the transfer temporarily or permanently as deemed appropriate."}
+              </Typography>
+              <Typography className="mt-2">
+                {lang == "th"
+                  ? "หมายเหตุ: คุณจำเป็นต้องมีคะแนนคงเหลืออย่างน้อย 1 คะแนนในบัญชีเพื่อไว้ในการยืนยันการเป็นสมาชิก"
+                  : "Note: You must maintain a minimum balance of at least 1 KorKao Points in your account for membership verification purposes."}
+              </Typography>
+              {trans.expired && (
+                <Typography className="mt-2 text-info">
+                  {lang == "th"
+                    ? "คุณสามารถโอนคะแนนภายในวันที่ " +
+                      moment(trans.expired)
+                        .local()
+                        .format("DD MMMM YYYY เวลา HH:mm")
+                    : "You can transfer KorKao Points until " +
+                      moment(trans.expired)
+                        .local()
+                        .format("DD MMMM YYYY HH:mm")}
+                </Typography>
+              )}
+              <TextField
+                label={
+                  lang == "th"
+                    ? "กรอกที่อยู่อีเมล์ที่ใช้ KorKao ID"
+                    : "Enter KorKao ID email address"
+                }
+                autoComplete="off"
+                value={trans.target}
+                className="mt-3"
+                onChange={(e) =>
+                  transReady
+                    ? null
+                    : setTrans({ ...trans, target: e.target.value })
+                }
+                fullWidth
+                variant="outlined"
+              />
+              {transReady && (
+                <>
+                  <TextField
+                    label={
+                      lang == "th"
+                        ? "กรอกจำนวนคะแนนที่คุณต้องการโอน"
+                        : "Enter your transfered KorKao Points"
+                    }
+                    autoComplete="off"
+                    type="number"
+                    helperText={
+                      lang == "th"
+                        ? "คะแนนของคุณ " + point + " KorKao Points"
+                        : "You have " + point + " KorKao Points"
+                    }
+                    value={trans.amount}
+                    className="mt-3"
+                    onChange={(e) => {
+                      if (
+                        parseInt(e.target.value) >= 0 &&
+                        parseInt(e.target.value) <= point
+                      ) {
+                        setTrans({
+                          ...trans,
+                          amount: parseInt(e.target.value),
+                        });
+                      } else {
+                        return null;
+                      }
+                    }}
+                    fullWidth
+                    variant="outlined"
+                  />
+                  <hr />
+                  <Typography>
+                    Please slide to precision spot to verify bot.
+                  </Typography>
+                  <Slider
+                    valueLabelDisplay="on"
+                    defaultValue={0}
+                    shiftStep={0}
+                    marks={[
+                      {
+                        value: trans.scale,
+                        label: "Precision Test (" + trans.scale + ")",
+                      },
+                    ]}
+                    max={100}
+                    onChange={(e) => {
+                      parseInt(e.target.value) === trans.scale
+                        ? setTransbot(true)
+                        : setTransbot(false);
+                    }}
+                  />
+                </>
+              )}
+            </DialogContent>
+            <DialogActions>
+              {transReady ? (
+                <Button
+                  onClick={() => transHandle()}
+                  disabled={transbot == false || trans.amount <= 0}>
+                  {lang == "th" ? "โอนคะแนน" : "Transfer"}
+                </Button>
+              ) : (
+                <Button onClick={() => verifyEmail()}>
+                  {lang == "th" ? "ตรวจสอบ" : "Check"}
+                </Button>
+              )}
+              <Button
+                onClick={() => {
+                  setTransModel(false);
+                  setTransReady(false);
+                  setTransbot(false);
+                }}>
+                {lang == "th" ? "ปิด" : "Close"}
               </Button>
             </DialogActions>
           </>
