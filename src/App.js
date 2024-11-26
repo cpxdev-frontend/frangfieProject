@@ -22,7 +22,7 @@ import {
   DialogContent,
   DialogActions,
   FormControlLabel,
-  LinearProgress,
+  Drawer,
   Switch,
   Skeleton,
   ToggleButtonGroup,
@@ -81,6 +81,8 @@ import Account from "./page/account";
 import Err from "./page/error";
 
 import { useAuth0 } from "@auth0/auth0-react";
+
+const DrawerBg = "rgba(220, 209, 215, 0.85)";
 
 const pageSec = [
   "",
@@ -776,12 +778,18 @@ function App({
                     />
                   )}
 
-                <Dialog
+                <Drawer
+                  anchor={"right"}
+                  PaperProps={{
+                    sx: {
+                      backdropFilter: "blur(5px)",
+                      background: DrawerBg,
+                      borderTopLeftRadius: 20,
+                      borderBottomLeftRadius: 20,
+                    },
+                  }}
                   open={anchorElNav}
-                  TransitionComponent={Transition}
-                  transitionDuration={400}
                   onClose={handleCloseNavMenu}
-                  maxWidth="xl"
                   sx={{ display: { xs: "initial", xl: "none" } }}>
                   <DialogTitle
                     sx={{
@@ -960,12 +968,7 @@ function App({
                       </Typography>
                     </Box>
                   </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleCloseNavMenu}>
-                      {lang == "th" ? "ปิด" : "Close"}
-                    </Button>
-                  </DialogActions>
-                </Dialog>
+                </Drawer>
               </Box>
 
               {location.pathname !== "/" &&
@@ -1104,12 +1107,16 @@ function App({
                   />
                 </IconButton>
 
-                <Dialog
+                <Drawer
+                  anchor={"right"}
+                  PaperProps={{
+                    sx: {
+                      backdropFilter: "blur(5px)",
+                      background: DrawerBg,
+                    },
+                  }}
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
-                  TransitionComponent={Transition}
-                  transitionDuration={400}
-                  maxWidth="xl"
                   sx={{ display: { xs: "none", xl: "initial" } }}>
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
@@ -1267,7 +1274,7 @@ function App({
                       {lang == "th" ? "ปิด" : "Close"}
                     </Button>
                   </DialogActions>
-                </Dialog>
+                </Drawer>
               </Box>
               <Avatar
                 sx={{
