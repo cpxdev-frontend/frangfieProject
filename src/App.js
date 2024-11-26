@@ -814,6 +814,17 @@ function App({
                           to={"/" + pageSec[i]}
                           onClick={handleCloseNavMenu}>
                           <Typography
+                            className={
+                              (pageSec[i] == "quizgame" &&
+                                location.pathname.includes(
+                                  "/quizgameresult/"
+                                )) ||
+                              (pageSec[i] == "gallery" &&
+                                location.pathname.includes("/gallery/")) ||
+                              location.pathname == "/" + pageSec[i]
+                                ? "text-bold"
+                                : ""
+                            }
                             textAlign="center"
                             sx={{
                               color:
@@ -840,6 +851,17 @@ function App({
                           onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
+                            className={
+                              (pageSec[i] == "quizgame" &&
+                                location.pathname.includes(
+                                  "/quizgameresult/"
+                                )) ||
+                              (pageSec[i] == "gallery" &&
+                                location.pathname.includes("/gallery/")) ||
+                              location.pathname == "/" + pageSec[i]
+                                ? "text-bold"
+                                : ""
+                            }
                             sx={{
                               color:
                                 (pageSec[i] == "quizgame" &&
@@ -1131,6 +1153,17 @@ function App({
                           onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
+                            className={
+                              (pageSec[i] == "quizgame" &&
+                                location.pathname.includes(
+                                  "/quizgameresult/"
+                                )) ||
+                              (pageSec[i] == "gallery" &&
+                                location.pathname.includes("/gallery/")) ||
+                              location.pathname == "/" + pageSec[i]
+                                ? "text-bold"
+                                : ""
+                            }
                             sx={{
                               color:
                                 (pageSec[i] == "quizgame" &&
@@ -1156,6 +1189,17 @@ function App({
                           onClick={handleCloseNavMenu}>
                           <Typography
                             textAlign="center"
+                            className={
+                              (pageSec[i] == "quizgame" &&
+                                location.pathname.includes(
+                                  "/quizgameresult/"
+                                )) ||
+                              (pageSec[i] == "gallery" &&
+                                location.pathname.includes("/gallery/")) ||
+                              location.pathname == "/" + pageSec[i]
+                                ? "text-bold"
+                                : ""
+                            }
                             sx={{
                               color:
                                 (pageSec[i] == "quizgame" &&

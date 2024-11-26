@@ -341,3 +341,6 @@ button .react-joyride__beacon {
 .MuiSlider-thumb {
   pointer-events: all !important;
 }
+.text-bold, button .MuiToggleButton-root .Mui-selected{
+  font-weight: 650 !important;
+}
