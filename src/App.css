@@ -342,5 +342,5 @@ button .react-joyride__beacon {
   pointer-events: all !important;
 }
 .text-bold, button .MuiToggleButton-root .Mui-selected{
-  font-weight: 650 !important;
+  font-weight: 500 !important;
 }
