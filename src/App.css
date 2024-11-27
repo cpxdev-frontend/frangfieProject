@@ -344,3 +344,6 @@ button .react-joyride__beacon {
 .text-bold, button .MuiToggleButton-root .Mui-selected{
   font-weight: 600 !important;
 }
+.muiLang > .Mui-selected, .text-pink {
+  color: #b802a8 !important;
+}
