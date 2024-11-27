@@ -1158,7 +1158,7 @@ const Acct = ({
                     </Typography>
                   </CardActionArea>
                   <CardActions sx={{ display: { xs: "none", md: "initial" } }}>
-                    {/* <Button
+                    <Button
                       sx={{ display: { xs: "block", md: "none" } }}
                       onClick={() =>
                         window.location.href.includes("localhost")
@@ -1171,7 +1171,7 @@ const Acct = ({
                         ? "สแกนเพื่อเข้าร่วมกิจกรรม"
                         : "Scan to join event"}
                     </Button>
-                    <Button onClick={() => setEdonate(true)}>
+                    {/* <Button onClick={() => setEdonate(true)}>
                       {lang == "th"
                         ? "รับ KorKao Points จากสลิปโดเนท"
                         : "E-Donate to KorKao Points"}
