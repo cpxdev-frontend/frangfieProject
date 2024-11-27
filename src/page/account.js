@@ -115,6 +115,7 @@ const Acct = ({
   const [point, setPoint] = React.useState(null);
   const [viewPoint, setPointView] = React.useState(false);
   const [pointHis, setHis] = React.useState(null);
+  const [amount, setAmount] = React.useState(0);
 
   const [edonate, setEdonate] = React.useState(false);
   const [slipFile, setFile] = React.useState(null);
@@ -667,7 +668,7 @@ const Acct = ({
       .catch((error) => console.log("error", error));
   };
 
-  const QRDonate = () => {
+  const APIQR = () => {
     var requestOptions = {
       method: "PUT",
       headers: {
@@ -680,8 +681,6 @@ const Acct = ({
         notiId: atob(localStorage.getItem("osigIdPush")),
       }),
     };
-    setEdonate(false);
-    setLoad(true);
     fetch(
       (Math.floor(Math.random() * 10) + 1 < 5
         ? process.env.REACT_APP_APIE
@@ -707,6 +706,64 @@ const Acct = ({
         }
       })
       .catch((error) => console.log("error", error));
+  };
+
+  const QRDonate = () => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      refNbr: slipFile,
+      amount: amount,
+      token: "7e4e5ff3-5fcf-467c-8811-658a7dc27cfe",
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    setEdonate(false);
+    setLoad(true);
+    fetch("https://api.openslipverify.com/", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.success == true) {
+          const time = moment(
+            result.data.transDate + result.data.transTime,
+            "YYYYMMDDHH:mm",
+            "Asia/Bangkok"
+          ).utc();
+          if (
+            result.data.receivingBank === "004" &&
+            result.data.receiver.name ===
+              "MR. KOMKRIT TAVORNSHEVIN AND MR. ANUCHIT SA-URUM" &&
+            time >= moment().subtract(7, "d").utc()
+          ) {
+            setAmount(0);
+            APIQR();
+          } else {
+            setLoad(false);
+            setEdonate(true);
+            setAmount(0);
+            Swal.fire({
+              title: "สลิปไม่ถูกต้อง หรือหมดอายุการใช้งานแล้ว",
+              icon: "warning",
+            });
+          }
+        } else {
+          setLoad(false);
+          setEdonate(true);
+          setAmount(0);
+          Swal.fire({
+            title: "พบข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+            icon: "warning",
+            footer: "ข้อผิดพลาดจากระบบ: " + result.msg
+          });
+        }
+      })
+      .catch((error) => console.error(error));
   };
 
   if (isLoading) {
@@ -1171,11 +1228,11 @@ const Acct = ({
                         ? "สแกนเพื่อเข้าร่วมกิจกรรม"
                         : "Scan to join event"}
                     </Button>
-                    {/* <Button onClick={() => setEdonate(true)}>
+                    <Button onClick={() => setEdonate(true)}>
                       {lang == "th"
                         ? "รับ KorKao Points จากสลิปโดเนท"
                         : "E-Donate to KorKao Points"}
-                    </Button> */}
+                    </Button>
                     <Button
                       disabled={true}
                       onClick={() => {
@@ -1208,11 +1265,11 @@ const Acct = ({
                         ? "สแกนเพื่อเข้าร่วมกิจกรรม"
                         : "Scan to join event"}
                     </Button>
-                    {/* <Button onClick={() => setEdonate(true)}>
+                    <Button onClick={() => setEdonate(true)}>
                       {lang == "th"
                         ? "รับ KorKao Points จากสลิปโดเนท"
                         : "E-Donate to KorKao Points"}
-                    </Button> */}
+                    </Button>
                     <Button
                       disabled={true}
                       onClick={() => {
@@ -1944,14 +2001,35 @@ const Acct = ({
                   QR Code Detected: {slipFile}
                 </Typography>
               )}
+              {slipFile != null && (
+                <TextField
+                  label={
+                    lang == "th"
+                      ? "กรุณาระบุจำนวนเงิน"
+                      : "Please enter your amount"
+                  }
+                  autoComplete="off"
+                  type="number"
+                  value={amount}
+                  className="mt-3"
+                  onChange={(e) =>
+                    parseFloat(e.target.value) >= 1
+                      ? setAmount(parseFloat(e.target.value))
+                      : null
+                  }
+                  fullWidth
+                  variant="outlined"
+                />
+              )}
             </DialogContent>
             <DialogActions>
               {slipFile != null && (
-                <Button onClick={() => QRDonate()}>อัปโหลดข้อมูล</Button>
+                <Button disabled={amount < 1} onClick={() => QRDonate()}>อัปโหลดข้อมูล</Button>
               )}
               <Button
                 onClick={() => {
                   setEdonate(false);
+                  setAmount(0);
                 }}>
                 ปิด
               </Button>
