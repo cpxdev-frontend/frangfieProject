@@ -908,7 +908,7 @@ function App({
                             <Button onClick={() => getout()}>Sign-out</Button>
                           </CardActions>
                         ) : (
-                          <CardActions>
+                          <CardActions sx={{ width: 270 }}>
                             <Button onClick={() => loginWithPopup()}>
                               Become or Log-in to KorKao ID
                             </Button>
@@ -1245,7 +1245,7 @@ function App({
                             <Button onClick={() => getout()}>Sign-out</Button>
                           </CardActions>
                         ) : (
-                          <CardActions>
+                          <CardActions sx={{ width: 270 }}>
                             <Button onClick={() => loginWithPopup()}>
                               Become or Log-in to KorKao ID
                             </Button>
@@ -1460,7 +1460,7 @@ function App({
                           <Button onClick={() => getout()}>Sign-out</Button>
                         </CardActions>
                       ) : (
-                        <CardActions>
+                        <CardActions sx={{ width: 270 }}>
                           <Button onClick={() => loginWithPopup()}>
                             Become or Log-in to KorKao ID
                           </Button>
