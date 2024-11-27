@@ -896,7 +896,7 @@ function App({
                           </CardContent>
                         )}
                         {isAuthenticated ? (
-                          <CardActions>
+                          <CardActions sx={{ width: 270 }}>
                             <Button
                               onClick={() => {
                                 history.push("/account");
@@ -1233,7 +1233,7 @@ function App({
                           </CardContent>
                         )}
                         {isAuthenticated ? (
-                          <CardActions>
+                          <CardActions sx={{ width: 270 }}>
                             <Button
                               onClick={() => {
                                 history.push("/account");
@@ -1448,7 +1448,7 @@ function App({
                         </CardContent>
                       )}
                       {isAuthenticated ? (
-                        <CardActions>
+                        <CardActions sx={{ width: 270 }}>
                           <Button
                             onClick={() => {
                               history.push("/account");
