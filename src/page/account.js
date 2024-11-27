@@ -1228,11 +1228,11 @@ const Acct = ({
                         ? "สแกนเพื่อเข้าร่วมกิจกรรม"
                         : "Scan to join event"}
                     </Button>
-                    <Button onClick={() => setEdonate(true)}>
+                    {/* <Button onClick={() => setEdonate(true)}>
                       {lang == "th"
                         ? "รับ KorKao Points จากสลิปโดเนท"
                         : "E-Donate to KorKao Points"}
-                    </Button>
+                    </Button> */}
                     <Button
                       disabled={true}
                       onClick={() => {
@@ -1265,11 +1265,11 @@ const Acct = ({
                         ? "สแกนเพื่อเข้าร่วมกิจกรรม"
                         : "Scan to join event"}
                     </Button>
-                    <Button onClick={() => setEdonate(true)}>
+                    {/* <Button onClick={() => setEdonate(true)}>
                       {lang == "th"
                         ? "รับ KorKao Points จากสลิปโดเนท"
                         : "E-Donate to KorKao Points"}
-                    </Button>
+                    </Button> */}
                     <Button
                       disabled={true}
                       onClick={() => {
