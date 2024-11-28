@@ -2010,6 +2010,9 @@ const Acct = ({
                   }
                   autoComplete="off"
                   type="number"
+                  helperText={lang == "th"
+                    ? "หมายเหตุ: จำนวนเงินต้องตรงกับสลิปที่อัปโหลด"
+                    : "Notes: Amount need to matched with in Slip"}
                   value={amount}
                   className="mt-3"
                   onChange={(e) =>
