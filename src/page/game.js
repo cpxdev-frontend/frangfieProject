@@ -493,7 +493,7 @@ const GameApp = ({
                 title="Quiz Game"
                 subheader={
                   lang == "th"
-                    ? "คำถามพิชิตสุดยอดกองฟ่างของข้าวฟ่าง"
+                    ? "คำถามพิชิตสุดยอดกอข้าวของข้าวฟ่าง"
                     : "KorKao Fandom Quiz"
                 }
               />
