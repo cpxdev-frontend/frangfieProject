@@ -69,7 +69,6 @@ import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useAuth0 } from "@auth0/auth0-react";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 
 import Joyride from "react-joyride";
 import stepEn from "../stepGuide/en/gallery";
@@ -136,14 +135,12 @@ const Acct = ({
 
   const {
     loginWithPopup,
-    // user,
-    // isAuthenticated,
-    // isLoading,
+    user,
+    isAuthenticated,
+    isLoading,
     getAccessTokenSilently,
     logout,
   } = useAuth0();
-  const { login, register, getUser, user, isAuthenticated, isLoading } =
-    useKindeAuth();
 
   const setCheckevent = (code) => {
     if (load == true) {
@@ -160,7 +157,7 @@ const Acct = ({
       body: JSON.stringify({
         encId: code,
         userId: user.email,
-        provider: user.id,
+        provider: user.sub,
       }),
     };
 
@@ -274,8 +271,8 @@ const Acct = ({
       body: JSON.stringify({
         encId: eventId,
         userId: user.email,
-        userName: user.given_name != undefined ? user.given_name + " " + user.family_name : user.name,
-        provider: user.id,
+        userName: user.given_name != null ? user.given_name : user.name,
+        provider: user.sub,
         notiId: atob(localStorage.getItem("osigIdPush")),
       }),
     };
@@ -410,10 +407,7 @@ const Acct = ({
       };
 
       setPoint(null);
-      fetch(
-        process.env.REACT_APP_APIE_2 + "/kfsite/getPoint",
-        requestOptions
-      )
+      fetch(process.env.REACT_APP_APIE_2 + "/kfsite/getPoint", requestOptions)
         .then((response) => response.json())
         .then((result) => {
           if (result.status) {
@@ -682,7 +676,7 @@ const Acct = ({
       },
       body: JSON.stringify({
         userId: user.email,
-        provider: user.id,
+        provider: user.sub,
         qrRef: slipFile,
         notiId: atob(localStorage.getItem("osigIdPush")),
       }),
@@ -765,7 +759,7 @@ const Acct = ({
           Swal.fire({
             title: "พบข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
             icon: "warning",
-            footer: "ข้อผิดพลาดจากระบบ: " + result.msg,
+            footer: "ข้อผิดพลาดจากระบบ: " + result.msg
           });
         }
       })
@@ -852,8 +846,7 @@ const Acct = ({
                   sx={{
                     width: "100%",
                     bgcolor: "background.paper",
-                  }}
-                >
+                  }}>
                   <ListItem className="mb-5">
                     <ListItemAvatar>
                       <Avatar className="iconchoice">
@@ -918,8 +911,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "ดูโปรไฟล์ของน้องหรือ เพลงและคอนเทนต์ต่างๆของน้องข้าวฟ่าง"
@@ -937,8 +929,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "ดูกิจกรรมของข้าวฟ่างและเปิดการแจ้งเตือนกิจกรรมแบบเรียลไทม์"
@@ -956,8 +947,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "เล่นมินิเกมส์พร้อมกับดูคะแนนเฉลี่ยจากผู้เล่นทั่วโลก"
@@ -975,8 +965,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "การเข้าร่วมกิจกรรมที่จัดขึ้นโดยบ้านกอข้าว"
@@ -994,8 +983,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "ดูคะแนนและประวัติการเล่นมินิเกมส์ของคุณได้สูงสุด 1 ปี"
@@ -1013,8 +1001,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "การสะสมคะแนนเพื่อลุ้นของรางวัล หรือการเข้าร่วมกิจกรรมที่ต้องใช้คะแนน (KorKao Points)"
@@ -1044,7 +1031,7 @@ const Acct = ({
                       }
                       secondary={
                         lang == "th"
-                          ? "ผู้พัฒนาต้องการเข้าถึงข้อมูลส่วนบุคคลได้แก่ชื่อผู้ใช้ ที่อยู่อีเมล และ Provider ที่คุณเข้าใช้ โดยที่เราจะเรียกใช้ข้อมูลของคุณเมื่อคุณยินยอมการเข้าร่วมกิจกรรมนั้นๆ และจะนำข้อมูลดังกล่าวไปใช้ในวัตถุประสงค์ที่เกี่ยวข้องกับกิจกรรมนั้น หลังจากนั้นเราจะลบข้อมูลผู้เข้าร่วมกิจกรรมทั้งหมดเป็นเวลาภายใน 30 วันนับจากวันที่ปิดกิจกรรมนั้นๆ นอกจากนี้ คุณสามารถเข้าไปที่หน้าจัดการบัญชีผู้ใช้ของคุณบนเว็บไซต์ Provider ที่คุณเข้าใช้งานเพื่อแก้ไขข้อมูลของคุณได้ โดยที่ทางผู้พัฒนาจะไม่มีสิทธิ์การเข้าถึงการแก้ไขข้อมูลส่วนบุคคลของคุณแต่อย่างใด"
+                          ? "ผู้พัฒนาต้องการเข้าถึงข้อมูลส่วนบุคคลได้แก่ชื่อผู้ใช้ ที่อยู่อีเมล และ Provider ที่คุณเข้าใช้ โดยที่เราจะเรียกใช้ข้อมูลของคุณเมื่อคุณยินยอมการเข้าร่วมกิจกรรมนั้นๆ และจะนำข้อมูลดังกล่าวไปใช้ในวัตถุประสงค์ที่เกี่ยวข้องกับกิจกรรมนั้น หลังจากนั้นเราจะลบข้อมูลผู้เข้าร่วมกิจกรรมทั้งหมดเป็นเวลาภายใน 30 วันนับจากวันที่ปิดกิจกรรมนั้นๆ นอกจากนี้ คุณสามารถเข้าไปที่หน้าจัดการบัญชีผู้ใช้ของคุณบนเว็บไซต์ Provider ที่คุณเข้าใช้งานเพื่อก้ไขข้อมูลของคุณได้ โดยที่ทางผู้พัฒนาจะไม่มีสิทธิ์การเข้าถึงการแก้ไขข้อมูลส่วนบุคคลของคุณแต่อย่างใด"
                           : "The developer needs to access personal information such as your username, email address, and the provider you are using. We will only retrieve your information when you consent to participate in that activity, and this data will be used for purposes related to that activity. Afterward, all participant data will be deleted within 30 days from the closure of the activity. Additionally, you can visit your account management page on the provider's website to modify your information, and the developer will not have the right to modify your personal data in any way."
                       }
                     />
@@ -1063,8 +1050,8 @@ const Acct = ({
                       }
                       secondary={
                         lang == "th"
-                          ? "คุณสามารถเลือกเข้าสู่ระบบได้จาก Provider ที่เราเปิดบริการ ได้แก่ Google หรือเข้าสู่ระบบด้วย Email with Passwordless หากคุณมีบัญชีอย่างน้อยหนึ่งในสองผู้ให้บริการนี้ คุณสามารถเข้าสู่ระบบ KorKao ID และใช้งานได้ทันที และสมาชิกใหม่จะได้รับ 1 KorKao Points ทันทีเมื่อมีการเข้าใช้งานครั้งแรก"
-                          : "You can log in using our authorized provider like Google, or Passwordless Login with Email. If you have an account with at least one of these both providers, you can log into KorKao ID and start using it immediately. Additionally, new members will receive 1 KorKao Point upon their first login."
+                          ? "คุณสามารถเลือกเข้าสู่ระบบได้จาก 1 ใน 3 Provider ที่เราเปิดบริการ ได้แก่ Google, Microsoft และ Spotify หากคุณมีบัญชีอย่างน้อยหนึ่งในสามผู้ให้บริการนี้ คุณสามารถเข้าสู่ระบบ KorKao ID และใช้งานได้ทันทีโดยไม่ต้องกรอกข้อมูลใดๆ และสมาชิกใหม่จะได้รับ 1 KorKao Points ทันทีเมื่อมีการเข้าใช้งานครั้งแรก"
+                          : "You can log in using one of the three providers we offer: Google, Microsoft, or Spotify. If you have an account with at least one of these three providers, you can log into KorKao ID and start using it immediately without entering any information. Additionally, new members will receive 1 KorKao Point upon their first login."
                       }
                     />
                   </ListItem>
@@ -1092,8 +1079,7 @@ const Acct = ({
                   sx={{
                     width: "100%",
                     bgcolor: "background.paper",
-                  }}
-                >
+                  }}>
                   <ListItem className="mb-5">
                     <ListItemAvatar>
                       <Avatar className="iconchoice">
@@ -1175,17 +1161,43 @@ const Acct = ({
                         sx={{ width: 80, height: 80 }}
                         src={user.picture}
                         className="mr-md-2 mr-0"
-                        aria-label="recipe"
-                      ></Avatar>
+                        aria-label="recipe"></Avatar>
                     }
-                    title={<h3>{user.given_name != undefined ? user.given_name + " " + user.family_name : user.email}</h3>}
+                    title={user.name}
                     subheader={"ID: " + user.email}
+                    action={
+                      <IconButton
+                        aria-label="google"
+                        onClick={() =>
+                          window.open(
+                            user.sub.includes("google")
+                              ? "https://myaccount.google.com/"
+                              : user.sub.includes("windowslive")
+                              ? "https://account.microsoft.com"
+                              : user.sub.includes("spotify")
+                              ? "https://www.spotify.com/account/overview"
+                              : null,
+                            "_blank"
+                          )
+                        }>
+                        <FontAwesomeIcon
+                          icon={
+                            user.sub.includes("google")
+                              ? faGoogle
+                              : user.sub.includes("windowslive")
+                              ? faMicrosoft
+                              : user.sub.includes("spotify")
+                              ? faSpotify
+                              : null
+                          }
+                        />
+                      </IconButton>
+                    }
                   />
                   <CardActionArea
                     onClick={() => {
                       point != null && setPointView(true);
-                    }}
-                  >
+                    }}>
                     <Typography className="ml-3">
                       {point != null ? (
                         lang == "th" ? (
@@ -1211,8 +1223,7 @@ const Acct = ({
                               "B9CEFA4286CD4D0398DCED46D64A495468BB7EBAA9AF324613D7C42FF8A6721A1094F7BD4CB0B3AC8030EDCBB493CBC4"
                             )
                           : setGetData(true)
-                      }
-                    >
+                      }>
                       {lang == "th"
                         ? "สแกนเพื่อเข้าร่วมกิจกรรม"
                         : "Scan to join event"}
@@ -1234,8 +1245,7 @@ const Acct = ({
                           expired: "",
                           scale: 0,
                         });
-                      }}
-                    >
+                      }}>
                       {lang == "th"
                         ? "โอน KorKao Points ให้ผู้อื่น"
                         : "Transfer KorKao Points"}
@@ -1250,8 +1260,7 @@ const Acct = ({
                               "B9CEFA4286CD4D0398DCED46D64A495468BB7EBAA9AF324613D7C42FF8A6721A1094F7BD4CB0B3AC8030EDCBB493CBC4"
                             )
                           : setGetData(true)
-                      }
-                    >
+                      }>
                       {lang == "th"
                         ? "สแกนเพื่อเข้าร่วมกิจกรรม"
                         : "Scan to join event"}
@@ -1273,8 +1282,7 @@ const Acct = ({
                           expired: "",
                           scale: 0,
                         });
-                      }}
-                    >
+                      }}>
                       {lang == "th"
                         ? "โอน KorKao Points ให้ผู้อื่น"
                         : "Transfer KorKao Points"}
@@ -1301,8 +1309,7 @@ const Acct = ({
                     sx={{
                       width: "100%",
                       bgcolor: "background.paper",
-                    }}
-                  >
+                    }}>
                     <ListItem className="mb-5">
                       <ListItemAvatar>
                         <Avatar className="iconchoice">
@@ -1367,8 +1374,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "ดูโปรไฟล์ของน้องหรือ เพลงและคอนเทนต์ต่างๆของน้องข้าวฟ่าง"
@@ -1386,8 +1392,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "ดูกิจกรรมของข้าวฟ่างและเปิดการแจ้งเตือนกิจกรรมแบบเรียลไทม์"
@@ -1405,8 +1410,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "เล่นมินิเกมส์พร้อมกับดูคะแนนเฉลี่ยจากผู้เล่นทั่วโลก"
@@ -1424,8 +1428,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "การเข้าร่วมกิจกรรมที่จัดขึ้นโดยบ้านกอข้าว"
@@ -1443,8 +1446,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "ดูคะแนนและประวัติการเล่นมินิเกมส์ของคุณได้สูงสุด 1 ปี"
@@ -1462,8 +1464,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "การสะสมคะแนนเพื่อลุ้นของรางวัล หรือการเข้าร่วมกิจกรรมที่ต้องใช้คะแนน (KorKao Points)"
@@ -1512,8 +1513,8 @@ const Acct = ({
                         }
                         secondary={
                           lang == "th"
-                            ? "คุณสามารถเลือกเข้าสู่ระบบได้จาก Provider ที่เราเปิดบริการ ได้แก่ Google หรือเข้าสู่ระบบด้วย Email with Passwordless หากคุณมีบัญชีอย่างน้อยหนึ่งในสองผู้ให้บริการนี้ คุณสามารถเข้าสู่ระบบ KorKao ID และใช้งานได้ทันที และสมาชิกใหม่จะได้รับ 1 KorKao Points ทันทีเมื่อมีการเข้าใช้งานครั้งแรก"
-                            : "You can log in using our authorized provider like Google, or Passwordless Login with Email. If you have an account with at least one of these both providers, you can log into KorKao ID and start using it immediately. Additionally, new members will receive 1 KorKao Point upon their first login."
+                            ? "คุณสามารถเลือกเข้าสู่ระบบได้จาก 1 ใน 3 Provider ที่เราเปิดบริการ ได้แก่ Google, Microsoft และ Spotify หากคุณมีบัญชีอย่างน้อยหนึ่งในสามผู้ให้บริการนี้ คุณสามารถเข้าสู่ระบบ KorKao ID และใช้งานได้ทันทีโดยไม่ต้องกรอกข้อมูลใดๆ และสมาชิกใหม่จะได้รับ 1 KorKao Points ทันทีเมื่อมีการเข้าใช้งานครั้งแรก"
+                            : "You can log in using one of the three providers we offer: Google, Microsoft, or Spotify. If you have an account with at least one of these three providers, you can log into KorKao ID and start using it immediately without entering any information. Additionally, new members will receive 1 KorKao Point upon their first login."
                         }
                       />
                     </ListItem>
@@ -1541,8 +1542,7 @@ const Acct = ({
                     sx={{
                       width: "100%",
                       bgcolor: "background.paper",
-                    }}
-                  >
+                    }}>
                     <ListItem className="mb-5">
                       <ListItemAvatar>
                         <Avatar className="iconchoice">
@@ -1685,8 +1685,7 @@ const Acct = ({
             <Button
               onClick={() => {
                 setGetData(false);
-              }}
-            >
+              }}>
               {lang == "th" ? "ปิด" : "Close"}
             </Button>
           </DialogActions>
@@ -1810,8 +1809,7 @@ const Acct = ({
                 <Button
                   onClick={() => {
                     setGetData2(null);
-                  }}
-                >
+                  }}>
                   {lang == "th" ? "ปิด" : "Close"}
                 </Button>
               </DialogActions>
@@ -1871,8 +1869,7 @@ const Acct = ({
                           key={row.activDate}
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {moment(row.activDate)
                               .lang(lang)
@@ -1931,8 +1928,7 @@ const Acct = ({
               <Button
                 onClick={() => {
                   setPointView(false);
-                }}
-              >
+                }}>
                 {lang == "th" ? "ปิด" : "Close"}
               </Button>
             </DialogActions>
@@ -1979,8 +1975,7 @@ const Acct = ({
                 className="mt-3"
                 role={undefined}
                 variant="contained"
-                tabIndex={-1}
-              >
+                tabIndex={-1}>
                 เลือกสลิปในคลังรูปภาพ
                 <VisuallyHiddenInput
                   type="file"
@@ -2015,11 +2010,9 @@ const Acct = ({
                   }
                   autoComplete="off"
                   type="number"
-                  helperText={
-                    lang == "th"
-                      ? "หมายเหตุ: จำนวนเงินต้องตรงกับสลิปที่อัปโหลด"
-                      : "Notes: Amount need to matched with in Slip"
-                  }
+                  helperText={lang == "th"
+                    ? "หมายเหตุ: จำนวนเงินต้องตรงกับสลิปที่อัปโหลด"
+                    : "Notes: Amount need to matched with in Slip"}
                   value={amount}
                   className="mt-3"
                   onChange={(e) =>
@@ -2034,16 +2027,13 @@ const Acct = ({
             </DialogContent>
             <DialogActions>
               {slipFile != null && (
-                <Button disabled={amount < 1} onClick={() => QRDonate()}>
-                  อัปโหลดข้อมูล
-                </Button>
+                <Button disabled={amount < 1} onClick={() => QRDonate()}>อัปโหลดข้อมูล</Button>
               )}
               <Button
                 onClick={() => {
                   setEdonate(false);
                   setAmount(0);
-                }}
-              >
+                }}>
                 ปิด
               </Button>
             </DialogActions>
@@ -2164,8 +2154,7 @@ const Acct = ({
               {transReady ? (
                 <Button
                   onClick={() => transHandle()}
-                  disabled={transbot == false || trans.amount <= 0}
-                >
+                  disabled={transbot == false || trans.amount <= 0}>
                   {lang == "th" ? "โอนคะแนน" : "Transfer"}
                 </Button>
               ) : (
@@ -2178,8 +2167,7 @@ const Acct = ({
                   setTransModel(false);
                   setTransReady(false);
                   setTransbot(false);
-                }}
-              >
+                }}>
                 {lang == "th" ? "ปิด" : "Close"}
               </Button>
             </DialogActions>
@@ -2188,8 +2176,7 @@ const Acct = ({
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}
-        >
+          open={load}>
           <CircularProgress />
         </Backdrop>
       </Box>

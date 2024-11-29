@@ -33,7 +33,6 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import { QRCode } from "react-qrcode-logo";
 import ReactGA from "react-ga4";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 
 import Joyride from "react-joyride";
 import stepEn from "../stepGuide/en/donate";
@@ -81,13 +80,12 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
   const His = useHistory();
   const {
     loginWithPopup,
-    // user,
-    // isAuthenticated,
-    // isLoading,
+    user,
+    isAuthenticated,
+    isLoading,
     getAccessTokenSilently,
     logout,
   } = useAuth0();
-  const { login, register, user, isAuthenticated, isLoading } = useKindeAuth();
   const [qrCode, setqrCode] = React.useState(
     generatePayload("004999166938497", {})
   );
@@ -206,13 +204,11 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
           open={point}
           sx={{ zIndex: 1200, marginTop: 10 }}
           onClick={() => His.push("/account?action=korkaoslip")}
-          onClose={() => setDonatePoint(false)}
-        >
+          onClose={() => setDonatePoint(false)}>
           <Alert
             severity="primary"
             variant="filled"
-            sx={{ width: "100%", color: "#fff", cursor: "pointer" }}
-          >
+            sx={{ width: "100%", color: "#fff", cursor: "pointer" }}>
             คุณสามารถนำสลิปที่ได้จากการโดเนทมาและเป็น KorKao Points ได้ที่นี่
           </Alert>
         </Snackbar>
@@ -228,8 +224,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
         />
         <div
           className="container mt-3 d-flex justify-content-center"
-          data-aos="fade-in"
-        >
+          data-aos="fade-in">
           <div className="row text-center">
             <Typography className="col-12 mb-3">
               {lang == "th"
@@ -239,8 +234,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
             <div
               className="col-12 text-center"
               ref={cardsuccess}
-              style={{ backgroundColor: print ? "#fff" : "" }}
-            >
+              style={{ backgroundColor: print ? "#fff" : "" }}>
               <div className="col-12 d-flex justify-content-center">
                 {print == false ? (
                   <QRCode
@@ -281,8 +275,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                               " " +
                               setexc.toUpperCase()) +
                           ")",
-                  }}
-                ></Typography>
+                  }}></Typography>
               )}
               {print && (
                 <>
@@ -309,8 +302,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                         : "Amount " +
                           comma(num) +
                           " THB<br />Please view exchange rate below.",
-                  }}
-                ></Typography>
+                  }}></Typography>
               )}
             </div>
             {lang != "th" && (
@@ -333,8 +325,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                 }}
                 SelectProps={{
                   native: true,
-                }}
-              >
+                }}>
                 <option value="-">Select your currency</option>
                 {moneyCurren.map((item) => (
                   <option value={item.val}>{item.lab}</option>
@@ -410,8 +401,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
               }}
               SelectProps={{
                 native: true,
-              }}
-            >
+              }}>
               <option value={0}>
                 {lang == "th"
                   ? "ระบุจำนวนเงินเองในภายหลัง"
@@ -432,8 +422,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
               data-tour="donate-4"
               variant="outlined"
               onClick={() => ExportQR()}
-              className="m-2"
-            >
+              className="m-2">
               {lang == "th" ? "บันทึก QR Code นี้" : "Save this QR Payment"}
             </Button>
             <Divider />
@@ -460,8 +449,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
                 QR Payment directly. Please click{" "}
                 <a
                   href="https://s7ap1.scene7.com/is/image/bot/2024_06_19_Crossborder%20QR%20Payment_Brochure_update%20(1)?ts=1718875185342&dpr=off"
-                  target="_blank"
-                >
+                  target="_blank">
                   here
                 </a>{" "}
                 to view Accepted international mobile banking with Thai QR
@@ -482,8 +470,7 @@ const Donate = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}
-        >
+          open={load}>
           <CircularProgress />
         </Backdrop>
 
