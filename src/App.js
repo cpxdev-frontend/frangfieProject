@@ -192,6 +192,7 @@ function App({
   const [incong, setIncong] = React.useState(false);
   const [load, setLoad] = React.useState(false);
   const [loadPre, setLoadPre] = React.useState(false);
+  const [lockads, setLockads] = React.useState(true);
 
   const location = useLocation();
   const [opacity, setOpacity] = React.useState(1); // เริ่มต้น opacity เต็ม
@@ -547,11 +548,7 @@ function App({
   }, []);
 
   React.useEffect(() => {
-    if (
-      isLoading == false &&
-      isAuthenticated &&
-      sessionStorage.getItem("ads") == null
-    ) {
+    if (isLoading == false && sessionStorage.getItem("ads") == null) {
       var requestOptions = {
         method: "POST",
       };
@@ -561,6 +558,13 @@ function App({
         .then((result) => {
           setLoadPre(false);
           if (result.length > 0) {
+            if (isAuthenticated) {
+              setLockads(false);
+            } else {
+              setTimeout(() => {
+                setLockads(false);
+              }, 5000);
+            }
             sessionStorage.setItem("ads", true);
             setNewse(true);
             setNews(result[0]);
@@ -1553,7 +1557,7 @@ function App({
                   open={newse}
                   TransitionComponent={Transition}
                   transitionDuration={400}
-                  onClose={() => setNewse(false)}
+                  onClose={() => {}}
                   maxWidth="xl">
                   {news != null && (
                     <>
@@ -1565,7 +1569,7 @@ function App({
                         </Typography>
                       </DialogContent>
                       <DialogActions>
-                        <Button onClick={() => setNewse(false)}>
+                        <Button disabled={lockads} onClick={() => setNewse(false)}>
                           {lang == "th" ? "ปิด" : "Close"}
                         </Button>
                       </DialogActions>
