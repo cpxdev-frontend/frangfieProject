@@ -81,6 +81,7 @@ import LIVE from "./page/livestream";
 import Account from "./page/account";
 import Err from "./page/error";
 
+import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const DrawerBg = "rgba(220, 209, 215, 0.75)";
@@ -171,12 +172,20 @@ function App({
   const {
     loginWithPopup,
     loginWithRedirect,
+    // user,
+    // isAuthenticated,
+    // isLoading,
+    getAccessTokenSilently,
+    //logout,
+  } = useAuth0();
+  const {
+    login,
+    logout,
     user,
     isAuthenticated,
     isLoading,
-    getAccessTokenSilently,
-    logout,
-  } = useAuth0();
+    onRedirectCallback,
+  } = useKindeAuth();
   const [transit, setTran] = React.useState(false);
   const [mainten, setOnMaintain] = React.useState(false);
 
@@ -219,24 +228,23 @@ function App({
     }
   }, [noti]);
 
-  // React.useEffect(() => {
-  //   if (sessionStorage.getItem('auth0') != null) {
-  //     setLoad(true)
-  //     history.push(sessionStorage.getItem('auth0'))
-  //     setLoad(false)
-  //     // setTimeout(() => {
-  //     //   sessionStorage.removeItem('auth0')
-  //     //   setLoad(false)
-  //     // }, 600);
+  // function onRedirectCallback=((user, app_state) => {
+  //   if (sessionStorage.getItem("auth0") != null) {
+  //     setLoad(true);
+  //     history.push(sessionStorage.getItem("auth0"));
+  //     setLoad(false);
+  //     sessionStorage.removeItem("auth0");
+  //     setLoad(false);
   //   }
-  // }, []);
+  // })
 
   const getLogin = () => {
-    sessionStorage.setItem('auth0', location.pathname)
+    sessionStorage.setItem("auth0", location.pathname);
     setTimeout(() => {
-      loginWithPopup();
+      // loginWithPopup();
+      login();
     }, 500);
-  }
+  };
 
   React.useEffect(() => {
     if (isSupported()) {
@@ -261,149 +269,207 @@ function App({
     console.log(navigator.connection);
   }, []);
 
+  // React.useEffect(() => {
+  //   if (localStorage.getItem("yuser") != null) {
+  //     if (!isAuthenticated) {
+  //       getAccessTokenSilently();
+  //       var m = setInterval(() => {
+  //         if (isLoading == false) {
+  //           clearInterval(m);
+  //           var requestOptions = {
+  //             method: "POST",
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //             },
+  //             body: JSON.stringify({
+  //               userId: user.email,
+  //             }),
+  //           };
+
+  //           fetch(
+  //             (Math.floor(Math.random() * 10) + 1 < 5
+  //               ? process.env.REACT_APP_APIE
+  //               : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
+  //             requestOptions
+  //           )
+  //             .then((response) => response.json())
+  //             .then((result) => {
+  //               if (result.status) {
+  //                 Swal.fire({
+  //                   title: "Daily AirDrop is coming!",
+  //                   allowOutsideClick: false,
+  //                   showDenyButton: true,
+  //                   customClass: {
+  //                     container: "airdropcontain",
+  //                   },
+  //                   confirmButtonText:
+  //                     lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
+  //                   denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
+  //                   html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
+  //                 }).then((r) => {
+  //                   if (r.isConfirmed) {
+  //                     getAirdrop();
+  //                   }
+  //                 });
+  //               }
+  //             })
+  //             .catch((error) => console.log("error", error));
+  //         }
+  //       }, 100);
+  //       console.log("view user", user);
+  //     } else {
+  //       var requestOptions = {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           userId: user.email,
+  //         }),
+  //       };
+  //       fetch(
+  //         (Math.floor(Math.random() * 10) + 1 < 5
+  //           ? process.env.REACT_APP_APIE
+  //           : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
+  //         requestOptions
+  //       )
+  //         .then((response) => response.json())
+  //         .then((result) => {
+  //           if (result.status) {
+  //             Swal.fire({
+  //               title: "Daily AirDrop is coming!",
+  //               confirmButtonText:
+  //                 lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
+  //               customClass: {
+  //                 container: "airdropcontain",
+  //               },
+  //               denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
+  //               showDenyButton: true,
+  //               allowOutsideClick: false,
+  //               html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
+  //             }).then((r) => {
+  //               if (r.isConfirmed) {
+  //                 getAirdrop();
+  //               }
+  //             });
+  //           }
+  //         })
+  //         .catch((error) => console.log("error", error));
+  //     }
+  //   } else {
+  //     if (isAuthenticated) {
+  //       try {
+  //         getAccessTokenSilently();
+  //       } catch {
+  //         Swal.fire({
+  //           title: "Login session is expired",
+  //           icon: "error",
+  //           text: "Please sign-in to KorKao ID again.",
+  //         }).then((r) => {
+  //           getout();
+  //         });
+  //         return;
+  //       }
+  //       localStorage.setItem("yuser", "");
+  //       var requestOptions = {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           userId: user.email,
+  //         }),
+  //       };
+
+  //       fetch(
+  //         (Math.floor(Math.random() * 10) + 1 < 5
+  //           ? process.env.REACT_APP_APIE
+  //           : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
+  //         requestOptions
+  //       )
+  //         .then((response) => response.json())
+  //         .then((result) => {
+  //           if (result.status) {
+  //             Swal.fire({
+  //               title: "Daily AirDrop is coming!",
+  //               confirmButtonText:
+  //                 lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
+  //               customClass: {
+  //                 container: "airdropcontain",
+  //               },
+  //               denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
+  //               showDenyButton: true,
+  //               allowOutsideClick: false,
+  //               html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
+  //             }).then((r) => {
+  //               if (r.isConfirmed) {
+  //                 getAirdrop();
+  //               }
+  //             });
+  //           }
+  //         })
+  //         .catch((error) => console.log("error", error));
+  //     }
+  //   }
+  // }, [isAuthenticated]);
+
+  // onRedirectCallback((user, app_state) => {
+
+  // })
+
   React.useEffect(() => {
-    if (localStorage.getItem("yuser") != null) {
-      if (!isAuthenticated) {
-        getAccessTokenSilently();
-        var m = setInterval(() => {
-          if (isLoading == false) {
-            clearInterval(m);
-            var requestOptions = {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                userId: user.email,
-              }),
-            };
-
-            fetch(
-              (Math.floor(Math.random() * 10) + 1 < 5
-                ? process.env.REACT_APP_APIE
-                : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
-              requestOptions
-            )
-              .then((response) => response.json())
-              .then((result) => {
-                if (result.status) {
-                  Swal.fire({
-                    title: "Daily AirDrop is coming!",
-                    allowOutsideClick: false,
-                    showDenyButton: true,
-                    customClass: {
-                      container: "airdropcontain",
-                    },
-                    confirmButtonText:
-                      lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
-                    denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
-                    html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
-                  }).then((r) => {
-                    if (r.isConfirmed) {
-                      getAirdrop();
-                    }
-                  });
-                }
-              })
-              .catch((error) => console.log("error", error));
-          }
-        }, 100);
-        console.log("view user", user);
+    if (isAuthenticated && !isLoading) {
+      console.log("View User", user);
+      if (sessionStorage.getItem("auth0") != null) {
+        history.push(sessionStorage.getItem("auth0"));
+        sessionStorage.removeItem("auth0");
+        localStorage.setItem("yuser", true);
+        setLoad(false);
       } else {
-        var requestOptions = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: user.email,
-          }),
-        };
-        fetch(
-          (Math.floor(Math.random() * 10) + 1 < 5
-            ? process.env.REACT_APP_APIE
-            : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
-          requestOptions
-        )
-          .then((response) => response.json())
-          .then((result) => {
-            if (result.status) {
-              Swal.fire({
-                title: "Daily AirDrop is coming!",
-                confirmButtonText:
-                  lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
-                customClass: {
-                  container: "airdropcontain",
-                },
-                denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
-                showDenyButton: true,
-                allowOutsideClick: false,
-                html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
-              }).then((r) => {
-                if (r.isConfirmed) {
-                  getAirdrop();
-                }
-              });
-            }
-          })
-          .catch((error) => console.log("error", error));
+        setLoad(false);
       }
+      var requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.email,
+        }),
+      };
+      fetch(
+        (Math.floor(Math.random() * 10) + 1 < 5
+          ? process.env.REACT_APP_APIE
+          : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.status) {
+            Swal.fire({
+              title: "Daily AirDrop is coming!",
+              confirmButtonText:
+                lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
+              customClass: {
+                container: "airdropcontain",
+              },
+              denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
+              showDenyButton: true,
+              allowOutsideClick: false,
+              html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
+            }).then((r) => {
+              if (r.isConfirmed) {
+                getAirdrop();
+              }
+            });
+          }
+        })
+        .catch((error) => console.log("error", error));
     } else {
-      if (isAuthenticated) {
-        try {
-          getAccessTokenSilently();
-        } catch {
-          Swal.fire({
-            title: "Login session is expired",
-            icon: "error",
-            text: "Please sign-in to KorKao ID again.",
-          }).then((r) => {
-            getout();
-          });
-          return;
-        }
-        localStorage.setItem("yuser", "");
-        var requestOptions = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: user.email,
-          }),
-        };
-
-        fetch(
-          (Math.floor(Math.random() * 10) + 1 < 5
-            ? process.env.REACT_APP_APIE
-            : process.env.REACT_APP_APIE_2) + "/kfsite/getairdrop",
-          requestOptions
-        )
-          .then((response) => response.json())
-          .then((result) => {
-            if (result.status) {
-              Swal.fire({
-                title: "Daily AirDrop is coming!",
-                confirmButtonText:
-                  lang == "th" ? "เปิดกล่องเลย!" : "Open AirDrop Box!",
-                customClass: {
-                  container: "airdropcontain",
-                },
-                denyButtonText: lang == "th" ? "ไว้ทีหลัง" : "Get it Later",
-                showDenyButton: true,
-                allowOutsideClick: false,
-                html: '<div style="height: 100px;" class="mt-3 shake"><i class="fa-solid fa-gift fa-4x"></i></div>',
-              }).then((r) => {
-                if (r.isConfirmed) {
-                  getAirdrop();
-                }
-              });
-            }
-          })
-          .catch((error) => console.log("error", error));
-      }
+      setLoad(false);
+      localStorage.removeItem("yuser");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isLoading]);
 
   function calculateTimeLeft() {
     const difference = moment.unix(targetTime) - moment.unix(launchredis + adm);
@@ -502,6 +568,9 @@ function App({
   }, []);
 
   React.useEffect(() => {
+    if (sessionStorage.getItem("auth0") != null) {
+      setLoad(true);
+    }
     if (location.pathname == window.location.pathname) {
       setTran(true);
     } else {
@@ -636,7 +705,10 @@ function App({
       }),
     };
 
-    fetch(process.env.REACT_APP_APIE + "/kfsite/receiveairdrop", requestOptions)
+    fetch(
+      process.env.REACT_APP_APIE + "/kfsite/receiveairdrop",
+      requestOptions
+    )
       .then((response) => response.json())
       .then((result) => {
         setLoad(false);
@@ -664,14 +736,9 @@ function App({
   };
 
   const getout = () => {
-    localStorage.removeItem("yuser");
     // setTimeout(() => {
     // }, 400);
-    logout({
-      logoutParams: {
-        returnTo: window.location.origin,
-      },
-    });
+    logout();
   };
 
   const handleCloseNavMenu = () => {
@@ -686,7 +753,8 @@ function App({
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
-        className="text-center">
+        className="text-center"
+      >
         {lang == "th"
           ? "เว็บไซต์นี้ไม่รองรับการแสดงแบบฝังบนเว็บไซต์อื่น"
           : "This site is not support on iframe tag"}
@@ -703,7 +771,8 @@ function App({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-        }}>
+        }}
+      >
         <div className="col-12">
           <img
             src="https://niceillustrations.com/wp-content/uploads/2021/07/Connection-Lost-color-800px.png"
@@ -730,7 +799,8 @@ function App({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-        }}>
+        }}
+      >
         <div className="col-12">
           <img
             src="https://niceillustrations.com/wp-content/uploads/2022/03/Police.png"
@@ -753,7 +823,8 @@ function App({
       />
       <div
         id="blockwhenland"
-        className="d-flex justify-content-center align-items-center text-center">
+        className="d-flex justify-content-center align-items-center text-center"
+      >
         <h5>
           <img
             src="https://cdn-icons-png.flaticon.com/512/6737/6737502.png"
@@ -769,13 +840,15 @@ function App({
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         sx={{ zIndex: 1200, marginTop: 10 }}
-        open={point}>
+        open={point}
+      >
         <Alert
           onClick={() => setDonatePoint(false)}
           icon={<CakeIcon />}
           severity="primary"
           variant="filled"
-          sx={{ width: "100%", color: "#fff", cursor: "pointer" }}>
+          sx={{ width: "100%", color: "#fff", cursor: "pointer" }}
+        >
           {lang == "th"
             ? "ร่วมอวยพรวันเกิดข้าวฟ่างในวัย " +
               (new Date().getFullYear() - 2002) +
@@ -792,13 +865,15 @@ function App({
           location.pathname != "/" &&
           !game &&
           !currentPage.includes("404 Not Found")
-        }>
+        }
+      >
         <AppBar position="fixed" className="newmobileAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}>
+                sx={{ flexGrow: 0, display: { xs: "flex", lg: "none" } }}
+              >
                 {location.pathname != "/" &&
                   !currentPage.includes("404 Not Found") && (
                     <Avatar
@@ -827,11 +902,13 @@ function App({
                   }}
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
-                  sx={{ display: { xs: "initial", xl: "none" } }}>
+                  sx={{ display: { xs: "initial", xl: "none" } }}
+                >
                   <DialogTitle
                     sx={{
                       display: { xs: "initial", lg: "none", xl: "initial" },
-                    }}>
+                    }}
+                  >
                     {lang == "th"
                       ? "เมนูหลักและการตั้งค่า"
                       : "Main Menu and Settings"}
@@ -839,7 +916,8 @@ function App({
                   <DialogTitle
                     sx={{
                       display: { xs: "none", lg: "initial", xl: "none" },
-                    }}>
+                    }}
+                  >
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
                   <DialogContent sx={{ width: { xs: "100%", sm: 340 } }}>
@@ -849,7 +927,8 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}>
+                          onClick={handleCloseNavMenu}
+                        >
                           <Typography
                             className={
                               (pageSec[i] == "quizgame" &&
@@ -875,7 +954,8 @@ function App({
                                   ? "#b802a8"
                                   : "#000",
                             }}
-                            component="p">
+                            component="p"
+                          >
                             {page}
                           </Typography>
                         </MenuItem>
@@ -885,7 +965,8 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}>
+                          onClick={handleCloseNavMenu}
+                        >
                           <Typography
                             textAlign="center"
                             className={
@@ -911,7 +992,8 @@ function App({
                                   ? "#b802a8"
                                   : "#000",
                             }}
-                            component="p">
+                            component="p"
+                          >
                             {page}
                           </Typography>
                         </MenuItem>
@@ -926,9 +1008,9 @@ function App({
                               {lang == "th"
                                 ? "ยินดีต้อนรับคุณ "
                                 : "Welcome back, "}{" "}
-                              {user.given_name != null
+                              {user.given_name != undefined
                                 ? user.given_name
-                                : user.name}
+                                : user.email}
                             </Typography>
                           </CardContent>
                         )}
@@ -939,7 +1021,8 @@ function App({
                                 history.push("/account");
                                 handleCloseNavMenu();
                                 setAnchorElUser(false);
-                              }}>
+                              }}
+                            >
                               View Profile
                             </Button>
                             <Button onClick={() => getout()}>Sign-out</Button>
@@ -953,7 +1036,8 @@ function App({
                               onClick={() => {
                                 history.push("/account");
                                 handleCloseNavMenu();
-                              }}>
+                              }}
+                            >
                               View Benefits
                             </Button>
                           </CardActions>
@@ -972,11 +1056,13 @@ function App({
                           window.location.pathname != "/"
                             ? "initial"
                             : { xs: "none", xl: "initial" },
-                      }}>
+                      }}
+                    >
                       <Typography
                         sx={{
                           display: { xs: "block", lg: "none", xl: "block" },
-                        }}>
+                        }}
+                      >
                         Change Language
                       </Typography>
                       <ToggleButtonGroup
@@ -990,12 +1076,14 @@ function App({
                         exclusive
                         onChange={(e) =>
                           e.target.value != lang && setLang(e.target.value)
-                        }>
+                        }
+                      >
                         {langList.map((option) => (
                           <ToggleButton
                             sx={{ borderRadius: 1 }}
                             value={option.value}
-                            key={option.value}>
+                            key={option.value}
+                          >
                             {option.label}
                           </ToggleButton>
                         ))}
@@ -1019,7 +1107,8 @@ function App({
                       <Typography
                         sx={{
                           display: { xs: "block", lg: "none", xl: "block" },
-                        }}>
+                        }}
+                      >
                         {lang == "th"
                           ? "สถานะการแจ้งเตือน: "
                           : "Notification Status: "}{" "}
@@ -1044,7 +1133,8 @@ function App({
                       right: 20,
                     }}
                     onClick={handleOpenNavMenu}
-                    color="inherit">
+                    color="inherit"
+                  >
                     <MenuIcon />
                   </IconButton>
                 )}
@@ -1057,7 +1147,8 @@ function App({
       <Slide
         direction="down"
         in={appbarx}
-        sx={{ display: { xs: "none", md: "initial" } }}>
+        sx={{ display: { xs: "none", md: "initial" } }}
+      >
         <AppBar position="fixed" className="newpcAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
@@ -1080,13 +1171,15 @@ function App({
                   display: { xs: "none", lg: "flex" },
                   color: "inherit",
                   textDecoration: "none",
-                }}>
+                }}
+              >
                 <b>KorKao</b>
               </Typography>
 
               <Box
                 className="justify-content-center"
-                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}>
+                sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}
+              >
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -1094,7 +1187,8 @@ function App({
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
                   sx={{ display: { md: "none", xl: "initial" } }}
-                  color="inherit">
+                  color="inherit"
+                >
                   <MenuIcon />
                 </IconButton>
 
@@ -1110,7 +1204,8 @@ function App({
                       right: 80,
                       top: 10,
                     }}
-                    color="inherit">
+                    color="inherit"
+                  >
                     <MenuIcon />
                   </IconButton>
                   <IconButton
@@ -1120,7 +1215,8 @@ function App({
                       position: "fixed",
                       right: 20,
                       top: 10,
-                    }}>
+                    }}
+                  >
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -1144,7 +1240,8 @@ function App({
                     right: 20,
                     top: -2,
                   }}
-                  color="inherit">
+                  color="inherit"
+                >
                   <MenuIcon />
                 </IconButton>
                 <IconButton
@@ -1154,7 +1251,8 @@ function App({
                     position: "fixed",
                     right: 60,
                     top: 10,
-                  }}>
+                  }}
+                >
                   <Avatar
                     sx={{ width: 30, height: 30 }}
                     variant="rounded"
@@ -1178,7 +1276,8 @@ function App({
                   }}
                   open={anchorElNav}
                   onClose={handleCloseNavMenu}
-                  sx={{ display: { xs: "none", xl: "initial" } }}>
+                  sx={{ display: { xs: "none", xl: "initial" } }}
+                >
                   <DialogTitle>
                     {lang == "th" ? "เมนูหลัก" : "Main Menu"}
                   </DialogTitle>
@@ -1189,7 +1288,8 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}>
+                          onClick={handleCloseNavMenu}
+                        >
                           <Typography
                             textAlign="center"
                             className={
@@ -1215,7 +1315,8 @@ function App({
                                   ? "#b802a8"
                                   : "#000",
                             }}
-                            component="p">
+                            component="p"
+                          >
                             {page}
                           </Typography>
                         </MenuItem>
@@ -1225,7 +1326,8 @@ function App({
                           component={Link}
                           key={page}
                           to={"/" + pageSec[i]}
-                          onClick={handleCloseNavMenu}>
+                          onClick={handleCloseNavMenu}
+                        >
                           <Typography
                             textAlign="center"
                             className={
@@ -1251,7 +1353,8 @@ function App({
                                   ? "#b802a8"
                                   : "#000",
                             }}
-                            component="p">
+                            component="p"
+                          >
                             {page}
                           </Typography>
                         </MenuItem>
@@ -1265,9 +1368,9 @@ function App({
                               {lang == "th"
                                 ? "ยินดีต้อนรับคุณ "
                                 : "Welcome back, "}{" "}
-                              {user.given_name != null
+                              {user.given_name != undefined
                                 ? user.given_name
-                                : user.name}
+                                : user.email}
                             </Typography>
                           </CardContent>
                         )}
@@ -1278,7 +1381,8 @@ function App({
                                 history.push("/account");
                                 handleCloseNavMenu();
                                 setAnchorElUser(false);
-                              }}>
+                              }}
+                            >
                               View Profile
                             </Button>
                             <Button onClick={() => getout()}>Sign-out</Button>
@@ -1292,7 +1396,8 @@ function App({
                               onClick={() => {
                                 history.push("/account");
                                 handleCloseNavMenu();
-                              }}>
+                              }}
+                            >
                               View Benefits
                             </Button>
                           </CardActions>
@@ -1322,12 +1427,14 @@ function App({
                         exclusive
                         onChange={(e) =>
                           e.target.value != lang && setLang(e.target.value)
-                        }>
+                        }
+                      >
                         {langList.map((option) => (
                           <ToggleButton
                             sx={{ borderRadius: 1 }}
                             value={option.value}
-                            key={option.value}>
+                            key={option.value}
+                          >
                             {option.label}
                           </ToggleButton>
                         ))}
@@ -1374,7 +1481,8 @@ function App({
                   display: { xs: "flex", lg: "none" },
                   color: "inherit",
                   textDecoration: "none",
-                }}>
+                }}
+              >
                 <b>KorKao</b>
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", xl: "flex" } }}>
@@ -1399,7 +1507,8 @@ function App({
                             : "#000",
                         fontSize: lang == "th" ? 14 : 12,
                         display: "block",
-                      }}>
+                      }}
+                    >
                       {page}
                     </Button>
                   ) : pageSec[i] == "birthday" && birthdaycampain == true ? (
@@ -1422,7 +1531,8 @@ function App({
                             : "#000",
                         fontSize: lang == "th" ? 14 : 12,
                         display: "block",
-                      }}>
+                      }}
+                    >
                       {page}
                     </Button>
                   ) : null
@@ -1433,7 +1543,8 @@ function App({
                 <Tooltip title="Open settings">
                   <IconButton
                     onClick={() => setAnchorElUser(true)}
-                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}>
+                    sx={{ p: 0, display: { xs: "none", xl: "flex" } }}
+                  >
                     <Avatar
                       sx={{ width: 30, height: 30 }}
                       variant="rounded"
@@ -1451,7 +1562,8 @@ function App({
                   TransitionComponent={Transition}
                   transitionDuration={400}
                   onClose={() => setAnchorElUser(false)}
-                  maxWidth="xl">
+                  maxWidth="xl"
+                >
                   <DialogTitle>
                     {lang == "th" ? "การตั้งค่า" : "Setting"}
                   </DialogTitle>
@@ -1468,16 +1580,17 @@ function App({
                                 lg: "none",
                                 xl: "initial",
                               },
-                      }}>
+                      }}
+                    >
                       {isAuthenticated && (
                         <CardContent>
                           <Typography>
                             {lang == "th"
                               ? "ยินดีต้อนรับคุณ "
                               : "Welcome back, "}{" "}
-                            {user.given_name != null
+                            {user.given_name != undefined
                               ? user.given_name
-                              : user.name}
+                              : user.email}
                           </Typography>
                         </CardContent>
                       )}
@@ -1488,7 +1601,8 @@ function App({
                               history.push("/account");
                               handleCloseNavMenu();
                               setAnchorElUser(false);
-                            }}>
+                            }}
+                          >
                             View Profile
                           </Button>
                           <Button onClick={() => getout()}>Sign-out</Button>
@@ -1502,7 +1616,8 @@ function App({
                             onClick={() => {
                               history.push("/account");
                               handleCloseNavMenu();
-                            }}>
+                            }}
+                          >
                             View Benefits
                           </Button>
                         </CardActions>
@@ -1525,12 +1640,14 @@ function App({
                       exclusive
                       onChange={(e) =>
                         e.target.value != lang && setLang(e.target.value)
-                      }>
+                      }
+                    >
                       {langList.map((option) => (
                         <ToggleButton
                           sx={{ borderRadius: 1 }}
                           value={option.value}
-                          key={option.value}>
+                          key={option.value}
+                        >
                           {option.label}
                         </ToggleButton>
                       ))}
@@ -1567,7 +1684,8 @@ function App({
                   TransitionComponent={Transition}
                   transitionDuration={400}
                   onClose={() => {}}
-                  maxWidth="xl">
+                  maxWidth="md"
+                >
                   {news != null && (
                     <>
                       <DialogTitle>{news.title}</DialogTitle>
@@ -1580,7 +1698,8 @@ function App({
                       <DialogActions>
                         <Button
                           disabled={lockads}
-                          onClick={() => setNewse(false)}>
+                          onClick={() => setNewse(false)}
+                        >
                           {lang == "th" ? "ปิด" : "Close"}
                         </Button>
                       </DialogActions>
@@ -1605,7 +1724,8 @@ function App({
                   : 0,
               md: 0,
             },
-          }}>
+          }}
+        >
           <BasicSwitch>
             <Route
               exact
@@ -1698,7 +1818,8 @@ function App({
             borderTopRightRadius: 0,
             fontSize: 14,
             lineHeight: 1.2,
-          }}>
+          }}
+        >
           &copy; Copyright {new Date().getFullYear()}, CPXDevStudio
           <br />
           <small style={{ fontSize: 10 }}>
@@ -1715,7 +1836,8 @@ function App({
                 "https://bsky.app/profile/cpxdevbot.bsky.social",
                 "_blank"
               )
-            }>
+            }
+          >
             Check latest system update
           </a>
         </Card>
@@ -1723,12 +1845,14 @@ function App({
 
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={load}>
+        open={load}
+      >
         <CircularProgress />
       </Backdrop>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={loadPre}>
+        open={loadPre}
+      >
         <CircularProgress />
       </Backdrop>
     </div>
