@@ -244,18 +244,7 @@ function App({
   React.useEffect(() => {
     if (localStorage.getItem("yuser") != null) {
       if (!isAuthenticated) {
-        try {
-          getAccessTokenSilently();
-        } catch {
-          Swal.fire({
-            title: "Login session is expired",
-            icon: "error",
-            text: "Please sign-in to KorKao ID again.",
-          }).then((r) => {
-            getout();
-          });
-          return;
-        }
+        getAccessTokenSilently()
         var m = setInterval(() => {
           if (isLoading == false) {
             clearInterval(m);
