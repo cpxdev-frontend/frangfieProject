@@ -71,7 +71,6 @@ import Trend from "./page/trend";
 import Event from "./page/event";
 import Album from "./page/albumgroup";
 import Gallery from "./page/gallery";
-import SmartTag from "./page/nfcReader";
 import Game from "./page/game";
 import GameD from "./page/gamedash";
 import Feed from "./page/update";
@@ -90,7 +89,6 @@ const pageSec = [
   "aboutkf",
   "discography",
   "live",
-  "smarttag",
   "trend",
   "gallery",
   "events",
@@ -104,7 +102,6 @@ const pagesEn = [
   "About Kaofrang",
   "Discography",
   "LIVE Contents",
-  "Smart Tag",
   "Trend Boost",
   "Gallery",
   "Events of Frang",
@@ -118,7 +115,6 @@ const pagesTh = [
   "เกี่ยวกับข้าวฟ่าง",
   "ผลงาน",
   "กิจกรรมสด",
-  "สมาร์ทแท็ก",
   "ปั่นเทรน",
   "คลังรูป",
   "กิจกรรม",
@@ -1632,7 +1628,6 @@ function App({
             <Route data-aos="fade-in" path="/events" render={() => <Event />} />
             <Route data-aos="fade-in" path="/trend" render={() => <Trend />} />
             <Route data-aos="fade-in" path="/live" render={() => <LIVE />} />
-            <Route data-aos="fade-in" path="/smarttag" render={() => <SmartTag />} />
             <Route data-aos="fade-in" path="/feeds" render={() => <Feed />} />
             <Route
               data-aos="fade-in"
