@@ -170,6 +170,7 @@ function App({
   const [betabypass, setBetaMode] = React.useState(false);
   const {
     loginWithPopup,
+    loginWithRedirect,
     user,
     isAuthenticated,
     isLoading,
@@ -218,6 +219,25 @@ function App({
     }
   }, [noti]);
 
+  // React.useEffect(() => {
+  //   if (sessionStorage.getItem('auth0') != null) {
+  //     setLoad(true)
+  //     history.push(sessionStorage.getItem('auth0'))
+  //     setLoad(false)
+  //     // setTimeout(() => {
+  //     //   sessionStorage.removeItem('auth0')
+  //     //   setLoad(false)
+  //     // }, 600);
+  //   }
+  // }, []);
+
+  const getLogin = () => {
+    sessionStorage.setItem('auth0', location.pathname)
+    setTimeout(() => {
+      loginWithPopup();
+    }, 500);
+  }
+
   React.useEffect(() => {
     if (isSupported()) {
       Notification.requestPermission()
@@ -244,7 +264,7 @@ function App({
   React.useEffect(() => {
     if (localStorage.getItem("yuser") != null) {
       if (!isAuthenticated) {
-        getAccessTokenSilently()
+        getAccessTokenSilently();
         var m = setInterval(() => {
           if (isLoading == false) {
             clearInterval(m);
@@ -926,7 +946,7 @@ function App({
                           </CardActions>
                         ) : (
                           <CardActions sx={{ width: 270 }}>
-                            <Button onClick={() => loginWithPopup()}>
+                            <Button onClick={() => getLogin()}>
                               Become or Log-in to KorKao ID
                             </Button>
                             <Button
@@ -1265,7 +1285,7 @@ function App({
                           </CardActions>
                         ) : (
                           <CardActions sx={{ width: 270 }}>
-                            <Button onClick={() => loginWithPopup()}>
+                            <Button onClick={() => getLogin()}>
                               Become or Log-in to KorKao ID
                             </Button>
                             <Button
@@ -1475,7 +1495,7 @@ function App({
                         </CardActions>
                       ) : (
                         <CardActions sx={{ width: 270 }}>
-                          <Button onClick={() => loginWithPopup()}>
+                          <Button onClick={() => getLogin()}>
                             Become or Log-in to KorKao ID
                           </Button>
                           <Button
@@ -1558,7 +1578,9 @@ function App({
                         </Typography>
                       </DialogContent>
                       <DialogActions>
-                        <Button disabled={lockads} onClick={() => setNewse(false)}>
+                        <Button
+                          disabled={lockads}
+                          onClick={() => setNewse(false)}>
                           {lang == "th" ? "ปิด" : "Close"}
                         </Button>
                       </DialogActions>
