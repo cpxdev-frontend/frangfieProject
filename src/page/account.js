@@ -135,6 +135,7 @@ const Acct = ({
 
   const {
     loginWithPopup,
+    loginWithRedirect,
     user,
     isAuthenticated,
     isLoading,
@@ -255,6 +256,13 @@ const Acct = ({
       })
       .catch((error) => console.log("error", error));
     console.log(code);
+  };
+
+  const getLogin = () => {
+    sessionStorage.setItem("auth0", location.pathname);
+    setTimeout(() => {
+      loginWithRedirect();
+    }, 500);
   };
 
   const joinevent = () => {
@@ -759,7 +767,7 @@ const Acct = ({
           Swal.fire({
             title: "พบข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
             icon: "warning",
-            footer: "ข้อผิดพลาดจากระบบ: " + result.msg
+            footer: "ข้อผิดพลาดจากระบบ: " + result.msg,
           });
         }
       })
@@ -821,7 +829,7 @@ const Acct = ({
                 : "All you should know about KorKao ID"
             }
             action={
-              <Button variant="outlined" onClick={() => loginWithPopup()}>
+              <Button variant="outlined" onClick={() => getLogin()}>
                 <KeyIcon />
                 &nbsp;{lang == "th" ? "เข้าสู่ระบบ" : "Login now!"}
               </Button>
@@ -846,7 +854,8 @@ const Acct = ({
                   sx={{
                     width: "100%",
                     bgcolor: "background.paper",
-                  }}>
+                  }}
+                >
                   <ListItem className="mb-5">
                     <ListItemAvatar>
                       <Avatar className="iconchoice">
@@ -911,7 +920,8 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}>
+                          }}
+                        >
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "ดูโปรไฟล์ของน้องหรือ เพลงและคอนเทนต์ต่างๆของน้องข้าวฟ่าง"
@@ -929,7 +939,8 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}>
+                          }}
+                        >
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "ดูกิจกรรมของข้าวฟ่างและเปิดการแจ้งเตือนกิจกรรมแบบเรียลไทม์"
@@ -947,7 +958,8 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}>
+                          }}
+                        >
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "เล่นมินิเกมส์พร้อมกับดูคะแนนเฉลี่ยจากผู้เล่นทั่วโลก"
@@ -965,7 +977,8 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}>
+                          }}
+                        >
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "การเข้าร่วมกิจกรรมที่จัดขึ้นโดยบ้านกอข้าว"
@@ -983,7 +996,8 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}>
+                          }}
+                        >
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "ดูคะแนนและประวัติการเล่นมินิเกมส์ของคุณได้สูงสุด 1 ปี"
@@ -1001,7 +1015,8 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}>
+                          }}
+                        >
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "การสะสมคะแนนเพื่อลุ้นของรางวัล หรือการเข้าร่วมกิจกรรมที่ต้องใช้คะแนน (KorKao Points)"
@@ -1079,7 +1094,8 @@ const Acct = ({
                   sx={{
                     width: "100%",
                     bgcolor: "background.paper",
-                  }}>
+                  }}
+                >
                   <ListItem className="mb-5">
                     <ListItemAvatar>
                       <Avatar className="iconchoice">
@@ -1161,7 +1177,8 @@ const Acct = ({
                         sx={{ width: 80, height: 80 }}
                         src={user.picture}
                         className="mr-md-2 mr-0"
-                        aria-label="recipe"></Avatar>
+                        aria-label="recipe"
+                      ></Avatar>
                     }
                     title={user.name}
                     subheader={"ID: " + user.email}
@@ -1179,7 +1196,8 @@ const Acct = ({
                               : null,
                             "_blank"
                           )
-                        }>
+                        }
+                      >
                         <FontAwesomeIcon
                           icon={
                             user.sub.includes("google")
@@ -1197,7 +1215,8 @@ const Acct = ({
                   <CardActionArea
                     onClick={() => {
                       point != null && setPointView(true);
-                    }}>
+                    }}
+                  >
                     <Typography className="ml-3">
                       {point != null ? (
                         lang == "th" ? (
@@ -1223,7 +1242,8 @@ const Acct = ({
                               "B9CEFA4286CD4D0398DCED46D64A495468BB7EBAA9AF324613D7C42FF8A6721A1094F7BD4CB0B3AC8030EDCBB493CBC4"
                             )
                           : setGetData(true)
-                      }>
+                      }
+                    >
                       {lang == "th"
                         ? "สแกนเพื่อเข้าร่วมกิจกรรม"
                         : "Scan to join event"}
@@ -1245,7 +1265,8 @@ const Acct = ({
                           expired: "",
                           scale: 0,
                         });
-                      }}>
+                      }}
+                    >
                       {lang == "th"
                         ? "โอน KorKao Points ให้ผู้อื่น"
                         : "Transfer KorKao Points"}
@@ -1260,7 +1281,8 @@ const Acct = ({
                               "B9CEFA4286CD4D0398DCED46D64A495468BB7EBAA9AF324613D7C42FF8A6721A1094F7BD4CB0B3AC8030EDCBB493CBC4"
                             )
                           : setGetData(true)
-                      }>
+                      }
+                    >
                       {lang == "th"
                         ? "สแกนเพื่อเข้าร่วมกิจกรรม"
                         : "Scan to join event"}
@@ -1282,7 +1304,8 @@ const Acct = ({
                           expired: "",
                           scale: 0,
                         });
-                      }}>
+                      }}
+                    >
                       {lang == "th"
                         ? "โอน KorKao Points ให้ผู้อื่น"
                         : "Transfer KorKao Points"}
@@ -1309,7 +1332,8 @@ const Acct = ({
                     sx={{
                       width: "100%",
                       bgcolor: "background.paper",
-                    }}>
+                    }}
+                  >
                     <ListItem className="mb-5">
                       <ListItemAvatar>
                         <Avatar className="iconchoice">
@@ -1374,7 +1398,8 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}>
+                            }}
+                          >
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "ดูโปรไฟล์ของน้องหรือ เพลงและคอนเทนต์ต่างๆของน้องข้าวฟ่าง"
@@ -1392,7 +1417,8 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}>
+                            }}
+                          >
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "ดูกิจกรรมของข้าวฟ่างและเปิดการแจ้งเตือนกิจกรรมแบบเรียลไทม์"
@@ -1410,7 +1436,8 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}>
+                            }}
+                          >
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "เล่นมินิเกมส์พร้อมกับดูคะแนนเฉลี่ยจากผู้เล่นทั่วโลก"
@@ -1428,7 +1455,8 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}>
+                            }}
+                          >
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "การเข้าร่วมกิจกรรมที่จัดขึ้นโดยบ้านกอข้าว"
@@ -1446,7 +1474,8 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}>
+                            }}
+                          >
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "ดูคะแนนและประวัติการเล่นมินิเกมส์ของคุณได้สูงสุด 1 ปี"
@@ -1464,7 +1493,8 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}>
+                            }}
+                          >
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "การสะสมคะแนนเพื่อลุ้นของรางวัล หรือการเข้าร่วมกิจกรรมที่ต้องใช้คะแนน (KorKao Points)"
@@ -1542,7 +1572,8 @@ const Acct = ({
                     sx={{
                       width: "100%",
                       bgcolor: "background.paper",
-                    }}>
+                    }}
+                  >
                     <ListItem className="mb-5">
                       <ListItemAvatar>
                         <Avatar className="iconchoice">
@@ -1685,7 +1716,8 @@ const Acct = ({
             <Button
               onClick={() => {
                 setGetData(false);
-              }}>
+              }}
+            >
               {lang == "th" ? "ปิด" : "Close"}
             </Button>
           </DialogActions>
@@ -1809,7 +1841,8 @@ const Acct = ({
                 <Button
                   onClick={() => {
                     setGetData2(null);
-                  }}>
+                  }}
+                >
                   {lang == "th" ? "ปิด" : "Close"}
                 </Button>
               </DialogActions>
@@ -1869,7 +1902,8 @@ const Acct = ({
                           key={row.activDate}
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
-                          }}>
+                          }}
+                        >
                           <TableCell component="th" scope="row">
                             {moment(row.activDate)
                               .lang(lang)
@@ -1928,7 +1962,8 @@ const Acct = ({
               <Button
                 onClick={() => {
                   setPointView(false);
-                }}>
+                }}
+              >
                 {lang == "th" ? "ปิด" : "Close"}
               </Button>
             </DialogActions>
@@ -1975,7 +2010,8 @@ const Acct = ({
                 className="mt-3"
                 role={undefined}
                 variant="contained"
-                tabIndex={-1}>
+                tabIndex={-1}
+              >
                 เลือกสลิปในคลังรูปภาพ
                 <VisuallyHiddenInput
                   type="file"
@@ -2010,9 +2046,11 @@ const Acct = ({
                   }
                   autoComplete="off"
                   type="number"
-                  helperText={lang == "th"
-                    ? "หมายเหตุ: จำนวนเงินต้องตรงกับสลิปที่อัปโหลด"
-                    : "Notes: Amount need to matched with in Slip"}
+                  helperText={
+                    lang == "th"
+                      ? "หมายเหตุ: จำนวนเงินต้องตรงกับสลิปที่อัปโหลด"
+                      : "Notes: Amount need to matched with in Slip"
+                  }
                   value={amount}
                   className="mt-3"
                   onChange={(e) =>
@@ -2027,13 +2065,16 @@ const Acct = ({
             </DialogContent>
             <DialogActions>
               {slipFile != null && (
-                <Button disabled={amount < 1} onClick={() => QRDonate()}>อัปโหลดข้อมูล</Button>
+                <Button disabled={amount < 1} onClick={() => QRDonate()}>
+                  อัปโหลดข้อมูล
+                </Button>
               )}
               <Button
                 onClick={() => {
                   setEdonate(false);
                   setAmount(0);
-                }}>
+                }}
+              >
                 ปิด
               </Button>
             </DialogActions>
@@ -2154,7 +2195,8 @@ const Acct = ({
               {transReady ? (
                 <Button
                   onClick={() => transHandle()}
-                  disabled={transbot == false || trans.amount <= 0}>
+                  disabled={transbot == false || trans.amount <= 0}
+                >
                   {lang == "th" ? "โอนคะแนน" : "Transfer"}
                 </Button>
               ) : (
@@ -2167,7 +2209,8 @@ const Acct = ({
                   setTransModel(false);
                   setTransReady(false);
                   setTransbot(false);
-                }}>
+                }}
+              >
                 {lang == "th" ? "ปิด" : "Close"}
               </Button>
             </DialogActions>
@@ -2176,7 +2219,8 @@ const Acct = ({
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}>
+          open={load}
+        >
           <CircularProgress />
         </Backdrop>
       </Box>
