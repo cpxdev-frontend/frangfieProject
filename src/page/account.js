@@ -59,7 +59,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import QrScanner from "qr-scanner";
 import moment from "moment";
 import Swal from "sweetalert2";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   faGoogle,
   faMicrosoft,
@@ -111,6 +111,7 @@ const Acct = ({
   const [getData2, setGetData2] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const history = useHistory();
+  const location = useLocation();
   const [load, setLoad] = React.useState(false);
   const [point, setPoint] = React.useState(null);
   const [viewPoint, setPointView] = React.useState(false);
