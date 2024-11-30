@@ -220,15 +220,13 @@ function App({
   }, [noti]);
 
   React.useEffect(() => {
+    setLoad(true);
     if (sessionStorage.getItem("auth0") != null && isAuthenticated) {
-      setLoad(true);
       history.push(sessionStorage.getItem("auth0"));
       setLoad(false);
       sessionStorage.removeItem("auth0");
-      // setTimeout(() => {
-      //   sessionStorage.removeItem('auth0')
-      //   setLoad(false)
-      // }, 600);
+    } else {
+      setLoad(false);
     }
   }, [isAuthenticated, isLoading]);
 
