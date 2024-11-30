@@ -1616,7 +1616,7 @@ function App({
                   TransitionComponent={Transition}
                   transitionDuration={400}
                   onClose={() => {}}
-                  maxWidth="lg"
+                  maxWidth="md"
                 >
                   {news != null && (
                     <>
