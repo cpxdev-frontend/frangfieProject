@@ -15,6 +15,7 @@ import {
   Slide,
   Tooltip,
   TextField,
+  LinearProgress,
   Snackbar,
   Alert,
   Dialog,
@@ -1781,12 +1782,12 @@ function App({
       >
         <CircularProgress />
       </Backdrop>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={loadPre}
+      <Fade
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1, top: 0, position: 'fixed' }}
+        in={loadPre}
       >
-        <CircularProgress />
-      </Backdrop>
+        <LinearProgress sx={{ height: 100, borderColor: '#b802a8' }} className="w-100" />
+      </Fade>
     </div>
   );
 }
