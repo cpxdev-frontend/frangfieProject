@@ -92,7 +92,7 @@ const pageSec = [
   "discography",
   "live",
   "trend",
-  "gallery",
+  // "gallery",
   "events",
   "feeds",
   "quizgame",
@@ -105,7 +105,7 @@ const pagesEn = [
   "Discography",
   "LIVE Contents",
   "Trend Boost",
-  "Gallery",
+  // "Gallery",
   "Events of Frang",
   "Social Feeds",
   "Quiz",
@@ -118,7 +118,7 @@ const pagesTh = [
   "ผลงาน",
   "กิจกรรมสด",
   "ปั่นเทรน",
-  "คลังรูป",
+  // "คลังรูป",
   "กิจกรรม",
   "ฟีดออนไลน์",
   "มินิเกมส์",
@@ -1678,7 +1678,7 @@ function App({
               path="/aboutkf"
               render={() => <About />}
             />
-            <Route
+            {/* <Route
               data-aos="fade-in"
               path="/gallery/:id"
               render={() => <Gallery />}
@@ -1687,7 +1687,7 @@ function App({
               data-aos="fade-in"
               path="/gallery"
               render={() => <Album />}
-            />
+            /> */}
             <Route
               data-aos="fade-in"
               path="/discography"
