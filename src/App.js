@@ -624,7 +624,7 @@ function App({
   };
 
   const getAirdrop = () => {
-    setLoad(true);
+    setLoadPre(true);
     var requestOptions = {
       method: "PUT",
       headers: {
@@ -639,7 +639,7 @@ function App({
     fetch(process.env.REACT_APP_APIE + "/kfsite/receiveairdrop", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setLoad(false);
+        setLoadPre(false);
         if (result.status) {
           Swal.fire({
             title:
