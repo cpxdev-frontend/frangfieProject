@@ -670,11 +670,6 @@ const GameApp = ({
                         <TableCell align="right">
                           {lang == "th" ? "คะแนนที่ได้" : "Scores"}
                         </TableCell>
-                        <TableCell align="right">
-                          {lang == "th"
-                            ? "ระยะเวลาที่เล่น (วินาที)"
-                            : "Play Duration (Seconds)"}
-                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -696,9 +691,6 @@ const GameApp = ({
                           </TableCell>
                           <TableCell component="th" scope="row" align="right">
                             {item.score}
-                          </TableCell>
-                          <TableCell component="th" scope="row" align="right">
-                            {item.duration}
                           </TableCell>
                         </TableRow>
                       ))}
