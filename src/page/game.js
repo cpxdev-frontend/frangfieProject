@@ -16,10 +16,23 @@ import {
   ListItem,
   CircularProgress,
   Skeleton,
-  CardMedia,
+  Fab,
   LinearProgress,
+  DialogContent,
+  Dialog,
+  DialogActions,
+  Grow,
+  DialogTitle,
   ListItemText,
+  TableContainer,
+  Paper,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHead,
 } from "@mui/material";
+import HistoryIcon from "@mui/icons-material/History";
 import Swal from "sweetalert2";
 import { InfoOutlined } from "@mui/icons-material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -45,6 +58,10 @@ import moment from "moment";
 function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent);
 }
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Grow ref={ref} {...props} />;
+});
 
 let timerInterval;
 let gamein = false;
@@ -92,6 +109,8 @@ const GameApp = ({
   // state to check stopwatch running or not
   const [isRunning, setIsRunning] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [gamehis, setGameHistory] = React.useState(false);
+  const [hisgame, setHis] = React.useState(null);
   React.useState(() => {
     setTimeout(() => {
       setOpen(true);
@@ -135,6 +154,36 @@ const GameApp = ({
       .then((response) => response.json())
       .then((data) => setIP(data.clientIp));
   }, []);
+
+  React.useEffect(() => {
+    if (gamehis == true && isAuthenticated) {
+      var requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: user.email,
+        }),
+      };
+
+      fetch(
+        process.env.REACT_APP_APIE_2 + "/kfsite/kfgameHistory",
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.status) {
+            setHis(result.resp);
+          }
+        })
+        .catch((error) => console.log("error", error));
+    } else {
+      setTimeout(() => {
+        setHis(null);
+      }, 1000);
+    }
+  }, [gamehis]);
 
   const StartGame = () => {
     if (ip == "") {
@@ -564,9 +613,20 @@ const GameApp = ({
               <Button
                 className="mt-2"
                 variant="outlined"
+                disabled={startLoad}
                 onClick={() => his.push("/quizgameresult/all")}>
                 {lang == "th" ? "ดูคะแนนเฉลี่ย" : "View average score"}
               </Button>
+              <br />
+              {isAuthenticated && (
+                <Button
+                  className="mt-2"
+                  variant="outlined"
+                  disabled={startLoad}
+                  onClick={() => setGameHistory(true)}>
+                  {lang == "th" ? "ดูคะแนนย้อนหลัง" : "View previous Play"}
+                </Button>
+              )}
             </CardContent>
           </Card>
           {open && (
@@ -584,6 +644,81 @@ const GameApp = ({
               }}
             />
           )}
+          <Dialog
+            open={gamehis}
+            TransitionComponent={Transition}
+            transitionDuration={400}
+            onClose={() => {}}
+            maxWidth="md">
+            {hisgame != null ? (
+              <>
+                <DialogTitle>
+                  {lang == "th" ? "ประวัติการเล่น" : "Quiz Game History"}
+                </DialogTitle>
+                <TableContainer component={Paper} className="mb-5">
+                  <Table sx={{ minWidth: 650 }}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          {lang == "th"
+                            ? "วันเวลาที่เล่น"
+                            : "Quiz Play Timestamp"}
+                        </TableCell>
+                        <TableCell align="right">
+                          {lang == "th" ? "สถานที่เข้าถึง" : "Access Country"}
+                        </TableCell>
+                        <TableCell align="right">
+                          {lang == "th" ? "คะแนนที่ได้" : "Scores"}
+                        </TableCell>
+                        <TableCell align="right">
+                          {lang == "th"
+                            ? "ระยะเวลาที่เล่น (วินาที)"
+                            : "Play Duration (Seconds)"}
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {hisgame.map((item) => (
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": {
+                              border: 0,
+                            },
+                          }}>
+                          <TableCell component="th" scope="row">
+                            {moment(item.created)
+                              .lang(lang)
+                              .local()
+                              .format("DD MMMM YYYY HH:mm")}
+                          </TableCell>
+                          <TableCell component="th" scope="row" align="right">
+                            {item.country}
+                          </TableCell>
+                          <TableCell component="th" scope="row" align="right">
+                            {item.score}
+                          </TableCell>
+                          <TableCell component="th" scope="row" align="right">
+                            {item.duration}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </>
+            ) : (
+              <Skeleton
+                variant="rounded"
+                className="bg-m mt-3 mb-3"
+                sx={{ height: 80, width: "100vw" }}
+              />
+            )}
+            <DialogActions>
+              <Button disabled={hisgame == null} onClick={() => setGameHistory(false)}>
+                {lang == "th" ? "ปิด" : "Close"}
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </Fade>
     );
