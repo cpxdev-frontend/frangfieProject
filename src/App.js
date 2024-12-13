@@ -73,6 +73,7 @@ import Trend from "./page/trend";
 import Event from "./page/event";
 import Album from "./page/albumgroup";
 import Gallery from "./page/gallery";
+import Ge from "./page/ge";
 import Game from "./page/game";
 import GameD from "./page/gamedash";
 import Feed from "./page/update";
@@ -92,7 +93,7 @@ const pageSec = [
   "discography",
   "live",
   "trend",
-  // "gallery",
+  "ge5",
   "events",
   "feeds",
   "quizgame",
@@ -105,7 +106,7 @@ const pagesEn = [
   "Discography",
   "LIVE Contents",
   "Trend Boost",
-  // "Gallery",
+  "General Election",
   "Events of Frang",
   "Social Feeds",
   "Quiz",
@@ -118,7 +119,7 @@ const pagesTh = [
   "ผลงาน",
   "กิจกรรมสด",
   "ปั่นเทรน",
-  // "คลังรูป",
+  "การเลือกตั้งทั่วไป",
   "กิจกรรม",
   "ฟีดออนไลน์",
   "มินิเกมส์",
@@ -1682,12 +1683,12 @@ function App({
               data-aos="fade-in"
               path="/gallery/:id"
               render={() => <Gallery />}
-            />
+            /> */}
             <Route
               data-aos="fade-in"
-              path="/gallery"
-              render={() => <Album />}
-            /> */}
+              path="/ge5"
+              render={() => <Ge />}
+            />
             <Route
               data-aos="fade-in"
               path="/discography"
