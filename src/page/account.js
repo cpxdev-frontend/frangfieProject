@@ -1255,7 +1255,6 @@ const Acct = ({
                         : "E-Donate to KorKao Points"}
                     </Button> */}
                     <Button
-                      disabled={true}
                       onClick={() => {
                         setTransModel(true);
                         setTrans({
@@ -1294,7 +1293,6 @@ const Acct = ({
                         : "E-Donate to KorKao Points"}
                     </Button> */}
                     <Button
-                      disabled={true}
                       onClick={() => {
                         setTransModel(true);
                         setTrans({
