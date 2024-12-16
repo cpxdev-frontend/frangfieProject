@@ -459,10 +459,17 @@ const Ge = ({
           </Stepper>
         </Box>
 
-        <Box className="container mt-5" sx={{ flexGrow: 1 }}>
+        <CardHeader title="Begining of War" className="mt-5" />
+        <Box className="container" sx={{ flexGrow: 1 }}>
           <Grid container spacing={5}>
             <Grid item lg={3} md={6} xs={12} className="text-center">
               <Box
+                onClick={() =>
+                  window.open(
+                    "https://withmywish.com/ge-2025/#candicate",
+                    "_blank"
+                  )
+                }
                 className="p-3"
                 sx={{
                   borderRadius: 5,
@@ -477,6 +484,12 @@ const Ge = ({
             </Grid>
             <Grid item lg={3} md={6} xs={12} className="text-center">
               <Box
+                onClick={() =>
+                  window.open(
+                    "https://withmywish.com/ge-2025/#candicate",
+                    "_blank"
+                  )
+                }
                 className="p-3"
                 sx={{
                   borderRadius: 5,
@@ -490,6 +503,12 @@ const Ge = ({
             </Grid>
             <Grid item lg={3} md={6} xs={12} className="text-center">
               <Box
+                onClick={() =>
+                  window.open(
+                    "https://withmywish.com/ge-2025/#candicate",
+                    "_blank"
+                  )
+                }
                 className="p-3"
                 sx={{
                   borderRadius: 5,
@@ -503,6 +522,9 @@ const Ge = ({
             </Grid>
             <Grid item lg={3} md={6} xs={12} className="text-center">
               <Box
+                onClick={() =>
+                  window.open("https://withmywish.com/ge-2025/#songs", "_blank")
+                }
                 className="p-3"
                 sx={{
                   borderRadius: 5,
