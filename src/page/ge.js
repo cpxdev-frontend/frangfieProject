@@ -459,7 +459,13 @@ const Ge = ({
           </Stepper>
         </Box>
 
-        <CardHeader title="Begining of War" className="mt-5" />
+        <CardHeader
+          title="Mini Statistic"
+          subheader={
+            lang == "th" ? "ข้อมูลโดยวิชมายวิช" : "Provided by WithMyWish"
+          }
+          className="mt-5"
+        />
         <Box className="container" sx={{ flexGrow: 1 }}>
           <Grid container spacing={5}>
             <Grid item lg={3} md={6} xs={12} className="text-center">
@@ -478,7 +484,7 @@ const Ge = ({
                 }}>
                 <p>General Election Candidated Members</p>
                 <h1>
-                  <CountUp end={48} onEnd={() => {}} duration={5} />
+                  <CountUp end={48} onEnd={() => {}} duration={4} />
                 </h1>
               </Box>
             </Grid>
@@ -497,7 +503,7 @@ const Ge = ({
                 }}>
                 <p>BNK48 Candidated Members</p>
                 <h1>
-                  <CountUp end={30} onEnd={() => {}} duration={5} />
+                  <CountUp end={30} onEnd={() => {}} duration={4} />
                 </h1>
               </Box>
             </Grid>
@@ -516,7 +522,7 @@ const Ge = ({
                 }}>
                 <p>CGM48 Candidated Members</p>
                 <h1>
-                  <CountUp end={18} onEnd={() => {}} duration={5} />
+                  <CountUp end={18} onEnd={() => {}} duration={4} />
                 </h1>
               </Box>
             </Grid>
@@ -533,7 +539,7 @@ const Ge = ({
                 }}>
                 <p>Song Selected by Candidated members</p>
                 <h1>
-                  <CountUp end={70} onEnd={() => {}} duration={5} />
+                  <CountUp end={70} onEnd={() => {}} duration={4} />
                 </h1>
               </Box>
             </Grid>
