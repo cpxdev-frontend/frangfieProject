@@ -42,6 +42,7 @@ import {
   setLaunch,
 } from "../redux/action";
 import moment from "moment";
+import CountUp from "react-countup";
 import {
   AddPhotoAlternate,
   BorderColor,
@@ -388,16 +389,13 @@ const Ge = ({
         <Box className="m-3">
           <CardHeader title="Event TimeLine" />
           <Stepper
-            orientation={window.innerWidth > 900 ? "landscape" : "vertical"}
-          >
+            orientation={window.innerWidth > 900 ? "landscape" : "vertical"}>
             <Step
               active={getsessionactive(0)}
-              completed={getsessioncomplete(0)}
-            >
+              completed={getsessioncomplete(0)}>
               <StepLabel
                 StepIconComponent={ScheduleIcon}
-                sx={{ backgroundColor: timeline > 0 ? "#58eb34" : "" }}
-              >
+                sx={{ backgroundColor: timeline > 0 ? "#58eb34" : "" }}>
                 <h6>
                   {lang == "th"
                     ? "เปิดลงทะเบียนการเข้าร่วมกิจกรรม (สำหรับเมมเบอร์ BNK48 และ CGM48)"
@@ -412,12 +410,10 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(1)}
-              completed={getsessioncomplete(1)}
-            >
+              completed={getsessioncomplete(1)}>
               <StepLabel
                 StepIconComponent={HowToVoteIcon}
-                sx={{ backgroundColor: timeline > 1 ? "#58eb34" : "" }}
-              >
+                sx={{ backgroundColor: timeline > 1 ? "#58eb34" : "" }}>
                 <h6>{lang == "th" ? "เปิดการโหวต" : "Voting Period"}</h6>
               </StepLabel>
               <StepContent>
@@ -428,12 +424,10 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(2)}
-              completed={getsessioncomplete(2)}
-            >
+              completed={getsessioncomplete(2)}>
               <StepLabel
                 StepIconComponent={PollIcon}
-                sx={{ backgroundColor: timeline > 2 ? "#58eb34" : "" }}
-              >
+                sx={{ backgroundColor: timeline > 2 ? "#58eb34" : "" }}>
                 <h6>
                   {lang == "th"
                     ? "ประกาศผลด่วน 24 ชั่วโมงแรก"
@@ -448,12 +442,10 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(3)}
-              completed={getsessioncomplete(3)}
-            >
+              completed={getsessioncomplete(3)}>
               <StepLabel
                 StepIconComponent={LiveTvIcon}
-                sx={{ backgroundColor: timeline > 3 ? "#58eb34" : "" }}
-              >
+                sx={{ backgroundColor: timeline > 3 ? "#58eb34" : "" }}>
                 <h6>
                   {lang == "th"
                     ? "ประกาศผลอย่างเป็นทางการ"
@@ -465,6 +457,65 @@ const Ge = ({
               </StepContent>
             </Step>
           </Stepper>
+        </Box>
+
+        <Box className="container mt-5" sx={{ flexGrow: 1 }}>
+          <Grid container spacing={5}>
+            <Grid item lg={3} md={6} xs={12} className="text-center">
+              <Box
+                className="p-3"
+                sx={{
+                  borderRadius: 5,
+                  background:
+                    "linear-gradient(180deg, rgba(203,150,194,1) 0%, rgba(73,197,168,1) 100%)",
+                }}>
+                <p>General Election Candidated Members</p>
+                <h1>
+                  <CountUp end={48} onEnd={() => {}} duration={5} />
+                </h1>
+              </Box>
+            </Grid>
+            <Grid item lg={3} md={6} xs={12} className="text-center">
+              <Box
+                className="p-3"
+                sx={{
+                  borderRadius: 5,
+                  backgroundColor: "#cb96c2",
+                }}>
+                <p>BNK48 Candidated Members</p>
+                <h1>
+                  <CountUp end={30} onEnd={() => {}} duration={5} />
+                </h1>
+              </Box>
+            </Grid>
+            <Grid item lg={3} md={6} xs={12} className="text-center">
+              <Box
+                className="p-3"
+                sx={{
+                  borderRadius: 5,
+                  backgroundColor: "#49c5a8",
+                }}>
+                <p>CGM48 Candidated Members</p>
+                <h1>
+                  <CountUp end={18} onEnd={() => {}} duration={5} />
+                </h1>
+              </Box>
+            </Grid>
+            <Grid item lg={3} md={6} xs={12} className="text-center">
+              <Box
+                className="p-3"
+                sx={{
+                  borderRadius: 5,
+                  backgroundColor: "#404040",
+                  color: "#fff",
+                }}>
+                <p>Song Selected by Candidated members</p>
+                <h1>
+                  <CountUp end={70} onEnd={() => {}} duration={5} />
+                </h1>
+              </Box>
+            </Grid>
+          </Grid>
         </Box>
 
         <Box className="mt-5">
@@ -490,8 +541,7 @@ const Ge = ({
                       "https://www.facebook.com/bnk48official/posts/pfbid0JXgFZzmA6CLm9wx9cucESrgSZYk1qv8Yw1ZsoPe4EmkxuQJyL4FPLv8XfzoLmGqMl",
                       "_blank"
                     )
-                  }
-                >
+                  }>
                   {lang == "th" ? "ไปยังลิงก์" : "Go to external link"}
                 </Button>
               </CardActions>
@@ -529,8 +579,7 @@ const Ge = ({
                       "https://youtube.com/watch?v=CGXwRIcnrJo",
                       "_blank"
                     )
-                  }
-                >
+                  }>
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -541,8 +590,7 @@ const Ge = ({
                       "https://open.spotify.com/track/6wgJfy5bVOhEiKz08YaV64",
                       "_blank"
                     )
-                  }
-                >
+                  }>
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -567,8 +615,7 @@ const Ge = ({
                       "https://youtube.com/watch?v=0pKfxbCHLoU",
                       "_blank"
                     )
-                  }
-                >
+                  }>
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -579,8 +626,7 @@ const Ge = ({
                       "https://open.spotify.com/track/1Paki9ZUoGAJCDfykNrHV8",
                       "_blank"
                     )
-                  }
-                >
+                  }>
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -605,8 +651,7 @@ const Ge = ({
                       "https://youtube.com/watch?v=tBFJFAP3GKU",
                       "_blank"
                     )
-                  }
-                >
+                  }>
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -617,8 +662,7 @@ const Ge = ({
                       "https://open.spotify.com/track/0svM1S2Msb3aIfpf2Cf0YT",
                       "_blank"
                     )
-                  }
-                >
+                  }>
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -645,12 +689,8 @@ const Ge = ({
               <CardActions>
                 <Button
                   onClick={() =>
-                    window.open(
-                      "https://youtu.be/1cVvscOjruc",
-                      "_blank"
-                    )
-                  }
-                >
+                    window.open("https://youtu.be/1cVvscOjruc", "_blank")
+                  }>
                   {lang == "th" ? "ไปยังลิงก์" : "Go to external link"}
                 </Button>
               </CardActions>
@@ -660,8 +700,7 @@ const Ge = ({
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}
-        >
+          open={load}>
           <CircularProgress />
         </Backdrop>
       </Box>
