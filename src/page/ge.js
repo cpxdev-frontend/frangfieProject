@@ -151,6 +151,11 @@ const Ge = ({
 
   React.useEffect(() => {
     RefreshDate();
+    if (moment() >= moment.unix(1743224400)) {
+      setInterval(() => {
+        RefreshDate();
+      }, 10000);
+    }
     window.addEventListener(
       "resize",
       function (event) {
@@ -258,10 +263,10 @@ const Ge = ({
     return i + "th";
   }
   const getGEResulttext = () => {
-    if (moment() < moment.unix(1743253200)) {
+    if (moment() < moment.unix(1743224400)) {
       return lang == "th"
-        ? "<h5>อยู่ระหว่างการประมวลผล</h5>"
-        : "<h5>Processing the result</h5>";
+        ? "<h5>ระบบอยู่ระหว่างการเตรียมความพร้อม</h5>"
+        : "<h5>System is preparing</h5>";
     }
     if (ge5 != undefined && ge5 != null) {
       if (ge5.rank == 1) {

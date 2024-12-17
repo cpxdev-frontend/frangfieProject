@@ -468,7 +468,12 @@ function App({
   };
 
   const fetchtime = () => {
-    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/gettime", {})
+    fetch(
+      (Math.floor(Math.random() * 10) + 1 < 5
+        ? process.env.REACT_APP_APIE
+        : process.env.REACT_APP_APIE_2) + "/kfsite/gettime",
+      {}
+    )
       .then((response) => response.text())
       .then((result) => {
         setLaunch(parseInt(result));
@@ -1684,11 +1689,7 @@ function App({
               path="/gallery/:id"
               render={() => <Gallery />}
             /> */}
-            <Route
-              data-aos="fade-in"
-              path="/ge5"
-              render={() => <Ge />}
-            />
+            <Route data-aos="fade-in" path="/ge5" render={() => <Ge />} />
             <Route
               data-aos="fade-in"
               path="/discography"
@@ -1784,10 +1785,18 @@ function App({
         <CircularProgress />
       </Backdrop>
       <Fade
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1, top: 0, position: 'fixed' }}
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          top: 0,
+          position: "fixed",
+        }}
         in={loadPre}
       >
-        <LinearProgress sx={{ height: 100, borderColor: '#b802a8' }} className="w-100" />
+        <LinearProgress
+          sx={{ height: 100, borderColor: "#b802a8" }}
+          className="w-100"
+        />
       </Fade>
     </div>
   );
