@@ -83,10 +83,7 @@ const Ge = ({
   opacity,
   guide,
 }) => {
-  const [headedit, setHeadedit] = React.useState(false);
-  const [header, setHead] = React.useState("Kaofrang Birthday");
-  const [bg, setBg] = React.useState("#fff");
-  const [bgd, setChangebg] = React.useState(false);
+  const [ge5, setGe5Result] = React.useState(null);
   const [h, setH] = React.useState(window.innerHeight);
   const [sizes, setSizescreennotmatch] = React.useState(
     window.innerWidth < 900
@@ -125,12 +122,17 @@ const Ge = ({
   }, [text, img]);
 
   const RefreshDate = () => {
-    fetch(process.env.REACT_APP_APIE_2 + "/kfsite/birthdayStatus?ok=kf", {
-      method: "post",
-    })
+    fetch(
+      (Math.floor(Math.random() * 10) + 1 < 5
+        ? process.env.REACT_APP_APIE
+        : process.env.REACT_APP_APIE_2) + "/kfsite/getge5result",
+      {
+        method: "post",
+      }
+    )
       .then((response) => response.json())
       .then((result) => {
-        setUp(result.response);
+        setGe5Result(result.filter((x) => x.member == "Kaofrang_BNK48")[0]);
         // setUp(true);
       })
       .catch((error) => console.log("error", error));
@@ -172,137 +174,6 @@ const Ge = ({
         : "BNK48 & CGM48 Senbatsu General Election 2025"
     );
   }, []);
-
-  const addTxt = () => {
-    const API = uuidv4();
-    setAddText([
-      ...text,
-      {
-        id: API,
-        txt: "",
-        color: "#000",
-        w: 270,
-        h: "100%",
-      },
-    ]);
-    setEditmode(API);
-  };
-
-  const Updateh = (e, id) => {
-    let updatedList = text.map((item) => {
-      if (item.id == id) {
-        return { ...item, txt: e.target.value }; //gets everything that was already in item, and updates "done"
-      }
-      return item; // else return unmodified item
-    });
-
-    setAddText(updatedList);
-  };
-
-  const UpdateColorBody = (color, id) => {
-    let updatedList = text.map((item) => {
-      if (item.id == id) {
-        return { ...item, color: color.hex }; //gets everything that was already in item, and updates "done"
-      }
-      return item; // else return unmodified item
-    });
-
-    setAddText(updatedList);
-  };
-
-  const resizeModeImg = (w, h, id) => {
-    let updatedList = img.map((item) => {
-      if (item.id == id) {
-        return { ...item, w: w, h: h }; //gets everything that was already in item, and updates "done"
-      }
-      return item; // else return unmodified item
-    });
-
-    setAddImg(updatedList);
-  };
-
-  const addImg = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/png, image/webp, image/jpg, image/jpeg";
-    input.style.display = "none";
-
-    document.body.appendChild(input);
-
-    input.click();
-
-    input.addEventListener("change", (event) => {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        const base64String = event.target.result;
-        setAddImg([
-          ...img,
-          {
-            id: uuidv4(),
-            w: 270,
-            h: "100%",
-            src: base64String,
-          },
-        ]);
-      };
-
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const Export = async () => {
-    if (cardsuccess.current === null) {
-      return;
-    }
-
-    setLoad(true);
-    ReactGA.event({
-      category: "User",
-      action: "Use birthday content",
-    });
-    setTimeout(() => {
-      toPng(cardsuccess.current, {
-        preferredFontFormat:
-          "QGZvbnQtZmFjZXtuYW1lOidtaXNhbnMnO3NyYzp1cmwoJ2h0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9naC9jcHgyMDE3L21pc2Fuc2ZvbnRAbWFpbi9lbi9NaVNhbnMtTm9ybWFsLndvZmYyJykgZm9ybWF0KCd3b2ZmMicpLHVybCgnaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2NweDIwMTcvbWlzYW5zZm9udEBtYWluL2VuL01pU2Fucy1Ob3JtYWwud29mZicpIGZvcm1hdCgnd29mZicpO2ZvbnQtd2VpZ2h0OjUwMDtmb250LXN0eWxlOm5vcm1hbDtmb250LWRpc3BsYXk6c3dhcH0=",
-      })
-        .then((dataUrl) => {
-          Swal.fire({
-            title: "Do you want to export Card to file",
-            imageUrl: dataUrl,
-            imageWidth: 600,
-            showDenyButton: true,
-            confirmButtonText: "Save",
-            denyButtonText: `Cancel`,
-          }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-              const link = document.createElement("a");
-              link.download = "Your KorKaofrang Birthday Card.jpg";
-              link.href = dataUrl;
-              link.click();
-            }
-          });
-          setLoad(false);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }, 500);
-  };
-
-  const switchimg = (v) => {
-    if (editmodeimg != "") {
-      setEditmodeImg("");
-    } else {
-      setEditmodeImg(v);
-    }
-  };
-
-  const RenderHTML = (html) => (
-    <div dangerouslySetInnerHTML={{ __html: html }}></div>
-  );
 
   const getsessionactive = (v) => {
     switch (v) {
@@ -372,6 +243,69 @@ const Ge = ({
       }
     }
   };
+  function ordinal_suffix_of(i) {
+    let j = i % 10,
+      k = i % 100;
+    if (j === 1 && k !== 11) {
+      return i + "st";
+    }
+    if (j === 2 && k !== 12) {
+      return i + "nd";
+    }
+    if (j === 3 && k !== 13) {
+      return i + "rd";
+    }
+    return i + "th";
+  }
+  const getGEResulttext = () => {
+    if (moment() < moment.unix(1743253200)) {
+      return lang == "th"
+        ? "<h5>อยู่ระหว่างการประมวลผล</h5>"
+        : "<h5>Processing the result</h5>";
+    }
+    if (ge5 != undefined && ge5 != null) {
+      if (ge5.rank == 1) {
+        return lang == "th"
+          ? "ยินดีด้วย! ข้าวฟ่างได้รับตำแหน่ง<b>เซนเตอร์ในเพลงหลัก</b>ของซิงเกิ้ลที่ 19 ของ BNK48 ด้วยคะแนน <b>" +
+              ge5.token +
+              " โทเคน</b>"
+          : "Congratulations! Kaofrang Yanisa is <b>Center Position of Main song</b> of BNK48 19th Single by <b>" +
+              ge5.token +
+              " tokens</b>";
+      } else if (ge5.rank == 13) {
+        return lang == "th"
+          ? "ยินดีด้วย! ข้าวฟ่างได้รับตำแหน่งเซนเตอร์ในเพลงรอง (เพลงที่สอง) ของซิงเกิ้ลที่ 19 ของ BNK48 ด้วยคะแนน <b>" +
+              ge5.token +
+              " โทเคน</b>"
+          : "Congratulations! Kaofrang Yanisa is <b>Center Position of Couple song (2nd Song)</b> of BNK48 19th Single by <b>" +
+              ge5.token +
+              " tokens</b>";
+      } else if (ge5.rank == 25) {
+        return lang == "th"
+          ? "ยินดีด้วย! ข้าวฟ่างได้รับตำแหน่ง<b>เซนเตอร์ในเพลงรอง (เพลงที่สาม)</b> ของซิงเกิ้ลที่ 19 ของ BNK48 ด้วยคะแนน <b>" +
+              ge5.token +
+              " โทเคน</b>"
+          : "Congratulations! Kaofrang Yanisa is <b>Center Position of Couple song (3rd Song)</b> of BNK48 19th Single by <b>" +
+              ge5.token +
+              " tokens</b>";
+      } else {
+        return lang == "th"
+          ? "ยินดีด้วย! ข้าวฟ่างอยู่ในอันดับที่ <b>" +
+              ge5.rank +
+              "</b> ด้วยคะแนน <b>" +
+              ge5.token +
+              " โทเคน</b>"
+          : "Congratulations! Kaofrang Yanisa is in <b>" +
+              ordinal_suffix_of(ge5.rank) +
+              " place</b> of BNK48 & CGM48 Senbatsu General Election 2025 by <b>" +
+              ge5.token +
+              " tokens</b>";
+      }
+    }
+    return lang == "th"
+      ? "<h5>อยู่ระหว่างการประมวลผล</h5>"
+      : "<h5>Processing the result</h5>";
+  };
 
   const steps = [
     "Candidate Acceptance Period",
@@ -389,13 +323,16 @@ const Ge = ({
         <Box className="m-3">
           <CardHeader title="Event TimeLine" />
           <Stepper
-            orientation={window.innerWidth > 900 ? "landscape" : "vertical"}>
+            orientation={window.innerWidth > 900 ? "landscape" : "vertical"}
+          >
             <Step
               active={getsessionactive(0)}
-              completed={getsessioncomplete(0)}>
+              completed={getsessioncomplete(0)}
+            >
               <StepLabel
                 StepIconComponent={ScheduleIcon}
-                sx={{ backgroundColor: timeline > 0 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 0 ? "#58eb34" : "" }}
+              >
                 <h6>
                   {lang == "th"
                     ? "เปิดลงทะเบียนการเข้าร่วมกิจกรรม (สำหรับเมมเบอร์ BNK48 และ CGM48)"
@@ -410,10 +347,12 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(1)}
-              completed={getsessioncomplete(1)}>
+              completed={getsessioncomplete(1)}
+            >
               <StepLabel
                 StepIconComponent={HowToVoteIcon}
-                sx={{ backgroundColor: timeline > 1 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 1 ? "#58eb34" : "" }}
+              >
                 <h6>{lang == "th" ? "เปิดการโหวต" : "Voting Period"}</h6>
               </StepLabel>
               <StepContent>
@@ -424,10 +363,12 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(2)}
-              completed={getsessioncomplete(2)}>
+              completed={getsessioncomplete(2)}
+            >
               <StepLabel
                 StepIconComponent={PollIcon}
-                sx={{ backgroundColor: timeline > 2 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 2 ? "#58eb34" : "" }}
+              >
                 <h6>
                   {lang == "th"
                     ? "ประกาศผลด่วน 24 ชั่วโมงแรก"
@@ -442,10 +383,12 @@ const Ge = ({
             </Step>
             <Step
               active={getsessionactive(3)}
-              completed={getsessioncomplete(3)}>
+              completed={getsessioncomplete(3)}
+            >
               <StepLabel
                 StepIconComponent={LiveTvIcon}
-                sx={{ backgroundColor: timeline > 3 ? "#58eb34" : "" }}>
+                sx={{ backgroundColor: timeline > 3 ? "#58eb34" : "" }}
+              >
                 <h6>
                   {lang == "th"
                     ? "ประกาศผลอย่างเป็นทางการ"
@@ -458,6 +401,24 @@ const Ge = ({
             </Step>
           </Stepper>
         </Box>
+
+        <CardHeader
+          title="General Election Result"
+          subheader={
+            <p
+              dangerouslySetInnerHTML={{
+                __html:
+                  getGEResulttext() +
+                  "" +
+                  (lang == "th"
+                    ? '<div class="mt-3">ข้อมูลโดยวิชมายวิช</div>'
+                    : '<div class="mt-3">Provided by WithMyWish</div>'),
+              }}
+            ></p>
+          }
+          className="m-2 mt-5 border border-pink"
+          sx={{ borderRadius: 6 }}
+        />
 
         <CardHeader
           title="Mini Statistic"
@@ -481,7 +442,8 @@ const Ge = ({
                   borderRadius: 5,
                   background:
                     "linear-gradient(180deg, rgba(203,150,194,1) 0%, rgba(73,197,168,1) 100%)",
-                }}>
+                }}
+              >
                 <p>General Election Candidated Members</p>
                 <h1>
                   <CountUp end={48} onEnd={() => {}} duration={4} />
@@ -500,7 +462,8 @@ const Ge = ({
                 sx={{
                   borderRadius: 5,
                   backgroundColor: "#cb96c2",
-                }}>
+                }}
+              >
                 <p>BNK48 Candidated Members</p>
                 <h1>
                   <CountUp end={30} onEnd={() => {}} duration={4} />
@@ -519,7 +482,8 @@ const Ge = ({
                 sx={{
                   borderRadius: 5,
                   backgroundColor: "#49c5a8",
-                }}>
+                }}
+              >
                 <p>CGM48 Candidated Members</p>
                 <h1>
                   <CountUp end={18} onEnd={() => {}} duration={4} />
@@ -536,7 +500,8 @@ const Ge = ({
                   borderRadius: 5,
                   backgroundColor: "#404040",
                   color: "#fff",
-                }}>
+                }}
+              >
                 <p>Song Selected by Candidated members</p>
                 <h1>
                   <CountUp end={70} onEnd={() => {}} duration={4} />
@@ -569,7 +534,8 @@ const Ge = ({
                       "https://www.facebook.com/bnk48official/posts/pfbid0JXgFZzmA6CLm9wx9cucESrgSZYk1qv8Yw1ZsoPe4EmkxuQJyL4FPLv8XfzoLmGqMl",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "ไปยังลิงก์" : "Go to external link"}
                 </Button>
               </CardActions>
@@ -607,7 +573,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=CGXwRIcnrJo",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -618,7 +585,8 @@ const Ge = ({
                       "https://open.spotify.com/track/6wgJfy5bVOhEiKz08YaV64",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -643,7 +611,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=0pKfxbCHLoU",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -654,7 +623,8 @@ const Ge = ({
                       "https://open.spotify.com/track/1Paki9ZUoGAJCDfykNrHV8",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -679,7 +649,8 @@ const Ge = ({
                       "https://youtube.com/watch?v=tBFJFAP3GKU",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th"
                     ? "รับชมมิวสิควีดีโอต้นฉบับ"
                     : "Watching original Music Video"}
@@ -690,7 +661,8 @@ const Ge = ({
                       "https://open.spotify.com/track/0svM1S2Msb3aIfpf2Cf0YT",
                       "_blank"
                     )
-                  }>
+                  }
+                >
                   {lang == "th" ? "รับฟังบน Spotify" : "Listen it on Spotify!"}
                 </Button>
               </CardActions>
@@ -718,7 +690,8 @@ const Ge = ({
                 <Button
                   onClick={() =>
                     window.open("https://youtu.be/1cVvscOjruc", "_blank")
-                  }>
+                  }
+                >
                   {lang == "th" ? "ไปยังลิงก์" : "Go to external link"}
                 </Button>
               </CardActions>
@@ -728,7 +701,8 @@ const Ge = ({
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}>
+          open={load}
+        >
           <CircularProgress />
         </Backdrop>
       </Box>

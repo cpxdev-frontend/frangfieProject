@@ -73,6 +73,10 @@ body {
   background-color: #fb61ee !important;
 }
 
+.border-pink {
+  border-color: #fb61ee !important;
+}
+
 .img {
   background-size: cover;
   background-position: center;
