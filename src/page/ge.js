@@ -328,7 +328,7 @@ const Ge = ({
         <Box className="m-3">
           <CardHeader title="Event TimeLine" />
           <Stepper
-            orientation={window.innerWidth > 900 ? "landscape" : "vertical"}
+            orientation={window.innerWidth > 1100 ? "landscape" : "vertical"}
           >
             <Step
               active={getsessionactive(0)}
