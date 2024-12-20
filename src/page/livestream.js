@@ -124,8 +124,8 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
     fetch(process.env.REACT_APP_APIE_2 + "/kfsite/kflive", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setData2(result.res);
-        setSam2(result.res);
+        setData2(result.res.items);
+        setSam2(result.res.items);
       })
       .catch((error) => console.log("error", error));
   }, []);
