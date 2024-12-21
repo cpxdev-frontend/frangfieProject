@@ -168,7 +168,7 @@ const GameApp = ({
       };
 
       fetch(
-        process.env.REACT_APP_APIE_2 + "/kfsite/kfgameHistory",
+        process.env.REACT_APP_APIE + "/kfsite/kfgameHistory",
         requestOptions
       )
         .then((response) => response.json())
