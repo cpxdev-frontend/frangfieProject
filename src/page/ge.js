@@ -258,7 +258,6 @@ const Ge = ({
     if (cardsuccess.current === null) {
       return;
     }
-    setGeDonate(false);
     setPrint(true);
     setLoad(true);
     ReactGA.event({
@@ -272,7 +271,6 @@ const Ge = ({
           "QGZvbnQtZmFjZXtuYW1lOidtaXNhbnMnO3NyYzp1cmwoJ2h0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9naC9jcHgyMDE3L21pc2Fuc2ZvbnRAbWFpbi9lbi9NaVNhbnMtTm9ybWFsLndvZmYyJykgZm9ybWF0KCd3b2ZmMicpLHVybCgnaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2NweDIwMTcvbWlzYW5zZm9udEBtYWluL2VuL01pU2Fucy1Ob3JtYWwud29mZicpIGZvcm1hdCgnd29mZicpO2ZvbnQtd2VpZ2h0OjUwMDtmb250LXN0eWxlOm5vcm1hbDtmb250LWRpc3BsYXk6c3dhcH0=",
       })
         .then((dataUrl) => {
-          setGeDonate(true);
           const link = document.createElement("a");
           link.download = "KorKao QR Donate for GE5.jpg";
           link.href = dataUrl;
@@ -851,6 +849,84 @@ const Ge = ({
           </div>
         </Box>
 
+        <div
+          className="col-12 text-center w-100"
+          ref={cardsuccess}
+          style={{
+            backgroundColor: print ? "#fff" : "",
+            display: print ? "block" : "none",
+          }}>
+          <div className="col-12 d-flex justify-content-center">
+            {print == false ? (
+              <QRCode
+                value={qrCode}
+                logoImage="https://d3hhrps04devi8.cloudfront.net/kf/thqr.webp"
+                logoWidth={100}
+                logoHeight={100}
+                size={300}
+                style={{ width: 250, height: 250 }}
+                qrStyle="dots"
+                crossorigin="anonymous"
+              />
+            ) : (
+              <CardMedia
+                sx={{ width: 250, height: 250 }}
+                src={
+                  "https://quickchart.io/qr?size=300&text=" +
+                  qrCode +
+                  "&centerImageUrl=https://d3hhrps04devi8.cloudfront.net/kf/thqr.webp"
+                }
+                component="img"
+              />
+            )}
+          </div>
+          {num > 0 && print && (
+            <Typography
+              className="col-12 mt-3"
+              dangerouslySetInnerHTML={{
+                __html:
+                  lang == "th"
+                    ? "ยอดที่โอน " + comma(num) + " บาท"
+                    : "Amount " +
+                      comma(num) +
+                      (setexc == "-"
+                        ? " THB<br />Please check your exchange rate on your local mobile banking after scan this QR Code."
+                        : " THB<br />(Based on estimated " +
+                          comma((num * exc[setexc]).toFixed(2)) +
+                          " " +
+                          setexc.toUpperCase()) +
+                      ")",
+              }}></Typography>
+          )}
+          {print && (
+            <>
+              <Typography className="col-12 mt-3">
+                Biller ID: 004999199434118
+                <br />
+                {lang == "th"
+                  ? "ชื่อบัญชี: นายสุชาติ ลินสวัสด์"
+                  : "Account Name: Mr.Suchart Sinsawad"}
+              </Typography>
+              <Typography className="col-12 mt-3">
+                {lang != "th" &&
+                  "Please make sure that your local mobile banking is support to transfer to international bank via Thai QR payment. You maybe have some fee for transfer abroad. However, this exchange rate maybe different to data from your local mobile banking. Please refer to the exchange rate of the bank you use."}
+              </Typography>
+            </>
+          )}
+          {lock && !print && (
+            <Typography
+              className="col-12 mt-3"
+              dangerouslySetInnerHTML={{
+                __html:
+                  lang == "th"
+                    ? "ยอดที่โอน " + comma(num) + " บาท"
+                    : "Amount " +
+                      comma(num) +
+                      " THB<br />Please view exchange rate below.",
+              }}></Typography>
+          )}
+        </div>
+
         <Dialog
           open={gedonate}
           TransitionComponent={Transition}
@@ -862,8 +938,7 @@ const Ge = ({
           </DialogTitle>
           <DialogContent>
             <div
-              className="col-12 text-center"
-              ref={cardsuccess}
+              className="col-12 text-center w-100"
               style={{ backgroundColor: print ? "#fff" : "" }}>
               <div className="col-12 d-flex justify-content-center">
                 {print == false ? (
@@ -1071,7 +1146,7 @@ const Ge = ({
             </Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setGeDonate(false)}>
+            <Button disabled={print} onClick={() => setGeDonate(false)}>
               {lang == "th" ? "ปิด" : "Close"}
             </Button>
           </DialogActions>
