@@ -29,6 +29,8 @@ import {
   CardMedia,
   Backdrop,
   MenuItem,
+  Stack,
+  Chip,
 } from "@mui/material";
 import StepConnector, {
   stepConnectorClasses,
@@ -935,7 +937,6 @@ const Ge = ({
             {lang != "th" && (
               <TextField
                 select
-                data-tour="donate-2"
                 label="Choose your currency"
                 value={setexc}
                 helperText={
@@ -962,9 +963,10 @@ const Ge = ({
             <TextField
               label={
                 lang == "th"
-                  ? "จำนวนเงินที่เลือก (บาท)"
-                  : "Selected amount (Thai Baht)"
+                  ? "เลือกหรือระบุจำนวนเงิน (บาท)"
+                  : "Choose or enter your amount (Thai Baht)"
               }
+              data-tour="donate-3"
               value={num}
               helperText={
                 lang == "th" ||
@@ -989,41 +991,92 @@ const Ge = ({
               className={(lang == "th" ? "mt-5" : "mt-3") + " mb-3 m-2"}
               defaultValue={0}
               fullWidth
-              SelectProps={{
-                native: true,
-              }}></TextField>
-            <Typography>
-              {lang == "th"
-                ? "คุณสามารถเลื่อนซ้าย-ขวาตรงแถบสเกลด้านล่างนี้เพื่อปรับจำนวนเงินที่คุณต้องการโดเนทได้สูงสุด 1,000 บาท หากคุณต้องการโดนเทมากกว่านั้น กรุณาเลื่อนสเกลไปทางด้านซ้ายสุดจนเหลือ 0 บาท และกำหนดจำนวนเงินที่ต้องการโอนหลังสแกน QR นี้ในแอปธนาคารของคุณได้"
-                : "Please scale on left or right to adjust your amount up to 1,000 thai baht. If you want to donate more than that. Please scale on left into zero then choose your amount in your Mobile Banking app."}
-            </Typography>
-            <Slider
-              value={num}
-              min={0}
-              max={1000}
-              valueLabelDisplay="auto"
               onChange={(e) => {
                 ReactGA.event({
                   category: "User",
                   action: "Gen QR Payment - GE5",
                 });
                 if (parseInt(e.target.value) == 0) {
-                  setqrCode(generatePayload("004999199434118", {}));
+                  setqrCode(generatePayload("004999166938497", {}));
                 } else {
                   setqrCode(
-                    generatePayload("004999199434118", {
+                    generatePayload("004999166938497", {
                       amount: parseInt(e.target.value),
                     })
                   );
                 }
                 setNum(parseInt(e.target.value));
               }}
-            />
+              SelectProps={{
+                native: true,
+              }}></TextField>
+            <Stack
+              className="d-flex justify-content-center"
+              direction="row"
+              spacing={1}
+              useFlexGap
+              sx={{ flexWrap: "wrap" }}>
+              <Chip
+                onClick={() => setNum(10)}
+                label={lang == "th" ? "10 บาท" : "฿10"}
+                color="primary"
+                variant="outlined"
+                disabled={num == 10}
+              />
+              <Chip
+                onClick={() => setNum(20)}
+                label={lang == "th" ? "20 บาท" : "฿20"}
+                color="primary"
+                variant="outlined"
+                disabled={num == 20}
+              />
+              <Chip
+                onClick={() => setNum(30)}
+                label={lang == "th" ? "30 บาท" : "฿30"}
+                color="primary"
+                variant="outlined"
+                disabled={num == 30}
+              />
+              <Chip
+                onClick={() => setNum(40)}
+                label={lang == "th" ? "40 บาท" : "฿40"}
+                color="primary"
+                variant="outlined"
+                disabled={num == 40}
+              />
+              <Chip
+                onClick={() => setNum(50)}
+                label={lang == "th" ? "50 บาท" : "฿50"}
+                color="primary"
+                variant="outlined"
+                disabled={num == 50}
+              />
+              <Chip
+                onClick={() => setNum(100)}
+                label={lang == "th" ? "100 บาท" : "฿100"}
+                color="primary"
+                variant="outlined"
+                disabled={num == 100}
+              />
+              <Chip
+                onClick={() => setNum(500)}
+                label={lang == "th" ? "500 บาท" : "฿500"}
+                color="primary"
+                variant="outlined"
+                disabled={num == 500}
+              />
+              <Chip
+                onClick={() => setNum(1000)}
+                label={lang == "th" ? "1,000 บาท" : "฿1,000"}
+                color="primary"
+                variant="outlined"
+                disabled={num == 1000}
+              />
+            </Stack>
             <Button
-              data-tour="donate-4"
               variant="outlined"
               onClick={() => ExportQR()}
-              className="m-2">
+              className="m-2 mt-4">
               {lang == "th" ? "บันทึก QR Code นี้" : "Save this QR Payment"}
             </Button>
             <Divider />
