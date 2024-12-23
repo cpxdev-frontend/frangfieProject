@@ -225,7 +225,7 @@ const Ge = ({
 
   React.useEffect(() => {
     RefreshDate();
-    if (moment() >= moment.unix(1743224400)) {
+    if (moment.unix(launch) >= moment.unix(1743224400)) {
       setInterval(() => {
         RefreshDate();
       }, 10000);
@@ -295,8 +295,8 @@ const Ge = ({
     switch (v) {
       case 0: {
         if (
-          moment() > moment.unix(1733590800) &&
-          moment() <= moment.unix(1734281999)
+          moment.unix(launch) > moment.unix(1733590800) &&
+          moment.unix(launch) <= moment.unix(1734281999)
         ) {
           return true;
         }
@@ -304,8 +304,8 @@ const Ge = ({
       }
       case 1: {
         if (
-          moment() > moment.unix(1739250000) &&
-          moment() <= moment.unix(1743094799)
+          moment.unix(launch) > moment.unix(1739250000) &&
+          moment.unix(launch) <= moment.unix(1743094799)
         ) {
           return true;
         }
@@ -313,8 +313,8 @@ const Ge = ({
       }
       case 2: {
         if (
-          moment() > moment.unix(1739358000) &&
-          moment() <= moment.unix(1739365200)
+          moment.unix(launch) > moment.unix(1739358000) &&
+          moment.unix(launch) <= moment.unix(1739365200)
         ) {
           return true;
         }
@@ -322,8 +322,8 @@ const Ge = ({
       }
       case 3: {
         if (
-          moment() > moment.unix(1743224400) &&
-          moment() <= moment.unix(1743253200)
+          moment.unix(launch) > moment.unix(1743224400) &&
+          moment.unix(launch) <= moment.unix(1743253200)
         ) {
           return true;
         }
@@ -334,25 +334,25 @@ const Ge = ({
   const getsessioncomplete = (v) => {
     switch (v) {
       case 0: {
-        if (moment() > moment.unix(1734281999)) {
+        if (moment.unix(launch) > moment.unix(1734281999)) {
           return true;
         }
         return false;
       }
       case 1: {
-        if (moment() > moment.unix(1743094799)) {
+        if (moment.unix(launch) > moment.unix(1743094799)) {
           return true;
         }
         return false;
       }
       case 2: {
-        if (moment() > moment.unix(1739365200)) {
+        if (moment.unix(launch) > moment.unix(1739365200)) {
           return true;
         }
         return false;
       }
       case 3: {
-        if (moment() > moment.unix(1743253200)) {
+        if (moment.unix(launch) > moment.unix(1743253200)) {
           return true;
         }
         return false;
@@ -374,7 +374,7 @@ const Ge = ({
     return i + "th";
   }
   const getGEResulttext = () => {
-    if (moment() < moment.unix(1743224400)) {
+    if (moment.unix(launch) < moment.unix(1743224400)) {
       return lang == "th"
         ? "<h5>ระบบอยู่ระหว่างการเตรียมความพร้อม</h5>"
         : "<h5>System is preparing</h5>";
