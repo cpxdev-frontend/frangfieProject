@@ -841,7 +841,7 @@ const Ge = ({
                     primary="Donating to KorKao Supporter"
                     secondary={
                       lang == "th"
-                        ? "คุณสามารถร่วมโดเนทเข้าบัญชีธนาคารของบ้านข้าวฟ่างได้ที่ธนาคารกสิการไทย ชื่อบัญชี: นายสุชาติ ลินสวัสด์ เลขที่บัญชี 199-3-18939-8"
+                        ? "คุณสามารถร่วมโดเนทเข้าบัญชีธนาคารของบ้านข้าวฟ่างได้ที่ธนาคารกสิการไทย ชื่อบัญชี: นายสุชาติ ลินสวัสดิ์ เลขที่บัญชี 199-3-18939-8"
                         : "Campaign from KorKao Supporter to help for voting Kaofrang by donating directly to KorKao Supporter team (This feature support only for Thai Fan)."
                     }
                   />
@@ -918,7 +918,7 @@ const Ge = ({
                     Biller ID: 004999199434118
                     <br />
                     {lang == "th"
-                      ? "ชื่อบัญชี: นายสุชาติ ลินสวัสด์"
+                      ? "ชื่อบัญชี: นายสุชาติ ลินสวัสดิ์"
                       : "Account Name: Mr.Suchart Sinsawad"}
                   </Typography>
                   <Typography className="col-12 mt-3">
@@ -1099,7 +1099,7 @@ const Ge = ({
                 <br />
                 เลขที่บัญชี <b>เลขที่บัญชี 199-3-18939-8</b>
                 <br />
-                ชื่อบัญชี <b>นายสุชาติ ลินสวัสด์</b>
+                ชื่อบัญชี <b>นายสุชาติ ลินสวัสดิ์</b>
               </Typography>
             ) : (
               <Typography className="col-12 mt-3">
@@ -1188,7 +1188,7 @@ const Ge = ({
                 Biller ID: 004999199434118
                 <br />
                 {lang == "th"
-                  ? "ชื่อบัญชี: นายสุชาติ ลินสวัสด์"
+                  ? "ชื่อบัญชี: นายสุชาติ ลินสวัสดิ์"
                   : "Account Name: Mr.Suchart Sinsawad"}
               </Typography>
               <Typography className="col-12 mt-3">
