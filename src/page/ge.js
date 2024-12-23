@@ -861,6 +861,12 @@ const Ge = ({
             Donation for GE5 (BNK48 & CGM48 General Election 2025)
           </DialogTitle>
           <DialogContent>
+            <CardMedia
+              src="https://pbs.twimg.com/media/GfdmMaDaYAAN0BC?format=jpg&name=4096x4096"
+              component="img"
+              className="mb-4"
+            />
+            <hr />
             <div
               className="col-12 text-center w-100"
               style={{ backgroundColor: print ? "#fff" : "" }}>
