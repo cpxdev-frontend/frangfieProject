@@ -49,6 +49,8 @@ import {
   ListItemAvatar,
   ListItemText,
   ListItemButton,
+  Grow,
+  Slider,
 } from "@mui/material";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import RecommendIcon from "@mui/icons-material/Recommend";
@@ -60,15 +62,48 @@ import { toPng, toJpeg, toBlob, toPixelData, toSvg } from "html-to-image";
 import { SketchPicker } from "react-color";
 import ReactGA from "react-ga4";
 
-import Joyride from "react-joyride";
-import stepEn from "../stepGuide/en/mainbirth";
-import stepTh from "../stepGuide/th/mainbirth";
-import { editEn, moveEn, resizeEn } from "../stepGuide/en/birth";
-import { edit, move, resize } from "../stepGuide/th/birth";
+import { QRCode } from "react-qrcode-logo";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import PollIcon from "@mui/icons-material/Poll";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Grow ref={ref} {...props} />;
+});
+
+const generatePayload = require("promptpay-qr");
+let mem = false;
+const moneyCurren = [
+  {
+    val: "khr",
+    lab: "Cambodia Riel (KHR)",
+  },
+  {
+    val: "hkd",
+    lab: "Hong Kong Dollar (HKD)",
+  },
+  {
+    val: "khr",
+    lab: "Indonesian Rupiah (IDR)",
+  },
+  {
+    val: "lak",
+    lab: "Lao PDR Kip (LAK)",
+  },
+  {
+    val: "myr",
+    lab: "Malaysia Ringgit (MYR)",
+  },
+  {
+    val: "sgd",
+    lab: "Singapore Dollar (SGD)",
+  },
+  {
+    val: "vnd",
+    lab: "Vietnamese Dong (VND)",
+  },
+];
 
 const Ge = ({
   currentPage,
@@ -87,23 +122,64 @@ const Ge = ({
     window.innerWidth < 900
   );
   const [sizezoom, setSizeZoom] = React.useState(0);
-  const [headercolor, setHeadcolor] = React.useState("#000");
+  const [qrCode, setqrCode] = React.useState(
+    generatePayload("004999199434118", {})
+  );
+  const cardsuccess = React.useRef(null);
+  const [num, setNum] = React.useState(100);
+  const [rate, setRate] = React.useState(0);
+  const [lock, setLockcache] = React.useState(false);
+  const [change, setLockchange] = React.useState(false);
+  const [print, setPrint] = React.useState(false);
+  const [exc, setExch] = React.useState([]);
+  const [excDate, setExchd] = React.useState("");
+  const [setexc, setSelctedExc] = React.useState("-");
+  const [point, setDonatePoint] = React.useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const editor = Boolean(anchorEl);
 
   const [up, setUp] = React.useState(false);
-  const cardsuccess = React.useRef(null);
   const [editmode, setEditmode] = React.useState("");
   const [text, setAddText] = React.useState([]);
 
-  const [editmodeimg, setEditmodeImg] = React.useState("");
+  const [gedonate, setGeDonate] = React.useState(false);
   const [img, setAddImg] = React.useState([]);
 
   const [t, setTutor] = React.useState(false);
   const [selectedcountry, setCountry] = React.useState("");
   const [load, setLoad] = React.useState(false);
   const [timeline, setCurrentTimeline] = React.useState(0);
+
+  function comma(number) {
+    const formatter = new Intl.NumberFormat("en-US");
+    const formattedNumber = formatter.format(number);
+    return formattedNumber;
+  }
+
+  React.useEffect(() => {
+    if (lang != "th") {
+      fetch(
+        // "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@" +
+        //   moment().format("YYYY.M") +
+        //   "/v1/currencies/thb.json?time=" +
+        //   moment().unix(),
+        "https://latest.currency-api.pages.dev/v1/currencies/thb.json",
+        {
+          method: "get",
+        }
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          setExch(result.thb);
+          setExchd(result.date);
+        })
+        .catch((error) => {
+          console.log("error", error);
+          setExch([]);
+          setExchd("");
+        });
+    }
+  }, [lang]);
 
   React.useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -177,6 +253,45 @@ const Ge = ({
         : "BNK48 & CGM48 Senbatsu General Election 2025"
     );
   }, []);
+
+  const ExportQR = () => {
+    if (cardsuccess.current === null) {
+      return;
+    }
+    setGeDonate(false);
+    setPrint(true);
+    setLoad(true);
+    ReactGA.event({
+      category: "User",
+      action: "Save QR Payment - GE5",
+    });
+    setTimeout(() => {
+      toJpeg(cardsuccess.current, {
+        includeQueryParams: true,
+        preferredFontFormat:
+          "QGZvbnQtZmFjZXtuYW1lOidtaXNhbnMnO3NyYzp1cmwoJ2h0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9naC9jcHgyMDE3L21pc2Fuc2ZvbnRAbWFpbi9lbi9NaVNhbnMtTm9ybWFsLndvZmYyJykgZm9ybWF0KCd3b2ZmMicpLHVybCgnaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL2NweDIwMTcvbWlzYW5zZm9udEBtYWluL2VuL01pU2Fucy1Ob3JtYWwud29mZicpIGZvcm1hdCgnd29mZicpO2ZvbnQtd2VpZ2h0OjUwMDtmb250LXN0eWxlOm5vcm1hbDtmb250LWRpc3BsYXk6c3dhcH0=",
+      })
+        .then((dataUrl) => {
+          setGeDonate(true);
+          const link = document.createElement("a");
+          link.download = "KorKao QR Donate for GE5.jpg";
+          link.href = dataUrl;
+          link.click();
+          setPrint(false);
+          setLoad(false);
+          if (change == false && mem == false) {
+            mem = true;
+            setTimeout(() => {
+              setRate(0);
+            }, 30000);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoad(false);
+        });
+    }, 200);
+  };
 
   const getsessionactive = (v) => {
     switch (v) {
@@ -697,7 +812,9 @@ const Ge = ({
                   width: "100%",
                   bgcolor: "background.paper",
                 }}>
-                <ListItem>
+                <ListItem
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => window.open("//app.bnk48.com", "_blank")}>
                   <ListItemAvatar>
                     <Avatar className="iconchoice">
                       <MonetizationOnIcon />
@@ -712,7 +829,9 @@ const Ge = ({
                     }
                   />
                 </ListItem>
-                <ListItem>
+                <ListItem
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => setGeDonate(true)}>
                   <ListItemAvatar>
                     <Avatar className="iconchoice">
                       <RecommendIcon />
@@ -722,8 +841,8 @@ const Ge = ({
                     primary="Donating to KorKao Supporter"
                     secondary={
                       lang == "th"
-                        ? "คุณสามารถร่วมโดเนทเข้าบัญชีธนาคารของบ้านข้าวฟ่างได้ ทั้งนี้อาจมีกิจกรรมลุ้นของรางวัลพิเศษตามเงื่อนไขที่ทางบ้านกำหนด"
-                        : "Campaign from KorKao Supporter to help for voting Kaofrang and get special gift from KorKao Supporter team (Depends on specified conditions)."
+                        ? "คุณสามารถร่วมโดเนทเข้าบัญชีธนาคารของบ้านข้าวฟ่างได้ที่ธนาคารกสิการไทย ชื่อบัญชี: นายสุชาติ ลินสวัสด์ เลขที่บัญชี 199-3-18939-8"
+                        : "Campaign from KorKao Supporter to help for voting Kaofrang by donating directly to KorKao Supporter team (This feature support only for Thai Fan)."
                     }
                   />
                 </ListItem>
@@ -731,6 +850,232 @@ const Ge = ({
             </Card>
           </div>
         </Box>
+
+        <Dialog
+          open={gedonate}
+          TransitionComponent={Transition}
+          transitionDuration={400}
+          onClose={() => {}}
+          maxWidth="lg">
+          <DialogTitle>
+            Donation for GE5 (BNK48 & CGM48 General Election 2025)
+          </DialogTitle>
+          <DialogContent>
+            <div
+              className="col-12 text-center"
+              ref={cardsuccess}
+              style={{ backgroundColor: print ? "#fff" : "" }}>
+              <div className="col-12 d-flex justify-content-center">
+                {print == false ? (
+                  <QRCode
+                    value={qrCode}
+                    logoImage="https://d3hhrps04devi8.cloudfront.net/kf/thqr.webp"
+                    logoWidth={100}
+                    logoHeight={100}
+                    size={300}
+                    style={{ width: 250, height: 250 }}
+                    qrStyle="dots"
+                    crossorigin="anonymous"
+                  />
+                ) : (
+                  <CardMedia
+                    sx={{ width: 250, height: 250 }}
+                    src={
+                      "https://quickchart.io/qr?size=300&text=" +
+                      qrCode +
+                      "&centerImageUrl=https://d3hhrps04devi8.cloudfront.net/kf/thqr.webp"
+                    }
+                    component="img"
+                  />
+                )}
+              </div>
+              {num > 0 && print && (
+                <Typography
+                  className="col-12 mt-3"
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      lang == "th"
+                        ? "ยอดที่โอน " + comma(num) + " บาท"
+                        : "Amount " +
+                          comma(num) +
+                          (setexc == "-"
+                            ? " THB<br />Please check your exchange rate on your local mobile banking after scan this QR Code."
+                            : " THB<br />(Based on estimated " +
+                              comma((num * exc[setexc]).toFixed(2)) +
+                              " " +
+                              setexc.toUpperCase()) +
+                          ")",
+                  }}></Typography>
+              )}
+              {print && (
+                <>
+                  <Typography className="col-12 mt-3">
+                    Biller ID: 004999199434118
+                    <br />
+                    {lang == "th"
+                      ? "ชื่อบัญชี: นายสุชาติ ลินสวัสด์"
+                      : "Account Name: Mr.Suchart Sinsawad"}
+                  </Typography>
+                  <Typography className="col-12 mt-3">
+                    {lang != "th" &&
+                      "Please make sure that your local mobile banking is support to transfer to international bank via Thai QR payment. You maybe have some fee for transfer abroad. However, this exchange rate maybe different to data from your local mobile banking. Please refer to the exchange rate of the bank you use."}
+                  </Typography>
+                </>
+              )}
+              {lock && !print && (
+                <Typography
+                  className="col-12 mt-3"
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      lang == "th"
+                        ? "ยอดที่โอน " + comma(num) + " บาท"
+                        : "Amount " +
+                          comma(num) +
+                          " THB<br />Please view exchange rate below.",
+                  }}></Typography>
+              )}
+            </div>
+            {lang != "th" && (
+              <TextField
+                select
+                data-tour="donate-2"
+                label="Choose your currency"
+                value={setexc}
+                helperText={
+                  lang == "en" && excDate == ""
+                    ? null
+                    : "Latest update exchange rates as of " +
+                      moment(excDate).lang("en").format("DD MMMM YYYY")
+                }
+                className="mt-5 m-2"
+                defaultValue={0}
+                fullWidth
+                onChange={(e) => {
+                  setSelctedExc(e.target.value);
+                }}
+                SelectProps={{
+                  native: true,
+                }}>
+                <option value="-">Select your currency</option>
+                {moneyCurren.map((item) => (
+                  <option value={item.val}>{item.lab}</option>
+                ))}
+              </TextField>
+            )}
+            <TextField
+              label={
+                lang == "th"
+                  ? "จำนวนเงินที่เลือก (บาท)"
+                  : "Selected amount (Thai Baht)"
+              }
+              value={num}
+              helperText={
+                lang == "th" ||
+                (lang == "en" && setexc == "-" && num == 0) ||
+                (lang == "en" && excDate == "" && setexc == "-")
+                  ? null
+                  : lang == "en" && setexc != "-" && num == 0
+                  ? "Current exchange rate 1 THB approximately " +
+                    comma((1 * exc[setexc]).toFixed(2)) +
+                    " " +
+                    setexc.toUpperCase()
+                  : lang == "en" && setexc != "-" && num > 0
+                  ? "Estimated in " +
+                    moneyCurren.filter((x) => x.val == setexc)[0].lab +
+                    " are " +
+                    comma((num * exc[setexc]).toFixed(2)) +
+                    " " +
+                    setexc.toUpperCase()
+                  : null
+              }
+              disabled={lock}
+              className={(lang == "th" ? "mt-5" : "mt-3") + " mb-3 m-2"}
+              defaultValue={0}
+              fullWidth
+              SelectProps={{
+                native: true,
+              }}></TextField>
+            <Typography>
+              {lang == "th"
+                ? "คุณสามารถเลื่อนซ้าย-ขวาตรงแถบสเกลด้านล่างนี้เพื่อปรับจำนวนเงินที่คุณต้องการโดเนทได้สูงสุด 1,000 บาท หากคุณต้องการโดนเทมากกว่านั้น กรุณาเลื่อนสเกลไปทางด้านซ้ายสุดจนเหลือ 0 บาท และกำหนดจำนวนเงินที่ต้องการโอนหลังสแกน QR นี้ในแอปธนาคารของคุณได้"
+                : "Please scale on left or right to adjust your amount up to 1,000 thai baht. If you want to donate more than that. Please scale on left into zero then choose your amount in your Mobile Banking app."}
+            </Typography>
+            <Slider
+              value={num}
+              min={0}
+              max={1000}
+              valueLabelDisplay="auto"
+              onChange={(e) => {
+                ReactGA.event({
+                  category: "User",
+                  action: "Gen QR Payment - GE5",
+                });
+                if (parseInt(e.target.value) == 0) {
+                  setqrCode(generatePayload("004999199434118", {}));
+                } else {
+                  setqrCode(
+                    generatePayload("004999199434118", {
+                      amount: parseInt(e.target.value),
+                    })
+                  );
+                }
+                setNum(parseInt(e.target.value));
+              }}
+            />
+            <Button
+              data-tour="donate-4"
+              variant="outlined"
+              onClick={() => ExportQR()}
+              className="m-2">
+              {lang == "th" ? "บันทึก QR Code นี้" : "Save this QR Payment"}
+            </Button>
+            <Divider />
+            {lang == "th" ? (
+              <Typography className="col-12 text-center mt-3">
+                หรือโอนเข้าบัญชี{" "}
+                <img
+                  style={{ marginTop: -6 }}
+                  src="https://cdn.jsdelivr.net/npm/thai-banks-logo@1.0.6/icons/KBANK.png"
+                  width={22}
+                  height={22}
+                />{" "}
+                <b>ธนาคารกสิกรไทย</b>
+                <br />
+                เลขที่บัญชี <b>เลขที่บัญชี 199-3-18939-8</b>
+                <br />
+                ชื่อบัญชี <b>นายสุชาติ ลินสวัสด์</b>
+              </Typography>
+            ) : (
+              <Typography className="col-12 mt-3">
+                Thai QR Payment is also support with foreigner from Cambodia,
+                Hong Kong, Indonesia, Laos, Malaysia, Singapore and Vietnam
+                banking. You can use your supported mobile banking to scan upper
+                QR Payment directly. Please click{" "}
+                <a
+                  href="https://s7ap1.scene7.com/is/image/bot/2024_06_19_Crossborder%20QR%20Payment_Brochure_update%20(1)?ts=1718875185342&dpr=off"
+                  target="_blank">
+                  here
+                </a>{" "}
+                to view Accepted international mobile banking with Thai QR
+                payment. However, this exchange rate maybe different to data
+                from your local mobile banking. Please refer to the exchange
+                rate of the bank you use.
+                <br />
+                (Information referenced by The Bank Of Thailand - BOT)
+              </Typography>
+            )}
+            <Typography variant="subtitle2" className="col-12 mt-3">
+              {lang == "th"
+                ? "หมายเหตุ: เงินที่โอนผ่านช่องทางนี้จะถูกโอนเข้าบัญชีของบ้านข้าวฟ่างโดยตรงเพื่อนำไปใช้ในการสนับสนุนในงาน BNK48 & CGM48 General Election 2025 และกิจกรรมอื่นๆ ที่เกี่ยวข้องกับน้องข้าวฟ่าง โดยเว็บไซต์นี้เป็นแค่เพียงตัวกลางเพื่อกระจายข่าวสารเท่านั้น"
+                : "Notes: All donated amounts will be transfer directly to Kaofrang's Fandom supporter to make supporting about BNK48 & CGM48 General Election 2025 event and other related projects of Kaofrang Yanisa or Kaofrang BNK48. This website is only a agent for sharing events or about all of her projects."}
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setGeDonate(false)}>
+              {lang == "th" ? "ปิด" : "Close"}
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
