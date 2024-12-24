@@ -1072,11 +1072,11 @@ const Ge = ({
                 disabled={num == 500}
               />
               <Chip
-                onClick={() => setNum(1000)}
-                label={lang == "th" ? "1,000 บาท" : "฿1,000"}
+                onClick={() => setNum(2525)}
+                label={lang == "th" ? "2,525 บาท" : "฿2,525"}
                 color="primary"
                 variant="outlined"
-                disabled={num == 1000}
+                disabled={num == 2525}
               />
             </Stack>
             <Button
