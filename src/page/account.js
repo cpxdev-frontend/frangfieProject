@@ -793,7 +793,7 @@ const Acct = ({
 
   const holdtransfer = useHold({
     ms: 3000,
-    onRelease: () => {
+    onHold: () => {
       if (!isIOS()) {
         navigator.vibrate(90);
       }
