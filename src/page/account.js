@@ -2198,8 +2198,8 @@ const Acct = ({
                   <Box sx={{ display: { md: "none", xs: "initial" } }}>
                     <Typography>
                       {lang == "th"
-                        ? "กรุณาแตะค้างไว้ที่ปุ่มลายนิ้วมือด้านล่างเพื่อยืนยันการโอน"
-                        : "Please hold on below fingerprint button to confirm transfer."}
+                        ? "กรุณาแตะค้างไว้ที่ปุ่มลายนิ้วมือด้านล่างประมาณ 3 วินาทีเพื่อยืนยันการโอน"
+                        : "Please hold on below fingerprint button about 3 seconds to confirm transfer."}
                     </Typography>
                     <div className="d-flex justify-content-center mt-3">
                       <IconButton {...holdtransfer} color="primary">
