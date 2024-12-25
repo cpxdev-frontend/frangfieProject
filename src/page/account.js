@@ -45,6 +45,7 @@ import {
   setPage,
   setLaunch,
 } from "../redux/action";
+import { useHold } from "@technarts/react-use-hold";
 
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
@@ -55,6 +56,7 @@ import KeyIcon from "@mui/icons-material/Key";
 import StarsIcon from "@mui/icons-material/Stars";
 import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import Fingerprint from "@mui/icons-material/Fingerprint";
 
 import QrScanner from "qr-scanner";
 import moment from "moment";
@@ -88,6 +90,10 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
+
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent);
+}
 
 function reader(file, callback) {
   const fr = new FileReader();
@@ -588,6 +594,16 @@ const Acct = ({
         notiId: atob(localStorage.getItem("osigIdPush")),
       }),
     };
+    if (trans.amount <= 0) {
+      Swal.fire({
+        title:
+          lang == "th"
+            ? "กรุณาระบุจำนวน KorKao Points ที่ต้องการโอน"
+            : "Please enter amount of KorKao Points to transfer.",
+        icon: "warning",
+      });
+      return;
+    }
     setTransModel(false);
     setLoad(true);
     fetch(
@@ -775,6 +791,16 @@ const Acct = ({
       .catch((error) => console.error(error));
   };
 
+  const holdtransfer = useHold({
+    ms: 3000,
+    onHold: () => {
+      if (!isIOS()) {
+        navigator.vibrate(400);
+      }
+      transHandle();
+    },
+  });
+
   if (isLoading) {
     return (
       <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
@@ -855,8 +881,7 @@ const Acct = ({
                   sx={{
                     width: "100%",
                     bgcolor: "background.paper",
-                  }}
-                >
+                  }}>
                   <ListItem className="mb-5">
                     <ListItemAvatar>
                       <Avatar className="iconchoice">
@@ -921,8 +946,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "ดูโปรไฟล์ของน้องหรือ เพลงและคอนเทนต์ต่างๆของน้องข้าวฟ่าง"
@@ -940,8 +964,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "ดูกิจกรรมของข้าวฟ่างและเปิดการแจ้งเตือนกิจกรรมแบบเรียลไทม์"
@@ -959,8 +982,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "เล่นมินิเกมส์พร้อมกับดูคะแนนเฉลี่ยจากผู้เล่นทั่วโลก"
@@ -978,8 +1000,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "การเข้าร่วมกิจกรรมที่จัดขึ้นโดยบ้านกอข้าว"
@@ -997,8 +1018,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "ดูคะแนนและประวัติการเล่นมินิเกมส์ของคุณได้สูงสุด 1 ปี"
@@ -1016,8 +1036,7 @@ const Acct = ({
                             "&:last-child td, &:last-child th": {
                               border: 0,
                             },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {lang == "th"
                               ? "การสะสมคะแนนเพื่อลุ้นของรางวัล หรือการเข้าร่วมกิจกรรมที่ต้องใช้คะแนน (KorKao Points)"
@@ -1095,8 +1114,7 @@ const Acct = ({
                   sx={{
                     width: "100%",
                     bgcolor: "background.paper",
-                  }}
-                >
+                  }}>
                   <ListItem className="mb-5">
                     <ListItemAvatar>
                       <Avatar className="iconchoice">
@@ -1178,8 +1196,7 @@ const Acct = ({
                         sx={{ width: 80, height: 80 }}
                         src={user.picture}
                         className="mr-md-2 mr-0"
-                        aria-label="recipe"
-                      ></Avatar>
+                        aria-label="recipe"></Avatar>
                     }
                     title={user.name}
                     subheader={"ID: " + user.email}
@@ -1197,8 +1214,7 @@ const Acct = ({
                               : null,
                             "_blank"
                           )
-                        }
-                      >
+                        }>
                         <FontAwesomeIcon
                           icon={
                             user.sub.includes("google")
@@ -1216,8 +1232,7 @@ const Acct = ({
                   <CardActionArea
                     onClick={() => {
                       point != null && setPointView(true);
-                    }}
-                  >
+                    }}>
                     <Typography className="ml-3">
                       {point != null ? (
                         lang == "th" ? (
@@ -1243,8 +1258,7 @@ const Acct = ({
                               "B9CEFA4286CD4D0398DCED46D64A495468BB7EBAA9AF324613D7C42FF8A6721A1094F7BD4CB0B3AC8030EDCBB493CBC4"
                             )
                           : setGetData(true)
-                      }
-                    >
+                      }>
                       {lang == "th"
                         ? "สแกนเพื่อเข้าร่วมกิจกรรม"
                         : "Scan to join event"}
@@ -1265,8 +1279,7 @@ const Acct = ({
                           expired: "",
                           scale: 0,
                         });
-                      }}
-                    >
+                      }}>
                       {lang == "th"
                         ? "โอน KorKao Points ให้ผู้อื่น"
                         : "Transfer KorKao Points"}
@@ -1281,8 +1294,7 @@ const Acct = ({
                               "B9CEFA4286CD4D0398DCED46D64A495468BB7EBAA9AF324613D7C42FF8A6721A1094F7BD4CB0B3AC8030EDCBB493CBC4"
                             )
                           : setGetData(true)
-                      }
-                    >
+                      }>
                       {lang == "th"
                         ? "สแกนเพื่อเข้าร่วมกิจกรรม"
                         : "Scan to join event"}
@@ -1303,8 +1315,7 @@ const Acct = ({
                           expired: "",
                           scale: 0,
                         });
-                      }}
-                    >
+                      }}>
                       {lang == "th"
                         ? "โอน KorKao Points ให้ผู้อื่น"
                         : "Transfer KorKao Points"}
@@ -1331,8 +1342,7 @@ const Acct = ({
                     sx={{
                       width: "100%",
                       bgcolor: "background.paper",
-                    }}
-                  >
+                    }}>
                     <ListItem className="mb-5">
                       <ListItemAvatar>
                         <Avatar className="iconchoice">
@@ -1397,8 +1407,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "ดูโปรไฟล์ของน้องหรือ เพลงและคอนเทนต์ต่างๆของน้องข้าวฟ่าง"
@@ -1416,8 +1425,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "ดูกิจกรรมของข้าวฟ่างและเปิดการแจ้งเตือนกิจกรรมแบบเรียลไทม์"
@@ -1435,8 +1443,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "เล่นมินิเกมส์พร้อมกับดูคะแนนเฉลี่ยจากผู้เล่นทั่วโลก"
@@ -1454,8 +1461,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "การเข้าร่วมกิจกรรมที่จัดขึ้นโดยบ้านกอข้าว"
@@ -1473,8 +1479,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "ดูคะแนนและประวัติการเล่นมินิเกมส์ของคุณได้สูงสุด 1 ปี"
@@ -1492,8 +1497,7 @@ const Acct = ({
                               "&:last-child td, &:last-child th": {
                                 border: 0,
                               },
-                            }}
-                          >
+                            }}>
                             <TableCell component="th" scope="row">
                               {lang == "th"
                                 ? "การสะสมคะแนนเพื่อลุ้นของรางวัล หรือการเข้าร่วมกิจกรรมที่ต้องใช้คะแนน (KorKao Points)"
@@ -1571,8 +1575,7 @@ const Acct = ({
                     sx={{
                       width: "100%",
                       bgcolor: "background.paper",
-                    }}
-                  >
+                    }}>
                     <ListItem className="mb-5">
                       <ListItemAvatar>
                         <Avatar className="iconchoice">
@@ -1715,8 +1718,7 @@ const Acct = ({
             <Button
               onClick={() => {
                 setGetData(false);
-              }}
-            >
+              }}>
               {lang == "th" ? "ปิด" : "Close"}
             </Button>
           </DialogActions>
@@ -1840,8 +1842,7 @@ const Acct = ({
                 <Button
                   onClick={() => {
                     setGetData2(null);
-                  }}
-                >
+                  }}>
                   {lang == "th" ? "ปิด" : "Close"}
                 </Button>
               </DialogActions>
@@ -1901,8 +1902,7 @@ const Acct = ({
                           key={row.activDate}
                           sx={{
                             "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
+                          }}>
                           <TableCell component="th" scope="row">
                             {moment(row.activDate)
                               .lang(lang)
@@ -1961,8 +1961,7 @@ const Acct = ({
               <Button
                 onClick={() => {
                   setPointView(false);
-                }}
-              >
+                }}>
                 {lang == "th" ? "ปิด" : "Close"}
               </Button>
             </DialogActions>
@@ -2009,8 +2008,7 @@ const Acct = ({
                 className="mt-3"
                 role={undefined}
                 variant="contained"
-                tabIndex={-1}
-              >
+                tabIndex={-1}>
                 เลือกสลิปในคลังรูปภาพ
                 <VisuallyHiddenInput
                   type="file"
@@ -2072,8 +2070,7 @@ const Acct = ({
                 onClick={() => {
                   setEdonate(false);
                   setAmount(0);
-                }}
-              >
+                }}>
                 ปิด
               </Button>
             </DialogActions>
@@ -2167,10 +2164,11 @@ const Acct = ({
                     variant="outlined"
                   />
                   <hr />
-                  <Typography>
+                  <Typography sx={{ display: { md: "initial", xs: "none" } }}>
                     Please slide to precision spot to verify bot.
                   </Typography>
                   <Slider
+                    sx={{ display: { md: "block", xs: "none" } }}
                     valueLabelDisplay="on"
                     defaultValue={0}
                     shiftStep={0}
@@ -2187,15 +2185,27 @@ const Acct = ({
                         : setTransbot(false);
                     }}
                   />
+                  <Box sx={{ display: { md: "none", xs: "initial" } }}>
+                    <Typography>
+                      {lang == "th"
+                        ? "กรุณาแตะค้างไว้ที่ปุ่มด้านล่างเพื่อยืนยันการโอน"
+                        : "Please hold on below button to confirm transfer."}
+                    </Typography>
+                    <div className="d-flex justify-content-center mt-3">
+                      <IconButton {...holdtransfer} color="primary">
+                        <Fingerprint fontSize="large" />
+                      </IconButton>
+                    </div>
+                  </Box>
                 </>
               )}
             </DialogContent>
             <DialogActions>
               {transReady ? (
                 <Button
+                  sx={{ display: { md: "initial", xs: "none" } }}
                   onClick={() => transHandle()}
-                  disabled={transbot == false || trans.amount <= 0}
-                >
+                  disabled={transbot == false || trans.amount <= 0}>
                   {lang == "th" ? "โอนคะแนน" : "Transfer"}
                 </Button>
               ) : (
@@ -2208,8 +2218,7 @@ const Acct = ({
                   setTransModel(false);
                   setTransReady(false);
                   setTransbot(false);
-                }}
-              >
+                }}>
                 {lang == "th" ? "ปิด" : "Close"}
               </Button>
             </DialogActions>
@@ -2218,8 +2227,7 @@ const Acct = ({
 
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={load}
-        >
+          open={load}>
           <CircularProgress />
         </Backdrop>
       </Box>
