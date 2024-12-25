@@ -799,6 +799,16 @@ const Acct = ({
       }
       transHandle();
     },
+    onRelease: () => {
+      Swal.fire({
+        title:
+          lang == "th"
+            ? "กรุณากดค้างที่ปุ่มลายนิ้วมือประมาณ 3 วินาทีเพื่อยืนยันการโอน"
+            : "Please hold on fingerprint button to confirm transfer.",
+        icon: "warning",
+      });
+      return;
+    },
   });
 
   if (isLoading) {
