@@ -793,13 +793,13 @@ const Acct = ({
 
   const holdtransfer = useHold({
     ms: 3000,
-    onHold: () => {
+    onRelease: () => {
       if (!isIOS()) {
         navigator.vibrate(90);
       }
       transHandle();
     },
-    onRelease: () => {
+    onClick: () => {
       Swal.fire({
         title:
           lang == "th"
