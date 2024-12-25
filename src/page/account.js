@@ -795,7 +795,7 @@ const Acct = ({
     ms: 3000,
     onHold: () => {
       if (!isIOS()) {
-        navigator.vibrate(400);
+        navigator.vibrate(90);
       }
       transHandle();
     },
