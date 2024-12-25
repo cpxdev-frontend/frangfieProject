@@ -140,18 +140,18 @@ const Event = ({
   const checkeventstatus = (obj) => {
     if (obj.timerange[0] > 0 && obj.timerange[1] == 0) {
       if (unix >= obj.timerange[0]) {
-        return lang == "th" ? "ปกติ" : "Normal";
+        return lang == "th" ? "ปกติ" : "Ready";
       } else {
         return lang == "th" ? "กำลังจะมาถึง" : "Preparing";
       }
     } else {
       if (unix >= obj.timerange[0] && unix <= obj.timerange[1]) {
-        return lang == "th" ? "ปกติ" : "Normal";
+        return lang == "th" ? "กิจกรรมเริ่มแล้ว" : "Event is started";
       } else if (unix > obj.timerange[1]) {
-        return lang == "th" ? "สิ้นสุดแล้ว" : "All done";
+        return lang == "th" ? "สิ้นสุดแล้ว" : "Event done";
       } else if (unix >= obj.timerange[0] - 432000 && unix < obj.timerange[0]) {
         const d = compareTimestamps(unix, obj.timerange[0]);
-        return lang == "th" ? "ใกล้เริ่มต้นแล้ว" : "Incoming";
+        return lang == "th" ? "ใกล้เริ่มต้นแล้ว" : "Incoming event";
       } else {
         return lang == "th" ? "กำลังจะมาถึง" : "Coming soon";
       }
@@ -278,6 +278,7 @@ const Event = ({
                               : "Event status: ") + checkeventstatus(item)
                           }
                           color="primary"
+                          variant="outlined"
                         />
                       }
                       action={
@@ -373,7 +374,7 @@ const Event = ({
                               marginBottom: 3,
                               padding: 0,
                               paddingTop: ".4rem",
-                              cursor: 'pointer'
+                              cursor: "pointer",
                             }}
                             label={
                               lang == "th"
@@ -386,7 +387,10 @@ const Event = ({
                                   lang == "th"
                                     ? "ตัวอย่างกิจกรรม " + item.title
                                     : "Event teaser of " + item.title,
-                                html: '<iframe width="100%" height="300" src="' + item.video+'" frameborder="0"></iframe>',
+                                html:
+                                  '<iframe width="100%" height="300" src="' +
+                                  item.video +
+                                  '" frameborder="0"></iframe>',
                               });
                             }}
                             color="primary"
