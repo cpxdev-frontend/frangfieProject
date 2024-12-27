@@ -841,7 +841,7 @@ const Ge = ({
                     primary="Donating to KorKao Supporter"
                     secondary={
                       lang == "th"
-                        ? "คุณสามารถร่วมโดเนทเข้าบัญชีธนาคารของบ้านข้าวฟ่างได้ที่ธนาคารกสิการไทย ชื่อบัญชี: นายสุชาติ ลินสวัสดิ์ เลขที่บัญชี 199-3-18939-8"
+                        ? "คุณสามารถร่วมโดเนทเข้าบัญชีธนาคารของบ้านข้าวฟ่างได้ที่ธนาคารกสิกรไทย ชื่อบัญชี: นายสุชาติ ลินสวัสดิ์ เลขที่บัญชี 199-3-18939-8"
                         : "Campaign from KorKao Supporter to help for voting Kaofrang by donating directly to KorKao Supporter team (This feature support only for Thai Fan)."
                     }
                   />
