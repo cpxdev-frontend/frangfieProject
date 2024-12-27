@@ -195,6 +195,7 @@ function App({
   const [incong, setIncong] = React.useState(false);
   const [load, setLoad] = React.useState(false);
   const [loadPre, setLoadPre] = React.useState(false);
+  const [loadads, setLoadads] = React.useState(false);
   const [lockads, setLockads] = React.useState(true);
 
   const location = useLocation();
@@ -567,11 +568,11 @@ function App({
       var requestOptions = {
         method: "POST",
       };
-      setLoadPre(true);
+      setLoadads(true);
       fetch(process.env.REACT_APP_APIE_2 + "/kfsite/getevent", requestOptions)
         .then((response) => response.json())
         .then((result) => {
-          setLoadPre(false);
+          setLoadads(false);
           if (result.length > 0) {
             if (isAuthenticated) {
               setLockads(false);
@@ -1792,6 +1793,20 @@ function App({
           position: "fixed",
         }}
         in={loadPre}
+      >
+        <LinearProgress
+          sx={{ height: 100, borderColor: "#b802a8" }}
+          className="w-100"
+        />
+      </Fade>
+      <Fade
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          top: 0,
+          position: "fixed",
+        }}
+        in={loadads}
       >
         <LinearProgress
           sx={{ height: 100, borderColor: "#b802a8" }}
