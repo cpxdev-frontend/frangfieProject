@@ -74,6 +74,8 @@ function convertUrlsAndHashtagsToLinks(text) {
   return text;
 }
 
+let viewcountLoop;
+
 const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
   const [width, setRealwidth] = React.useState(window.innerWidth);
   const [data1, setData1] = React.useState(null);
@@ -154,11 +156,12 @@ const LIVECom = ({ currentPage, lang, setLang, setPage, guide }) => {
     if (clip != null) {
       setTimeout(() => {
         fetchlive();
-        setInterval(() => {
+        viewcountLoop = setInterval(() => {
           fetchlive();
         }, 60000);
       }, 400);
     } else {
+      clearInterval(viewcountLoop);
       setView(null);
     }
     if (clip != null && navigator.connection != undefined) {
