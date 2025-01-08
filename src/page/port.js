@@ -405,63 +405,67 @@ const Discography = ({ currentPage, lang, setLang, setPage, guide }) => {
                   />
                 </div>
               )}
-              {_DATA2.currentData().map((item, i) => (
-                <Card
-                  data-aos="fade-right"
-                  component={Grid}
-                  className="mb-3 ml-3 ml-lg-0"
-                  container
-                  key={item.snippet.resourceId.videoId}>
-                  <Grid xs={12}>
-                    <CardMedia
-                      sx={{ width: "100%" }}
-                      component="img"
-                      image={item.snippet.thumbnails.maxres.url}
-                      alt={item.snippet.title}
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    md
-                    sx={{ display: "flex", flexDirection: "column" }}>
-                    <CardContent sx={{ flex: "1 0 auto" }}>
-                      <Typography
-                        component="div"
-                        variant="h5"
-                        sx={{ fontSize: 22 }}>
-                        <b>{item.snippet.title}</b>
-                      </Typography>
-                      <small className="text-muted">
-                        {lang == "th" ? "อัปโหลดโดย " : "Uploaded by "}{" "}
-                        {item.snippet.videoOwnerChannelTitle}
-                      </small>
-                      <hr />
-                      <CardActionArea className="mt-5">
-                        <Button
-                          variant="outlined"
-                          className="text-success border-success m-1"
-                          onClick={() => setClip(item)}>
-                          {lang == "th" ? "รับชมคลิป" : "View Content"}
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          className="text-primary border-primary m-1"
-                          onClick={() =>
-                            window.open(
-                              "https://youtube.com/channel/" +
-                                item.snippet.videoOwnerChannelId,
-                              "_blank"
-                            )
-                          }>
-                          {lang == "th"
-                            ? "รับชมรายการอื่น"
-                            : "View other contents"}
-                        </Button>
-                      </CardActionArea>
-                    </CardContent>
-                  </Grid>
-                </Card>
-              ))}
+              {_DATA2.currentData().map(
+                (item, i) =>
+                  item.snippet.title !== "Deleted video" &&
+                  item.snippet.description !== "This video is unavailable." && (
+                    <Card
+                      data-aos="fade-right"
+                      component={Grid}
+                      className="mb-3 ml-3 ml-lg-0"
+                      container
+                      key={item.snippet.resourceId.videoId}>
+                      <Grid xs={12}>
+                        <CardMedia
+                          sx={{ width: "100%" }}
+                          component="img"
+                          image={item.snippet.thumbnails.maxres.url}
+                          alt={item.snippet.title}
+                        />
+                      </Grid>
+                      <Grid
+                        item
+                        md
+                        sx={{ display: "flex", flexDirection: "column" }}>
+                        <CardContent sx={{ flex: "1 0 auto" }}>
+                          <Typography
+                            component="div"
+                            variant="h5"
+                            sx={{ fontSize: 22 }}>
+                            <b>{item.snippet.title}</b>
+                          </Typography>
+                          <small className="text-muted">
+                            {lang == "th" ? "อัปโหลดโดย " : "Uploaded by "}{" "}
+                            {item.snippet.videoOwnerChannelTitle}
+                          </small>
+                          <hr />
+                          <CardActionArea className="mt-5">
+                            <Button
+                              variant="outlined"
+                              className="text-success border-success m-1"
+                              onClick={() => setClip(item)}>
+                              {lang == "th" ? "รับชมคลิป" : "View Content"}
+                            </Button>
+                            <Button
+                              variant="outlined"
+                              className="text-primary border-primary m-1"
+                              onClick={() =>
+                                window.open(
+                                  "https://youtube.com/channel/" +
+                                    item.snippet.videoOwnerChannelId,
+                                  "_blank"
+                                )
+                              }>
+                              {lang == "th"
+                                ? "รับชมรายการอื่น"
+                                : "View other contents"}
+                            </Button>
+                          </CardActionArea>
+                        </CardContent>
+                      </Grid>
+                    </Card>
+                  )
+              )}
               {data2.length > PER_PAGE && (
                 <div className="col-md-12 d-flex justify-content-center mb-3">
                   <Pagination
