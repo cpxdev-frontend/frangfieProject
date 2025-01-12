@@ -34,7 +34,9 @@ import {
   CircularProgress,
   Grow,
   CardMedia,
+  Badge,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import CakeIcon from "@mui/icons-material/Cake";
 import Confetti from "react-confetti";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -86,6 +88,8 @@ import Err from "./page/error";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const DrawerBg = "rgba(220, 209, 215, 0.75)";
+
+let livestat = false;
 
 const pageSec = [
   "",
@@ -157,6 +161,36 @@ const isSupported = () =>
   "Notification" in window &&
   "serviceWorker" in navigator &&
   "PushManager" in window;
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    backgroundColor: livestat ? "red" : "transparent",
+    color: livestat ? "red" : "transparent",
+    marginTop: -5,
+    marginRight: -5,
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
+    },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
+    },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
+  },
+}));
 
 function App({
   currentPage,
@@ -506,6 +540,36 @@ function App({
         document.title = "System Maintenance | KorKao FanSite";
         setOnMaintain(true);
       });
+    setTimeout(() => {
+      fetch(
+        (Math.floor(Math.random() * 10) + 1 < 5
+          ? process.env.REACT_APP_APIE
+          : process.env.REACT_APP_APIE_2) + "/kfsite/getkfliveinapp",
+        { method: "POST" }
+      )
+        .then((response) => response.text())
+        .then((result) => {
+          if (result.status == true) {
+            livestat = result.isLive;
+          }
+        })
+        .catch((error) => console.log("error", error));
+    }, 5000);
+    setInterval(() => {
+      fetch(
+        (Math.floor(Math.random() * 10) + 1 < 5
+          ? process.env.REACT_APP_APIE
+          : process.env.REACT_APP_APIE_2) + "/kfsite/getkfliveinapp",
+        { method: "POST" }
+      )
+        .then((response) => response.text())
+        .then((result) => {
+          if (result.status == true) {
+            livestat = result.isLive;
+          }
+        })
+        .catch((error) => console.log("error", error));
+    }, 60000);
   }, []);
 
   React.useEffect(() => {
@@ -816,18 +880,34 @@ function App({
               >
                 {location.pathname != "/" &&
                   !currentPage.includes("404 Not Found") && (
-                    <Avatar
-                      data-aos="fade-in"
-                      sx={{
-                        width: 70,
-                        height: 70,
-                        display: { xs: "flex", lg: "none" },
-                        ml: 1,
-                        mr: 1,
-                      }}
-                      alt="kaofrangicon"
-                      src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
-                    />
+                    <Tooltip
+                      title={
+                        livestat
+                          ? lang == "th"
+                            ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
+                            : "Kaofrang BNK48 is LIVE now!"
+                          : null
+                      }
+                    >
+                      <StyledBadge
+                        overlap="circular"
+                        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                        variant="dot"
+                      >
+                        <Avatar
+                          data-aos="fade-in"
+                          sx={{
+                            width: 70,
+                            height: 70,
+                            display: { xs: "flex", lg: "none" },
+                            ml: 1,
+                            mr: 1,
+                          }}
+                          alt="kaofrangicon"
+                          src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
+                        />
+                      </StyledBadge>
+                    </Tooltip>
                   )}
 
                 <Drawer
@@ -1092,30 +1172,56 @@ function App({
         <AppBar position="fixed" className="newpcAppbar">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
-              <Avatar
-                sx={{
-                  width: 70,
-                  height: 70,
-                  display: { xs: "none", lg: "flex" },
-                  mr: 1,
-                }}
-                alt="kaofrangicon"
-                src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
-              />
-              <Typography
-                variant="h6"
-                noWrap
-                className="webheadfont"
-                sx={{
-                  mr: 2,
-                  display: { xs: "none", lg: "flex" },
-                  color: "inherit",
-                  textDecoration: "none",
-                }}
+              <Tooltip
+                title={
+                  livestat
+                    ? lang == "th"
+                      ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
+                      : "Kaofrang BNK48 is LIVE now!"
+                    : null
+                }
               >
-                <b>KorKao</b>
-              </Typography>
+                <Avatar
+                  sx={{
+                    width: 70,
+                    height: 70,
+                    display: { xs: "none", lg: "flex" },
+                    mr: 1,
+                  }}
+                  alt="kaofrangicon"
+                  src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
+                />{" "}
+              </Tooltip>
+              <Tooltip
+                title={
+                  livestat
+                    ? lang == "th"
+                      ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
+                      : "Kaofrang BNK48 is LIVE now!"
+                    : null
+                }
+              >
+                <StyledBadge
+                  overlap="circular"
+                  anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                  sx={{ display: { xs: "none", lg: "flex" } }}
+                  variant="dot"
+                >
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    className="webheadfont"
+                    sx={{
+                      mr: 2,
 
+                      color: "inherit",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <b>KorKao</b>
+                  </Typography>
+                </StyledBadge>
+              </Tooltip>
               <Box
                 className="justify-content-center"
                 sx={{ flexGrow: 0, display: { xs: "flex", xl: "none" } }}
@@ -1401,30 +1507,56 @@ function App({
                   </DialogContent>
                 </Drawer>
               </Box>
-              <Avatar
-                sx={{
-                  width: 70,
-                  height: 70,
-                  display: { xs: "flex", lg: "none" },
-                  ml: 1,
-                  mr: 1,
-                }}
-                alt="kaofrangicon"
-                src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
-              />
-              <Typography
-                variant="h6"
-                noWrap
-                className="webheadfont"
-                sx={{
-                  mr: 2,
-                  display: { xs: "flex", lg: "none" },
-                  color: "inherit",
-                  textDecoration: "none",
-                }}
+              <Tooltip
+                title={
+                  livestat
+                    ? lang == "th"
+                      ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
+                      : "Kaofrang BNK48 is LIVE now!"
+                    : null
+                }
               >
-                <b>KorKao</b>
-              </Typography>
+                <Avatar
+                  sx={{
+                    width: 70,
+                    height: 70,
+                    display: { xs: "flex", lg: "none" },
+                    ml: 1,
+                    mr: 1,
+                  }}
+                  alt="kaofrangicon"
+                  src="https://d3hhrps04devi8.cloudfront.net/kf/korfranglogo.webp"
+                />
+              </Tooltip>
+              <Tooltip
+                title={
+                  livestat
+                    ? lang == "th"
+                      ? "น้องข้าวฟ่างไลฟ์แล้ว มาดูกันเถอะ!"
+                      : "Kaofrang BNK48 is LIVE now!"
+                    : null
+                }
+              >
+                <StyledBadge
+                  overlap="circular"
+                  anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                  variant="dot"
+                  sx={{ display: { xs: "flex", lg: "none" } }}
+                >
+                  <Typography
+                    variant="h6"
+                    noWrap
+                    className="webheadfont"
+                    sx={{
+                      mr: 2,
+                      color: "inherit",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <b>KorKao</b>
+                  </Typography>
+                </StyledBadge>
+              </Tooltip>
               <Box sx={{ flexGrow: 1, display: { xs: "none", xl: "flex" } }}>
                 {pages.map((page, i) =>
                   pageSec[i] != "birthday" ? (
@@ -1478,7 +1610,6 @@ function App({
                   ) : null
                 )}
               </Box>
-
               <Box sx={{ right: 30, display: { xs: "none", lg: "flex" } }}>
                 <Tooltip title="Open settings">
                   <IconButton
