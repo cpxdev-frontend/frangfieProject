@@ -64,6 +64,7 @@
     "react-scripts": "5.0.1",
     "react-social-media-embed": "^2.5.13",
     "react-transition-group": "^4.4.5",
+    "react-tweet": "^3.2.1",
     "reactour": "^1.19.4",
     "redux": "^4.2.1",
     "styled-components": "^4.0.0",

@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { styled } from "@mui/material/styles";
+import { Tweet } from "react-tweet";
 import {
   Card,
   CardContent,
@@ -106,6 +107,8 @@ const moneyCurren = [
     lab: "Vietnamese Dong (VND)",
   },
 ];
+
+const pp = ["1879030684255146040", "1868559133781463192"];
 
 const Ge = ({
   currentPage,
@@ -307,7 +310,7 @@ const Ge = ({
       case 1: {
         if (
           moment.unix(launch) > moment.unix(1739250000) &&
-          moment.unix(launch) <= moment.unix(1743094799)
+          moment.unix(launch) <= moment.unix(1743091200)
         ) {
           return true;
         }
@@ -342,7 +345,7 @@ const Ge = ({
         return false;
       }
       case 1: {
-        if (moment.unix(launch) > moment.unix(1743094799)) {
+        if (moment.unix(launch) > moment.unix(1743091200)) {
           return true;
         }
         return false;
@@ -796,6 +799,15 @@ const Ge = ({
         </Box>
 
         <Box className="mt-5">
+          <CardHeader title="More update from BNK48 Official" />
+          <div className="container" data-aos="fade-right">
+            {pp.map((it) => (
+              <Tweet key={it} id={it} />
+            ))}
+          </div>
+        </Box>
+
+        <Box className="mt-5">
           <CardHeader
             title="How to Vote"
             subheader={
@@ -861,12 +873,6 @@ const Ge = ({
             Donation for GE5 (BNK48 & CGM48 General Election 2025)
           </DialogTitle>
           <DialogContent>
-            <CardMedia
-              src="https://pbs.twimg.com/media/GfdmMaDaYAAN0BC?format=jpg&name=4096x4096"
-              component="img"
-              className="mb-4"
-            />
-            <hr />
             <div
               className="col-12 text-center w-100"
               style={{ backgroundColor: print ? "#fff" : "" }}>
