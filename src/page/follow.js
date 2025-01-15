@@ -52,6 +52,8 @@ mapboxgl.accessToken =
 
 const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
   const [open, setOpen] = React.useState(false);
+  const [data, setData] = React.useState(null);
+
   React.useState(() => {
     setTimeout(() => {
       setOpen(true);
@@ -60,13 +62,37 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
 
   React.useEffect(() => {
     setPage(lang == "th" ? "ติดตามข้าวฟ่าง" : "Follow Kaofrang");
+    var requestOptions = {
+      method: "POST",
+    };
+
+    fetch(
+      process.env.REACT_APP_APIE + "/kfsite/getkaofrangwork",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setData(result.response);
+        var url = new URL(window.location.href);
+        var c = url.searchParams.get("contactjob");
+        if (c !== null) {
+          var newURL = window.location.href.split("?")[0];
+          window.history.pushState("object", document.title, newURL);
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+          });
+        }
+      })
+      .catch((error) => console.log("error", error));
   }, []);
 
   return (
     <Fade in={open} timeout={300}>
-      <Box sx={{ marginTop: { xs: 0, md: 13 }, marginBottom: 15 }}>
+      <Box sx={{ marginTop: { xs: 0, md: 13 } }}>
         <CardHeader
           title={<h3>Follow Kaofrang</h3>}
+          sx={{ marginTop: { xs: 8, md: 0 } }}
           data-tour="follow-1"
           subheader={
             lang == "th"
@@ -300,6 +326,67 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
             </div>
           </div>
         </div>
+        <CardHeader
+          sx={{ marginTop: 8 }}
+          title={<h3>Contact for Working</h3>}
+          subheader={
+            lang == "th"
+              ? "ติดต่อสำหรับจ้างงานน้องข้าวฟ่างเท่านั้น"
+              : "Contact them when you want hiring her only."
+          }
+        />
+        {data != null ? (
+          <Card className="m-md-5 m-3" data-tour="follow-4">
+            {data.contact.map((item) => (
+              <ListItemButton
+                data-aos="fade-right"
+                key={item.link}
+                component="a"
+                target="_blank"
+                href={item.link}>
+                <ListItemText
+                  primary={item.label[lang]}
+                  secondary={item.value[lang]}
+                />
+              </ListItemButton>
+            ))}
+          </Card>
+        ) : (
+          <Card className="m-md-5 m-3">
+            <CardContent>
+              <Skeleton
+                variant="text"
+                className="bg-m"
+                sx={{ fontSize: "2rem" }}
+              />
+              <Skeleton
+                variant="text"
+                className="bg-m"
+                sx={{ fontSize: "1rem" }}
+              />
+              <Skeleton
+                variant="text"
+                className="bg-m"
+                sx={{ fontSize: "1rem" }}
+              />
+              <Skeleton
+                variant="text"
+                className="bg-m"
+                sx={{ fontSize: "1rem" }}
+              />
+              <Skeleton
+                variant="text"
+                className="bg-m"
+                sx={{ fontSize: "1rem" }}
+              />
+              <Skeleton
+                variant="text"
+                className="bg-m"
+                sx={{ fontSize: "1rem" }}
+              />
+            </CardContent>
+          </Card>
+        )}
         {open && (
           <Joyride
             steps={lang == "th" ? stepTh : stepEn}
@@ -307,14 +394,15 @@ const Follow = ({ currentPage, lang, setLang, setPage, launch, guide }) => {
             run={guide}
             styles={{
               options: {
-                arrowColor: '#fb61ee',
-                backgroundColor: '#f1cef2',
-                primaryColor: '#f526fc',
-                textColor: '#000'
+                arrowColor: "#fb61ee",
+                backgroundColor: "#f1cef2",
+                primaryColor: "#f526fc",
+                textColor: "#000",
               },
             }}
           />
         )}
+        <Box sx={{ marginBottom: 20 }} />
       </Box>
     </Fade>
   );

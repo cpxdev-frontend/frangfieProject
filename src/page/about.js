@@ -18,6 +18,7 @@ import {
   Skeleton,
 } from "@mui/material";
 import AOS from "aos";
+import { useHistory } from "react-router-dom";
 import { setLoad, setLang, setDarkMode, setPage } from "../redux/action";
 import getAge from "get-age";
 import moment from "moment";
@@ -89,6 +90,7 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
   const [img, setImg] = React.useState(false);
   const [value, setValue] = React.useState(0);
   const [open, setOpen] = React.useState(false);
+  const history = useHistory();
   React.useState(() => {
     setTimeout(() => {
       setOpen(true);
@@ -137,7 +139,7 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
           {data != null ? (
             <div data-aos="fade-in">
               <Grid container spacing={5}>
-                <Grid item lg={5} xs={12}>
+                <Grid item className="d-flex align-items-center" lg={5} xs={12}>
                   <Avatar
                     src={data.img}
                     slotProps={{
@@ -209,65 +211,70 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                       {data.musicLabel[lang].join(", ")}
                     </p>
                   </Grid>
-                  <Grid xs={12} className="mt-3 pt-3">
-                    <Box sx={{ width: "100%" }}>
-                      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                        <Tabs
-                          data-aos="fade-in"
-                          value={value}
-                          onChange={handleChange}
-                          aria-label="basic tabs example"
-                          variant="scrollable"
-                          data-tour="profile-2"
-                          allowScrollButtonsMobile>
-                          <Tab
-                            sx={{ color: "#000" }}
-                            label={
-                              lang == "th"
-                                ? "สมาชิกบีเอ็นเคโฟตี้เอต"
-                                : "BNK48 member"
-                            }
-                            {...a11yProps(0)}
-                          />
-                          <Tab
-                            sx={{ color: "#000" }}
-                            label={
-                              lang == "th"
-                                ? "ศิลปินสังกัดอินดิเพนเด้นท์ เรคคอร์ด"
-                                : "Independent Records Artist"
-                            }
-                            {...a11yProps(1)}
-                          />
-                        </Tabs>
-                      </Box>
-                      <CustomTabPanel
-                        value={value}
-                        index={0}
-                        data-aos="zoom-in-right">
-                        <h4 className="mb-4">
-                          {lang == "th"
-                            ? "ข้อมูลด้านการเป็นสมาชิกบีเอ็นเคโฟตี้เอต"
-                            : "All about Kaofrang as BNK48 member"}
-                        </h4>
-                        {data.bnk48Profile.map((item) => (
-                          <h6 data-aos="fade-in">{item[lang]}</h6>
-                        ))}
-                      </CustomTabPanel>
-                      <CustomTabPanel value={value} index={1}>
-                        <h4 className="mb-4">
-                          {lang == "th"
-                            ? "ข้อมูลด้านการเป็นศิลปินสังกัดอินดิเพนเด้นท์ เรคคอร์ด"
-                            : "All about Kaofrang Yanisa as Artist"}
-                        </h4>
-                        {data.irProfile.map((item) => (
-                          <h6 data-aos="fade-in">{item[lang]}</h6>
-                        ))}
-                      </CustomTabPanel>
-                    </Box>
-                  </Grid>
+                  <Button
+                    variant="contained"
+                    onClick={() => history.push("/follow?contactjob=true")}>
+                    {lang == "th" ? "ติดต่องาน" : "Contact for Working"}
+                  </Button>
                 </Grid>
               </Grid>
               <hr />
+              <Grid xs={12} className="mt-3 pt-3">
+                <Box sx={{ width: "100%" }}>
+                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                    <Tabs
+                      data-aos="fade-in"
+                      value={value}
+                      onChange={handleChange}
+                      aria-label="basic tabs example"
+                      variant="scrollable"
+                      data-tour="profile-2"
+                      allowScrollButtonsMobile>
+                      <Tab
+                        sx={{ color: "#000" }}
+                        label={
+                          lang == "th"
+                            ? "สมาชิกบีเอ็นเคโฟตี้เอต"
+                            : "BNK48 member"
+                        }
+                        {...a11yProps(0)}
+                      />
+                      <Tab
+                        sx={{ color: "#000" }}
+                        label={
+                          lang == "th"
+                            ? "ศิลปินสังกัดอินดิเพนเด้นท์ เรคคอร์ด"
+                            : "Independent Records Artist"
+                        }
+                        {...a11yProps(1)}
+                      />
+                    </Tabs>
+                  </Box>
+                  <CustomTabPanel
+                    value={value}
+                    index={0}
+                    data-aos="zoom-in-right">
+                    <h4 className="mb-4">
+                      {lang == "th"
+                        ? "ข้อมูลด้านการเป็นสมาชิกบีเอ็นเคโฟตี้เอต"
+                        : "All about Kaofrang as BNK48 member"}
+                    </h4>
+                    {data.bnk48Profile.map((item) => (
+                      <h6 data-aos="fade-in">{item[lang]}</h6>
+                    ))}
+                  </CustomTabPanel>
+                  <CustomTabPanel value={value} index={1}>
+                    <h4 className="mb-4">
+                      {lang == "th"
+                        ? "ข้อมูลด้านการเป็นศิลปินสังกัดอินดิเพนเด้นท์ เรคคอร์ด"
+                        : "All about Kaofrang Yanisa as Artist"}
+                    </h4>
+                    {data.irProfile.map((item) => (
+                      <h6 data-aos="fade-in">{item[lang]}</h6>
+                    ))}
+                  </CustomTabPanel>
+                </Box>
+              </Grid>
               <Grid xs={12}>
                 <Box sx={{ width: "100%" }}>
                   <Box
@@ -343,10 +350,10 @@ const About = ({ currentPage, lang, setLang, setPage, guide }) => {
                 run={guide}
                 styles={{
                   options: {
-                    arrowColor: '#fb61ee',
-                    backgroundColor: '#f1cef2',
-                    primaryColor: '#f526fc',
-                    textColor: '#000'
+                    arrowColor: "#fb61ee",
+                    backgroundColor: "#f1cef2",
+                    primaryColor: "#f526fc",
+                    textColor: "#000",
                   },
                 }}
               />

@@ -68,10 +68,10 @@ const steps = [
         target: '[data-tour="follow-3"]',
         content: "Let's come to join our community. These community is exclusice talk and content for all Kaofrang's lover."
       },
-    //   {
-    //     target: '[data-tour="donate-1"]',
-    //     content: "All supporting have any cost. You can help fandom team to support her projects by donating. Now foreigners can donate Kaofrang's projects with scan Qr Code via your local mobile banking. Please check supported mobile banking before continue."
-    //   },
+      {
+        target: '[data-tour="follow-4"]',
+        content: "Contact them when you want to hire her."
+      },
     //   {
     //     target: '[data-tour="donate-2"]',
     //     content: "Select currency to check your exchange rate (Update everyday, but it may not always be accurate.)"
