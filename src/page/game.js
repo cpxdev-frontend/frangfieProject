@@ -596,8 +596,8 @@ const GameApp = ({
                   <ListItemText
                     primary={
                       lang == "th"
-                        ? "6. สำหรับสมาชิก KorKao ID สนอกจากสามารถดูสถิติการเล่นย้อนหลังได้ (สูงสุด 1 ปี) แล้ว หากคะแนนของคุณสามารถทำได้มากกว่าหรือเท่ากับคะแนนเฉลี่ยของผู้เล่นทั่วโลก คุณจะได้รับกล่องสุ่ม KorKao Points"
-                        : "6. Take your scores and share to Kaofrang Facebook group or LINE Square."
+                        ? "6. สำหรับสมาชิก KorKao ID สนอกจากสามารถดูสถิติการเล่นย้อนหลังได้ (สูงสุด 1 ปี) แล้ว หากคะแนนของคุณสามารถทำได้มากกว่าหรือเท่ากับคะแนนเฉลี่ยของผู้เล่นทั่วโลก คุณจะได้รับกล่องสุ่ม KorKao Points (ได้สูงสุด 5 ครั้งต่อ 12 ชั่วโมง)"
+                        : "6. Exclusive for KorKao ID users, You can view game histories up to 1 year past. And get Special KorKao Points AirDrop when your score can be greater than or equal to the average score of world record players (Up to 5 times per 12 hours)."
                     }
                   />
                 </ListItem>
