@@ -596,7 +596,7 @@ const GameApp = ({
                   <ListItemText
                     primary={
                       lang == "th"
-                        ? "6. แคปหน้าจอและแชร์คะแนนไปที่กลุ่มเฟสบุ๊คหรือ LINE Square ของข้าวฟ่างด้วยนะ"
+                        ? "6. สำหรับสมาชิก KorKao ID สนอกจากสามารถดูสถิติการเล่นย้อนหลังได้ (สูงสุด 1 ปี) แล้ว หากคะแนนของคุณสามารถทำได้มากกว่าหรือเท่ากับคะแนนเฉลี่ยของผู้เล่นทั่วโลก คุณจะได้รับกล่องสุ่ม KorKao Points"
                         : "6. Take your scores and share to Kaofrang Facebook group or LINE Square."
                     }
                   />
@@ -699,14 +699,31 @@ const GameApp = ({
                 </TableContainer>
               </>
             ) : (
-              <Skeleton
-                variant="rounded"
-                className="bg-m mt-3 mb-3"
-                sx={{ height: 80, width: "100vw" }}
-              />
+              <TableContainer component={Paper} className="mb-5">
+                <Table sx={{ minWidth: 650 }}>
+                  <TableBody>
+                    <TableRow
+                      sx={{
+                        "&:last-child td, &:last-child th": {
+                          border: 0,
+                        },
+                      }}>
+                      <TableCell colSpan={3}>
+                        <Skeleton
+                          variant="rounded"
+                          className="bg-m mt-3 mb-3"
+                          sx={{ height: 80 }}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
             )}
             <DialogActions>
-              <Button disabled={hisgame == null} onClick={() => setGameHistory(false)}>
+              <Button
+                disabled={hisgame == null}
+                onClick={() => setGameHistory(false)}>
                 {lang == "th" ? "ปิด" : "Close"}
               </Button>
             </DialogActions>

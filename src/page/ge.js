@@ -800,10 +800,14 @@ const Ge = ({
 
         <Box className="mt-5">
           <CardHeader title="More update from BNK48 Official" />
-          <div className="container" data-aos="fade-right">
-            {pp.map((it) => (
-              <Tweet key={it} id={it} />
-            ))}
+          <div className="d-flex justify-content-center">
+            <div>
+              {pp.map((it) => (
+                <div key={it} data-aos="fade-right">
+                  <Tweet id={it} />
+                </div>
+              ))}
+            </div>
           </div>
         </Box>
 

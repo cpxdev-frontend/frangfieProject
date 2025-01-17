@@ -643,7 +643,7 @@ function App({
             } else {
               setTimeout(() => {
                 setLockads(false);
-              }, 5000);
+              }, 3000);
             }
             sessionStorage.setItem("ads", true);
             setNewse(true);
