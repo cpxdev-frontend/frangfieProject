@@ -1759,7 +1759,7 @@ function App({
                 >
                   {news != null && (
                     <>
-                      <DialogTitle>{news.title}</DialogTitle>
+                      <DialogTitle>{news.title.replaceAll('\\"', '"')}</DialogTitle>
                       <DialogContent>
                         <CardMedia src={news.src} component="img" />
                         <Typography className="mt-3">
